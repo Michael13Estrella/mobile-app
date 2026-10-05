@@ -1,0 +1,325 @@
+{
+  "------------------------------ COMMON ------------------------------": "",
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "enable": "Enable",
+    "notNow": "Not Now",
+    "confirm": "Confirm",
+    "save": "Save",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "done": "Done",
+    "retry": "Retry",
+    "close": "Close",
+    "loading": "Loading...",
+    "or": "or",
+    "seeAll": "See All",
+    "noData": "No data available",
+    "search": "Search",
+    "noResults": "No results found.",
+    "login": "Log in",
+    "signUp": "Sign up",
+    "optional": "(Optional)"
+  },
+  "------------------------------ ERRORS ------------------------------": "",
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "timeout": "Request timed out. Please try again.",
+    "unauthorized": "Session expired. Please log in again.",
+    "serverError": "Server error. Please try again later."
+  },
+  "------------------------------ VALIDATION ------------------------------": "",
+  "validation": {
+    "required": "This field is required.",
+    "halfWidthOnly": "Please use half-width alphanumeric characters only (no kanji/kana/full-width).",
+    "invalidEmail": "Please enter a valid email address.",
+    "invalidPhone": "Please enter a valid phone number.",
+    "invalidAmount": "Please enter a valid amount.",
+    "minAmount": "Minimum amount is {{min}}.",
+    "maxAmount": "Maximum amount is {{max}}.",
+    "passwordComplexity": "Password must have Min. 8 characters and include 1 uppercase, 1 lowercase, 1 digit, and 1 special character",
+    "passwordContainsEmail": "Password must not contain your email address.",
+    "passwordMismatch": "Passwords do not match.",
+    "passwordMin": "Password must be at least {{min}} characters.",
+    "postalCodeInvalid": "Postal code must be 7 digits.",
+    "mobileInvalid": "Mobile number must be 11 digits.",
+    "passwordRuleMinLength": "Minimum 8 characters",
+    "passwordRuleUppercase": "1 upper case character",
+    "passwordRuleLowercase": "1 lower case character",
+    "passwordRuleSpecialChar": "1 special character",
+    "passwordRuleNumber": "1 number",
+    "passwordRuleNoSpaces": "No spaces",
+    "invalidDate": "Please enter a valid date.",
+    "minimumAge": "You must be at least {{min}} years old.",
+    "expiryMustBeFuture": "Please use an ID that is valid today or later."
+  },
+  "------------------------------ COUNTRY ------------------------------": "",
+  "country": {
+    "japan": "Japan",
+    "philippines": "Philippines"
+  },
+  "------------------------------ PERMISSIONS INFO ------------------------------": "",
+  "permissions": {
+    "contact": {
+      "title": "Access Contacts",
+      "message": "We'll open your contacts so you can pick a phone number. Only the number you choose will be used."
+    }
+  },
+  "------------------------------ WELCOME SCREEN ------------------------------": "",
+  "welcome": {},
+  "------------------------------ LOGIN DETAILS ------------------------------": "",
+  "loginDetails": {
+    "title": "Create your login credentials",
+    "subtitle": "Make sure that all information you have provided below is correct."
+  },
+  "------------------------------ LOGIN FIELDS ------------------------------": "",
+  "login": {
+    "email": {
+      "label": "Email address",
+      "placeholder": "Enter email address",
+      "helper": "Please input your email address."
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter password",
+      "helper": "Min. 8 characters, with 1 uppercase, 1 lowercase, 1 number, and 1 special character."
+    }
+  },
+  "------------------------------ VERIFY EMAIL ------------------------------": "",
+  "verifyEmail": {
+    "title": "Enter your email OTP",
+    "subtitle": "We sent a 6-digit email OTP to"
+  },
+  "------------------------------ BASIC INFO ------------------------------": "",
+  "basicInfo": {
+    "title": "Basic Information",
+    "subtitle": "All information that you enter here should match your ID details. Please ensure that all required fields indicated with an asterisk (*) are filled out."
+  },
+  "------------------------------ EMPLOYMENT INFO ------------------------------": "",
+  "employmentInfo": {
+    "title": "Employment Information",
+    "subtitle": "Let's talk about your work and finances. Ensure that all required fields indicated with an asterisk (*) are filled out."
+  },
+  "------------------------------ CONTACT INFO ------------------------------": "",
+  "contactInfo": {
+    "title": "Contact Information",
+    "subtitle": "Please fill up your contact details and address"
+  },
+  "------------------------------ IDENTITY INFO ------------------------------": "",
+  "identityInfo": {
+    "title": "Verify Identity",
+    "subtitle": "Please ensure that all required fields indicated with an asterisk (*) are filled up."
+  },
+  "------------------------------ REGISTER CONFIRM ------------------------------": "",
+  "registerConfirm": {
+    "headerTitle": "Confirm Details",
+    "title": "All Good?",
+    "subtitle": "Please review your details.",
+    "edit": "Edit",
+    "submit": "Submit",
+    "idType": "ID type",
+    "sections": {
+      "basic": "Basic information",
+      "employment": "Employment information",
+      "identity": "Verify identity"
+    }
+  },
+  "------------------------------ REMITTER FIELDS ------------------------------": "",
+  "remitter": {
+    "lastName": {
+      "label": "Last name",
+      "placeholder": "Enter last name"
+    },
+    "firstName": {
+      "label": "First name",
+      "placeholder": "Enter first name"
+    },
+    "middleName": {
+      "label": "Middle name",
+      "placeholder": "Enter middle name",
+      "helper": "Leave blank if you do not have a middle name"
+    },
+    "nickname": {
+      "label": "Nickname",
+      "placeholder": "Enter Nickname"
+    },
+    "nationality": {
+      "label": "Nationality",
+      "placeholder": "Select country of nationality"
+    },
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "dateOfBirth": {
+      "label": "Date of Birth"
+    },
+    "advertisingSource": {
+      "label": "How did you find our service?",
+      "placeholder": "Select one"
+    },
+    "visaStatus": {
+      "label": "Visa status",
+      "placeholder": "Select visa status"
+    },
+    "visaStatusOthers": {
+      "placeholder": "Enter visa status"
+    },
+    "profession": {
+      "label": "Occupation",
+      "placeholder": "Select occupation"
+    },
+    "professionOthers": {
+      "placeholder": "Enter occupation"
+    },
+    "companyName": {
+      "label": "CompanyName",
+      "placeholder": "Enter company name"
+    },
+    "natureOfBusiness": {
+      "label": "Nature of business",
+      "placeholder": "Enter nature of business"
+    },
+    "schoolName": {
+      "label": "School name",
+      "placeholder": "Enter school name"
+    },
+    "mobile": {
+      "label": "Phone number",
+      "validation": "Enter a 10-digit mobile number without the first 0 (e.g. 90-1234-5678)"
+    },
+    "postalCode": {
+      "label": "Postal Code"
+    },
+    "prefecture": {
+      "label": "Prefecture",
+      "placeholder": "Select your prefecture"
+    },
+    "city": {
+      "label": "City",
+      "placeholder": "Enter your city"
+    },
+    "address": {
+      "label": "Address",
+      "placeholder": "Enter your address"
+    },
+    "streetNumber": {
+      "label": "Street number",
+      "labelHelper": "Include your building name and room number",
+      "placeholder": "Enter your street number"
+    },
+    "primaryIdType": {
+      "label": "Choose an ID",
+      "labelHelper": "Select which one you have available with you right now",
+      "placeholder": "Select ID"
+    },
+    "primaryIdNo": {
+      "label": "ID Number",
+      "placeholder": "Enter ID number"
+    },
+    "primaryIdExpiry": {
+      "label": "Expiry date"
+    }
+  },
+  "------------------------------ ONBOARDING ------------------------------": "",
+  "onboarding": {
+    "------------------------------ SECURE PROMPT ------------------------------": "",
+    "securePrompt": {
+      "title": "Let's secure your app",
+      "subtitle": "Set a passcode and enable biometrics to keep your account safe and your transactions protected.",
+      "button": "Secure my app"
+    }
+  },
+
+  "lock": {
+    "title": "App locked",
+    "enterPin": "Enter PIN",
+    "useBiometric": "Use biometrics",
+    "useAnotherWay": "Use another way",
+    "pinWrong": "Incorrect PIN. {{remaining}} attempts left."
+  },
+  "otp": {
+    "title": "Enter one time passcode (OTP)",
+    "subtitle": "We emailed you a 6-digit code.",
+    "placeholder": "______",
+    "verify": "Verify",
+    "resend": "Send another code",
+    "resendIn": "Resend code in",
+    "resendSuccessMsg": "We've sent a new code to your email address"
+  },
+  "authOld": {
+    "login": "Login",
+    "loginWithFaceId": "Log in with Face ID",
+    "loginWithFingerprint": "Log in with Fingerprint",
+    "logout": "Logout",
+    "createAccount": "Create Account",
+    "forgotPassword": "Forgot Password?",
+    "email": "Email",
+    "password": "Password",
+    "loginCancelled": "Login cancelled or failed.",
+    "logoutConfirmTitle": "Logout",
+    "logoutConfirmMessage": "Are you sure you want to logout?",
+    "welcomeBack": "Welcome back",
+    "signingIn": "Signing you in..."
+  },
+  "onboardingOld": {
+    "secureTitle": "Let's secure your app",
+    "secureSubtitle": "Set up a PIN and biometrics to protect your account and transactions.",
+    "secureButton": "Get started",
+    "pinTitle": "Create a PIN",
+    "pinSubtitle": "Choose a 6-digit PIN to unlock the app.",
+    "pinConfirmTitle": "Confirm your PIN",
+    "pinConfirmSubtitle": "Re-enter the PIN to confirm.",
+    "pinMismatch": "PINs don't match. Try again.",
+    "pinPlaceholder": "______",
+    "biometricTitle": "Enable biometric login",
+    "biometricSubtitle": "Use Face ID or your fingerprint to sign in and approve transactions faster.",
+    "biometricEnable": "Enable biometrics",
+    "biometricSkip": "Not now"
+  },
+  "biometric": {
+    "promptMessage": "Authenticate to continue."
+  },
+  "settings": {
+    "title": "Settings",
+    "preferences": {
+      "label": "Preferences",
+      "language": "Language",
+      "theme": "Theme",
+      "themeLabel": {
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System"
+      }
+    },
+    "support": {
+      "label": "Support",
+      "helpCenter": "Help Center",
+      "termsAndPolicies": "Terms & Policies",
+      "aboutUs": "About Us"
+    },
+    "security": {
+      "label": "Security",
+      "biometricLogin": "Biometric Login"
+    }
+  },
+  "tabs": {
+    "home": "Home",
+    "profile": "Profile",
+    "history": "History",
+    "menu": "Menu"
+  },
+  "home": {
+    "title": "Home",
+    "greeting": "Hello, {{name}}",
+    "sendMoney": "Send Money",
+    "recentTransactions": "Recent Transactions",
+    "noRecentTransactions": "No recent transactions",
+    "exchangeRate": "Exchange Rate"
+  }
+}

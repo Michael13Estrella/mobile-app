@@ -1,25 +1,92 @@
 {
   "expo": {
-    "name": "mobile-app",
-    "slug": "mobile-app",
+    "slug": "mbj-remittance-app",
     "version": "1.0.0",
+    "updates": {
+      "enabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#001A88",
+          "image": "./assets/images/metro-send-for-dark.png",
+          "imageWidth": 180,
+          "resizeMode": "contain"
+        }
+      ],
+      [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": [
+              "en",
+              "ja"
+            ],
+            "android": [
+              "en",
+              "ja"
+            ]
+          }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          },
+          "ios": {
+            "usePrecompiledModules": false,
+            "enableSceneSupport": true
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#001A88"
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      "@react-native-community/datetimepicker",
+      "./plugins/withPodsMinDeploymentTarget"
+    ],
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleLocalizations": [
+          "en",
+          "ja"
+        ]
+      }
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/app-icon-foreground.png",
+        "backgroundImage": "./assets/images/app-icon-background.png",
+        "monochromeImage": "./assets/images/app-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ecd10fb9-7a93-424d-b0da-bd610a9bb776"
+      }
+    },
+    "owner": "michael13estrella"
   }
 }

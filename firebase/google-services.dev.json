@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "678062963979",
+    "project_id": "mbj-remittance-app",
+    "storage_bucket": "mbj-remittance-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678062963979:android:ae35a083093bf8365e760e",
+        "android_client_info": {
+          "package_name": "com.mbj.remittance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqpHhmV-8-MlNptc1TEK3EcwfRH3jIpUs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

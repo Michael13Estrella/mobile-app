@@ -1,0 +1,200 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "キャンセル",
+    "clear": "クリア",
+    "enable": "有効にする",
+    "notNow": "後で",
+    "confirm": "確認",
+    "save": "保存",
+    "back": "戻る",
+    "next": "次へ",
+    "submit": "登録",
+    "done": "完了",
+    "retry": "再試行",
+    "close": "閉じる",
+    "loading": "読み込み中...",
+    "or": "または",
+    "seeAll": "すべて見る",
+    "noData": "データがありません",
+    "search": "検索",
+    "noResults": "該当する結果がありません。",
+    "login": "ログイン",
+    "signUp": "新規登録",
+    "optional": "(任意)"
+  },
+  "errors": {
+    "generic": "エラーが発生しました。もう一度お試しください。",
+    "network": "ネットワークエラー。接続を確認してください。",
+    "timeout": "リクエストがタイムアウトしました。",
+    "unauthorized": "セッションが期限切れです。再度ログインしてください。",
+    "serverError": "サーバーエラー。後でもう一度お試しください。"
+  },
+  "validation": {
+    "required": "この項目は必須です。",
+    "halfWidthOnly": "半角英数字のみで入力してください（漢字・かな・全角は使用できません）。",
+    "invalidEmail": "有効なメールアドレスを入力してください。",
+    "invalidPhone": "有効な電話番号を入力してください。",
+    "invalidAmount": "有効な金額を入力してください。",
+    "minAmount": "最低金額は{{min}}です。",
+    "maxAmount": "最大金額は{{max}}です。",
+    "passwordComplexity": "パスワードには大文字・小文字・数字・記号をそれぞれ1文字以上含めてください。",
+    "passwordContainsEmail": "パスワードにメールアドレスを含めることはできません。",
+    "passwordMismatch": "パスワードが一致しません。",
+    "passwordMin": "パスワードは{{min}}文字以上で入力してください。",
+    "postalCodeInvalid": "郵便番号は7桁の数字で入力してください。",
+    "mobileInvalid": "電話番号は11桁の数字で入力してください。",
+    "passwordRuleMinLength": "8文字以上",
+    "passwordRuleUppercase": "大文字を1文字以上",
+    "passwordRuleLowercase": "小文字を1文字以上",
+    "passwordRuleSpecialChar": "記号を1文字以上",
+    "passwordRuleNumber": "数字を1文字以上",
+    "passwordRuleNoSpaces": "スペースを含めない",
+    "invalidDate": "正しい日付を入力してください。",
+    "minimumAge": "{{min}}歳以上である必要があります。"
+  },
+  "country": {
+    "japan": "日本",
+    "philippines": "フィリピン"
+  },
+  "register": {
+    "accountTitle": "アカウントを作成",
+    "accountSubtitle": "メールアドレスとパスワードを入力してください。",
+    "confirmPassword": "パスワード（確認）",
+    "verifyEmailTitle": "メールOTPを入力してください",
+    "verifyEmailSubtitle": "6桁のメールOTPを送信しました：",
+    "personalDetailsTitle": "個人情報",
+    "personalDetailsSubtitle": "お名前をご入力ください。",
+    "contactTitle": "ご住所",
+    "contactSubtitle": "本人確認および郵送のために使用します。",
+    "additionalTitle": "追加情報",
+    "additionalSubtitle": "入力して",
+    "sectionEmployment": "Employment",
+    "sectionId": "本人確認",
+    "sectionMarketing": "マーケティング",
+    "confirmTitle": "入力内容のご確認",
+    "confirmSubtitle": "送信前に内容をご確認ください。",
+    "confirmSubmit": "確認して送信",
+    "sectionPersonal": "個人情報",
+    "sectionContact": "連絡先情報",
+    "submittedTitle": "申込が完了しました",
+    "submittedSubtitle": "アカウントの準備ができました。まずはセキュリティを設定しましょう。",
+    "goHome": "ホームへ"
+  },
+  "remitterFields": {
+    "lastName": "姓",
+    "firstName": "名",
+    "middleName": "ミドルネーム（任意）",
+    "gender": "性別",
+    "genderMale": "男性",
+    "genderFemale": "女性",
+    "nationality": "国籍",
+    "birthDate": "生年月日",
+    "visaStatus": "在留資格",
+    "visaStatusOthers": "在留資格（その他）",
+    "postalCode": "郵便番号",
+    "postalSearch": "検索",
+    "postalNotFound": "この郵便番号に該当する住所が見つかりませんでした。",
+    "prefecture": "都道府県",
+    "city": "市区町村",
+    "address": "町域名",
+    "streetNoBuildingRoomNo": "番地・建物名・部屋番号",
+    "mobileCode": "国番号",
+    "mobileNumber": "電話番号（任意）",
+    "occupation": "職業",
+    "occupationOthers": "職業（その他）",
+    "companyName": "会社名",
+    "schoolName": "学校名",
+    "natureOfBusiness": "職種",
+    "primaryIdType": "本人確認資料",
+    "primaryIdNo": "本人確認資料番号",
+    "primaryIdExpiry": "本人確認資料の有効期限",
+    "advertisingSource": "どのように当行のサービスを知りましたか？"
+  },
+  "lock": {
+    "title": "アプリがロックされています",
+    "enterPin": "PINを入力",
+    "useBiometric": "生体認証を使う",
+    "useAnotherWay": "別の方法を使う",
+    "pinWrong": "PINが正しくありません。残り{{remaining}}回です。"
+  },
+  "otp": {
+    "title": "確認コードを入力",
+    "subtitle": "6桁のコードをメールで送信しました。",
+    "placeholder": "______",
+    "verify": "確認",
+    "resend": "確認コードを再送信",
+    "resendIn": "{{seconds}}秒後に再送信",
+    "resendSuccessMsg": "We've sent a new code to your email address"
+  },
+  "auth": {
+    "login": "ログイン",
+    "loginWithFaceId": "Face IDでログイン",
+    "loginWithFingerprint": "指紋でログイン",
+    "logout": "ログアウト",
+    "createAccount": "アカウント作成",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "loginCancelled": "ログインがキャンセルまたは失敗しました。",
+    "logoutConfirmTitle": "ログアウト",
+    "logoutConfirmMessage": "ログアウトしてもよろしいですか？",
+    "welcomeBack": "おかえりなさい",
+    "signingIn": "サインインしています…"
+  },
+  "onboarding": {
+    "secureTitle": "アプリを保護しましょう",
+    "secureSubtitle": "PINと生体認証を設定して、アカウントとお取引を保護します。",
+    "secureButton": "はじめる",
+    "pinTitle": "PINを作成",
+    "pinSubtitle": "アプリのロック解除用に6桁のPINを設定してください。",
+    "pinConfirmTitle": "PINを確認",
+    "pinConfirmSubtitle": "確認のためもう一度入力してください。",
+    "pinMismatch": "PINが一致しません。もう一度お試しください。",
+    "pinPlaceholder": "______",
+    "biometricTitle": "生体認証ログインを有効にする",
+    "biometricSubtitle": "Face IDまたは指紋を使って、より速くログイン・お取引の承認ができます。",
+    "biometricEnable": "生体認証を有効にする",
+    "biometricSkip": "後で"
+  },
+  "biometric": {
+    "promptMessage": "認証してください。"
+  },
+  "settings": {
+    "title": "設定",
+    "preferences": {
+      "label": "環境設定",
+      "language": "言語",
+      "theme": "テーマ",
+      "themeLabel": {
+        "light": "ライト",
+        "dark": "ダーク",
+        "system": "システム"
+      }
+    },
+    "support": {
+      "label": "サポート",
+      "helpCenter": "ヘルプセンター",
+      "termsAndPolicies": "利用規約・規定",
+      "aboutUs": "メトロポリタン銀行について"
+    },
+    "security": {
+      "label": "セキュリティ",
+      "biometricLogin": "生体認証ログイン"
+    }
+  },
+  "tabs": {
+    "home": "ホーム",
+    "profile": "プロフィール",
+    "history": "履歴",
+    "menu": "メニュー"
+  },
+  "home": {
+    "title": "ホーム",
+    "greeting": "こんにちは、{{name}}さん",
+    "sendMoney": "送金する",
+    "recentTransactions": "最近の取引",
+    "noRecentTransactions": "最近の取引はありません",
+    "exchangeRate": "為替レート"
+  }
+}
