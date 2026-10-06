@@ -32,6 +32,8 @@ import {
   PINNED_NATIONALITY_CODES,
 } from "../../../src/constants/nationality";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
+import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
+import { getErrorFieldLabels } from "../../../src/utils/formErrors";
 
 const MIN_AGE_YEAR = 18;
 
@@ -68,7 +70,7 @@ export default function RegisterBasicInfoScreen() {
             .string()
             .regex(HALF_WIDTH_ROMAJI_REGEX, t("validation.halfWidthOnly"))
             .optional(),
-          gender: z.enum(["M", "F"], t("validation.required")),
+          gender: z.enum(["M", "F"]).or(z.literal("")),
           nationality: z.string().min(1, t("validation.required")),
           birthDate: z
             .string()
@@ -79,11 +81,17 @@ export default function RegisterBasicInfoScreen() {
               (iso) => calculateAge(iso) >= MIN_AGE_YEAR,
               t("validation.minimumAge", { min: MIN_AGE_YEAR }),
             ),
-          advertisingCode: z.string(),
+          advertisingCode: z.string().min(1, t("validation.required")),
         })
         .refine(
           (d) => !isNickNameRequired(d.nationality) || !!d.nickname?.trim(),
-          { message: t("validation.required"), path: ["nickName"] },
+          {
+            message: t("validation.required"),
+            path: ["nickname"],
+            // Run even while other fields still have errors
+            // (Zod skips whole-form rules until every field is valid by default).
+            when: () => true,
+          },
         ),
     [t],
   );
@@ -94,7 +102,8 @@ export default function RegisterBasicInfoScreen() {
     control,
     handleSubmit,
     setValue,
-    formState: { isValid },
+    clearErrors,
+    formState: { isValid, errors },
   } = useForm<BasicInfoFormValues>({
     resolver: zodResolver(schema),
     ...FORM_VALIDATION_MODE,
@@ -110,13 +119,28 @@ export default function RegisterBasicInfoScreen() {
     },
   });
 
-  const nationality = useWatch({ control, name: "nationality" });
-  const showNickName = isNickNameRequired(nationality);
+  const errorFields = getErrorFieldLabels(errors, {
+    lastName: t("remitter.lastName.label"),
+    firstName: t("remitter.firstName.label"),
+    middleName: t("remitter.middleName.label"),
+    nationality: t("remitter.nationality.label"),
+    nickname: t("remitter.nickname.label"),
+    gender: t("remitter.gender.label"),
+    birthDate: t("remitter.dateOfBirth.label"),
+    advertisingCode: t("remitter.advertisingSource.label"),
+  });
 
-  // Switching to Japanese hides the nickname; clear it so ot is not submitted.
+  const nationality = useWatch({ control, name: "nationality" });
+  const showNickname = isNickNameRequired(nationality);
+
+  // Nickname is hidden for Japanese nationals: reset its value *and* error.
+  // A hidden field is never blurred again, so its error would otherwise stay.
   useEffect(() => {
-    if (!showNickName) setValue("nickname", "");
-  }, [showNickName, setValue]);
+    if (!showNickname) {
+      setValue("nickname", "");
+      clearErrors("nickname");
+    }
+  }, [showNickname, setValue]);
 
   const onSubmit = (data: BasicInfoFormValues) => {
     dispatch(
@@ -146,13 +170,16 @@ export default function RegisterBasicInfoScreen() {
         </>
       }
       footer={
-        // Next button
-        <AppButton
-          label={t("common.next")}
-          variant="gradient"
-          disabled={!isValid}
-          onPress={handleSubmit(onSubmit)}
-        />
+        <>
+          <FormErrorSummary fields={errorFields} />
+
+          <AppButton
+            label={t("common.next")}
+            variant="gradient"
+            disabled={!isValid}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </>
       }
     >
       {/* Section Header */}
@@ -211,7 +238,7 @@ export default function RegisterBasicInfoScreen() {
         />
 
         {/* Nickname: non-Japanese nationals only */}
-        {showNickName && (
+        {showNickname && (
           <AppInput
             control={control}
             name="nickname"

@@ -6,7 +6,7 @@ import { Typography } from "../../constants/typography";
 import { PASSWORD_RULES } from "../../constants/passwordRules";
 import { BrandIcon } from "../icons";
 
-const ICON_SIZE = 14;
+const ICON_SIZE = 10;
 
 type PasswordRequirementsChecklistProps = Readonly<{ password: string }>;
 

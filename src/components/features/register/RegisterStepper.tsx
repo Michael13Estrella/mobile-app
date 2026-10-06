@@ -37,10 +37,7 @@ export function RegisterStepper({
           <View key={index} style={styles.stepGroup}>
             {isActive ? (
               <LinearGradient
-                colors={[
-                  colors.stepperActiveGradientStart,
-                  colors.stepperActiveGradientEnd,
-                ]}
+                colors={[colors.brandGradientStart, colors.brandGradientEnd]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.circle}

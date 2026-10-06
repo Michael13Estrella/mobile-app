@@ -12,6 +12,8 @@ type AppTextButtonProps = Readonly<{
   disabled?: boolean;
   loading?: boolean;
   align?: TextAlign;
+  // Text size: "button1" matches a full-size AppButton next to it.
+  size?: "button1" | "button2" | "button3";
 }>;
 
 function alignToFlex(align: TextAlign): "flex-start" | "center" | "flex-end" {
@@ -26,6 +28,7 @@ export function AppTextButton({
   disabled = false,
   loading = false,
   align = "left",
+  size = "button3",
 }: AppTextButtonProps) {
   const { colors } = useAppTheme();
   const isDisabled = disabled || loading;
@@ -41,7 +44,7 @@ export function AppTextButton({
         <ActivityIndicator size="small" color={colors.buttonPrimary} />
       ) : (
         <AppText
-          typographyType="button3"
+          typographyType={size}
           weight="bold"
           color={colors.buttonPrimary}
         >

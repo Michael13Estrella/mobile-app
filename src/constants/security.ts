@@ -14,7 +14,7 @@ export const SECURITY = {
   },
   OTP: {
     LENGTH: 6,
-    RESEND_COOLDOWN_SECONDS: 10,
+    RESEND_COOLDOWN_SECONDS: 30,
   },
   STORE_KEYS: {
     DEVICE_PRIVATE: "device_private_key",

@@ -143,5 +143,6 @@ const styles = StyleSheet.create({
   footer: {
     paddingTop: Spacing.s7,
     paddingHorizontal: Spacing.s7,
+    gap: Spacing.s5,
   },
 });

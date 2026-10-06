@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useTranslation } from "../../../src/hooks/useTranslation";
 import { useAppDispatch, useAppSelector } from "../../../src/store";
 import z from "zod";
@@ -8,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { referenceDataService } from "../../../src/services/registration/referenceDataService";
 import { updateRegistrationDetails } from "../../../src/store/slices/registrationSlice";
 import { router } from "expo-router";
-import { Text } from "react-native";
 import { AppInput } from "../../../src/components/form/AppInput";
 import { AppButton } from "../../../src/components/common/AppButton";
 import {
@@ -29,16 +27,17 @@ import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { isValidPhoneNumber } from "../../../src/utils/phone";
 import { REMITTER_PHONE_COUNTRY } from "../../../src/constants/phone";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
+import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
+import { findPrefectureValue } from "../../../src/utils/prefecture";
 
 export default function RegisterContactInfoScreen() {
-  const { colors } = useAppTheme();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { goNext } = useRegisterStepNavigation();
   const details = useAppSelector((s) => s.registration.details);
 
   const [lookingUp, setLookingUp] = useState(false);
-  const [lookupError, setLookupError] = useState<string | null>(null);
 
   const schema = useMemo(
     () =>
@@ -81,7 +80,9 @@ export default function RegisterContactInfoScreen() {
     handleSubmit,
     getValues,
     setValue,
-    formState: { isValid },
+    setError,
+    clearErrors,
+    formState: { isValid, errors },
   } = useForm<ContactInfoFormValues>({
     resolver: zodResolver(schema),
     ...FORM_VALIDATION_MODE,
@@ -95,23 +96,35 @@ export default function RegisterContactInfoScreen() {
     },
   });
 
+  const errorFields = getErrorFieldLabels(errors, {
+    mobile: t("remitter.mobile.label"),
+    postalCode: t("remitter.postalCode.label"),
+    prefecture: t("remitter.prefecture.label"),
+    addressLine1: t("remitter.city.label"),
+    addressLine2: t("remitter.address.label"),
+    addressLine3: t("remitter.streetNumber.label"),
+  });
+
   const handleLookup = async () => {
     const postalCode = getValues("postalCode").trim();
+
     if (!POSTAL_CODE_REGEX.test(postalCode)) {
-      setLookupError(t("validation.postalCodeInvalid"));
+      setError("postalCode", { message: t("validation.postalCodeInvalid") });
       return;
     }
 
     setLookingUp(true);
-    setLookupError(null);
+    clearErrors("postalCode");
     try {
       const result = await referenceDataService.lookupPostal(postalCode);
       if (!result) {
-        setLookupError(t("remitterFields.postalNotFound"));
+        setError("postalCode", { message: t("errors.postalNotFound") });
         return;
       }
 
-      setValue("prefecture", result.cityOrPrefecture, { shouldValidate: true });
+      setValue("prefecture", findPrefectureValue(result.cityOrPrefecture), {
+        shouldValidate: true,
+      });
       setValue("addressLine1", result.addressLine2, { shouldValidate: true });
       setValue("addressLine2", result.addressLine3, { shouldValidate: true });
     } finally {
@@ -155,13 +168,16 @@ export default function RegisterContactInfoScreen() {
         </>
       }
       footer={
-        // Next button
-        <AppButton
-          label={t("common.next")}
-          variant="gradient"
-          disabled={!isValid}
-          onPress={handleSubmit(onSubmit)}
-        />
+        <>
+          <FormErrorSummary fields={errorFields} />
+
+          <AppButton
+            label={t("common.next")}
+            variant="gradient"
+            disabled={!isValid}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </>
       }
     >
       {/* Section Header */}
@@ -191,10 +207,6 @@ export default function RegisterContactInfoScreen() {
           onSearch={handleLookup}
           searching={lookingUp}
         />
-
-        {!!lookupError && (
-          <Text style={{ color: colors.error }}>{lookupError}</Text>
-        )}
 
         {/* Prefecture */}
         <AppSelect

@@ -1,43 +1,63 @@
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useAuth } from "../../../src/hooks/useAuth";
 import { useTranslation } from "../../../src/hooks/useTranslation";
-import { useAppDispatch } from "../../../src/store";
-import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../src/store";
+import { FC, useEffect, useState } from "react";
 import { setNeedsPinSetup } from "../../../src/store/slices/uiSlice";
 import { router } from "expo-router";
 import { biometricService } from "../../../src/services/security/biometricService";
-import { StyleSheet, View, Text } from "react-native";
-import { Typography } from "../../../src/constants/typography";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, View } from "react-native";
 import { AppButton } from "../../../src/components/common/AppButton";
+import { BiometryType } from "react-native-biometrics";
+import { SvgProps } from "react-native-svg";
+import FaceIdIcon from "../../../assets/images/icons/face-id.svg";
+import FingerprintIcon from "../../../assets/images/icons/fingerprint.svg";
+import { Spacing } from "../../../src/constants/spacing";
+import { AppScreen } from "../../../src/components/common/AppScreen";
+import { AppText } from "../../../src/components/common/AppText";
+import { AppTextButton } from "../../../src/components/common/AppTextButton";
+
+const ICON_SIZE = 72;
+
+// Face ID only on iPhones that report it. Android reports a generic
+// "Biometrics" (face or fingerprint unknown): fingerprint is the most common.
+const iconForBiometry = (type?: BiometryType): FC<SvgProps> =>
+  type === "FaceID" ? FaceIdIcon : FingerprintIcon;
 
 export default function EnableBiometricScreen() {
   const { enableBiometric, user } = useAuth();
   const { colors } = useAppTheme();
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
+  // Sign-up data is still in the memory only right after a new registration
+  const hasJustRegistered = useAppSelector((s) => !!s.registration.email);
 
-  const [ready, setReady] = useState(false); // avoid a flash before availability check
+  // Unknown until checked: render nothing, to avoid a flash before skipping
+  const [biometryType, setBiometryType] = useState<BiometryType | null>(null);
   const [busy, setBusy] = useState(false);
 
   const finish = () => {
     dispatch(setNeedsPinSetup(false));
-    if (user) biometricService.clearReprompt(user.id);
-    router.replace("/(protected)/(tabs)/home");
+    if (user) void biometricService.clearReprompt(user.id);
+    router.replace(
+      hasJustRegistered
+        ? "/(protected)/(onboarding)/submitted"
+        : "/(protected)/(tabs)/home",
+    );
   };
 
   // Device has no biometrics -> skip this screen entirely
   useEffect(() => {
-    (async () => {
-      const { available } = await biometricService.isAvailable();
-      if (available) setReady(true);
+    const checkAvailability = async () => {
+      const { available, biometryType: type } =
+        await biometricService.isAvailable();
+      if (available && type) setBiometryType(type);
       else finish();
-    })();
+    };
+    void checkAvailability();
   }, []);
 
-  const onEnable = async () => {
+  const handleEnable = async () => {
     setBusy(true);
     try {
       await enableBiometric(); //enrolls; a cancel/failure is non-fatal
@@ -47,71 +67,61 @@ export default function EnableBiometricScreen() {
     }
   };
 
-  const onSkip = async () => {
-    finish();
-  };
+  if (!biometryType) return null;
 
-  if (!ready) return null;
+  const BiometryIcon = iconForBiometry(biometryType);
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: colors.background,
-          paddingTop: insets.top + 64,
-          paddingBottom: insets.bottom + 24,
-        },
-      ]}
+    <AppScreen
+      gradient
+      footer={
+        <View style={styles.actions}>
+          <AppButton
+            label={t("onboarding.enableBiometrics.enable")}
+            variant="gradient"
+            loading={busy}
+            disabled={busy}
+            onPress={handleEnable}
+          />
+          <AppTextButton
+            label={t("onboarding.enableBiometrics.skip")}
+            size="button1"
+            align="center"
+            loading={busy}
+            disabled={busy}
+            onPress={finish}
+          />
+        </View>
+      }
     >
       <View style={styles.body}>
-        <MaterialCommunityIcons
-          name="fingerprint"
-          size={72}
-          color={colors.iconPrimary}
-        />
-        <Text style={[styles.title, { color: colors.textPrimary }]}>
-          {t("onboarding.biometricTitle")}
-        </Text>
-        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-          {t("onboarding.biometricSubtitle")}
-        </Text>
+        <BiometryIcon width={ICON_SIZE} height={ICON_SIZE} />
+        <AppText
+          typographyType="h3"
+          color={colors.textPrimary}
+          style={styles.centered}
+        >
+          {t("onboarding.enableBiometrics.title")}
+        </AppText>
+        <AppText
+          typographyType="body2"
+          color={colors.textSecondary}
+          style={styles.centered}
+        >
+          {t("onboarding.enableBiometrics.subtitle")}
+        </AppText>
       </View>
-
-      <View style={styles.actions}>
-        <AppButton
-          label={t("onboarding.biometricEnable")}
-          variant="solid"
-          loading={busy}
-          onPress={onEnable}
-        />
-        <AppButton
-          label={t("onboarding.biometricSkip")}
-          variant="ghost"
-          disabled={busy}
-          onPress={onSkip}
-        />
-      </View>
-    </View>
+    </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
-    paddingHorizontal: 24,
-    justifyContent: "space-between",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.s4,
   },
-  body: { flex: 1, alignItems: "center", justifyContent: "center", gap: 16 },
-  title: {
-    fontSize: Typography.sizes.xl,
-    fontWeight: Typography.weights.semibold,
-    textAlign: "center",
-  },
-  subtitle: {
-    fontSize: Typography.sizes.md,
-    textAlign: "center",
-    lineHeight: 22,
-  },
-  actions: { gap: 8 },
+  centered: { textAlign: "center" },
+  actions: { gap: Spacing.s6 },
 });

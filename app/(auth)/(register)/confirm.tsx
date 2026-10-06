@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useTranslation } from "../../../src/hooks/useTranslation";
-import { useAppSelector } from "../../../src/store";
+import { useAppDispatch, useAppSelector } from "../../../src/store";
 import { useReferenceData } from "../../../src/hooks/useReferenceData";
 import { useRegistration } from "../../../src/hooks/useRegistration";
 import { GENDER_OPTIONS } from "../../../src/constants/userFields";
@@ -19,7 +19,16 @@ import { ConfirmRow } from "../../../src/components/features/register/ConfirmRow
 import { formatIsoDate } from "../../../src/utils/formatDate";
 import { findNationalityName } from "../../../src/utils/nationality";
 import { JAPANESE_NATIONALITY_CODE } from "../../../src/constants/nationality";
-import { REGISTER_EDIT_MODE } from "../../../src/hooks/useRegisterStepNavigation";
+import {
+  REGISTER_EDIT_MODE,
+  useCollapseEditHistory,
+} from "../../../src/hooks/useRegisterStepNavigation";
+import { PREFECTURE_OPTIONS } from "../../../src/constants/prefectures";
+import { formatPhoneNumber } from "../../../src/utils/phone";
+import { REMITTER_PHONE_COUNTRY } from "../../../src/constants/phone";
+import { formatPostalCode } from "../../../src/utils/formatFields";
+import { useAuth } from "../../../src/hooks/useAuth";
+import { clearRegistrationSecrets } from "../../../src/store/slices/registrationSlice";
 
 const PROFESSION_OTHERS_CODE = "30";
 const VISA_STATUS_OTHERS_CODE = "99";
@@ -29,7 +38,12 @@ export default function RegisterConfirmScreen() {
   const { t } = useTranslation();
   const locale = useAppSelector((s) => s.ui.locale);
   const { details } = useAppSelector((s) => s.registration);
+
   const { submitRegister } = useRegistration();
+  const { finalizeSession } = useAuth();
+  const dispatch = useAppDispatch();
+
+  useCollapseEditHistory();
 
   const { nationalities } = useNationalities();
   const { items: visaStatuses } = useReferenceData("visaStatus");
@@ -61,6 +75,16 @@ export default function RegisterConfirmScreen() {
       ? details.professionOthers
       : labelFor(professions, details.professionCode);
 
+  // Prefecture are stored as e.g. "AOMORI KEN" but listed as "AOMORI".
+  // Values from the postal lookup may not be in the list: show them as-is
+  const prefectureLabel =
+    PREFECTURE_OPTIONS.find((option) => option.value === details.prefecture)
+      ?.label ?? details.prefecture;
+
+  const phoneNumber = details.mobile
+    ? formatPhoneNumber(REMITTER_PHONE_COUNTRY, details.mobile)
+    : "";
+
   const editStep = (pathname: Href) =>
     router.push({ pathname, params: { mode: REGISTER_EDIT_MODE } } as Href);
 
@@ -70,22 +94,35 @@ export default function RegisterConfirmScreen() {
 
     try {
       const result = await submitRegister();
-      if (!result.ok) {
+      if (!result.ok || !result.tokens) {
         setError(result.message ?? t("errors.generic"));
         return;
       }
 
-      // Registered: no way back into the registration screens.
-      router.replace("/(protected)/(onboarding)/secure-prompt");
+      // Signs the new user in and enroll the device. The root layout then
+      // moves them into onboarding (secure prompt -> passcode -> biometrics).
+      await finalizeSession(result.tokens);
+      dispatch(clearRegistrationSecrets());
+    } catch {
+      setError(t("errors.generic"));
     } finally {
       setSubmitting(false);
     }
   };
 
+  useEffect(() => {
+    if (__DEV__) console.log("details:", details);
+  }, []);
+
   return (
     <AppScreen
       gradient
-      header={<AppHeader title={t("registerConfirm.headerTitle")} />}
+      header={
+        <AppHeader
+          title={t("registerConfirm.headerTitle")}
+          onBack={() => router.back()}
+        />
+      }
       footer={
         <AppButton
           label={t("registerConfirm.submit")}
@@ -176,6 +213,34 @@ export default function RegisterConfirmScreen() {
             value={details.natureOfBusiness}
           />
         )}
+      </ConfirmSection>
+
+      {/* Contact information */}
+      <ConfirmSection
+        title={t("registerConfirm.sections.contact")}
+        onEdit={() => editStep("/(auth)/(register)/contact-info")}
+      >
+        <ConfirmRow label={t("remitter.mobile.label")} value={phoneNumber} />
+        <ConfirmRow
+          label={t("remitter.postalCode.label")}
+          value={formatPostalCode(details.postalCode)}
+        />
+        <ConfirmRow
+          label={t("remitter.prefecture.label")}
+          value={prefectureLabel}
+        />
+        <ConfirmRow
+          label={t("remitter.city.label")}
+          value={details.addressLine1}
+        />
+        <ConfirmRow
+          label={t("remitter.address.label")}
+          value={details.addressLine2}
+        />
+        <ConfirmRow
+          label={t("remitter.streetNumber.label")}
+          value={details.addressLine3}
+        />
       </ConfirmSection>
 
       {/* Identity information */}

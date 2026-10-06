@@ -52,8 +52,8 @@ export function AppPhoneInput<T extends FieldValues>({
 
   const handlePickContact = () => {
     Alert.alert(
-      t("phoneInput.contactsPermissionTitle"),
-      t("phoneInput.contactsPermissionMessage"),
+      t("permissions.contact.title"),
+      t("permissions.contact.message"),
       [
         { text: t("common.cancel"), style: "cancel" },
         { text: t("common.ok"), onPress: openContactPicker },

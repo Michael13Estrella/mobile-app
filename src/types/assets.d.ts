@@ -13,7 +13,10 @@ declare module "*.jpeg" {
   export default value;
 }
 
+// SVGs are imported as components (react-native-svg-transformer).
 declare module "*.svg" {
-  const value: number;
-  export default value;
+  import { FC } from "react";
+  import { SvgProps } from "react-native-svg";
+  const content: FC<SvgProps>;
+  export default content;
 }

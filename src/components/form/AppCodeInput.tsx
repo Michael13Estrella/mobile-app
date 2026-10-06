@@ -18,8 +18,6 @@ import { Typography } from "../../constants/typography";
 import { BrandIcon } from "../icons";
 
 const DEFAULT_LENGTH = 6;
-// Shown instead of the digit when the code is secret (e.g. PIN).
-const MASK_CHARACTER = "•";
 
 type AppCodeInputProps<T extends FieldValues> = Readonly<{
   control: Control<T>;
@@ -27,7 +25,6 @@ type AppCodeInputProps<T extends FieldValues> = Readonly<{
   length?: number;
   prefix?: string;
   clearErrors?: UseFormClearErrors<T>;
-  secure?: boolean;
 }>;
 
 export function AppCodeInput<T extends FieldValues>({
@@ -36,7 +33,6 @@ export function AppCodeInput<T extends FieldValues>({
   length = DEFAULT_LENGTH,
   prefix,
   clearErrors,
-  secure = false,
 }: AppCodeInputProps<T>) {
   const { colors } = useAppTheme();
 
@@ -58,7 +54,7 @@ export function AppCodeInput<T extends FieldValues>({
     clearErrors?.(name);
   };
 
-  const cellBorderColor = error ? colors.error : colors.borderDefault;
+  const cellBorderColor = error ? colors.error : colors.borderSubtle;
   const cellTextColor = error ? colors.error : colors.textPrimary;
 
   return (

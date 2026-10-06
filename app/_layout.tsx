@@ -65,7 +65,7 @@ import {
 
 const SPLASH_MIN_DURATION_MS = 3000;
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {});
 WebBrowser.maybeCompleteAuthSession();
 
 if (__DEV__) {
@@ -78,7 +78,7 @@ const resolvePostLoginRoute = (
   needsPinSetup: boolean,
   needsBiometricPrompt: boolean,
 ): string => {
-  if (needsPinSetup) return "/(protected)/(onboarding)/secure";
+  if (needsPinSetup) return "/(protected)/(onboarding)/secure-prompt";
   if (needsBiometricPrompt) return "/(protected)/(onboarding)/biometric";
   return "/(protected)/(tabs)/home";
 };
@@ -231,7 +231,7 @@ function AppContent() {
       }
     };
 
-    restoreSession();
+    void restoreSession();
   }, []);
 
   // Redirect based on auth state. Single navigation authority for post-login:
@@ -271,12 +271,17 @@ function AppContent() {
     // HARD GATE: an authenticated session without a PIN may not sit anywhere in
     // (protected) except the onboarding group.
     if (isAuthenticated && needsPinSetup && inProtected && !inOnboarding) {
-      router.replace("/(protected)/(onboarding)/secure");
+      router.replace("/(protected)/(onboarding)/secure-prompt");
       return;
     }
 
-    // Settled -> hide the native splash, THEN remove the JS cover.
-    SplashScreen.hideAsync().then(() => setNativeSplashHidden(true));
+    // Remove the JS cover even if hiding the native splash fails (e.g. it was
+    // already hidden); otherwise the cover would stay up forever.
+    const markNativeSplashHidden = () => setNativeSplashHidden(true);
+    SplashScreen.hideAsync().then(
+      markNativeSplashHidden,
+      markNativeSplashHidden,
+    );
   }, [
     isAuthenticated,
     isAppReady,

@@ -16,3 +16,15 @@ export const toDropdownOptions = (
     value: item.code,
     label: locale === "ja" ? item.codeDescJap : item.codeDescEng,
   }));
+
+// Display name of a reference-data code in the current language.
+// Unknown code (e.g. data not loaded yet) -> the code itself
+export const getReferenceLabel = (
+  items: ReferenceDataItem[],
+  code: string,
+  locale: Language,
+): string => {
+  const item = items.find((entry) => entry.code === code);
+  if (!item) return code;
+  return locale === "ja" ? item.codeDescJap : item.codeDescEng;
+};

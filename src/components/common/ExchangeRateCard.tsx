@@ -1,93 +1,103 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, ActivityIndicator, Pressable } from "react-native";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { Spacing } from "../../constants/spacing";
-import { Typography } from "../../constants/typography";
-import CountryFlag from "react-native-country-flag";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AppCard } from "./AppCard";
+import { useTranslation } from "../../hooks/useTranslation";
+import { useExchangeRates } from "../../hooks/useExchangeRates";
+import { ExchangeRate } from "../../types/exchangeRate.types";
+import { AppText } from "./AppText";
+import { formatDateTime } from "../../utils/formatDate";
+import { BrandIcon, CircleFlag } from "../icons";
+import { CURRENCY_COUNTRY } from "../../constants/currency";
 
-type ExchangeRate = Readonly<{
-  fromCountry: string; // ISO 3166-1 alpha-2, for CountryFlag
-  fromCurrency: string;
-  fromAmount: number;
-  toCountry: string;
-  toCurrency: string;
-  toAmount: number;
-}>;
+const FLAG_SIZE = 24;
+const ARROW_SIZE = 16;
+const RATE_MAX_DECIMALS = 4;
+// Rates are set in Japan time; show them in Japan time on every device.
+const RATE_TIME_ZONE = "Asia/Tokyo";
 
-const EXCHANGE_RATES: ExchangeRate[] = [
-  {
-    fromCountry: "JP",
-    fromCurrency: "JPY",
-    fromAmount: 1,
-    toCountry: "PH",
-    toCurrency: "PHP",
-    toAmount: 0.3985,
-  },
-  {
-    fromCountry: "US",
-    fromCurrency: "USD",
-    fromAmount: 1,
-    toCountry: "JP",
-    toCurrency: "JPY",
-    toAmount: 154.65,
-  },
-];
+// Share of the row each side gets. The left side ("1 USD") is short, the
+// right side ("0.3955 PHP") longer; fixed shares keep the arrows aligned.
+const LEFT_SIDE_SHARE = 2;
+const RIGHT_SIDE_SHARE = 4;
 
-const PLACEHOLDER_VALID_UNTIL = "Sep 8, 2026 10:30 AM.";
-
-const FLAG_SIZE = 18;
-const LEFT_COLUMN_WIDTH = 72;
+// Flag of the currency's country (JPY -> JP). Unknown currencies get an
+// empty space of the same size, so rows stay aligned.
+function CurrencyFlag({ currency }: Readonly<{ currency: string }>) {
+  return (
+    <CircleFlag code={CURRENCY_COUNTRY[currency] ?? ""} size={FLAG_SIZE} />
+  );
+}
 
 export function ExchangeRateCard() {
   const { colors } = useAppTheme();
+  const { t, locale } = useTranslation();
+  const { rates, isLoading, hasError, refresh } = useExchangeRates();
+
+  const intlLocale = locale === "ja" ? "ja-JP" : "en-US";
+  const formatRate = (rate: number) =>
+    rate.toLocaleString(intlLocale, {
+      maximumFractionDigits: RATE_MAX_DECIMALS,
+    });
+
+  const renderRow = (rate: ExchangeRate) => (
+    <View key={rate.exchangeType} style={styles.row}>
+      <View style={[styles.side, styles.leftSide]}>
+        <CurrencyFlag currency={rate.fromCurrency} />
+        <AppText typographyType="title1" color={colors.textPrimary}>
+          1 {rate.fromCurrency}
+        </AppText>
+      </View>
+      <BrandIcon name="arrowNarrowRightLine" size={ARROW_SIZE} />
+      <View style={[styles.side, styles.rightSide]}>
+        <CurrencyFlag currency={rate.toCurrency} />
+        <AppText
+          typographyType="title1"
+          weight="bold"
+          color={colors.textPrimary}
+        >
+          {formatRate(rate.rate)} {rate.toCurrency}
+        </AppText>
+      </View>
+    </View>
+  );
+  const renderContent = () => {
+    if (isLoading) {
+      return <ActivityIndicator color={colors.primary} />;
+    }
+
+    if (hasError || rates.length === 0) {
+      return (
+        <Pressable onPress={refresh} accessibilityRole="button">
+          <AppText typographyType="body2" color={colors.textSecondary}>
+            {t("exchangeRate.unavailable")}
+          </AppText>
+        </Pressable>
+      );
+    }
+
+    return (
+      <>
+        <AppText typographyType="body3" color={colors.textSecondary}>
+          {t("exchangeRate.asOf", {
+            date: formatDateTime(rates[0].rateDate, intlLocale, RATE_TIME_ZONE),
+          })}
+        </AppText>
+        {rates.map(renderRow)}
+      </>
+    );
+  };
 
   return (
-    <AppCard style={styles.card}>
-      <Text style={[styles.updatedText, { color: colors.textSecondary }]}>
-        Exchange rate until {PLACEHOLDER_VALID_UNTIL}
-      </Text>
-      {EXCHANGE_RATES.map((rate) => (
-        <View
-          key={`${rate.fromCurrency}-${rate.toCurrency}`}
-          style={styles.row}
-        >
-          <View style={[styles.side, styles.leftSide]}>
-            <View style={styles.flagCircle}>
-              <CountryFlag isoCode={rate.fromCountry} size={FLAG_SIZE} />
-            </View>
-            <Text style={[styles.amountText, { color: colors.textPrimary }]}>
-              {rate.fromAmount} {rate.fromCurrency}
-            </Text>
-          </View>
-          <MaterialCommunityIcons
-            name="arrow-right"
-            size={16}
-            color={colors.textSecondary}
-          />
-          <View style={styles.side}>
-            <View style={styles.flagCircle}>
-              <CountryFlag isoCode={rate.toCountry} size={FLAG_SIZE} />
-            </View>
-            <Text
-              style={[styles.amountTextBold, { color: colors.textPrimary }]}
-            >
-              {rate.toAmount} {rate.toCurrency}
-            </Text>
-          </View>
-        </View>
-      ))}
+    <AppCard variant="elevated" style={styles.card}>
+      {renderContent()}
     </AppCard>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    margin: Spacing.s5,
     gap: Spacing.s5,
-  },
-  updatedText: {
-    fontSize: Typography.sizes.xs,
   },
   row: {
     flexDirection: "row",
@@ -99,22 +109,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: Spacing.s5,
   },
+  // Sides start from zero width and split the row by fixed shares, so their
+  // text can't change their width: the arrows line up in every row.
   leftSide: {
-    minWidth: LEFT_COLUMN_WIDTH,
+    flexGrow: LEFT_SIDE_SHARE,
+    flexBasis: 0,
   },
-  flagCircle: {
-    width: FLAG_SIZE,
-    height: FLAG_SIZE,
-    borderRadius: FLAG_SIZE / 2,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  amountText: {
-    fontSize: Typography.sizes.md,
-  },
-  amountTextBold: {
-    fontSize: Typography.sizes.md,
-    fontWeight: Typography.weights.semibold,
+  rightSide: {
+    flexGrow: RIGHT_SIDE_SHARE,
+    flexBasis: 0,
   },
 });

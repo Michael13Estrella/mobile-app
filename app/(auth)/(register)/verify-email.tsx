@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SECURITY } from "../../../src/constants/security";
 import { useRegistration } from "../../../src/hooks/useRegistration";
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
@@ -19,6 +19,7 @@ import { formatCooldown } from "../../../src/utils/formatCooldown";
 import { AppToast } from "../../../src/components/common/AppToast";
 import { RegisterStepper } from "../../../src/components/features/register/RegisterStepper";
 import { AppText } from "../../../src/components/common/AppText";
+import Mail02 from "../../../assets/images/icons/mail-02.svg";
 
 const OTP_LENGTH = SECURITY.OTP.LENGTH;
 const RESEND_COOLDOWN_SECONDS = SECURITY.OTP.RESEND_COOLDOWN_SECONDS;
@@ -38,7 +39,7 @@ export default function VerifyEmailScreen() {
   const [resending, setResending] = useState(false);
   const [showResendToast, setShowResendToast] = useState(false);
 
-  const { cooldown, startCooldown } = useCooldown();
+  const { cooldown, startCooldown } = useCooldown(RESEND_COOLDOWN_SECONDS);
 
   const submit = async () => {
     if (otp.length !== OTP_LENGTH || verifying) return;
@@ -102,7 +103,7 @@ export default function VerifyEmailScreen() {
       }
     >
       <View style={styles.imageContainer}>
-        <Image source={require("../../../assets/images/icons/mail-02.png")} />
+        <Mail02 />
       </View>
 
       <View style={styles.titleContainer}>

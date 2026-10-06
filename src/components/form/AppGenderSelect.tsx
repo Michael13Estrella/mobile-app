@@ -1,15 +1,15 @@
-import { Control, FieldValues, Path, useController } from "react-hook-form";
 import { Pressable, StyleSheet, View } from "react-native";
+import { Control, FieldValues, Path } from "react-hook-form";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useAppTheme } from "../../hooks/useAppTheme";
+import { useFormField } from "../../hooks/useFormField";
 import { GENDER_OPTIONS } from "../../constants/userFields";
-import { FieldLabel } from "./FieldLabel";
-import { FieldHelperText } from "./FieldHelperText";
 import { Spacing } from "../../constants/spacing";
+import { FIELD_SIZE } from "../../theme/field";
 import { AppText } from "../common/AppText";
+import { FieldShell } from "./FieldShell";
 
-const RADIO_SIZE = 20;
-const RADIO_INNER_SIZE = 8;
+type GenderValue = (typeof GENDER_OPTIONS)[number]["value"];
 
 type AppGenderSelectProps<T extends FieldValues> = Readonly<{
   control: Control<T>;
@@ -21,6 +21,7 @@ type AppGenderSelectProps<T extends FieldValues> = Readonly<{
   successText?: string;
 }>;
 
+// Gender as two side-by-side option buttons (one choice).
 export function AppGenderSelect<T extends FieldValues>({
   control,
   name,
@@ -33,100 +34,97 @@ export function AppGenderSelect<T extends FieldValues>({
   const { t } = useTranslation();
   const { colors } = useAppTheme();
 
-  const {
-    field: { onChange, onBlur, value },
-    fieldState: { error, isTouched, isDirty },
-  } = useController({ control, name });
-
-  const showSuccess =
-    !error && (isTouched || isDirty) && !!value && !!successText;
+  const { value, onChange, onBlur, errorMessage, showSuccess } = useFormField({
+    control,
+    name,
+    successText,
+  });
 
   // Choosing an option completes this field, so it counts as its "blur".
-  const handleSelect = (
-    optionValue: (typeof GENDER_OPTIONS)[number]["value"],
-  ) => {
-    onChange(optionValue);
+  // Optional field: tapping the selected option again clear the choice
+  const handlePress = (optionValue: GenderValue) => {
+    const isSelected = value === optionValue;
+    if (isSelected && !optional) return;
+
+    onChange(isSelected ? "" : optionValue);
     onBlur();
   };
 
   return (
-    <View style={styles.container}>
-      <FieldLabel label={label} required={required} optional={optional} />
-
-      <View style={styles.optionsRow}>
+    <FieldShell
+      label={label}
+      required={required}
+      optional={optional}
+      errorMessage={errorMessage}
+      showSuccess={showSuccess}
+      successText={successText}
+      hint={hint}
+    >
+      <View style={styles.options} accessibilityRole="radiogroup">
         {GENDER_OPTIONS.map((option) => {
           const isSelected = value === option.value;
+
           return (
             <Pressable
               key={option.value}
-              style={styles.optionRow}
-              onPress={() => handleSelect(option.value)}
-            >
-              <View
-                style={[
-                  styles.radioOuter,
-                  isSelected
-                    ? {
-                        backgroundColor: colors.primary,
-                        borderColor: colors.primary,
-                      }
-                    : {
-                        backgroundColor: colors.surface,
-                        borderColor: colors.borderDefault,
+              onPress={() => handlePress(option.value)}
+              accessibilityRole={optional ? "togglebutton" : "radio"}
+              accessibilityState={
+                optional ? { selected: isSelected } : { checked: isSelected }
+              }
+              style={[
+                styles.option,
+                { backgroundColor: colors.surface },
+                isSelected
+                  ? [
+                      styles.selected,
+                      { borderColor: colors.inputBorderFocused },
+                    ]
+                  : [
+                      styles.unselected,
+                      // Error: unselected options show the field's error border.
+                      !!errorMessage && {
+                        borderWidth: FIELD_SIZE.borderWidth,
+                        borderColor: colors.borderError,
                       },
-                ]}
+                    ],
+              ]}
+            >
+              <AppText
+                typographyType="body1"
+                weight={isSelected ? "bold" : "regular"}
+                color={
+                  isSelected ? colors.textBrandPrimary : colors.textPrimary
+                }
               >
-                {isSelected && (
-                  <View
-                    style={[
-                      styles.radioDot,
-                      { backgroundColor: colors.surface },
-                    ]}
-                  />
-                )}
-              </View>
-              <AppText typographyType="body2" color={colors.textPrimary}>
                 {t(option.labelKey)}
               </AppText>
             </Pressable>
           );
         })}
       </View>
-
-      <FieldHelperText
-        errorMessage={error?.message}
-        showSuccess={showSuccess}
-        successText={successText}
-        hintText={hint}
-      />
-    </View>
+    </FieldShell>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    gap: Spacing.s3,
-  },
-  optionsRow: {
+  options: {
     flexDirection: "row",
-    gap: Spacing.s6,
+    gap: Spacing.s5,
   },
-  optionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.s3,
-  },
-  radioOuter: {
-    width: RADIO_SIZE,
-    height: RADIO_SIZE,
-    borderRadius: RADIO_SIZE / 2,
-    borderWidth: 1,
+  // Equal-width boxes, same height and corners as other fields.
+  option: {
+    flex: 1,
+    height: FIELD_SIZE.height,
+    borderRadius: FIELD_SIZE.borderRadius,
     alignItems: "center",
     justifyContent: "center",
   },
-  radioDot: {
-    width: RADIO_INNER_SIZE,
-    height: RADIO_INNER_SIZE,
-    borderRadius: RADIO_INNER_SIZE / 2,
+  unselected: {
+    boxShadow: `0px 2px 4px 0px #CCDDE2`,
+  },
+  selected: {
+    borderWidth: FIELD_SIZE.borderWidth,
+    boxShadow: `0px 2px 4px 0px #CCDDE2`,
   },
 });

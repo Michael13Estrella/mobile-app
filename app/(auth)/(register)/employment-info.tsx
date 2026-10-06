@@ -20,6 +20,8 @@ import { RegisterSectionHeader } from "../../../src/components/features/register
 import { FieldsContainer } from "../../../src/components/form/FieldsContainer";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
+import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
 
 const VISA_STATUS_OTHERS_CODE = "99";
 const PROFESSION_OTHERS_CODE = "30";
@@ -27,7 +29,7 @@ const PROFESSION_OTHERS_CODE = "30";
 const NATIONALITY_JAPAN_CODE = "JP";
 const VISA_STATUS_JAPANESE_CODE = "98";
 
-const COMPANY_NAME_REQUIRED_CODES = ["02", "03", "04", "06", "09", "11"];
+const COMPANY_NAME_REQUIRED_CODES = ["02", "03", "04", "06", "09", "11", "30"];
 const NATURE_OF_BUSINESS_REQUIRED_CODES = ["09"];
 const SCHOOL_NAME_REQUIRED_CODES = ["08"];
 
@@ -75,31 +77,51 @@ export default function RegisterEmploymentInfoScreen() {
           (d) =>
             d.visaStatusCode !== VISA_STATUS_OTHERS_CODE ||
             !!d.visaStatusOthers?.trim(),
-          { message: t("validation.required"), path: ["visaStatusOthers"] },
+          {
+            message: t("validation.required"),
+            path: ["visaStatusOthers"],
+            when: () => true,
+          },
         )
         .refine(
           (d) =>
             d.professionCode !== PROFESSION_OTHERS_CODE ||
             !!d.professionOthers?.trim(),
-          { message: t("validation.required"), path: ["professionOthers"] },
+          {
+            message: t("validation.required"),
+            path: ["professionOthers"],
+            when: () => true,
+          },
         )
         .refine(
           (d) =>
             !COMPANY_NAME_REQUIRED_CODES.includes(d.professionCode) ||
             !!d.companyName?.trim(),
-          { message: t("validation.required"), path: ["companyName"] },
+          {
+            message: t("validation.required"),
+            path: ["companyName"],
+            when: () => true,
+          },
         )
         .refine(
           (d) =>
             !NATURE_OF_BUSINESS_REQUIRED_CODES.includes(d.professionCode) ||
             !!d.natureOfBusiness?.trim(),
-          { message: t("validation.required"), path: ["natureOfBusiness"] },
+          {
+            message: t("validation.required"),
+            path: ["natureOfBusiness"],
+            when: () => true,
+          },
         )
         .refine(
           (d) =>
             !SCHOOL_NAME_REQUIRED_CODES.includes(d.professionCode) ||
             !!d.schoolName?.trim(),
-          { message: t("validation.required"), path: ["schoolName"] },
+          {
+            message: t("validation.required"),
+            path: ["schoolName"],
+            when: () => true,
+          },
         ),
     [t],
   );
@@ -122,7 +144,8 @@ export default function RegisterEmploymentInfoScreen() {
     control,
     handleSubmit,
     setValue,
-    formState: { isValid },
+    clearErrors,
+    formState: { isValid, errors },
   } = useForm<EmploymentInfoFormValues>({
     resolver: zodResolver(schema),
     ...FORM_VALIDATION_MODE,
@@ -137,27 +160,48 @@ export default function RegisterEmploymentInfoScreen() {
     },
   });
 
+  const errorFields = getErrorFieldLabels(errors, {
+    visaStatusCode: t("remitter.visaStatus.label"),
+    // The "Others" text boxes have no label of their own: name them after
+    // the selection they belong to.
+    visaStatusOthers: t("remitter.visaStatus.label"),
+    professionCode: t("remitter.profession.label"),
+    professionOthers: t("remitter.profession.label"),
+    companyName: t("remitter.companyName.label"),
+    natureOfBusiness: t("remitter.natureOfBusiness.label"),
+    schoolName: t("remitter.schoolName.label"),
+  });
+
   const professionCode = useWatch({ control, name: "professionCode" });
   const visaStatusCode = useWatch({ control, name: "visaStatusCode" });
 
   useEffect(() => {
-    if (visaStatusCode !== VISA_STATUS_OTHERS_CODE) {
-      setValue("visaStatusOthers", "");
-    }
+    const resetHiddenField = (
+      name:
+        | "visaStatusOthers"
+        | "professionOthers"
+        | "companyName"
+        | "natureOfBusiness"
+        | "schoolName",
+    ) => {
+      setValue(name, "");
+      clearErrors(name);
+    };
+    if (visaStatusCode !== VISA_STATUS_OTHERS_CODE)
+      resetHiddenField("visaStatusOthers");
 
-    if (professionCode !== PROFESSION_OTHERS_CODE) {
-      setValue("professionOthers", "");
-    }
-    if (!COMPANY_NAME_REQUIRED_CODES.includes(professionCode)) {
-      setValue("companyName", "");
-    }
-    if (!NATURE_OF_BUSINESS_REQUIRED_CODES.includes(professionCode)) {
-      setValue("natureOfBusiness", "");
-    }
-    if (!SCHOOL_NAME_REQUIRED_CODES.includes(professionCode)) {
-      setValue("schoolName", "");
-    }
-  }, [visaStatusCode, professionCode, setValue]);
+    if (professionCode !== PROFESSION_OTHERS_CODE)
+      resetHiddenField("professionOthers");
+
+    if (!COMPANY_NAME_REQUIRED_CODES.includes(professionCode))
+      resetHiddenField("companyName");
+
+    if (!NATURE_OF_BUSINESS_REQUIRED_CODES.includes(professionCode))
+      resetHiddenField("natureOfBusiness");
+
+    if (!SCHOOL_NAME_REQUIRED_CODES.includes(professionCode))
+      resetHiddenField("schoolName");
+  }, [visaStatusCode, professionCode, setValue, clearErrors]);
 
   const onSubmit = (data: {
     visaStatusCode: string;
@@ -192,12 +236,16 @@ export default function RegisterEmploymentInfoScreen() {
         </>
       }
       footer={
-        <AppButton
-          label={t("common.next")}
-          variant="gradient"
-          disabled={!isValid}
-          onPress={handleSubmit(onSubmit)}
-        />
+        <>
+          <FormErrorSummary fields={errorFields} />
+
+          <AppButton
+            label={t("common.next")}
+            variant="gradient"
+            disabled={!isValid}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </>
       }
     >
       <RegisterSectionHeader

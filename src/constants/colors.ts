@@ -60,15 +60,22 @@ export const LightColors = {
   secondary: Palette.mbBlue500,
   tertiary: Palette.mbAzure500,
 
+  // Brand gradient (active tab icons, gradient rings): purple -> blue
+  brandGradientStart: Palette.mbHelio500,
+  brandGradientEnd: Palette.mbAzure500,
+
   // Stepper
-  stepperActiveGradientStart: Palette.mbHelio500,
-  stepperActiveGradientEnd: Palette.mbAzure500,
   stepperCompletedBg: Palette.mbBlue500,
   stepperIncompleteBg: Palette.mbGrey200,
   stepperIconColor: Palette.white100,
   stepperConnectorColor: Palette.mbGrey300,
 
   // Status
+  statusPending: Palette.sysYellow600,
+  statusSuccess: Palette.sysGreen600,
+  statusFailed: Palette.sysRed600,
+  statusIconForeground: Palette.white100,
+
   success: Palette.sysGreen500,
   error: Palette.sysRed500,
   errorLight: OldPalette.red400,
@@ -106,15 +113,19 @@ export const LightColors = {
   iconSecondary: Palette.mbGrey500,
   iconTertiary: Palette.mbGrey400,
   iconError: Palette.sysRed600,
-  iconSuccess: Palette.sysGreen500,
+  iconSuccess: Palette.sysGreen400,
 
-  // Borders/Dividers
+  // Borders
   borderDefault: Palette.mbGrey200,
   borderSubtle: Palette.mbGrey050,
   borderSuccess: Palette.sysGreen600,
   borderError: Palette.sysRed600,
-  divider: OldPalette.slate100,
-  dividerVariant: OldPalette.slate200,
+
+  // Dividers
+  dividerDefault: Palette.black010,
+
+  // Fill
+  fillError: Palette.mbUltra050,
 
   // Forms/Inputs
   inputBackground: Palette.white100,
@@ -155,15 +166,22 @@ export const DarkColors = {
   secondary: Palette.mbBlue500,
   tertiary: Palette.mbAzure500,
 
+  // Brand gradient (active tab icons, gradient rings): purple -> blue
+  brandGradientStart: Palette.mbHelio500,
+  brandGradientEnd: Palette.mbAzure500,
+
   // Stepper
-  stepperActiveGradientStart: Palette.mbHelio500,
-  stepperActiveGradientEnd: Palette.mbAzure500,
   stepperCompletedBg: Palette.mbBlue500,
   stepperIncompleteBg: Palette.mbGrey200,
   stepperIconColor: Palette.white100,
   stepperConnectorColor: Palette.mbGrey300,
 
   // Status
+  statusPending: Palette.sysYellow600,
+  statusSuccess: Palette.sysGreen600,
+  statusFailed: Palette.sysRed600,
+  statusIconForeground: Palette.white100,
+
   success: Palette.sysGreen500,
   error: Palette.sysRed500,
   errorLight: OldPalette.red400,
@@ -203,13 +221,17 @@ export const DarkColors = {
   iconError: Palette.sysRed600,
   iconSuccess: Palette.sysGreen500,
 
-  // Borders/Dividers
+  // Borders
   borderDefault: Palette.mbGrey200,
   borderSubtle: Palette.mbGrey050,
   borderSuccess: Palette.sysGreen600,
   borderError: Palette.sysRed600,
-  divider: OldPalette.slate100,
-  dividerVariant: OldPalette.slate200,
+
+  // Dividers
+  dividerDefault: Palette.black010,
+
+  // Fill
+  fillError: Palette.mbUltra050,
 
   // Forms/Inputs
   inputBackground: Palette.white100,

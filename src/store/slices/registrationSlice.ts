@@ -71,6 +71,7 @@ const registrationSlice = createSlice({
     setChallenge: (state, action: PayloadAction<string>) => {
       state.challenge = action.payload;
     },
+
     // Any step can merge in whatever subset of fields it collected -
     // no reducer changes needed if the step grouping changes later.
     updateRegistrationDetails: (
@@ -79,11 +80,20 @@ const registrationSlice = createSlice({
     ) => {
       state.details = { ...state.details, ...action.payload };
     },
+
     setRegistrationTokens: (state, action: PayloadAction<AuthTokens>) => {
       state.tokens = action.payload;
     },
-    // Never persisted anywhere (no redux-persist in this store), so this is
-    // the only place the plaintext password ever lived, and it's gone here.
+
+    // After sign-in: wipe the password, tokens and one-time values right away.
+    // Email + details stay until the Submitted screen has shown them.
+    clearRegistrationSecrets: (state) => {
+      state.password = "";
+      state.tokens = null;
+      state.challenge = null;
+      state.txId = null;
+    },
+
     clearRegistration: () => initialState,
   },
 });
@@ -94,6 +104,7 @@ export const {
   setChallenge,
   updateRegistrationDetails,
   setRegistrationTokens,
+  clearRegistrationSecrets,
   clearRegistration,
 } = registrationSlice.actions;
 

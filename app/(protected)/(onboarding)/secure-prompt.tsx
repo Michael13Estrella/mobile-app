@@ -1,5 +1,5 @@
 import { useTranslation } from "../../../src/hooks/useTranslation";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Typography } from "../../../src/constants/typography";
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { router } from "expo-router";
@@ -7,6 +7,9 @@ import { AppButton } from "../../../src/components/common/AppButton";
 import { AppScreen } from "../../../src/components/common/AppScreen";
 import { Spacing } from "../../../src/constants/spacing";
 import { AppText } from "../../../src/components/common/AppText";
+import SecureAppIllustration from "../../../assets/images/illustrations/Secure-your-transactions-with-AppKey.svg";
+
+const ILLUSTRATION_SIZE = 160;
 
 export default function SecurePromptScreen() {
   const { colors } = useAppTheme();
@@ -19,7 +22,7 @@ export default function SecurePromptScreen() {
         <AppButton
           label={t("onboarding.securePrompt.button")}
           variant="gradient"
-          onPress={() => router.push("/(protected)/(onboarding)/set-pin")}
+          onPress={() => router.push("/(protected)/(onboarding)/set-passcode")}
         />
       }
     >
@@ -28,8 +31,9 @@ export default function SecurePromptScreen() {
           {t("onboarding.securePrompt.title")}
         </AppText>
 
-        <Image
-          source={require("../../../assets/images/illustrations/secure-your-transactions-with-app-key.png")}
+        <SecureAppIllustration
+          width={ILLUSTRATION_SIZE}
+          height={ILLUSTRATION_SIZE}
         />
 
         <AppText

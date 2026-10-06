@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "../store";
 import {
+  AuthTokens,
   CheckEmailRequest,
   CheckEmailResendRequest,
   OtpRequiredResponse,
@@ -20,6 +21,8 @@ import { firstErrorMessage } from "../utils/apiErrors";
 import { trimFields, uppercaseFields } from "../utils/formatFields";
 
 type Result = { ok: boolean; message?: string };
+// A successful registration return the new session's tokens for sign-in.
+type SubmitResult = Result & { tokens?: AuthTokens };
 
 export function useRegistration() {
   const dispatch = useAppDispatch();
@@ -122,12 +125,14 @@ export function useRegistration() {
     "primaryIDNo",
   ];
 
-  const submitRegister = useCallback(async (): Promise<Result> => {
+  const submitRegister = useCallback(async (): Promise<SubmitResult> => {
     if (!challenge) return { ok: false, message: "Email not verified." };
 
     let body: RegisterRequest = { challenge, email, password, ...details };
     body = trimFields(body, ["challenge"]);
     body = uppercaseFields(body, UPPERCASE_FIELDS);
+
+    if (__DEV__) console.log("remitterBody: ", body);
 
     const { ok, data, errors } = await apiClient.plain.post<TokenResponse>(
       ENDPOINTS.REGISTER_SUBMIT,
@@ -140,11 +145,10 @@ export function useRegistration() {
       return { ok: false, message: msg ?? "Registration failed." };
     }
 
-    dispatch(
-      setRegistrationTokens({ ...data, refreshToken: data.refreshToken ?? "" }),
-    );
+    const tokens = { ...data, refreshToken: data.refreshToken ?? "" };
+    dispatch(setRegistrationTokens(tokens));
 
-    return { ok: true };
+    return { ok: true, tokens };
   }, [dispatch, challenge, email, password, details]);
 
   return { checkEmail, resendCheckEmail, verifyEmail, submitRegister };

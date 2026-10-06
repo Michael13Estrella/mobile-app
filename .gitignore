@@ -44,3 +44,9 @@ yarn-error.*
 .env
 .env.local
 .env.production
+
+
+coverage/
+.VSCodeCounter/
+.claude/settings.local.json
+*.orig

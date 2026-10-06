@@ -120,7 +120,6 @@ const styles = StyleSheet.create({
   topBar: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    paddingHorizontal: 16,
   },
   menuButton: {
     padding: 8,
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     marginTop: Spacing.s9,
-    paddingHorizontal: Spacing.s5,
+    paddingHorizontal: Spacing.s0,
     gap: Spacing.s3,
   },
   errorBanner: {

@@ -8,6 +8,10 @@ import RegisterBasicInfoScreen from "./(auth)/(register)/basic-info";
 import RegisterEmploymentInfoScreen from "./(auth)/(register)/employment-info";
 import RegisterIdentityInfoScreen from "./(auth)/(register)/identity-info";
 import SecurePromptScreen from "./(protected)/(onboarding)/secure-prompt";
+import SetPasscodeScreen from "./(protected)/(onboarding)/set-passcode";
+import EnableBiometricScreen from "./(protected)/(onboarding)/biometric";
+import RegisterSubmittedScreen from "./(protected)/(onboarding)/submitted";
+import HomeScreen from "./(protected)/(tabs)/home";
 
 export default function Preview() {
   return (
@@ -15,13 +19,18 @@ export default function Preview() {
 
     // <SetPinScreen />
     // <RegisterAccountScreen />
-    // <VerifyEmailScreen />
+    <VerifyEmailScreen />
     // <RegisterBasicInfoScreen />
     // <RegisterEmploymentInfoScreen />
     // <RegisterContactInfoScreen />
     // <RegisterIdentityInfoScreen />
-    <RegisterConfirmScreen />
+    // <RegisterConfirmScreen />
 
     // <SecurePromptScreen />
+    // <SetPasscodeScreen />
+    // <EnableBiometricScreen />
+    // <RegisterSubmittedScreen />
+
+    // <HomeScreen />
   );
 }

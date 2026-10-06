@@ -44,7 +44,7 @@ export function ConfirmSection({
           style={styles.editButton}
         >
           <BrandIcon
-            name="edit2Line"
+            name="edit02Line"
             size={EDIT_ICON_SIZE}
             color={colors.textBrandPrimary}
           />

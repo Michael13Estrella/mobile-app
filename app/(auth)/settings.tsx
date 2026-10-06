@@ -135,7 +135,7 @@ export default function SettingsScreen() {
                 styles.langOptions,
                 {
                   backgroundColor: colors.surfaceVariant,
-                  borderTopColor: colors.dividerVariant,
+                  borderTopColor: colors.dividerDefault,
                 },
               ]}
             >
@@ -146,7 +146,7 @@ export default function SettingsScreen() {
                     styles.langRow,
                     i < LANG_OPTIONS.length - 1 && {
                       borderBottomWidth: 1,
-                      borderBottomColor: colors.dividerVariant,
+                      borderBottomColor: colors.dividerDefault,
                     },
                   ]}
                   onPress={() => {
@@ -191,7 +191,7 @@ export default function SettingsScreen() {
                 styles.langOptions,
                 {
                   backgroundColor: colors.surfaceVariant,
-                  borderTopColor: colors.dividerVariant,
+                  borderTopColor: colors.dividerDefault,
                 },
               ]}
             >
@@ -202,7 +202,7 @@ export default function SettingsScreen() {
                     styles.langRow,
                     i < THEME_CYCLE.length - 1 && {
                       borderBottomWidth: 1,
-                      borderBottomColor: colors.dividerVariant,
+                      borderBottomColor: colors.dividerDefault,
                     },
                   ]}
                   onPress={() => {

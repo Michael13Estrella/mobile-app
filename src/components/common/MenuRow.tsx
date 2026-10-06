@@ -34,7 +34,10 @@ export const MenuRow = ({
     <TouchableOpacity
       style={[
         styles.row,
-        !isLast && { borderBottomWidth: 1, borderBottomColor: colors.divider },
+        !isLast && {
+          borderBottomWidth: 1,
+          borderBottomColor: colors.dividerDefault,
+        },
       ]}
       onPress={onPress}
       activeOpacity={0.7}

@@ -1,4 +1,7 @@
-import { Href, router, useLocalSearchParams } from "expo-router";
+import { useEffect } from "react";
+import { Href, router, useLocalSearchParams, useNavigation } from "expo-router";
+import { CommonActions, ParamListBase } from "expo-router/react-navigation";
+import type { NativeStackNavigationProp } from "expo-router/native-stack";
 
 // Passed by the Confirm screen's "Edit" buttons.
 export const REGISTER_EDIT_MODE = "edit";
@@ -21,15 +24,44 @@ export function useRegisterStepNavigation() {
     );
   };
 
-  // Last step: when editing, close the edit screens back to the Confirm
-  // already on the stack instead of opening a second one.
+  // Always a push, so Confirm slides in forward. After an edit walk-through,
+  // Confirm's useCollapseEditHistory removes the screens left behind it.
   const goToConfirm = () => {
-    if (isEditing) {
-      router.dismissTo(CONFIRM_ROUTE);
-      return;
-    }
     router.push(CONFIRM_ROUTE);
   };
 
   return { isEditing, goNext, goToConfirm };
+}
+
+// For the Confirm screen. After an edit walk-through the stack is
+// [..., Confirm, Basic (edit), ..., Identity (edit), Confirm]. Once the new
+// Confirm has finished sliding in, drop the older Confirm and the edit screens
+// behind it, so Back leaves Confirm as usual. The visible screen doesn't
+// change, so this happens without any animation. Normal sign-up: no-op.
+export function useCollapseEditHistory() {
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("transitionEnd", () => {
+      const state = navigation.getState();
+      const lastIndex = state.routes.length - 1;
+      const currentName = state.routes[lastIndex].name;
+
+      // An earlier copy of this screen means we came back from an edit.
+      const previousIndex = state.routes
+        .map((route) => route.name)
+        .lastIndexOf(currentName, lastIndex - 1);
+      if (previousIndex < 0) return;
+
+      const routes = [
+        ...state.routes.slice(0, previousIndex),
+        state.routes[lastIndex],
+      ];
+      navigation.dispatch(
+        CommonActions.reset({ ...state, routes, index: routes.length - 1 }),
+      );
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 }

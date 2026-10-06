@@ -20,6 +20,8 @@ import { AppInput } from "../../../src/components/form/AppInput";
 import { AppDateInput } from "../../../src/components/form/AppDateInput";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
+import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
 
 export default function RegisterIdentityInfoScreen() {
   const { t } = useTranslation();
@@ -56,7 +58,7 @@ export default function RegisterIdentityInfoScreen() {
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<IdentityInfoFormValues>({
     resolver: zodResolver(schema),
     ...FORM_VALIDATION_MODE,
@@ -65,6 +67,12 @@ export default function RegisterIdentityInfoScreen() {
       primaryIDNo: details.primaryIDNo,
       primaryIDExpiry: details.primaryIDExpiry,
     },
+  });
+
+  const errorFields = getErrorFieldLabels(errors, {
+    primaryIDType: t("remitter.primaryIdType.label"),
+    primaryIDNo: t("remitter.primaryIdNo.label"),
+    primaryIDExpiry: t("remitter.primaryIdExpiry.label"),
   });
 
   const onSubmit = (data: {
@@ -92,12 +100,16 @@ export default function RegisterIdentityInfoScreen() {
         </>
       }
       footer={
-        <AppButton
-          label={t("common.next")}
-          variant="gradient"
-          disabled={!isValid}
-          onPress={handleSubmit(onSubmit)}
-        />
+        <>
+          <FormErrorSummary fields={errorFields} />
+
+          <AppButton
+            label={t("common.next")}
+            variant="gradient"
+            disabled={!isValid}
+            onPress={handleSubmit(onSubmit)}
+          />
+        </>
       }
     >
       {/* Section Header */}
