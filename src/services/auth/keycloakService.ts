@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import * as AuthSession from "expo-auth-session";
 import { CONFIG } from "../../constants/config";
 import {
@@ -41,18 +52,21 @@ export const keycloakService = {
   // Bypasses apiClient's request()/token-refresh gate on purpose -
   // this is the refresh call, so routing it through the gate would deadlock
   // (it would try to refresh itself while already mid-refresh)
-  refreshAccessToken: async (): Promise<AuthTokens | null> => {
+  refreshAccessToken: async (
+    isPasscodeLogin: boolean = false,
+  ): Promise<AuthTokens | null> => {
     try {
       const refreshToken = await tokenService.getRefreshToken();
       if (!refreshToken) return null;
 
-      const body: TokenRefreshRequest = { refreshToken };
+      const body: TokenRefreshRequest = {
+        refreshToken,
+        isWriteLoginInfo: isPasscodeLogin,
+      };
       const { url, init } = await buildSigned(
         "POST",
         ENDPOINTS.AUTH_REFRESH,
         body,
-        false,
-        false,
       );
       const res = await fetch(url, init);
       const json = await res.json().catch(() => null);

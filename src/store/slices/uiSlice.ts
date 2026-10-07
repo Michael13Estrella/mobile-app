@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Language } from "../../types/language.types";
 
@@ -8,7 +19,7 @@ interface UIState {
   isAppReady: boolean;
   isLocked: boolean;
   isAuthenticating: boolean;
-  needsPinSetup: boolean;
+  needsPasscodeSetup: boolean;
   needsBiometricPrompt: boolean;
   toast: {
     visible: boolean;
@@ -24,7 +35,7 @@ const initialState: UIState = {
   isAppReady: false,
   isLocked: false,
   isAuthenticating: false,
-  needsPinSetup: false,
+  needsPasscodeSetup: false,
   needsBiometricPrompt: false,
   toast: null,
 };
@@ -51,8 +62,8 @@ const uiSlice = createSlice({
     setAuthenticating: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticating = action.payload;
     },
-    setNeedsPinSetup: (state, action: PayloadAction<boolean>) => {
-      state.needsPinSetup = action.payload;
+    setNeedsPasscodeSetup: (state, action: PayloadAction<boolean>) => {
+      state.needsPasscodeSetup = action.payload;
     },
     setNeedsBiometricPrompt: (state, action: PayloadAction<boolean>) => {
       state.needsBiometricPrompt = action.payload;
@@ -75,7 +86,7 @@ export const {
   setAppReady,
   setLocked,
   setAuthenticating,
-  setNeedsPinSetup,
+  setNeedsPasscodeSetup,
   setNeedsBiometricPrompt,
   showToast,
   hideToast,

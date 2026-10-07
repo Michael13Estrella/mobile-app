@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import * as AuthSession from "expo-auth-session";
 import { keycloakService } from "../services/auth/keycloakService";
 import { useAppDispatch, useAppSelector } from "../store";
@@ -25,7 +36,7 @@ import { biometricEnrollment } from "../services/security/biometricEnrollmentSer
 import { useTranslation } from "./useTranslation";
 import { apiClient } from "../services/api/apiClient";
 import { ENDPOINTS } from "../constants/endpoints";
-import { pinService } from "../services/security/pinService";
+import { passcodeService } from "../services/security/passcodeService";
 import {
   BiometricRefreshRequest,
   ChallengeResponse,
@@ -33,7 +44,7 @@ import {
 } from "../types";
 import {
   setNeedsBiometricPrompt,
-  setNeedsPinSetup,
+  setNeedsPasscodeSetup,
 } from "../store/slices/uiSlice";
 import { notificationService } from "../services/notifications/notificationService";
 import { firstErrorMessage } from "../utils/apiErrors";
@@ -68,13 +79,13 @@ export const useAuth = () => {
       if (!decoded) return;
 
       // needsPin = true means the user is first login
-      const needsPin = !(await pinService.isSet(decoded.id));
+      const needsPin = !(await passcodeService.isSet(decoded.id));
       const needsBiometricPrompt = await biometricService.needsReprompt(
         decoded.id,
       );
       await keycloakService.saveTokens(tokens);
 
-      dispatch(setNeedsPinSetup(needsPin));
+      dispatch(setNeedsPasscodeSetup(needsPin));
       dispatch(setNeedsBiometricPrompt(needsBiometricPrompt));
       dispatch(setTokens(tokens));
       dispatch(setUser(decoded));
@@ -85,8 +96,8 @@ export const useAuth = () => {
         await biometricService.disable(activeBioUser);
       }
 
-      // OIDC re-auth clears PIN lockout
-      await pinService.resetAttempts(decoded.id);
+      // OIDC re-auth clears PASSCODE lockout
+      await passcodeService.resetAttempts(decoded.id);
 
       // Enroll device
       try {

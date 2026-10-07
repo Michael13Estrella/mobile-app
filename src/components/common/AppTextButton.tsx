@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-15
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { Pressable, StyleSheet } from "react-native";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { Typography } from "../../constants/typography";
@@ -50,14 +61,6 @@ export function AppTextButton({
         >
           {label}
         </AppText>
-        // <Text
-        //   style={[
-        //     styles.label,
-        //     { color: disabled ? colors.textSecondary : colors.buttonPrimary },
-        //   ]}
-        // >
-        //   {label}
-        // </Text>
       )}
     </Pressable>
   );
@@ -66,6 +69,7 @@ export function AppTextButton({
 const styles = StyleSheet.create({
   container: {
     alignSelf: "stretch",
+    justifyContent: "flex-end",
   },
   label: {
     fontSize: Typography.sizes.md,

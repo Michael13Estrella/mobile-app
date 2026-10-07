@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { Language } from "./language.types";
 
 export interface AuthExchangeRequest {
@@ -24,6 +35,7 @@ export interface OtpRequiredResponse {
 
 export interface TokenRefreshRequest {
   refreshToken: string;
+  isWriteLoginInfo?: boolean; // set to true during Passcode login
 }
 
 // Wire shape from the API (refresh token may be omitted by Keycloak)

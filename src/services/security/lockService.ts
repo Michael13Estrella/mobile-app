@@ -1,5 +1,16 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-26
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { keycloakService } from "../auth/keycloakService";
-import { pinService } from "./pinService";
+import { passcodeService } from "./passcodeService";
 
 export const lockService = {
   shouldLock: async (): Promise<boolean> => {
@@ -7,6 +18,6 @@ export const lockService = {
     if (!hasSession) return false;
 
     const currentUserId = await keycloakService.getCurrentUserId();
-    return !!currentUserId && (await pinService.isSet(currentUserId));
+    return !!currentUserId && (await passcodeService.isSet(currentUserId));
   },
 };

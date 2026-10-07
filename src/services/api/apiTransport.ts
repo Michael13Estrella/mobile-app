@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-08-25
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { CONFIG } from "../../constants/config";
 import { SECURITY } from "../../constants/security";
 import { store } from "../../store";
@@ -66,8 +77,8 @@ export const buildSigned = async (
   method: Method,
   path: string,
   body: unknown,
-  critical: boolean,
-  encrypt: boolean,
+  critical: boolean = false,
+  encrypt: boolean = false,
 ): Promise<{ url: string; init: FetchInit }> => {
   const timestamp = Date.now().toString();
   const nonce = randomNonce();

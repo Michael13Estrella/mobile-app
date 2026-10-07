@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-16
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 export const SECURITY = {
   HEADERS: {
     API_KEY: "X-Api-Key",
@@ -7,10 +18,14 @@ export const SECURITY = {
     DBRS_SIGNATURE: "X-DBRS-Signature",
     HMAC_SIGNATURE: "X-HMAC-Signature",
   },
-  PIN: {
+  PASSCODE: {
     LENGTH: 6,
     MAX_ATTEMPTS: 5,
     BCRYPT_ROUNDS: 10,
+  },
+  BIOMETRIC: {
+    // Failed biometric unlocks before the lock screen switches to the passcode.
+    MAX_ATTEMPTS: 5,
   },
   OTP: {
     LENGTH: 6,

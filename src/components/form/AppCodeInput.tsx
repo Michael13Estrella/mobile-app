@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-07-13
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import {
   Control,
   FieldValues,
@@ -18,6 +29,7 @@ import { Typography } from "../../constants/typography";
 import { BrandIcon } from "../icons";
 
 const DEFAULT_LENGTH = 6;
+const MASK_CHARACTER = "◆";
 
 type AppCodeInputProps<T extends FieldValues> = Readonly<{
   control: Control<T>;
@@ -25,6 +37,7 @@ type AppCodeInputProps<T extends FieldValues> = Readonly<{
   length?: number;
   prefix?: string;
   clearErrors?: UseFormClearErrors<T>;
+  secure?: boolean;
 }>;
 
 export function AppCodeInput<T extends FieldValues>({
@@ -33,6 +46,7 @@ export function AppCodeInput<T extends FieldValues>({
   length = DEFAULT_LENGTH,
   prefix,
   clearErrors,
+  secure = false,
 }: AppCodeInputProps<T>) {
   const { colors } = useAppTheme();
 
@@ -74,7 +88,9 @@ export function AppCodeInput<T extends FieldValues>({
             onBlur={onBlur}
             cellCount={length}
             keyboardType="numeric"
-            textContentType="oneTimeCode"
+            // A passcode is not an SMS code, so don't let iOS offer to autofill one.
+            textContentType={secure ? "none" : "oneTimeCode"}
+            autoComplete={secure ? "off" : "one-time-code"}
             rootStyle={styles.codeFieldRoot}
             renderCell={({ index, symbol, isFocused }) => (
               <View
@@ -91,7 +107,7 @@ export function AppCodeInput<T extends FieldValues>({
               >
                 {symbol ? (
                   <Text style={[styles.boxText, { color: cellTextColor }]}>
-                    {symbol}
+                    {secure ? MASK_CHARACTER : symbol}
                   </Text>
                 ) : (
                   isFocused && (

@@ -1,6 +1,17 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-25
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { router } from "expo-router";
 import { useAuth } from "../../../src/hooks/useAuth";
-import { pinService } from "../../../src/services/security/pinService";
+import { passcodeService } from "../../../src/services/security/passcodeService";
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useTranslation } from "../../../src/hooks/useTranslation";
 import { useState } from "react";
@@ -15,7 +26,7 @@ import { AppHeader } from "../../../src/components/common/AppHeader";
 import PasscodeLockIcon from "../../../assets/images/icons/passcode-lock.svg";
 import { AppText } from "../../../src/components/common/AppText";
 
-const PASSCODE_LENGTH = SECURITY.PIN.LENGTH;
+const PASSCODE_LENGTH = SECURITY.PASSCODE.LENGTH;
 const ICON_SIZE = 72;
 
 export default function SetPasscodeScreen() {
@@ -37,7 +48,7 @@ export default function SetPasscodeScreen() {
     setError(null);
 
     try {
-      await pinService.set(user.id, passcode);
+      await passcodeService.set(user.id, passcode);
       // Saved: the user can't come back to this screen with Back
       router.replace("/(protected)/(onboarding)/biometric");
     } catch {

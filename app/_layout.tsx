@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { ReactNode, useEffect, useState } from "react";
 import { Slot, router, useSegments } from "expo-router";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -14,7 +25,7 @@ import {
   setAppReady,
   setLocale,
   setLocked,
-  setNeedsPinSetup,
+  setNeedsPasscodeSetup,
   setThemeMode,
 } from "../src/store/slices/uiSlice";
 import * as SplashScreen from "expo-splash-screen";
@@ -28,7 +39,7 @@ import { lockService } from "../src/services/security/lockService";
 import { usePushNotification } from "../src/hooks/usePushNotification";
 import { Language } from "../src/types/language.types";
 import { StatusBar } from "react-native";
-import { pinService } from "../src/services/security/pinService";
+import { passcodeService } from "../src/services/security/passcodeService";
 import { SplashScreen as AppSplashScreen } from "../src/components/screens/SplashScreen";
 import { useFonts } from "expo-font";
 import {
@@ -75,10 +86,10 @@ if (__DEV__) {
 
 // Single source of truth for where to land right after authentication.
 const resolvePostLoginRoute = (
-  needsPinSetup: boolean,
+  needsPasscodeSetup: boolean,
   needsBiometricPrompt: boolean,
 ): string => {
-  if (needsPinSetup) return "/(protected)/(onboarding)/secure-prompt";
+  if (needsPasscodeSetup) return "/(protected)/(onboarding)/secure-prompt";
   if (needsBiometricPrompt) return "/(protected)/(onboarding)/biometric";
   return "/(protected)/(tabs)/home";
 };
@@ -87,7 +98,9 @@ function AppContent() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
   const isAppReady = useAppSelector((state) => state.ui.isAppReady);
   const isLocked = useAppSelector((state) => state.ui.isLocked);
-  const needsPinSetup = useAppSelector((state) => state.ui.needsPinSetup);
+  const needsPasscodeSetup = useAppSelector(
+    (state) => state.ui.needsPasscodeSetup,
+  );
   const needsBiometricPrompt = useAppSelector(
     (state) => state.ui.needsBiometricPrompt,
   );
@@ -215,11 +228,13 @@ function AppContent() {
         await keycloakService.clearTokens();
       } finally {
         // Re-derive onboarding state on every cold start. Without this, killing the
-        // app mid-onboarding leaves needsPinSetup at its initial 'false' and the
-        // redirect effect sends the user to home with no PIN set.
+        // app mid-onboarding leaves needsPasscodeSetup at its initial 'false' and the
+        // redirect effect sends the user to home with no PASSCODE set.
         const userId = await keycloakService.getCurrentUserId();
         if (userId) {
-          dispatch(setNeedsPinSetup(!(await pinService.isSet(userId))));
+          dispatch(
+            setNeedsPasscodeSetup(!(await passcodeService.isSet(userId))),
+          );
         }
 
         // Decide lock state BEFORE the splash hides (splash hides on isAppReady),
@@ -235,7 +250,7 @@ function AppContent() {
   }, []);
 
   // Redirect based on auth state. Single navigation authority for post-login:
-  // onboarding (no PIN yet) -> set-pin, otherwise home.
+  // onboarding (no PASSCODE yet) -> set-passcode, otherwise home.
   useEffect(() => {
     if (!isAppReady) return; // wait until session is restored
     if (!fontsLoaded) return; // wait until custom fonts are ready
@@ -249,7 +264,7 @@ function AppContent() {
     // a restore whose refresh call hasn't landed yet still belongs post-login
     const hasSession = isAuthenticated || isLocked;
     const postLoginRoute = resolvePostLoginRoute(
-      needsPinSetup,
+      needsPasscodeSetup,
       needsBiometricPrompt,
     );
 
@@ -268,9 +283,9 @@ function AppContent() {
       return;
     }
 
-    // HARD GATE: an authenticated session without a PIN may not sit anywhere in
+    // HARD GATE: an authenticated session without a PASSCODE may not sit anywhere in
     // (protected) except the onboarding group.
-    if (isAuthenticated && needsPinSetup && inProtected && !inOnboarding) {
+    if (isAuthenticated && needsPasscodeSetup && inProtected && !inOnboarding) {
       router.replace("/(protected)/(onboarding)/secure-prompt");
       return;
     }
@@ -287,7 +302,7 @@ function AppContent() {
     isAppReady,
     isLocked,
     needsBiometricPrompt,
-    needsPinSetup,
+    needsPasscodeSetup,
     segments,
   ]);
 

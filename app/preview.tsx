@@ -12,14 +12,21 @@ import SetPasscodeScreen from "./(protected)/(onboarding)/set-passcode";
 import EnableBiometricScreen from "./(protected)/(onboarding)/biometric";
 import RegisterSubmittedScreen from "./(protected)/(onboarding)/submitted";
 import HomeScreen from "./(protected)/(tabs)/home";
+import { PasscodeUnlockScreen } from "../src/components/screens/lock/PasscodeUnlockScreen";
 
 export default function Preview() {
   return (
     // <SplashScreen />
+    <PasscodeUnlockScreen
+      busy={false}
+      error={null}
+      onSubmit={() => {}}
+      onLoginWithPassword={() => {}}
+      onBack={() => {}}
+    />
 
-    // <SetPinScreen />
     // <RegisterAccountScreen />
-    <VerifyEmailScreen />
+    // <VerifyEmailScreen />
     // <RegisterBasicInfoScreen />
     // <RegisterEmploymentInfoScreen />
     // <RegisterContactInfoScreen />

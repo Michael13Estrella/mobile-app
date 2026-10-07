@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-07
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import { Button, Text } from "react-native-paper";
@@ -10,12 +21,12 @@ import { setLocked } from "../../store/slices/uiSlice";
 import { Typography } from "../../constants/typography";
 import { biometricService } from "../../services/security/biometricService";
 import { keycloakService } from "../../services/auth/keycloakService";
-import { pinService } from "../../services/security/pinService";
+import { passcodeService } from "../../services/security/passcodeService";
 import { setTokens, setUser } from "../../store/slices/authSlice";
 import { decodeToken } from "../../utils/tokenUtils";
 import { SECURITY } from "../../constants/security";
 
-const PIN_LENGTH = SECURITY.PIN.LENGTH;
+const PIN_LENGTH = SECURITY.PASSCODE.LENGTH;
 
 export function LockScreen() {
   const { colors } = useAppTheme();
@@ -26,7 +37,7 @@ export function LockScreen() {
   const [bioAvailable, setBioAvailable] = useState(false);
   const [isPinSet, setIsPinSet] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-  const [pin, setPin] = useState("");
+  const [passcode, setPasscode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -48,13 +59,13 @@ export function LockScreen() {
       } else if (result === "invalidated") {
         await fallbackToOidc();
       }
-      // cancelled / fallback -> stay locked; user can use PIN or "another way"
+      // cancelled / fallback -> stay locked; user can use PASSCODE or "another way"
     } finally {
       setBusy(false);
     }
   }, [busy, biometricLogin, dispatch, fallbackToOidc]);
 
-  const submitPin = useCallback(
+  const submitPasscode = useCallback(
     async (value: string) => {
       if (!currentUserId) return fallbackToOidc();
 
@@ -62,11 +73,14 @@ export function LockScreen() {
       setError(null);
 
       try {
-        const { ok, remaining } = await pinService.verify(currentUserId, value);
+        const { ok, remaining } = await passcodeService.verify(
+          currentUserId,
+          value,
+        );
 
         if (ok) {
-          // PIN proves presence; tokens come from a DBRS refresh.
-          const tokens = await keycloakService.refreshAccessToken();
+          // PASSCODE proves presence; tokens come from a DBRS refresh.
+          const tokens = await keycloakService.refreshAccessToken(true);
           if (tokens) {
             dispatch(setTokens(tokens));
             const decoded = decodeToken(tokens.accessToken);
@@ -79,7 +93,7 @@ export function LockScreen() {
           await fallbackToOidc(); // locked out -> OIDC
         } else {
           setError(t("lock.pinWrong", { remaining }));
-          setPin("");
+          setPasscode("");
         }
       } finally {
         setBusy(false);
@@ -98,7 +112,7 @@ export function LockScreen() {
 
       const userId = await keycloakService.getCurrentUserId();
       setCurrentUserId(userId);
-      setIsPinSet(!!userId && (await pinService.isSet(userId)));
+      setIsPinSet(!!userId && (await passcodeService.isSet(userId)));
 
       if (canBio && !dismissedRef.current) unlockBiometric(); // prompt biometrics by default
     })();
@@ -126,14 +140,14 @@ export function LockScreen() {
         <>
           <TextInput
             style={[
-              styles.pin,
+              styles.passcode,
               { color: colors.textPrimary, borderColor: colors.secondary },
             ]}
-            value={pin}
+            value={passcode}
             onChangeText={(v) => {
               const digits = v.replace(/\D/g, "").slice(0, PIN_LENGTH);
-              setPin(digits);
-              if (digits.length === PIN_LENGTH) submitPin(digits);
+              setPasscode(digits);
+              if (digits.length === PIN_LENGTH) void submitPasscode(digits);
             }}
             keyboardType="number-pad"
             secureTextEntry
@@ -175,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: Typography.sizes.lg,
     fontWeight: Typography.weights.semibold,
   },
-  pin: {
+  passcode: {
     borderWidth: 1.5,
     borderRadius: 10,
     fontSize: 24,

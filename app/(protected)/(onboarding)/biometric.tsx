@@ -1,9 +1,20 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-07-10
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useAuth } from "../../../src/hooks/useAuth";
 import { useTranslation } from "../../../src/hooks/useTranslation";
 import { useAppDispatch, useAppSelector } from "../../../src/store";
 import { FC, useEffect, useState } from "react";
-import { setNeedsPinSetup } from "../../../src/store/slices/uiSlice";
+import { setNeedsPasscodeSetup } from "../../../src/store/slices/uiSlice";
 import { router } from "expo-router";
 import { biometricService } from "../../../src/services/security/biometricService";
 import { StyleSheet, View } from "react-native";
@@ -37,7 +48,7 @@ export default function EnableBiometricScreen() {
   const [busy, setBusy] = useState(false);
 
   const finish = () => {
-    dispatch(setNeedsPinSetup(false));
+    dispatch(setNeedsPasscodeSetup(false));
     if (user) void biometricService.clearReprompt(user.id);
     router.replace(
       hasJustRegistered

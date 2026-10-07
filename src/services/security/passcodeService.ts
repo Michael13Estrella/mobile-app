@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-24
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import * as SecureStore from "expo-secure-store";
 import bcrypt from "bcryptjs";
 import QuickCrypto from "react-native-quick-crypto";
@@ -9,23 +20,23 @@ bcrypt.setRandomFallback((len) => Array.from(QuickCrypto.randomBytes(len)));
 const K = SECURITY.STORE_KEYS;
 const hashKey = (kcId: string) => buildUserKey(K.PIN_HASH_PREFIX, kcId);
 const attemptsKey = (kcId: string) => buildUserKey(K.PIN_ATTEMPTS_PREFIX, kcId);
-const MAX_ATTEMPTS = SECURITY.PIN.MAX_ATTEMPTS;
-const ROUNDS = SECURITY.PIN.BCRYPT_ROUNDS;
+const MAX_ATTEMPTS = SECURITY.PASSCODE.MAX_ATTEMPTS;
+const ROUNDS = SECURITY.PASSCODE.BCRYPT_ROUNDS;
 const opts = { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY };
 
-export const pinService = {
+export const passcodeService = {
   isSet: async (kcId: string): Promise<boolean> =>
     (await SecureStore.getItemAsync(hashKey(kcId))) !== null,
 
-  set: async (kcId: string, pin: string): Promise<void> => {
-    const hash = await bcrypt.hash(pin, ROUNDS);
+  set: async (kcId: string, passcode: string): Promise<void> => {
+    const hash = await bcrypt.hash(passcode, ROUNDS);
     await SecureStore.setItemAsync(hashKey(kcId), hash, opts);
     await SecureStore.deleteItemAsync(attemptsKey(kcId));
   },
 
   verify: async (
     kcId: string,
-    pin: string,
+    passcode: string,
   ): Promise<{ ok: boolean; remaining: number }> => {
     const hash = await SecureStore.getItemAsync(hashKey(kcId));
     if (!hash) return { ok: false, remaining: 0 };
@@ -36,7 +47,7 @@ export const pinService = {
 
     if (attempts >= MAX_ATTEMPTS) return { ok: false, remaining: 0 };
 
-    if (bcrypt.compareSync(pin, hash)) {
+    if (bcrypt.compareSync(passcode, hash)) {
       await SecureStore.deleteItemAsync(attemptsKey(kcId));
       return { ok: true, remaining: MAX_ATTEMPTS };
     }
