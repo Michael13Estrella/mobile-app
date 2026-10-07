@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 const FONT_BRAND_REGULAR = "MetrobankSans-Regular";
 const FONT_BRAND_BOLD = "MetrobankSans-Bold";
 const FONT_GLOBAL_REGULAR = "NotoSans-Regular";

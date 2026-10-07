@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-24
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useEffect, useRef } from "react";
 import { useAppDispatch } from "../store";
 import { setLocked } from "../store/slices/uiSlice";

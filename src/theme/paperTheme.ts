@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { MD3LightTheme, MD3DarkTheme } from "react-native-paper";
 import { LightColors, DarkColors } from "../constants/colors";
 import { Typography } from "../constants/typography";

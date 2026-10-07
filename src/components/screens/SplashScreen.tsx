@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-17
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { LinearGradient } from "expo-linear-gradient";
 import { Palette } from "../../constants/palette";
 import {
@@ -9,6 +20,8 @@ import {
 } from "react-native";
 import { Spacing } from "../../constants/spacing";
 import { Typography } from "../../constants/typography";
+import ESCUDO_S from "../../../assets/images/diamonds/escudo-S.png";
+import ESCUDO_L from "../../../assets/images/diamonds/escudo-L.png";
 
 const SPLASH_DIAMONDS = {
   top: {
@@ -22,9 +35,6 @@ const SPLASH_DIAMONDS = {
     centerOffsetRatio: -0.37,
   },
 } as const;
-
-const ESCUDO_S = require("../../../assets/images/diamonds/escudo-S.png");
-const ESCUDO_L = require("../../../assets/images/diamonds/escudo-L.png");
 
 // Read the aspect ratio from the files themselves, so replacing an
 // image never requires touching the numbers here.

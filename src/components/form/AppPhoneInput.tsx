@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-17
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { Control, FieldValues, Path } from "react-hook-form";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import CountryFlag from "react-native-country-flag";

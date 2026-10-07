@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-07-13
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { Image, ImageStyle, StyleProp } from "react-native";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import logoForDarkBg from "../../../assets/images/metro-send-for-dark.png";

@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-08-27
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useMemo, useState } from "react";
 import { useTranslation } from "../../../src/hooks/useTranslation";
 import { useAppDispatch, useAppSelector } from "../../../src/store";

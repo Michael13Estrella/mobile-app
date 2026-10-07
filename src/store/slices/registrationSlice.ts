@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-07-21
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthTokens, RegisterRequest } from "../../types";
 

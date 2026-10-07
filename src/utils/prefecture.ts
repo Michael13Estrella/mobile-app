@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-06
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 // Matches a prefecture name (e.g. from the postal lookup) to the list:
 // "AOMORI KEN", "Aomori" or "aomori" -> "AOMORI KEN". Not found -> "" so the
 

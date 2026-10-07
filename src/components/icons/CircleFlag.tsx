@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-05
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { FC } from "react";
 import { SvgProps } from "react-native-svg";
 import JpFlag from "../../../assets/flags/circle/jp.svg";

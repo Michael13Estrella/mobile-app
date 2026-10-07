@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-08
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { ComponentProps, useCallback, useState } from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { TextInput } from "react-native-paper";

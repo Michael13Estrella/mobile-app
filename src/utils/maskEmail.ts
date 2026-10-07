@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-15
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 const VISIBLE_PREFIX_LENGTH = 2;
 const MASK_LENGTH = 4;
 const MASK_CHAR = "*";

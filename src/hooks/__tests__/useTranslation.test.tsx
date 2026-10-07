@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-08-25
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { configureStore } from "@reduxjs/toolkit";
 import { act, renderHook } from "@testing-library/react-native";
 import uiReducer, {

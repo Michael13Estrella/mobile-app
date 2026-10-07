@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-25
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";

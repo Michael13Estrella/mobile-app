@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { Platform } from "react-native";
 
 const ANDROID_EMULATOR_HOST = process.env.EXPO_PUBLIC_ANDROID_LOCALHOST;

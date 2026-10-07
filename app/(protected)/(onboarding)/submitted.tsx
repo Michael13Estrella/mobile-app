@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-05
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { router } from "expo-router";
 import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useTranslation } from "../../../src/hooks/useTranslation";

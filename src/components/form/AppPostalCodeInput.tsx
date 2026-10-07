@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-17
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useRef, useState } from "react";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { Pressable, StyleSheet, TextInput, View } from "react-native";

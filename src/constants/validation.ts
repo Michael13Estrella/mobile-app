@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-08-28
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 // 半角 (half-width) Romaji only: standard printable ASCII range.
 // Rejects full-width Latin (Ａ), kanji, hiragana, katakana, and any other
 // non-ASCII character.

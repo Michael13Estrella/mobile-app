@@ -1,3 +1,13 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-05
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ExchangeRate } from "../types/exchangeRate.types";
 import { exchangeRateService } from "../services/exchangeRate/exchangeRateService";

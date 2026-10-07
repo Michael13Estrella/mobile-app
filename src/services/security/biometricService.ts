@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-23
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import ReactNativeBiometrics, { BiometryType } from "react-native-biometrics";
 import * as SecureStore from "expo-secure-store";
 import { SECURITY } from "../../constants/security";

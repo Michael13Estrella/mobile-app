@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-06-04
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import i18n from "../locales/_i18n";
 import { useAppDispatch, useAppSelector } from "../store";
 import { setLocale as setLocaleAction } from "../store/slices/uiSlice";

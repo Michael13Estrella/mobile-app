@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-01
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 export type PhoneCountry = Readonly<{
   dialCode: string; // without "+", the value the API expects in mobileCountryCode
   isoAlpha2: string; // ISO 3166-1 alpha-2 for the flag

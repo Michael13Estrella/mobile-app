@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-09-16
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../constants/spacing";
 import { useAppTheme } from "../../../hooks/useAppTheme";

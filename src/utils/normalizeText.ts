@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-02
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 // Keyboards (iOS Smart Punctuation, some Android keyboards) replace plain
 // punctuation with typographic characters that fail half-width validation
 // and aren't what the backend expects. Convert them back to ASCII.

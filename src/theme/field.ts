@@ -1,6 +1,16 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-01
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 // Single source of truth for how every form field looks.
 // Components read from here; they never pick field sizes or colors themselves.
-
 import { AppColors } from "../constants/colors";
 import { Spacing } from "../constants/spacing";
 
