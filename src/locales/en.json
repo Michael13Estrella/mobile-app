@@ -274,7 +274,7 @@
 
   "------------------------------ LOCK SCREEN ------------------------------": "",
   "lockScreen": {
-    "greeting": "Welcome back, {{name}}",
+    "greeting": "Welcome back, {{name}}!",
     "loginWithBiometrics": "Log in with biometrics",
     "loginWithPasscode": "Log in with passcode",
     "loginWithPassword": "Log in with password",
@@ -287,13 +287,6 @@
     }
   },
 
-  "lock": {
-    "title": "App locked",
-    "enterPin": "Enter Passcode",
-    "useBiometric": "Use biometrics",
-    "useAnotherWay": "Use another way",
-    "pinWrong": "Incorrect Passcode. {{remaining}} attempts left."
-  },
   "otp": {
     "title": "Enter one time passcode (OTP)",
     "subtitle": "We emailed you a 6-digit code.",

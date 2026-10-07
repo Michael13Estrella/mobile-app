@@ -13,16 +13,35 @@ import EnableBiometricScreen from "./(protected)/(onboarding)/biometric";
 import RegisterSubmittedScreen from "./(protected)/(onboarding)/submitted";
 import HomeScreen from "./(protected)/(tabs)/home";
 import { PasscodeUnlockScreen } from "../src/components/screens/lock/PasscodeUnlockScreen";
+import { LockWelcomeScreen } from "../src/components/screens/lock/LockWelcomeScreen";
 
 export default function Preview() {
   return (
     // <SplashScreen />
-    <PasscodeUnlockScreen
+    // <PasscodeUnlockScreen
+    //   busy={false}
+    //   error={null}
+    //   onSubmit={() => {}}
+    //   onLoginWithPassword={() => {}}
+    //   onBack={() => {}}
+    // />
+
+    <LockWelcomeScreen
+      method={"biometric"}
+      biometryType={null}
       busy={false}
-      error={null}
-      onSubmit={() => {}}
-      onLoginWithPassword={() => {}}
-      onBack={() => {}}
+      onBiometricLogin={function (): void {
+        throw new Error("Function not implemented.");
+      }}
+      onPasscodeLogin={function (): void {
+        throw new Error("Function not implemented.");
+      }}
+      onLoginWithPassword={function (): void {
+        throw new Error("Function not implemented.");
+      }}
+      onForgotPassword={function (): void {
+        throw new Error("Function not implemented.");
+      }}
     />
 
     // <RegisterAccountScreen />

@@ -34,7 +34,7 @@ import { getLocales } from "expo-localization";
 import i18n from "../src/locales/_i18n";
 import { deviceEnrollmentService } from "../src/services/security/deviceEnrollmentService";
 import { useAppLock } from "../src/hooks/useAppLock";
-import { LockScreen } from "../src/components/screens/LockScreen";
+import { LockScreen } from "../src/components/screens/lock/LockScreen";
 import { lockService } from "../src/services/security/lockService";
 import { usePushNotification } from "../src/hooks/usePushNotification";
 import { Language } from "../src/types/language.types";

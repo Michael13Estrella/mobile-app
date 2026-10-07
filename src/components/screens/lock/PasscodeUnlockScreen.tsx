@@ -20,7 +20,6 @@ import { AppButton } from "../../common/AppButton";
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../constants/spacing";
 import PasscodeLockIcon from "../../../../assets/images/icons/passcode-lock.svg";
-import { router } from "expo-router";
 import { AppText } from "../../common/AppText";
 import { AppCodeInput } from "../../form/AppCodeInput";
 import { AppTextButton } from "../../common/AppTextButton";
@@ -69,7 +68,7 @@ export function PasscodeUnlockScreen({
       header={
         <AppHeader
           title={t("lockScreen.passcode.headerTitle")}
-          onBack={() => router.back()}
+          onBack={onBack}
         />
       }
       footer={

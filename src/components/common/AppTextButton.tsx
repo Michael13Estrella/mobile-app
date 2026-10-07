@@ -14,6 +14,7 @@ import { useAppTheme } from "../../hooks/useAppTheme";
 import { Typography } from "../../constants/typography";
 import { ActivityIndicator } from "react-native-paper";
 import { AppText } from "./AppText";
+import { Spacing } from "../../constants/spacing";
 
 type TextAlign = "left" | "center" | "right";
 
@@ -69,7 +70,8 @@ export function AppTextButton({
 const styles = StyleSheet.create({
   container: {
     alignSelf: "stretch",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    paddingVertical: Spacing.s3,
   },
   label: {
     fontSize: Typography.sizes.md,
