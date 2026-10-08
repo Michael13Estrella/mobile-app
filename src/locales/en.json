@@ -23,7 +23,8 @@
     "noResults": "No results found.",
     "login": "Log in",
     "signUp": "Sign up",
-    "optional": "(Optional)"
+    "optional": "(Optional)",
+    "signingIn": "Signing in"
   },
   "------------------------------ FORM ------------------------------": "",
   "form": {
@@ -286,10 +287,14 @@
       "forgot": "Forgot your passcode?"
     }
   },
-
+  "------------------------------ OTP SCREEN ------------------------------": "",
   "otp": {
-    "title": "Enter one time passcode (OTP)",
-    "subtitle": "We emailed you a 6-digit code.",
+    "headerTitle": "Verification",
+    "title": "Enter your email OTP",
+    "subtitle": {
+      "before": "We sent a 6-digit OTP to your",
+      "emphasis": "email address"
+    },
     "placeholder": "______",
     "verify": "Verify",
     "resend": "Send another code",

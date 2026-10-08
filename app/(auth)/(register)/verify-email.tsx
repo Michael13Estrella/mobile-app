@@ -25,15 +25,15 @@ import { Spacing } from "../../../src/constants/spacing";
 import { useAppSelector } from "../../../src/store";
 import { maskEmail } from "../../../src/utils/maskEmail";
 import { useForm, useWatch } from "react-hook-form";
-import { AppTextButton } from "../../../src/components/common/AppTextButton";
-import { formatCooldown } from "../../../src/utils/formatCooldown";
 import { AppToast } from "../../../src/components/common/AppToast";
 import { RegisterStepper } from "../../../src/components/features/register/RegisterStepper";
 import { AppText } from "../../../src/components/common/AppText";
 import Mail02 from "../../../assets/images/icons/mail-02.svg";
+import { OtpResendRow } from "../../../src/components/features/otp/OtpResendRow";
 
 const OTP_LENGTH = SECURITY.OTP.LENGTH;
 const RESEND_COOLDOWN_SECONDS = SECURITY.OTP.RESEND_COOLDOWN_SECONDS;
+const EMAIL_PREFIX = SECURITY.OTP.EMAIL_PREFIX;
 
 export default function VerifyEmailScreen() {
   const { verifyEmail, resendCheckEmail } = useRegistration();
@@ -113,7 +113,7 @@ export default function VerifyEmailScreen() {
         />
       }
     >
-      <View style={styles.imageContainer}>
+      <View style={styles.iconContainer}>
         <Mail02 />
       </View>
 
@@ -132,36 +132,17 @@ export default function VerifyEmailScreen() {
       <AppCodeInput
         control={control}
         name="otp"
-        prefix="EM -"
+        prefix={EMAIL_PREFIX}
         length={OTP_LENGTH}
         clearErrors={clearErrors}
       />
 
-      {cooldown > 0 ? (
-        <AppText
-          typographyType="body3"
-          weight="regular"
-          color={colors.textSecondary}
-        >
-          {t("otp.resendIn")}
-          {"  "}
-          <AppText
-            typographyType="button3"
-            weight="bold"
-            color={colors.textBrandPrimary}
-          >
-            {formatCooldown(cooldown)}
-          </AppText>
-        </AppText>
-      ) : (
-        <AppTextButton
-          label={t("otp.resend")}
-          loading={resending}
-          disabled={resending}
-          align="left"
-          onPress={handleResend}
-        />
-      )}
+      <OtpResendRow
+        cooldown={cooldown}
+        resending={resending}
+        disabled={verifying}
+        onResend={handleResend}
+      />
 
       <View style={styles.spacer} />
 
@@ -176,7 +157,7 @@ export default function VerifyEmailScreen() {
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
+  iconContainer: {
     alignItems: "center",
   },
   titleContainer: {

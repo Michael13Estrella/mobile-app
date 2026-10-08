@@ -47,7 +47,7 @@ export default function WelcomeScreen() {
     // failure/cancel: login() already dispatched the error. Force a return to
     // welcome in case the OIDC deep-link race left us stranded on callback's
     // AuthLoadingOverlay with nothing else to navigate away from it.
-    router.replace("/(auth)/welcome");
+    router.dismissTo("/(auth)/welcome");
   };
 
   const handleCreateAccount = () => {

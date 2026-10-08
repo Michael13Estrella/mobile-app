@@ -9,14 +9,16 @@
  * 3.
  ********************************************************************************************/
 
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useAppTheme } from "../../hooks/useAppTheme";
-import { Typography } from "../../constants/typography";
 import { ActivityIndicator } from "react-native-paper";
 import { AppText } from "./AppText";
 import { Spacing } from "../../constants/spacing";
 
 type TextAlign = "left" | "center" | "right";
+
+// Extra touch area around the text, so a short label is still easy to tap.
+const HIT_SLOP = Spacing.s3;
 
 type AppTextButtonProps = Readonly<{
   label: string;
@@ -46,24 +48,28 @@ export function AppTextButton({
   const isDisabled = disabled || loading;
 
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={isDisabled}
-      hitSlop={8}
-      style={[styles.container, { alignItems: alignToFlex(align) }]}
-    >
-      {loading ? (
-        <ActivityIndicator size="small" color={colors.buttonPrimary} />
-      ) : (
-        <AppText
-          typographyType={size}
-          weight="bold"
-          color={colors.buttonPrimary}
-        >
-          {label}
-        </AppText>
-      )}
-    </Pressable>
+    // Layout box: takes the row/column space and positions the button.
+    <View style={[styles.container, { alignItems: alignToFlex(align) }]}>
+      {/* Touch area: only as big as the label (plus HIT_SLOP). */}
+      <Pressable
+        onPress={onPress}
+        disabled={isDisabled}
+        hitSlop={8}
+        style={styles.pressable}
+      >
+        {loading ? (
+          <ActivityIndicator size="small" color={colors.buttonPrimary} />
+        ) : (
+          <AppText
+            typographyType={size}
+            weight="bold"
+            color={colors.buttonPrimary}
+          >
+            {label}
+          </AppText>
+        )}
+      </Pressable>
+    </View>
   );
 }
 
@@ -71,10 +77,8 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: "stretch",
     justifyContent: "center",
-    paddingVertical: Spacing.s3,
   },
-  label: {
-    fontSize: Typography.sizes.md,
-    fontWeight: Typography.weights.semibold,
+  pressable: {
+    paddingVertical: Spacing.s3,
   },
 });

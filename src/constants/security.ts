@@ -30,6 +30,7 @@ export const SECURITY = {
   OTP: {
     LENGTH: 6,
     RESEND_COOLDOWN_SECONDS: 30,
+    EMAIL_PREFIX: "EM -",
   },
   STORE_KEYS: {
     DEVICE_PRIVATE: "device_private_key",

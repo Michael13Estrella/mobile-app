@@ -73,6 +73,7 @@ import {
   GLOBAL_WEIGHT_FONTS_EN,
   GLOBAL_WEIGHT_FONTS_JA,
 } from "../src/constants/typography";
+import { AuthLoadingOverlay } from "../src/components/screens/AuthLoadingOverlay";
 
 const SPLASH_MIN_DURATION_MS = 3000;
 
@@ -95,9 +96,10 @@ const resolvePostLoginRoute = (
 };
 
 function AppContent() {
-  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
-  const isAppReady = useAppSelector((state) => state.ui.isAppReady);
-  const isLocked = useAppSelector((state) => state.ui.isLocked);
+  const isAuthenticated = useAppSelector((s) => s.auth.isAuthenticated);
+  const isAppReady = useAppSelector((s) => s.ui.isAppReady);
+  const isLocked = useAppSelector((s) => s.ui.isLocked);
+  const isAuthenticating = useAppSelector((s) => s.ui.isAuthenticating);
   const needsPasscodeSetup = useAppSelector(
     (state) => state.ui.needsPasscodeSetup,
   );
@@ -309,6 +311,7 @@ function AppContent() {
   return (
     <>
       <Slot />
+      {isAuthenticating && <AuthLoadingOverlay />}
       {isLocked && <LockScreen />}
       {showAppSplash && <AppSplashScreen />}
     </>

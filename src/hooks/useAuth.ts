@@ -43,6 +43,7 @@ import {
   StatusResponse,
 } from "../types";
 import {
+  setAuthenticating,
   setNeedsBiometricPrompt,
   setNeedsPasscodeSetup,
 } from "../store/slices/uiSlice";
@@ -118,6 +119,9 @@ export const useAuth = () => {
   }> => {
     if (!request || isLoading) return { status: "failed" };
 
+    // Set when the OTP screen opens: it removes the overlay itself on mount.
+    let opensOtp = false;
+
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
@@ -132,6 +136,9 @@ export const useAuth = () => {
         return { status: "failed" };
       }
 
+      // The browser has closed: cover Welcome while the code is exchanged.
+      dispatch(setAuthenticating(true));
+
       const body: AuthExchangeRequest = {
         code: result.params.code,
         codeVerifier: request?.codeVerifier ?? "",
@@ -144,8 +151,10 @@ export const useAuth = () => {
         body,
       );
 
-      if (res.data?.otpRequired && res.data.txId)
+      if (res.data?.otpRequired && res.data.txId) {
+        opensOtp = true;
         return { status: "otp", txId: res.data.txId };
+      }
 
       if (res.status === 423) {
         const lockoutMsg = firstErrorMessage(res.errors);
@@ -162,6 +171,8 @@ export const useAuth = () => {
       return { status: "failed" };
     } finally {
       dispatch(setLoading(false));
+      // Any failure returns to Welcome, so the overlay must go.
+      if (!opensOtp) dispatch(setAuthenticating(false));
     }
   }, [promptAsync, request, dispatch, isLoading, redirectUri]);
 

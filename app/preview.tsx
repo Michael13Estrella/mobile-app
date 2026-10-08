@@ -14,6 +14,8 @@ import RegisterSubmittedScreen from "./(protected)/(onboarding)/submitted";
 import HomeScreen from "./(protected)/(tabs)/home";
 import { PasscodeUnlockScreen } from "../src/components/screens/lock/PasscodeUnlockScreen";
 import { LockWelcomeScreen } from "../src/components/screens/lock/LockWelcomeScreen";
+import OtpScreen from "./(auth)/otp";
+import { AuthLoadingOverlay } from "../src/components/screens/AuthLoadingOverlay";
 
 export default function Preview() {
   return (
@@ -26,23 +28,23 @@ export default function Preview() {
     //   onBack={() => {}}
     // />
 
-    <LockWelcomeScreen
-      method={"biometric"}
-      biometryType={null}
-      busy={false}
-      onBiometricLogin={function (): void {
-        throw new Error("Function not implemented.");
-      }}
-      onPasscodeLogin={function (): void {
-        throw new Error("Function not implemented.");
-      }}
-      onLoginWithPassword={function (): void {
-        throw new Error("Function not implemented.");
-      }}
-      onForgotPassword={function (): void {
-        throw new Error("Function not implemented.");
-      }}
-    />
+    // <LockWelcomeScreen
+    //   method={"biometric"}
+    //   biometryType={null}
+    //   busy={false}
+    //   onBiometricLogin={function (): void {
+    //     throw new Error("Function not implemented.");
+    //   }}
+    //   onPasscodeLogin={function (): void {
+    //     throw new Error("Function not implemented.");
+    //   }}
+    //   onLoginWithPassword={function (): void {
+    //     throw new Error("Function not implemented.");
+    //   }}
+    //   onForgotPassword={function (): void {
+    //     throw new Error("Function not implemented.");
+    //   }}
+    // />
 
     // <RegisterAccountScreen />
     // <VerifyEmailScreen />
@@ -56,6 +58,10 @@ export default function Preview() {
     // <SetPasscodeScreen />
     // <EnableBiometricScreen />
     // <RegisterSubmittedScreen />
+
+    // <OtpScreen />
+
+    <AuthLoadingOverlay />
 
     // <HomeScreen />
   );

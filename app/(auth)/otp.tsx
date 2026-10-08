@@ -25,30 +25,56 @@ import { setAuthenticating } from "../../src/store/slices/uiSlice";
 import { SECURITY } from "../../src/constants/security";
 import { useCooldown } from "../../src/hooks/useCooldown";
 import { useForm, useWatch } from "react-hook-form";
+import { clear } from "node:console";
+import { clearError } from "../../src/store/slices/authSlice";
+import { Spacing } from "../../src/constants/spacing";
+import { AppScreen } from "../../src/components/common/AppScreen";
+import { AppHeader } from "../../src/components/common/AppHeader";
+import Mail02 from "../../assets/images/icons/mail-02.svg";
+import { AppText } from "../../src/components/common/AppText";
+import { OtpResendRow } from "../../src/components/features/otp/OtpResendRow";
+import { AppToast } from "../../src/components/common/AppToast";
 
 const OTP_LENGTH = SECURITY.OTP.LENGTH;
 const RESEND_COOLDOWN_SECONDS: number = SECURITY.OTP.RESEND_COOLDOWN_SECONDS;
+const EMAIL_PREFIX = SECURITY.OTP.EMAIL_PREFIX;
 
+// Login step 2: the server emailed a code (txId identifies the attempt)
 export default function OtpScreen() {
   const { txId: initialTxId } = useLocalSearchParams<{ txId: string }>();
   const { verifyOtp, resendOtp, error } = useAuth();
   const { colors } = useAppTheme();
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
   const [txId, setTxId] = useState(initialTxId);
-  const { control, setValue } = useForm({ defaultValues: { otp: "" } });
+  const { control, setValue, setError, clearErrors } = useForm({
+    defaultValues: { otp: "" },
+  });
   const otp = useWatch({ control, name: "otp" }) ?? "";
 
   const [verifying, setVerifying] = useState(false);
   const [resending, setResending] = useState(false);
-  const { cooldown, startCooldown } = useCooldown();
+  const [showResendToast, setShowResendToast] = useState(false);
+  // The login just sent the first code, so resending starts on cooldown
+  const { cooldown, startCooldown } = useCooldown(RESEND_COOLDOWN_SECONDS);
 
-  const submit = async () => {
+  useEffect(() => {
+    dispatch(setAuthenticating(false));
+    dispatch(clearError()); // don't show an error left over from the login
+  }, [dispatch]);
+
+  // useAuth reports wrong/expired codes and resend failures; show them under
+  // the boxes (typing clears it)
+  useEffect(() => {
+    if (error) setError("otp", { message: error });
+  }, [error, setError]);
+
+  const handleSubmit = async () => {
     if (!txId || otp.length !== OTP_LENGTH || verifying) return;
     setVerifying(true);
     try {
+      // Success: the root layout leaves (auth) once the session exists.
       const result = await verifyOtp(txId, otp);
       if (result === "locked") {
         router.replace("/(auth)/welcome");
@@ -65,94 +91,86 @@ export default function OtpScreen() {
     setResending(true);
     try {
       const newTxId = await resendOtp(txId);
-      if (__DEV__) {
-        console.log(`Resend OTP: OLD=${txId} NEW=${newTxId}`);
-      }
-      if (newTxId) {
-        setTxId(newTxId);
-        setValue("otp", "");
-        startCooldown(RESEND_COOLDOWN_SECONDS);
-      }
+      if (!newTxId) return; // the message arrives through `error`
+      setTxId(newTxId);
+      setValue("otp", "");
+      setShowResendToast(true);
+      startCooldown(RESEND_COOLDOWN_SECONDS);
     } finally {
       setResending(false);
     }
   };
 
-  useEffect(() => {
-    dispatch(setAuthenticating(false));
-  }, []);
-
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          backgroundColor: colors.backgroundVariant,
-          paddingTop: insets.top + 24,
-        },
-      ]}
+    <AppScreen
+      gradient
+      header={
+        <AppHeader
+          title={t("otp.headerTitle")}
+          onBack={() => {
+            router.dismissTo("(auth)/welcome");
+          }}
+        />
+      }
+      footer={
+        <AppButton
+          label={t("common.next")}
+          variant="gradient"
+          loading={verifying}
+          disabled={verifying || otp.length !== OTP_LENGTH}
+          onPress={handleSubmit}
+        />
+      }
     >
-      {/* <Image source={logo} style={styles.logo} resizeMode="contain" /> */}
-      <AppLogo style={styles.logo} />
+      <View style={styles.iconContainer}>
+        <Mail02 />
+      </View>
 
-      <Text style={[styles.title, { color: colors.textPrimary }]}>
-        {t("otp.title")}
-      </Text>
-      <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-        {t("otp.subtitle")}
-      </Text>
+      <View style={styles.titleContainer}>
+        <AppText typographyType="h3" color={colors.textPrimary}>
+          {t("otp.title")}
+        </AppText>
+        <AppText typographyType="body2" color={colors.textSecondary}>
+          {t("otp.subtitle.before")}{" "}
+          <AppText typographyType="body2" weight="bold">
+            {t("otp.subtitle.emphasis")}
+          </AppText>
+        </AppText>
+      </View>
 
-      <AppCodeInput control={control} name="otp" length={OTP_LENGTH} />
-
-      {!!error && <Text style={{ color: colors.error }}>{error}</Text>}
-
-      <AppButton
-        label={t("otp.verify")}
-        variant="solid"
-        loading={verifying}
-        disabled={verifying || otp.length !== OTP_LENGTH}
-        onPress={submit}
-        style={styles.verify}
+      <AppCodeInput
+        control={control}
+        name="otp"
+        prefix={EMAIL_PREFIX}
+        length={OTP_LENGTH}
+        clearErrors={clearErrors}
       />
 
-      <AppButton
-        label={
-          cooldown > 0
-            ? t("otp.resendIn", { seconds: cooldown })
-            : t("otp.resend")
-        }
-        variant="ghost"
-        loading={resending}
-        disabled={resending || cooldown > 0 || verifying}
-        onPress={handleResend}
-      />
-
-      <AppButton
-        label={t("common.cancel")}
-        variant="ghost"
+      <OtpResendRow
+        cooldown={cooldown}
+        resending={resending}
         disabled={verifying}
-        onPress={() => router.push("/welcome")}
+        onResend={handleResend}
       />
-    </View>
+
+      <View style={styles.spacer} />
+
+      <AppToast
+        message={t("otp.resendSuccessMsg")}
+        variant="success"
+        visible={showResendToast}
+        onDismiss={() => setShowResendToast(false)}
+      />
+    </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 24, gap: 8 },
-  logo: { width: 200, height: 40, marginBottom: 16 },
-  title: {
-    fontSize: Typography.sizes.xl,
-    fontWeight: Typography.weights.bold,
+  iconContainer: {
+    alignItems: "center",
   },
-  subtitle: { fontSize: Typography.sizes.md, marginBottom: 16 },
-  input: {
-    borderWidth: 1.5,
-    borderRadius: 10,
-    fontSize: 24,
-    letterSpacing: 8,
-    textAlign: "center",
-    width: 220,
-    paddingVertical: 12,
+  titleContainer: {
+    gap: Spacing.s3,
   },
-  verify: { marginTop: 16 },
+  spacer: { flex: 1 },
 });
