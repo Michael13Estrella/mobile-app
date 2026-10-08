@@ -10,22 +10,18 @@
  ********************************************************************************************/
 
 import { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAuth } from "../../src/hooks/useAuth";
 import { useAppTheme } from "../../src/hooks/useAppTheme";
 import { useTranslation } from "../../src/hooks/useTranslation";
 import { AppButton } from "../../src/components/common/AppButton";
 import { AppCodeInput } from "../../src/components/form/AppCodeInput";
-import { Typography } from "../../src/constants/typography";
-import { AppLogo } from "../../src/components/common/AppLogo";
 import { useAppDispatch } from "../../src/store";
 import { setAuthenticating } from "../../src/store/slices/uiSlice";
 import { SECURITY } from "../../src/constants/security";
 import { useCooldown } from "../../src/hooks/useCooldown";
 import { useForm, useWatch } from "react-hook-form";
-import { clear } from "node:console";
 import { clearError } from "../../src/store/slices/authSlice";
 import { Spacing } from "../../src/constants/spacing";
 import { AppScreen } from "../../src/components/common/AppScreen";
