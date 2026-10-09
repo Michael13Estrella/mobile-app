@@ -21,12 +21,13 @@ import { userStorageService } from "../storage/userStorageService";
 
 // Foreground display behavior (banner + sound while app is open)
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowBanner: true,
-    shouldShowList: true,
-    shouldPlaySound: true,
-    shouldSetBadge: true,
-  }),
+  handleNotification: () =>
+    Promise.resolve({
+      shouldShowBanner: true,
+      shouldShowList: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
 });
 
 // projectId comes from EAS config - never hardcode it.

@@ -11,22 +11,7 @@
 
 import { StyleSheet } from "react-native";
 import { ComingSoonScreen } from "../../../src/components/screens/ComingSoonScreen";
-import { useEffect } from "react";
-import { remitterService } from "../../../src/services/remitter/remitterService";
-import { useDashboard } from "../../../src/hooks/useDashboard";
-
 export default function HomeScreen() {
-  const { data, isLoading, hasError } = useDashboard();
-
-  useEffect(() => {
-    void remitterService.fetchDashboardStats().then((data) => {
-      if (__DEV__)
-        console.log("dashboardStats:", { isLoading, hasError, loaded: !!data });
-    });
-
-    console.log("test");
-  }, []);
-
   return <ComingSoonScreen title={"Home"} />;
 }
 
