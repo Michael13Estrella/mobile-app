@@ -16,6 +16,7 @@ import { PasscodeUnlockScreen } from "../src/components/screens/lock/PasscodeUnl
 import { LockWelcomeScreen } from "../src/components/screens/lock/LockWelcomeScreen";
 import OtpScreen from "./(auth)/otp";
 import { AuthLoadingOverlay } from "../src/components/screens/AuthLoadingOverlay";
+import { ComingSoonScreen } from "../src/components/screens/ComingSoonScreen";
 
 export default function Preview() {
   return (
@@ -61,8 +62,10 @@ export default function Preview() {
 
     // <OtpScreen />
 
-    <AuthLoadingOverlay />
+    // <AuthLoadingOverlay />
 
-    // <HomeScreen />
+    <HomeScreen />
+
+    // <ComingSoonScreen title={"test"} />
   );
 }

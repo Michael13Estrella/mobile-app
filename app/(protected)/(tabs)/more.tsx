@@ -1,3 +1,14 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-08
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
 import { View, StyleSheet } from "react-native";
 import { Text } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -7,7 +18,7 @@ import { Typography } from "../../../src/constants/typography";
 import { ScreenWrapper } from "../../../src/components/layout/ScreenWrapper";
 import { MenuRow } from "../../../src/components/common/MenuRow";
 
-export default function MenuScreen() {
+export default function MoreScreen() {
   const { colors } = useAppTheme();
   const { signOut, user } = useAuth();
 

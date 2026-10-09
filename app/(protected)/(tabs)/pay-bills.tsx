@@ -9,17 +9,10 @@
  * 3.
  ********************************************************************************************/
 
-import { StyleSheet } from "react-native";
 import { ComingSoonScreen } from "../../../src/components/screens/ComingSoonScreen";
+import { useTranslation } from "../../../src/hooks/useTranslation";
 
-export default function HomeScreen() {
-  return <ComingSoonScreen title={"Home"} />;
+export default function PayBillsScreen() {
+  const { t } = useTranslation();
+  return <ComingSoonScreen title={t("tabs.payBills")} />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

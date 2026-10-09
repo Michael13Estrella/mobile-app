@@ -302,6 +302,15 @@
     "resendSuccessMsg": "We've sent a new code to your email address"
   },
 
+  "------------------------------ TABS ------------------------------": "",
+  "tabs": {
+    "home": "Home",
+    "beneficiaries": "Beneficiaries",
+    "sendMoney": "Send Money",
+    "payBills": "Pay Bills",
+    "more": "More"
+  },
+
   "biometric": {
     "promptMessage": "Authenticate to continue."
   },
@@ -328,12 +337,7 @@
       "biometricLogin": "Biometric Login"
     }
   },
-  "tabs": {
-    "home": "Home",
-    "profile": "Profile",
-    "history": "History",
-    "menu": "Menu"
-  },
+
   "home": {
     "title": "Home",
     "greeting": "Hello, {{name}}",
