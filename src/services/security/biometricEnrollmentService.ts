@@ -16,7 +16,7 @@ import {
   StatusResponse,
 } from "../../types";
 import { apiClient } from "../api/apiClient";
-import { userService } from "../user/userService";
+import { userStorageService } from "../storage/userStorageService";
 import { biometricService } from "./biometricService";
 
 export const biometricEnrollment = {
@@ -41,7 +41,7 @@ export const biometricEnrollment = {
         promptMessage,
       );
 
-      const remitterGuid = await userService.getRemitterGuid(userId);
+      const remitterGuid = await userStorageService.getRemitterGuid(userId);
       if (!remitterGuid) {
         throw new Error("Missing remitter guid");
       }

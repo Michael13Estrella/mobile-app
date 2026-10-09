@@ -232,7 +232,7 @@ function AppContent() {
         // Re-derive onboarding state on every cold start. Without this, killing the
         // app mid-onboarding leaves needsPasscodeSetup at its initial 'false' and the
         // redirect effect sends the user to home with no PASSCODE set.
-        const userId = await keycloakService.getCurrentUserId();
+        const userId = await keycloakService.getCurrentKcId();
         if (userId) {
           dispatch(
             setNeedsPasscodeSetup(!(await passcodeService.isSet(userId))),

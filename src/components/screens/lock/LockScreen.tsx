@@ -26,6 +26,7 @@ export function LockScreen() {
     isReady,
     method,
     biometryType,
+    displayName,
     busy,
     passcodeError,
     unlockWithBiometrics,
@@ -80,6 +81,7 @@ export function LockScreen() {
       <LockWelcomeScreen
         method={method}
         biometryType={biometryType}
+        displayName={displayName}
         busy={busy}
         onBiometricLogin={() => void unlockWithBiometrics()}
         onPasscodeLogin={() => setView("passcode")}

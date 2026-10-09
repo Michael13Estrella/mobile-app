@@ -49,6 +49,7 @@ import {
 } from "../store/slices/uiSlice";
 import { notificationService } from "../services/notifications/notificationService";
 import { firstErrorMessage } from "../utils/apiErrors";
+import { userStorageService } from "../services/storage/userStorageService";
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();
@@ -346,7 +347,8 @@ export const useAuth = () => {
   const signOut = useCallback(async () => {
     if (!user) return;
 
-    await notificationService.unregister(user.id).catch(() => {});
+    await notificationService.unregister(user.id).catch(() => undefined);
+    await userStorageService.clearDisplayName(user.id).catch(() => undefined);
     await keycloakService.clearTokens(); // delete access + refresh
     dispatch(logout());
   }, [dispatch]);

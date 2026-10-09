@@ -16,8 +16,8 @@ import { Platform } from "react-native";
 import { apiClient } from "../api/apiClient";
 import { ENDPOINTS } from "../../constants/endpoints";
 import { store } from "../../store";
-import { userService } from "../user/userService";
 import { deviceService } from "../security/deviceService";
+import { userStorageService } from "../storage/userStorageService";
 
 // Foreground display behavior (banner + sound while app is open)
 Notifications.setNotificationHandler({
@@ -67,7 +67,7 @@ export const notificationService = {
     const kcId = store.getState().auth.user?.id;
     if (!kcId) return;
 
-    const remitterGuid = await userService.getRemitterGuid(kcId);
+    const remitterGuid = await userStorageService.getRemitterGuid(kcId);
     if (!remitterGuid) return;
 
     const deviceid = await deviceService.getDeviceId();
@@ -85,7 +85,7 @@ export const notificationService = {
 
   // Clear this device's token on the backend (called on logout).
   unregister: async (kcId: string): Promise<void> => {
-    const remitterGuid = await userService.getRemitterGuid(kcId);
+    const remitterGuid = await userStorageService.getRemitterGuid(kcId);
     if (!remitterGuid) return;
 
     const deviceid = await deviceService.getDeviceId();

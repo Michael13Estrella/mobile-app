@@ -18,3 +18,5 @@ export * from "./notification.types";
 export * from "./user.types";
 export * from "./register.types";
 export * from "./icon.types";
+export * from "./remitter.types";
+export * from "./dashboard.types";

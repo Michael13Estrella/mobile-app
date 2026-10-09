@@ -84,19 +84,19 @@ describe("getCurrentUserId", () => {
       id: "user-9",
       email: "a@b.com",
     });
-    await expect(keycloakService.getCurrentUserId()).resolves.toBe("user-9");
+    await expect(keycloakService.getCurrentKcId()).resolves.toBe("user-9");
   });
 
   it("returns null when there is no token (and never decodes)", async () => {
     (SecureStore.getItemAsync as jest.Mock).mockResolvedValue(null);
-    await expect(keycloakService.getCurrentUserId()).resolves.toBeNull();
+    await expect(keycloakService.getCurrentKcId()).resolves.toBeNull();
     expect(decodeToken).not.toHaveBeenCalled();
   });
 
   it("returns null when the token is present but cannot be decoded", async () => {
     (SecureStore.getItemAsync as jest.Mock).mockResolvedValue("bad-token");
     (decodeToken as jest.Mock).mockReturnValue(null);
-    await expect(keycloakService.getCurrentUserId()).resolves.toBeNull();
+    await expect(keycloakService.getCurrentKcId()).resolves.toBeNull();
   });
 });
 

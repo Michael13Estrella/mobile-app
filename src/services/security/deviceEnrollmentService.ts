@@ -19,7 +19,7 @@ import {
 import { Language } from "../../types/language.types";
 import { buildUserKey } from "../../utils/secureStoreKeys";
 import { apiClient } from "../api/apiClient";
-import { userService } from "../user/userService";
+import { userStorageService } from "../storage/userStorageService";
 import { deviceService } from "./deviceService";
 import * as SecureStore from "expo-secure-store";
 
@@ -39,7 +39,7 @@ export const deviceEnrollmentService = {
   },
 
   ensureRemitterGuid: async (kcId: string): Promise<string> => {
-    const existing = await userService.getRemitterGuid(kcId);
+    const existing = await userStorageService.getRemitterGuid(kcId);
     if (existing) return existing;
 
     const { ok, data } = await apiClient.plain.get<RemitterGuidResponse>(
@@ -49,7 +49,7 @@ export const deviceEnrollmentService = {
     if (!ok || !data?.remitterGuid)
       throw new Error("Failed to fetch remitter guid");
 
-    await userService.setRemitterGuid(kcId, data.remitterGuid);
+    await userStorageService.setRemitterGuid(kcId, data.remitterGuid);
     return data.remitterGuid;
   },
 

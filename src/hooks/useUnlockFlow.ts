@@ -21,6 +21,7 @@ import { setTokens, setUser } from "../store/slices/authSlice";
 import { decodeToken } from "../utils/tokenUtils";
 import { biometricService } from "../services/security/biometricService";
 import { BiometryType } from "react-native-biometrics";
+import { userStorageService } from "../services/storage/userStorageService";
 
 const MAX_BIOMETRIC_ATTEMPTS = SECURITY.BIOMETRIC.MAX_ATTEMPTS;
 
@@ -37,6 +38,8 @@ export function useUnlockFlow() {
   const [isReady, setIsReady] = useState(false);
   const [method, setMethod] = useState<QuickUnlockMethod>("passcode");
   const [biometryType, setBiometryType] = useState<BiometryType | null>(null);
+  // Saved by the dashboard; null on a new device / before the first load
+  const [displayName, setDisplayName] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [passcodeError, setPasscodeError] = useState<string | null>(null);
@@ -130,7 +133,12 @@ export function useUnlockFlow() {
       const canUseBiometrics =
         !!bioUserId && (await biometricService.canUseBiometricLogin(bioUserId));
 
-      setUserId(await keycloakService.getCurrentUserId());
+      const currentKcId = await keycloakService.getCurrentKcId();
+      setUserId(currentKcId);
+      if (currentKcId) {
+        setDisplayName(await userStorageService.getDisplayName(currentKcId));
+      }
+
       if (canUseBiometrics) {
         const capability = await biometricService.isAvailable();
         setBiometryType(capability.biometryType ?? null);
@@ -150,6 +158,7 @@ export function useUnlockFlow() {
     isReady,
     method,
     biometryType,
+    displayName,
     busy,
     passcodeError,
     unlockWithBiometrics,

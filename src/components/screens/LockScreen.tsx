@@ -110,7 +110,7 @@ export function LockScreen() {
         !!bioUserId && (await biometricService.canUseBiometricLogin(bioUserId));
       setBioAvailable(canBio);
 
-      const userId = await keycloakService.getCurrentUserId();
+      const userId = await keycloakService.getCurrentKcId();
       setCurrentUserId(userId);
       setIsPinSet(!!userId && (await passcodeService.isSet(userId)));
 

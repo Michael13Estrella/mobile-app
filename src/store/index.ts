@@ -16,6 +16,7 @@ import uiReducer from "./slices/uiSlice";
 import registrationReducer from "./slices/registrationSlice";
 import referenceDataReducer from "./slices/referenceDataSlice";
 import nationalityReducer from "./slices/nationalitySlice";
+import remitterReducer from "./slices/remitterSlice";
 import { apiService } from "../services/api/apiService";
 
 export const store = configureStore({
@@ -25,6 +26,7 @@ export const store = configureStore({
     registration: registrationReducer,
     referenceData: referenceDataReducer,
     nationality: nationalityReducer,
+    remitter: remitterReducer,
     [apiService.reducerPath]: apiService.reducer,
   },
   middleware: (getDefaultMiddleware) =>

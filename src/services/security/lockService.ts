@@ -17,7 +17,7 @@ export const lockService = {
     const hasSession = (await keycloakService.getRefreshToken()) !== null;
     if (!hasSession) return false;
 
-    const currentUserId = await keycloakService.getCurrentUserId();
+    const currentUserId = await keycloakService.getCurrentKcId();
     return !!currentUserId && (await passcodeService.isSet(currentUserId));
   },
 };

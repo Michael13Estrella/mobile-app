@@ -275,7 +275,8 @@
 
   "------------------------------ LOCK SCREEN ------------------------------": "",
   "lockScreen": {
-    "greeting": "Welcome back, {{name}}!",
+    "greeting": "Welcome back!",
+    "greetingWithName": "Welcome back, {{name}}!",
     "loginWithBiometrics": "Log in with biometrics",
     "loginWithPasscode": "Log in with passcode",
     "loginWithPassword": "Log in with password",

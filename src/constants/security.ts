@@ -45,6 +45,7 @@ export const SECURITY = {
     PIN_HASH_PREFIX: "pin_hash_", // + kcId
     PIN_ATTEMPTS_PREFIX: "pin_attempts_", // + kcId
     REMITTER_GUID_PREFIX: "remitter_guid_", // + kcId
+    DISPLAY_NAME_PREFIX: "display_name_", // + kcId - lock screen greeting
   },
   CRYPTO: {
     AEAD_ALGORITHM: "aes-256-gcm",

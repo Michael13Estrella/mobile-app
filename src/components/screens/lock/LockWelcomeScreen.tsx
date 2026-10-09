@@ -34,6 +34,7 @@ const biometricIcon = (type: BiometryType | null): IconName =>
 type LockWelcomeScreenProps = Readonly<{
   method: QuickUnlockMethod;
   biometryType: BiometryType | null;
+  displayName: string | null;
   busy: boolean;
   onBiometricLogin: () => void;
   onPasscodeLogin: () => void;
@@ -45,6 +46,7 @@ type LockWelcomeScreenProps = Readonly<{
 export function LockWelcomeScreen({
   method,
   biometryType,
+  displayName,
   busy,
   onBiometricLogin,
   onPasscodeLogin,
@@ -56,8 +58,9 @@ export function LockWelcomeScreen({
   const insets = useSafeAreaInsets();
   const shadows = resolveShadows(colors);
 
-  // TODO (getRemitter): use "lockScreen.greetingWithName" once the remitter's name is available.
-  const greeting = t("lockScreen.greeting", { name: "Mike" });
+  const greeting = displayName
+    ? t("lockScreen.greetingWithName", { name: displayName })
+    : t("lockScreen.greeting");
 
   const isBiometric = method === "biometric";
 

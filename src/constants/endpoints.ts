@@ -35,6 +35,10 @@ export const ENDPOINTS = {
   BIOMETRIC_ENROLL: (remitterGuid: string) =>
     `/api/biometric/${remitterGuid}/enroll`,
 
+  // Remitter
+  REMITTER_DASHBOARD_STATS: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/dashboard-stats`,
+
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>
     `/api/notifications/${remitterGuid}/register-push-notification`,

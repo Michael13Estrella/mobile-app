@@ -44,7 +44,7 @@ export const keycloakService = {
   getRefreshToken: tokenService.getRefreshToken,
   clearTokens: tokenService.clearTokens,
 
-  getCurrentUserId: async (): Promise<string | null> => {
+  getCurrentKcId: async (): Promise<string | null> => {
     const token = await keycloakService.getAccessToken();
     return token ? (decodeToken(token)?.id ?? null) : null;
   },
