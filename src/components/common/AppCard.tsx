@@ -12,7 +12,6 @@
 import React from "react";
 import { StyleSheet, View, ViewStyle } from "react-native";
 import { useAppTheme } from "../../hooks/useAppTheme";
-import { Palette } from "../../constants/palette";
 import { Spacing } from "../../constants/spacing";
 import { resolveShadows } from "../../theme/shadows";
 
