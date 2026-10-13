@@ -1,4 +1,3 @@
-import { colors } from "react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/colors";
 import { AppColors } from "../constants/colors";
 
 type ShadowLayer = Readonly<{
