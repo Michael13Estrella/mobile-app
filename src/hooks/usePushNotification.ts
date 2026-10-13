@@ -37,20 +37,26 @@ export function usePushNotification() {
     isLockedRef.current = isLocked;
   }, [isLocked]);
 
-  // 1) Register + sync token while authenticated; handle rotation + cold-start tap
+  // 1) Register + sync the Expo token while authenticated.
   useEffect(() => {
     if (!isAuthenticated) return;
 
     let cancelled = false;
-    (async () => {
+    const register = async () => {
       const token = await notificationService.registerForPushToken();
-      if (__DEV__) console.log("[push] token:", token);
       if (!cancelled && token) await notificationService.syncToken(token);
-    })();
+    };
+    void register();
 
-    // The Expo token can rotate while the app runs - re-sync when it does
+    // Fires with the NATIVE device token (APNs/FCM), not the Expo token -
+    // also every time register() fetches the Expo token. Only a real change
+    // of the device token (rotation) needs a new Expo token; reacting to
+    // every event would loop (register -> event -> register ...).
+    let deviceToken: string | null = null;
     const tokenSub = Notifications.addPushTokenListener(({ data }) => {
-      notificationService.syncToken(data).catch(() => {});
+      const rotated = deviceToken !== null && deviceToken !== data;
+      deviceToken = data;
+      if (rotated) register().catch(() => {});
     });
 
     return () => {

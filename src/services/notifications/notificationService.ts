@@ -34,6 +34,10 @@ Notifications.setNotificationHandler({
 const projectId =
   Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;
 
+// Last token registered successfully with the backend (per user), so the
+// same token isn't sent again (e.g. when the token listener fires on launch)
+let lastSynced: Readonly<{ kcId: string; token: string }> | null = null;
+
 export const notificationService = {
   // Ask permission + return an Expo push token (null if denied / not a real device)
   registerForPushToken: async (): Promise<string | null> => {
@@ -68,6 +72,8 @@ export const notificationService = {
     const kcId = store.getState().auth.user?.id;
     if (!kcId) return;
 
+    if (lastSynced?.kcId === kcId && lastSynced.token === token) return;
+
     const remitterGuid = await userStorageService.getRemitterGuid(kcId);
     if (!remitterGuid) return;
 
@@ -82,10 +88,13 @@ export const notificationService = {
       },
     );
     if (__DEV__) console.log("[push] register ->", res.status, res.ok);
+    if (res.ok) lastSynced = { kcId, token };
   },
 
   // Clear this device's token on the backend (called on logout).
   unregister: async (kcId: string): Promise<void> => {
+    lastSynced = null; // a later login must register again
+
     const remitterGuid = await userStorageService.getRemitterGuid(kcId);
     if (!remitterGuid) return;
 
