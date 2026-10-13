@@ -14,6 +14,7 @@ import { StyleSheet, View, ViewStyle } from "react-native";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { Palette } from "../../constants/palette";
 import { Spacing } from "../../constants/spacing";
+import { resolveShadows } from "../../theme/shadows";
 
 const CARD_RADIUS = 16;
 const CARD_BORDER_WIDTH = 1;
@@ -34,6 +35,7 @@ export const AppCard = ({
   children,
 }: AppCardProps) => {
   const { colors } = useAppTheme();
+  const shadows = resolveShadows(colors);
 
   return (
     <View
@@ -41,7 +43,7 @@ export const AppCard = ({
         styles.card,
         { backgroundColor: colors.surface },
         variant === "elevated"
-          ? styles.elevated
+          ? { boxShadow: shadows.tinted01Bottom }
           : [styles.outlined, { borderColor: colors.borderSubtle }],
         style,
       ]}
@@ -56,13 +58,6 @@ const styles = StyleSheet.create({
     borderRadius: CARD_RADIUS,
     padding: Spacing.s5,
     gap: Spacing.s4,
-  },
-  elevated: {
-    shadowColor: Palette.mbAzure500,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
-    shadowOpacity: 0.1,
-    elevation: 3,
   },
   outlined: {
     borderWidth: CARD_BORDER_WIDTH,

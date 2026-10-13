@@ -19,3 +19,18 @@ export const formatCurrency = (
     currency,
   }).format(amount);
 };
+
+// Amounts are shown with 2 decimals, the currency code next to them
+// (e.g. "JPY" + "1,000,000.00")
+const AMOUNT_FRACTION_DIGITS = 2;
+
+// "1,000,000.00" (amount only, no currency symbol).
+export const formatAmount = (
+  amount: number,
+  locale: string,
+  fractionDigits: number = AMOUNT_FRACTION_DIGITS,
+): string =>
+  new Intl.NumberFormat(locale, {
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
+  }).format(amount);

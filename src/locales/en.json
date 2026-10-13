@@ -24,7 +24,8 @@
     "login": "Log in",
     "signUp": "Sign up",
     "optional": "(Optional)",
-    "signingIn": "Signing in"
+    "signingIn": "Signing in",
+    "viewAll": "View all"
   },
   "------------------------------ FORM ------------------------------": "",
   "form": {
@@ -312,6 +313,24 @@
     "more": "More"
   },
 
+  "------------------------------ HOME ------------------------------": "",
+  "home": {
+    "welcome": "Welcome!",
+    "welcomeWithName": {
+      "before": "Welcome, ",
+      "after": "!"
+    },
+    "lastLogin": "Last Login: {{date}}",
+    "wallet": {
+      "addToWallet": "Add to Wallet",
+      "estimate": "(approx.)",
+      "disclaimer": "These are estimated amounts of your JPY wallet based on current exchange rates and may change at any time."
+    },
+    "beneficiaries": {
+      "add": "Add Beneficiary"
+    }
+  },
+
   "biometric": {
     "promptMessage": "Authenticate to continue."
   },
@@ -337,14 +356,5 @@
       "label": "Security",
       "biometricLogin": "Biometric Login"
     }
-  },
-
-  "home": {
-    "title": "Home",
-    "greeting": "Hello, {{name}}",
-    "sendMoney": "Send Money",
-    "recentTransactions": "Recent Transactions",
-    "noRecentTransactions": "No recent transactions",
-    "exchangeRate": "Exchange Rate"
   }
 }

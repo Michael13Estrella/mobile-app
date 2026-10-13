@@ -18,7 +18,7 @@ import { useExchangeRates } from "../../hooks/useExchangeRates";
 import { ExchangeRate } from "../../types/exchangeRate.types";
 import { AppText } from "./AppText";
 import { formatDateTime } from "../../utils/formatDate";
-import { BrandIcon, CircleFlag } from "../icons";
+import { BrandIcon, BrandCountryFlag } from "../icons";
 import { CURRENCY_COUNTRY } from "../../constants/currency";
 
 const FLAG_SIZE = 24;
@@ -36,7 +36,11 @@ const RIGHT_SIDE_SHARE = 4;
 // empty space of the same size, so rows stay aligned.
 function CurrencyFlag({ currency }: Readonly<{ currency: string }>) {
   return (
-    <CircleFlag code={CURRENCY_COUNTRY[currency] ?? ""} size={FLAG_SIZE} />
+    <BrandCountryFlag
+      code={CURRENCY_COUNTRY[currency] ?? ""}
+      size={FLAG_SIZE}
+      shape="circle"
+    />
   );
 }
 

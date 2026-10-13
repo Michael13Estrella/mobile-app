@@ -23,6 +23,9 @@ export const Palette = {
   mbBlue900: "#000829",
   mbBlue950: "#00051B",
 
+  mbxBlue600: "#0A39FF",
+  mbxBlue800: "#001A88",
+
   mbBlueAlpha05: "rgba(0, 16, 82, 0.05)", // rgba(0,16,82) -> #001052
   mbBlueAlpha10: "rgba(0, 16, 82, 0.10)",
   mbBlueAlpha20: "rgba(0, 16, 82, 0.20)",
@@ -169,6 +172,7 @@ export const Palette = {
   white020: "rgba(255, 255, 255, 0.20)",
   white010: "rgba(255, 255, 255, 0.10)",
   white005: "rgba(255, 255, 255, 0.05)",
+  white000: "rgba(255, 255, 255, 0.00)",
 
   black100: "#0E101B",
   black090: "rgba(14, 16, 27, 0.90)",

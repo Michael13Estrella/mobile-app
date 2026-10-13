@@ -14,6 +14,7 @@
 import { Remitter } from "./remitter.types";
 
 export interface RecentBeneficiary {
+  beneficiaryGuid: string;
   beneficiaryType: string;
   firstName: string;
   lastName: string;

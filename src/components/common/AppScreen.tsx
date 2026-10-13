@@ -9,9 +9,10 @@
  * 3.
  ********************************************************************************************/
 
-import { ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import {
   LayoutChangeEvent,
+  RefreshControlProps,
   StyleProp,
   StyleSheet,
   View,
@@ -42,22 +43,26 @@ type AppScreenProps = Readonly<{
   header?: ReactNode;
   footer?: ReactNode;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  contentGap?: number;
   gradient?: boolean;
   gradientColors?: GradientColors;
   gradientStart?: GradientPoint;
   gradientEnd?: GradientPoint;
   children?: ReactNode;
+  refreshControl?: ReactElement<RefreshControlProps>;
 }>;
 
 export function AppScreen({
   header,
   footer,
   contentContainerStyle,
+  contentGap,
   gradient,
   gradientColors,
   gradientStart = DEFAULT_GRADIENT_START,
   gradientEnd = DEFAULT_GRADIENT_END,
   children,
+  refreshControl,
 }: AppScreenProps) {
   const { colors } = useAppTheme();
   const insets = useSafeAreaInsets();
@@ -93,6 +98,7 @@ export function AppScreen({
         style={[styles.transparent, styles.fill]}
         contentContainerStyle={[
           styles.content,
+          { gap: contentGap === undefined ? Spacing.s7 : contentGap },
           !header && { paddingTop: insets.top },
           !footer && {
             paddingBottom: insets.bottom + BOTTOM_PADDING_EXTRA,
@@ -101,6 +107,7 @@ export function AppScreen({
         ]}
         bottomOffset={visibleFooterHeight + FOCUSED_INPUT_GAP}
         keyboardShouldPersistTaps="handled"
+        refreshControl={refreshControl}
       >
         {children}
       </KeyboardAwareScrollView>
@@ -146,7 +153,6 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     padding: Spacing.s7,
-    gap: Spacing.s7,
   },
   transparent: {
     backgroundColor: "transparent",

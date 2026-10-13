@@ -12,22 +12,30 @@
 import { StyleSheet, ViewStyle, TouchableOpacity, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { useAppTheme } from "../../hooks/useAppTheme";
-import { Typography } from "../../constants/typography";
 import { OldPalette } from "../../constants/colors";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MaskedView from "@react-native-masked-view/masked-view";
-import { IconName } from "../../types";
 import { Spacing } from "../../constants/spacing";
 import { Palette } from "../../constants/palette";
 import { AppText } from "./AppText";
+import { GradientBorder } from "./GradientBorder";
+import { BrandIcon, BrandIconName } from "../icons";
 
 type ButtonVariant =
   | "solid"
   | "gradient"
   | "gradientOutline"
   | "outline"
-  | "ghost";
+  | "ghost"
+  | "glass";
+
+const ICON_SIZE = 18;
+
+const BUTTON_RADIUS = 24;
+const GLASS_BORDER_WIDTH = 1;
+const GLASS_BORDER_LOCATIONS = [0, 0.5, 1] as const;
+const GLASS_BORDER_START = { x: 0.21, y: -1.37 };
+const GLASS_BORDER_END = { x: 0.79, y: 2.37 };
 
 const GRADIENT_BORDER_WIDTH = 1.5;
 
@@ -39,14 +47,14 @@ type AppButtonProps = Readonly<{
   disabled?: boolean;
   fullWidth?: boolean;
   style?: ViewStyle;
-  icon?: IconName;
+  icon?: BrandIconName;
   onDark?: boolean;
 }>;
 
 type ContentProps = Readonly<{
   loading: boolean;
   label: string;
-  icon?: IconName;
+  icon?: BrandIconName;
   textColor: string;
   spinnerColor: string;
 }>;
@@ -62,9 +70,14 @@ function ButtonContent({
   return (
     <>
       {icon ? (
-        <MaterialCommunityIcons name={icon} size={20} color={textColor} />
+        <BrandIcon name={icon} size={ICON_SIZE} color={textColor} />
       ) : null}
-      <AppText typographyType="button1" weight="bold" color={textColor}>
+      <AppText
+        typographyType="button1"
+        weight="bold"
+        color={textColor}
+        style={styles.label}
+      >
         {label}
       </AppText>
     </>
@@ -73,7 +86,7 @@ function ButtonContent({
 
 type GradientLabelRowProps = Readonly<{
   label: string;
-  icon?: IconName;
+  icon?: BrandIconName;
   hidden?: boolean;
 }>;
 
@@ -82,10 +95,8 @@ type GradientLabelRowProps = Readonly<{
 function GradientLabelRow({ label, icon, hidden }: GradientLabelRowProps) {
   return (
     <View style={[styles.gradientTextRow, hidden && styles.hidden]}>
-      {icon ? (
-        <MaterialCommunityIcons name={icon} size={20} color="black" />
-      ) : null}
-      <AppText typographyType="button1" weight="bold">
+      {icon ? <BrandIcon name={icon} size={ICON_SIZE} color="black" /> : null}
+      <AppText typographyType="button1" weight="bold" style={styles.label}>
         {label}
       </AppText>
     </View>
@@ -134,7 +145,7 @@ type GradientOutlineButtonProps = Readonly<{
   loading: boolean;
   spinnerColor: string;
   label: string;
-  icon?: IconName;
+  icon?: BrandIconName;
 }>;
 
 function GradientOutlineButton({
@@ -219,6 +230,10 @@ export const AppButton = ({
     ghost: {
       text: onDark ? OldPalette.white : colors.buttonPrimary,
     },
+    glass: {
+      background: colors.buttonGlassBackground,
+      text: colors.textOnBrand,
+    },
     disabled: {
       background: onDark
         ? OldPalette.slate700
@@ -233,6 +248,7 @@ export const AppButton = ({
     gradientOutline: colors.buttonPrimary,
     outline: resolvedColors.outline.text,
     ghost: resolvedColors.ghost.text,
+    glass: resolvedColors.glass.text,
   };
 
   const styleByVariant: Record<ButtonVariant, ViewStyle> = {
@@ -249,6 +265,9 @@ export const AppButton = ({
       borderColor: resolvedColors.outline.border,
     },
     ghost: { backgroundColor: "transparent" },
+    glass: {
+      backgroundColor: resolvedColors.glass.background,
+    },
   };
 
   const disabledStyleByVariant: Record<ButtonVariant, ViewStyle> = {
@@ -257,6 +276,7 @@ export const AppButton = ({
     gradientOutline: { backgroundColor: resolvedColors.disabled.background },
     outline: { backgroundColor: resolvedColors.disabled.background },
     ghost: { backgroundColor: "transparent" },
+    glass: { backgroundColor: resolvedColors.glass.background },
   };
 
   const isTransparentVariant = variant === "outline" || variant === "ghost";
@@ -327,6 +347,20 @@ export const AppButton = ({
       ]}
     >
       {content}
+      {variant == "glass" && !isDisabled && (
+        <GradientBorder
+          colors={[
+            colors.buttonGlassBorderStart,
+            colors.buttonGlassBorderMiddle,
+            colors.buttonGlassBorderEnd,
+          ]}
+          locations={GLASS_BORDER_LOCATIONS}
+          start={GLASS_BORDER_START}
+          end={GLASS_BORDER_END}
+          radius={BUTTON_RADIUS}
+          width={GLASS_BORDER_WIDTH}
+        />
+      )}
     </TouchableOpacity>
   );
 };
@@ -334,20 +368,18 @@ export const AppButton = ({
 const styles = StyleSheet.create({
   button: {
     height: 48,
-    borderRadius: Spacing.s7,
+    borderRadius: BUTTON_RADIUS,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: Spacing.s3,
-    paddingHorizontal: Spacing.s7,
+    gap: Spacing.s2,
+    paddingHorizontal: Spacing.s4,
   },
   fullWidth: {
     width: "100%",
   },
   label: {
-    fontSize: Typography.sizes.md,
-    fontWeight: Typography.weights.semibold,
-    letterSpacing: 0.5,
+    lineHeight: undefined,
   },
   gradientOutlineBorder: {
     borderRadius: 30,
@@ -365,7 +397,7 @@ const styles = StyleSheet.create({
   gradientTextRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: Spacing.s2,
   },
   hidden: {
     opacity: 0,

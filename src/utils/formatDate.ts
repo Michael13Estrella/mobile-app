@@ -9,9 +9,10 @@
  * 3.
  ********************************************************************************************/
 
+import { INTL_LOCALE } from "../constants/locale";
 import { Language } from "../types/language.types";
 
-const DEFAULT_LOCALE = "en-US";
+const DEFAULT_LOCALE = INTL_LOCALE.en;
 
 export const formatDate = (
   dateString: string,
@@ -38,6 +39,20 @@ export const formatDateTime = (
     hour: "2-digit",
     minute: "2-digit",
     timeZone,
+  });
+};
+
+export const formatDateTimeWithSeconds = (
+  dateString: string,
+  locale: string = DEFAULT_LOCALE,
+): string => {
+  return new Date(dateString).toLocaleDateString(locale, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
   });
 };
 

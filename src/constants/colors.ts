@@ -73,6 +73,8 @@ export const LightColors = {
 
   // Shadow
   shadowTintedLow: Palette.mbAzureAlpha10,
+  shadowTintedMedium: Palette.mbAzureAlpha20,
+  shadowNeutralLow: Palette.mbBlueAlpha05,
 
   // Brand gradient (active tab icons, gradient rings): purple -> blue
   brandGradientStart: Palette.mbHelio500,
@@ -170,6 +172,23 @@ export const LightColors = {
   listItemSelectedBg: Palette.sysSkyBlue500,
   listSectionHeaderBg: Palette.mbGrey050,
 
+  // Wallet card
+  walletCardGradientStart: Palette.mbxBlue600,
+  walletCardGradientEnd: Palette.mbxBlue800,
+  walletCardBorder: "#1048E5",
+  walletCardOverlay: Palette.black020,
+  // Pattern shapes: the brighter blue Figma's "overlay" blend produces
+  // on the card (RN has no blend modes).
+  walletCardPattern: Palette.mbxBlue600,
+  textOnBrand: Palette.white100,
+  textOnBrandSecondary: Palette.white075,
+  textOnBrandMedium: Palette.white080,
+  // "Glass" button
+  buttonGlassBackground: Palette.white040,
+  buttonGlassBorderStart: Palette.white050,
+  buttonGlassBorderMiddle: Palette.white000,
+  buttonGlassBorderEnd: Palette.white025,
+
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",
 } as const;
@@ -182,6 +201,8 @@ export const DarkColors = {
 
   // Shadow
   shadowTintedLow: Palette.mbAzureAlpha10,
+  shadowTintedMedium: Palette.mbAzureAlpha20,
+  shadowNeutralLow: Palette.mbBlueAlpha05,
 
   // Brand gradient (active tab icons, gradient rings): purple -> blue
   brandGradientStart: Palette.mbHelio500,
@@ -278,6 +299,23 @@ export const DarkColors = {
   // Selection List
   listItemSelectedBg: Palette.mbAzure050,
   listSectionHeaderBg: Palette.mbGrey050,
+
+  // Wallet card
+  walletCardGradientStart: Palette.mbxBlue600,
+  walletCardGradientEnd: Palette.mbxBlue800,
+  walletCardBorder: Palette.white020,
+  walletCardOverlay: Palette.black020,
+  // Pattern shapes: the brighter blue Figma's "overlay" blend produces
+  // on the card (RN has no blend modes).
+  walletCardPattern: Palette.mbxBlue600,
+  textOnBrand: Palette.white100,
+  textOnBrandSecondary: Palette.white075,
+  textOnBrandMedium: Palette.white080,
+  // "Glass" button
+  buttonGlassBackground: Palette.white025,
+  buttonGlassBorderStart: Palette.white050,
+  buttonGlassBorderMiddle: Palette.white000,
+  buttonGlassBorderEnd: Palette.white025,
 
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",

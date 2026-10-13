@@ -15,3 +15,9 @@ export const CURRENCY_COUNTRY: Readonly<Record<string, string>> = {
   PHP: "PH",
   USD: "US",
 };
+
+// Currency of the remitter's wallet
+export const WALLET_CURRENCY = "JPY";
+
+// Estimated wallet value shown in these currencies, in this order.
+export const WALLET_ESTIMATE_CURRENCIES = ["PHP", "USD"] as const;
