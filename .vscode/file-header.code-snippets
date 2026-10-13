@@ -1,0 +1,21 @@
+{
+  "MBJ file header": {
+    "scope": "typescript,typescriptreact,javascript,javascriptreact",
+    "prefix": "header",
+    "body": [
+      "/*******************************************************************************************",
+      " * System Name    MBJ Mobile App",
+      " * Author Name    Michael ESTRELLA",
+      " * Create Date    $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      " *",
+      " * Edit History",
+      " * 1.",
+      " * 2.",
+      " * 3.",
+      " ********************************************************************************************/",
+      "",
+      "$0",
+    ],
+    "description": "MBJ Mobile App file header with today's date",
+  }
+}
