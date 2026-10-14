@@ -9,11 +9,13 @@
  * 3.
  ********************************************************************************************/
 
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../constants/spacing";
-import { Typography } from "../../constants/typography";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { BrandIcon } from "../icons";
+import { AppText } from "../common/AppText";
+
+const ICON_SIZE = 16;
 
 type FieldHelperTextProps = Readonly<{
   errorMessage?: string;
@@ -37,12 +39,12 @@ export function FieldHelperText({
       <View style={styles.helperRow}>
         <BrandIcon
           name="alertTriangleSolid"
-          size={14}
+          size={ICON_SIZE}
           color={colors.iconError}
         />
-        <Text style={[styles.helperText, { color: colors.textError }]}>
+        <AppText typographyType="body4" color={colors.textError}>
           {errorMessage}
-        </Text>
+        </AppText>
       </View>
     );
   }
@@ -52,12 +54,12 @@ export function FieldHelperText({
       <View style={styles.helperRow}>
         <BrandIcon
           name="checkCircleSolid"
-          size={14}
+          size={ICON_SIZE}
           color={colors.iconSuccess}
         />
-        <Text style={[styles.helperText, { color: colors.textSuccess }]}>
+        <AppText typographyType="body4" color={colors.textSuccess}>
           {successText}
-        </Text>
+        </AppText>
       </View>
     );
   }
@@ -67,12 +69,12 @@ export function FieldHelperText({
       <View style={styles.helperRow}>
         <BrandIcon
           name="infoSquareSolid"
-          size={14}
-          color={colors.iconSecondary}
+          size={ICON_SIZE}
+          color={colors.iconTertiary}
         />
-        <Text style={[styles.helperText, { color: colors.textSecondary }]}>
+        <AppText typographyType="body4" color={colors.textTertiary}>
           {hintText}
-        </Text>
+        </AppText>
       </View>
     );
   }
@@ -86,8 +88,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: Spacing.s3,
     marginRight: Spacing.s5,
-  },
-  helperText: {
-    fontSize: Typography.sizes.xs,
   },
 });

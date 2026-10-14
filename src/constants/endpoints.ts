@@ -58,6 +58,8 @@ export const ENDPOINTS = {
     `/api/reference-master/postal/${postalCode}`,
   REFERENCE_PHILIPPINE_AREAS: (keyword: string) =>
     `/api/reference-master/philippine-areas/${keyword}`,
+  REFERENCE_CHARGES: "/api/reference-master/charges",
+
   EXCHANGE_RATES_CACHED: "/api/reference-master/exrates-cache",
   EXCHANGE_RATES_LIVE: "/api/reference-master/exrates-non-cache",
 

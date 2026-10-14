@@ -21,3 +21,15 @@ export const WALLET_CURRENCY = "JPY";
 
 // Estimated wallet value shown in these currencies, in this order.
 export const WALLET_ESTIMATE_CURRENCIES = ["PHP", "USD"] as const;
+
+// Decimals each currency has (JPY has no smaller unit than 1 yen).
+export const CURRENCY_FRACTION_DIGITS: Readonly<Record<string, number>> = {
+  JPY: 0,
+  PHP: 2,
+  USD: 2,
+};
+
+// Currencies a beneficiary can receive, in the order of the switch/
+// JPY is the only offered in some cases (see RemittanceSimulator's allowJpy)
+export const RECEIVE_CURRENCIES = ["PHP", "USD", "JPY"] as const;
+export type ReceiveCurrency = (typeof RECEIVE_CURRENCIES)[number];

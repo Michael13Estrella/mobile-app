@@ -20,3 +20,4 @@ export * from "./register.types";
 export * from "./icon.types";
 export * from "./remitter.types";
 export * from "./dashboard.types";
+export * from "./charge.types";

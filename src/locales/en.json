@@ -13,6 +13,7 @@
     "next": "Next",
     "submit": "Submit",
     "done": "Done",
+    "send": "Send",
     "retry": "Retry",
     "close": "Close",
     "loading": "Loading...",
@@ -328,6 +329,14 @@
     },
     "beneficiaries": {
       "add": "Add Beneficiary"
+    },
+    "simulator": {
+      "title": "Remittance Simulator",
+      "subtitle": "Enter an amount and receive instant currency conversions in real time.",
+      "fromLabel": "You send",
+      "toLabel": "Beneficiary gets",
+      "charge": "Remittance charge",
+      "totalMoneyOut": "Total money out"
     },
     "transactions": {
       "title": "Recent transactions",

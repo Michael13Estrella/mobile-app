@@ -157,6 +157,7 @@ export function AppScreen({
               keyboardShouldPersistTaps="handled"
               ScrollViewComponent={AnimatedGestureScrollView}
               {...scrollGestureProps}
+              showsVerticalScrollIndicator={false}
               onScroll={pullToRefresh.onScroll}
               // The custom pull replaces iOS's bounce at the top.
               bounces={!pullToRefresh.isEnabled}

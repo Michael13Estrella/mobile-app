@@ -21,7 +21,7 @@ export const FIELD_SIZE = {
   paddingHorizontal: Spacing.s4,
   paddingVertical: Spacing.s4,
   // Vertical spacing between label, input and helper text.
-  gap: Spacing.s3,
+  gap: Spacing.s4,
 } as const;
 
 export type FieldStatus =

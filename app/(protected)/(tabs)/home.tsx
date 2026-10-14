@@ -20,13 +20,17 @@ import { ExchangeRateCard } from "../../../src/components/common/ExchangeRateCar
 import { RecentBeneficiaries } from "../../../src/components/features/home/RecentBeneficiaries";
 import { Spacing } from "../../../src/constants/spacing";
 import { RecentTransactions } from "../../../src/components/features/home/RecentTransactions";
+import { RemittanceSimulator } from "../../../src/components/features/home/RemitanceSimulator";
+import { useCharges } from "../../../src/hooks/useCharges";
 export default function HomeScreen() {
   const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
+  const { charges, refresh: refreshCharges } = useCharges();
   const displayName = useRemitterDisplayName();
 
   // Pull-to-refresh both the dashboard and the rates.
-  const handleRefresh = () => Promise.all([refresh(), refreshRates()]);
+  const handleRefresh = () =>
+    Promise.all([refresh(), refreshRates(), refreshCharges()]);
 
   return (
     <AppScreen gradient contentGap={Spacing.s5} onRefresh={handleRefresh}>
@@ -56,6 +60,13 @@ export default function HomeScreen() {
 
       {/* Exchange rate card */}
       <ExchangeRateCard />
+
+      <RemittanceSimulator
+        rates={rates}
+        chargeTiers={charges}
+        allowJpy={false}
+        onSendPress={() => {}}
+      />
 
       {/* Recent transactions */}
       <RecentTransactions
