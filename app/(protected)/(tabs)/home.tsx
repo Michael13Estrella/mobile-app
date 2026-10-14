@@ -9,9 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { RefreshControl, StyleSheet } from "react-native";
 import { AppScreen } from "../../../src/components/common/AppScreen";
-import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useDashboard } from "../../../src/hooks/useDashboard";
 import { HomeHeader } from "../../../src/components/features/home/HomeHeader";
 import { useRemitterDisplayName } from "../../../src/hooks/useRemitterDisplayName";
@@ -22,29 +20,15 @@ import { ExchangeRateCard } from "../../../src/components/common/ExchangeRateCar
 import { RecentBeneficiaries } from "../../../src/components/features/home/RecentBeneficiaries";
 import { Spacing } from "../../../src/constants/spacing";
 export default function HomeScreen() {
-  const { colors } = useAppTheme();
-  const { data, isRefreshing, refresh } = useDashboard();
+  const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
   const displayName = useRemitterDisplayName();
 
   // Pull-to-refresh both the dashboard and the rates.
-  const handleRefresh = () => {
-    void Promise.all([refresh(), refreshRates()]);
-  };
+  const handleRefresh = () => Promise.all([refresh(), refreshRates()]);
 
   return (
-    <AppScreen
-      gradient
-      contentGap={Spacing.s5}
-      refreshControl={
-        <RefreshControl
-          refreshing={isRefreshing}
-          onRefresh={handleRefresh}
-          tintColor={colors.primary} // iOS spinner
-          colors={[colors.primary]} // Android spinner
-        />
-      }
-    >
+    <AppScreen gradient contentGap={Spacing.s5} onRefresh={handleRefresh}>
       {/* Header: nickname and last login */}
       <HomeHeader
         displayName={displayName}
@@ -74,11 +58,3 @@ export default function HomeScreen() {
     </AppScreen>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Slot, router, useSegments } from "expo-router";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -38,7 +38,7 @@ import { LockScreen } from "../src/components/screens/lock/LockScreen";
 import { lockService } from "../src/services/security/lockService";
 import { usePushNotification } from "../src/hooks/usePushNotification";
 import { Language } from "../src/types/language.types";
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { passcodeService } from "../src/services/security/passcodeService";
 import { SplashScreen as AppSplashScreen } from "../src/components/screens/SplashScreen";
 import { useFonts } from "expo-font";
@@ -74,6 +74,7 @@ import {
   GLOBAL_WEIGHT_FONTS_JA,
 } from "../src/constants/typography";
 import { AuthLoadingOverlay } from "../src/components/screens/AuthLoadingOverlay";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const SPLASH_MIN_DURATION_MS = 3000;
 
@@ -330,14 +331,23 @@ function AppProviders({ children }: { readonly children: ReactNode }) {
 
 export default function RootLayout() {
   return (
-    <Provider store={store}>
-      <KeyboardProvider>
-        <SafeAreaProvider>
-          <AppProviders>
-            <AppContent />
-          </AppProviders>
-        </SafeAreaProvider>
-      </KeyboardProvider>
-    </Provider>
+    <GestureHandlerRootView style={styles.root}>
+      <Provider store={store}>
+        <KeyboardProvider>
+          <SafeAreaProvider>
+            <AppProviders>
+              <AppContent />
+            </AppProviders>
+          </SafeAreaProvider>
+        </KeyboardProvider>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  // The gesture root must fill the screen like the app it wraps
+  root: {
+    flex: 1,
+  },
+});

@@ -9,10 +9,9 @@
  * 3.
  ********************************************************************************************/
 
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactNode, useState } from "react";
 import {
   LayoutChangeEvent,
-  RefreshControlProps,
   StyleProp,
   StyleSheet,
   View,
@@ -26,12 +25,22 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { Spacing } from "../../constants/spacing";
+import { BrandIcon, BrandIconName } from "../icons";
+import {
+  REFRESH_INDICATOR_HEIGHT,
+  usePullToRefresh,
+} from "../../hooks/usePullToRefresh";
+import Animated from "react-native-reanimated";
+import { GestureDetector } from "react-native-gesture-handler";
 
 // Space below the footer (keyboard closed: above the home indicator;
 // keyboard open: between the footer and the keyboard).
 const BOTTOM_PADDING_EXTRA = Spacing.s7;
 // Space kept between a focused input and the sticky footer above the keyboard.
 const FOCUSED_INPUT_GAP = Spacing.s10;
+
+const REFRESH_ICON: BrandIconName = "refreshCw05Line";
+const REFRESH_ICON_SIZE = 24;
 
 type GradientPoint = Readonly<{ x: number; y: number }>;
 type GradientColors = [string, string, ...string[]];
@@ -49,7 +58,7 @@ type AppScreenProps = Readonly<{
   gradientStart?: GradientPoint;
   gradientEnd?: GradientPoint;
   children?: ReactNode;
-  refreshControl?: ReactElement<RefreshControlProps>;
+  onRefresh?: () => Promise<unknown>;
 }>;
 
 export function AppScreen({
@@ -62,11 +71,12 @@ export function AppScreen({
   gradientStart = DEFAULT_GRADIENT_START,
   gradientEnd = DEFAULT_GRADIENT_END,
   children,
-  refreshControl,
+  onRefresh,
 }: AppScreenProps) {
   const { colors } = useAppTheme();
   const insets = useSafeAreaInsets();
   const [footerHeight, setFooterHeight] = useState(0);
+  const pullToRefresh = usePullToRefresh({ onRefresh });
 
   const handleFooterLayout = (e: LayoutChangeEvent) =>
     setFooterHeight(e.nativeEvent.layout.height);
@@ -94,23 +104,49 @@ export function AppScreen({
     >
       {!!header && <View style={{ paddingTop: insets.top }}>{header}</View>}
 
-      <KeyboardAwareScrollView
-        style={[styles.transparent, styles.fill]}
-        contentContainerStyle={[
-          styles.content,
-          { gap: contentGap === undefined ? Spacing.s7 : contentGap },
-          !header && { paddingTop: insets.top },
-          !footer && {
-            paddingBottom: insets.bottom + BOTTOM_PADDING_EXTRA,
-          },
-          contentContainerStyle,
-        ]}
-        bottomOffset={visibleFooterHeight + FOCUSED_INPUT_GAP}
-        keyboardShouldPersistTaps="handled"
-        refreshControl={refreshControl}
-      >
-        {children}
-      </KeyboardAwareScrollView>
+      {/* Scroll area: the refresh icon sits behind it, revealed by the pull. */}
+      <View style={styles.fill}>
+        {pullToRefresh.isEnabled && (
+          <View
+            pointerEvents="none"
+            style={[styles.refreshIndicator, { top: header ? 0 : insets.top }]}
+          >
+            <Animated.View style={pullToRefresh.indicatorStyle}>
+              <BrandIcon
+                name={REFRESH_ICON}
+                size={REFRESH_ICON_SIZE}
+                color={colors.iconBrandPrimary}
+              />
+            </Animated.View>
+          </View>
+        )}
+
+        <GestureDetector gesture={pullToRefresh.pullGesture}>
+          <Animated.View style={[styles.fill, pullToRefresh.contentStyle]}>
+            <GestureDetector gesture={pullToRefresh.scrollGesture}>
+              <KeyboardAwareScrollView
+                style={[styles.transparent, styles.fill]}
+                contentContainerStyle={[
+                  styles.content,
+                  { gap: contentGap === undefined ? Spacing.s7 : contentGap },
+                  !header && { paddingTop: insets.top },
+                  !footer && {
+                    paddingBottom: insets.bottom + BOTTOM_PADDING_EXTRA,
+                  },
+                  contentContainerStyle,
+                ]}
+                bottomOffset={visibleFooterHeight + FOCUSED_INPUT_GAP}
+                keyboardShouldPersistTaps="handled"
+                onScroll={pullToRefresh.onScroll}
+                // The custom pull replaces iOS's bounce at the top.
+                bounces={!pullToRefresh.isEnabled}
+              >
+                {children}
+              </KeyboardAwareScrollView>
+            </GestureDetector>
+          </Animated.View>
+        </GestureDetector>
+      </View>
 
       {!!footer && (
         <KeyboardStickyView
@@ -149,6 +185,14 @@ export function AppScreen({
 const styles = StyleSheet.create({
   fill: {
     flex: 1,
+  },
+  refreshIndicator: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    height: REFRESH_INDICATOR_HEIGHT,
+    alignItems: "center",
+    justifyContent: "center",
   },
   content: {
     flexGrow: 1,
