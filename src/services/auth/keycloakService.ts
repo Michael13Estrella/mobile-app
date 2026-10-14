@@ -16,7 +16,7 @@ import {
   TokenRefreshRequest,
   TokenResponse,
 } from "../../types/auth.types";
-import { buildSigned } from "../api/apiClient";
+import { buildSigned } from "../api/apiTransport";
 import { ENDPOINTS } from "../../constants/endpoints";
 import { decodeToken } from "../../utils/tokenUtils";
 import { tokenService } from "./tokenService";

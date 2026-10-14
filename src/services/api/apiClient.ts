@@ -15,7 +15,6 @@ import { isTokenExpired } from "../../utils/tokenUtils";
 import { store } from "../../store";
 import { ApiResult, Method, SecurityMode, request } from "./apiTransport";
 
-export { buildSigned, buildPlain } from "./apiTransport";
 export type { ApiResult } from "./apiTransport";
 
 let refreshPromise: Promise<void> | null = null;

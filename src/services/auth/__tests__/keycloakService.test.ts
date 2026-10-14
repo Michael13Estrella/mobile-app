@@ -11,7 +11,7 @@
 
 import * as SecureStore from "expo-secure-store";
 import * as AuthSession from "expo-auth-session";
-import { buildSigned } from "../../api/apiClient";
+import { buildSigned } from "../../api/apiTransport";
 import { decodeToken } from "../../../utils/tokenUtils";
 import { ENDPOINTS } from "../../../constants/endpoints";
 import { keycloakService } from "../keycloakService";
