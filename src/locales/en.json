@@ -328,6 +328,10 @@
     },
     "beneficiaries": {
       "add": "Add Beneficiary"
+    },
+    "transactions": {
+      "title": "Recent transactions",
+      "sendMoneyTo": "Send Money to {{name}}"
     }
   },
 

@@ -16,3 +16,10 @@ export const INTL_LOCALE: Readonly<Record<Language, string>> = {
   en: "en-US",
   ja: "ja-JP",
 };
+
+// Locale for short date-time in lists ("23 Feb 3036, 07:32"): the design
+// uses day-month-year and a 24-hour clock in English
+export const LIST_DATE_LOCALE: Readonly<Record<Language, string>> = {
+  en: "en-GB",
+  ja: "ja-JP",
+};

@@ -27,6 +27,20 @@ export const formatDate = (
   });
 };
 
+// "23 Feb 2026, 07:32" (en-GB) / "2026年2月23日 7:32" (ja-JP), device time zone.
+export const formatShortDateTime = (
+  dateString: string,
+  locale: string = DEFAULT_LOCALE,
+): string =>
+  new Date(dateString).toLocaleString(locale, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  });
+
 export const formatDateTime = (
   dateString: string,
   locale: string = DEFAULT_LOCALE,

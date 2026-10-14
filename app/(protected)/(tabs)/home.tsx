@@ -19,6 +19,7 @@ import { WALLET_CURRENCY } from "../../../src/constants/currency";
 import { ExchangeRateCard } from "../../../src/components/common/ExchangeRateCard";
 import { RecentBeneficiaries } from "../../../src/components/features/home/RecentBeneficiaries";
 import { Spacing } from "../../../src/constants/spacing";
+import { RecentTransactions } from "../../../src/components/features/home/RecentTransactions";
 export default function HomeScreen() {
   const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
@@ -55,6 +56,13 @@ export default function HomeScreen() {
 
       {/* Exchange rate card */}
       <ExchangeRateCard />
+
+      {/* Recent transactions */}
+      <RecentTransactions
+        transactions={data?.recentTransactions ?? null}
+        walletCurrency={data?.wallet.currency ?? WALLET_CURRENCY}
+        onViewAllPress={() => {}}
+      />
     </AppScreen>
   );
 }
