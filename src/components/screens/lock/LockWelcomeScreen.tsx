@@ -11,7 +11,6 @@
 
 import { BiometryType } from "react-native-biometrics";
 import { Spacing } from "../../../constants/spacing";
-import { IconName } from "../../../types";
 import { QuickUnlockMethod } from "../../../hooks/useUnlockFlow";
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { useTranslation } from "../../../hooks/useTranslation";
@@ -25,11 +24,12 @@ import { GradientText } from "../../common/GradientText";
 import { AppButton } from "../../common/AppButton";
 import { AppTextButton } from "../../common/AppTextButton";
 import { resolveShadows } from "../../../theme/shadows";
+import { BrandIconName } from "../../icons";
 
 const SHEET_RADIUS = Spacing.s9;
 
-const biometricIcon = (type: BiometryType | null): IconName =>
-  type === "FaceID" ? "face-recognition" : "fingerprint";
+const biometricIcon = (type: BiometryType | null): BrandIconName =>
+  type === "FaceID" ? "faceIdLine" : "fingerprint03Line";
 
 type LockWelcomeScreenProps = Readonly<{
   method: QuickUnlockMethod;
