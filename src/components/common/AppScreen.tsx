@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { ReactNode, useState } from "react";
+import { ComponentProps, ReactNode, useState } from "react";
 import {
   LayoutChangeEvent,
   StyleProp,
@@ -31,7 +31,19 @@ import {
   usePullToRefresh,
 } from "../../hooks/usePullToRefresh";
 import Animated from "react-native-reanimated";
-import { GestureDetector } from "react-native-gesture-handler";
+import {
+  GestureDetector,
+  ScrollView as GestureScrollView,
+} from "react-native-gesture-handler";
+
+// Gesture-handler's ScrollView, animatable for KeyboardAwareScrollView: only
+// this one can run together with the pull-to-refresh gesture. With React
+// Native's own ScrollView, a scrollable screen swallows every vertical drag.
+const AnimatedGestureScrollView = Animated.createAnimatedComponent(
+  GestureScrollView,
+) as unknown as NonNullable<
+  ComponentProps<typeof KeyboardAwareScrollView>["ScrollViewComponent"]
+>;
 
 // Space below the footer (keyboard closed: above the home indicator;
 // keyboard open: between the footer and the keyboard).
@@ -98,6 +110,13 @@ export function AppScreen({
     ? resolveGradientColors[resolveGradientColors.length - 1]
     : colors.background;
 
+  // Reaches the inner gesture-handler ScrollView (KeyboardAwareScrollView
+  // passes extra props through): run its scrolling together with the pull.
+  // A spread, because KeyboardAwareScrollView's types don't list this prop.
+  const scrollGestureProps = {
+    simultaneousHandlers: pullToRefresh.pullRef,
+  };
+
   const body = (
     <View
       style={[styles.fill, !gradient && { backgroundColor: colors.background }]}
@@ -123,27 +142,27 @@ export function AppScreen({
 
         <GestureDetector gesture={pullToRefresh.pullGesture}>
           <Animated.View style={[styles.fill, pullToRefresh.contentStyle]}>
-            <GestureDetector gesture={pullToRefresh.scrollGesture}>
-              <KeyboardAwareScrollView
-                style={[styles.transparent, styles.fill]}
-                contentContainerStyle={[
-                  styles.content,
-                  { gap: contentGap === undefined ? Spacing.s7 : contentGap },
-                  !header && { paddingTop: insets.top },
-                  !footer && {
-                    paddingBottom: insets.bottom + BOTTOM_PADDING_EXTRA,
-                  },
-                  contentContainerStyle,
-                ]}
-                bottomOffset={visibleFooterHeight + FOCUSED_INPUT_GAP}
-                keyboardShouldPersistTaps="handled"
-                onScroll={pullToRefresh.onScroll}
-                // The custom pull replaces iOS's bounce at the top.
-                bounces={!pullToRefresh.isEnabled}
-              >
-                {children}
-              </KeyboardAwareScrollView>
-            </GestureDetector>
+            <KeyboardAwareScrollView
+              style={[styles.transparent, styles.fill]}
+              contentContainerStyle={[
+                styles.content,
+                { gap: contentGap === undefined ? Spacing.s7 : contentGap },
+                !header && { paddingTop: insets.top },
+                !footer && {
+                  paddingBottom: insets.bottom + BOTTOM_PADDING_EXTRA,
+                },
+                contentContainerStyle,
+              ]}
+              bottomOffset={visibleFooterHeight + FOCUSED_INPUT_GAP}
+              keyboardShouldPersistTaps="handled"
+              ScrollViewComponent={AnimatedGestureScrollView}
+              {...scrollGestureProps}
+              onScroll={pullToRefresh.onScroll}
+              // The custom pull replaces iOS's bounce at the top.
+              bounces={!pullToRefresh.isEnabled}
+            >
+              {children}
+            </KeyboardAwareScrollView>
           </Animated.View>
         </GestureDetector>
       </View>

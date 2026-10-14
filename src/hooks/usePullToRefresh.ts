@@ -9,9 +9,9 @@
  * 3.
  ********************************************************************************************/
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { Gesture } from "react-native-gesture-handler";
+import { Gesture, GestureType } from "react-native-gesture-handler";
 import {
   cancelAnimation,
   Easing,
@@ -83,7 +83,7 @@ export function usePullToRefresh({ onRefresh }: UsePullToReleaseOptions) {
   }, [onRefresh]);
 
   // The scroll view's own gesture, so the pull can run alongside it.
-  const scrollGesture = useMemo(() => Gesture.Native(), []);
+  const pullRef = useRef<GestureType | undefined>(undefined);
 
   const pullGesture = useMemo(
     () =>
@@ -92,7 +92,7 @@ export function usePullToRefresh({ onRefresh }: UsePullToReleaseOptions) {
         .runOnJS(true)
         .activeOffsetY(PULL_ACTIVATION)
         .failOffsetX([-SIDEWAYS_FAIL, SIDEWAYS_FAIL])
-        .simultaneousWithExternalGesture(scrollGesture)
+        .withRef(pullRef)
         .onStart((e) => {
           pullStart.value = e.translationY;
         })
@@ -117,15 +117,7 @@ export function usePullToRefresh({ onRefresh }: UsePullToReleaseOptions) {
             pull.value = withSpring(0);
           }
         }),
-    [
-      onRefresh,
-      isRefreshing,
-      startRefresh,
-      scrollGesture,
-      pull,
-      pullStart,
-      scrollY,
-    ],
+    [onRefresh, isRefreshing, startRefresh, pullRef, pull, pullStart, scrollY],
   );
 
   const onScroll = useCallback(
@@ -165,7 +157,7 @@ export function usePullToRefresh({ onRefresh }: UsePullToReleaseOptions) {
   return {
     isEnabled: !!onRefresh,
     pullGesture,
-    scrollGesture,
+    pullRef,
     onScroll,
     contentStyle,
     indicatorStyle,
