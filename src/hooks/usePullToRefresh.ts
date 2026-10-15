@@ -37,6 +37,12 @@ const SIDEWAYS_FAIL = 20;
 const SPIN_DURATION_MS = 800;
 const FULL_TURN_DEG = 360;
 
+// Shortest time the spinner shows, even when the refresh is faster.
+const MIN_REFRESH_MS = 1000;
+
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
+
 type UsePullToReleaseOptions = Readonly<{
   // Omit to disable pull-to-refresh. The spinner runs until it resolves.
   onRefresh?: () => Promise<unknown>;
@@ -76,7 +82,8 @@ export function usePullToRefresh({ onRefresh }: UsePullToReleaseOptions) {
     setIsRefreshing(true);
 
     try {
-      await onRefresh();
+      // Spin at least MIN_REFRESH_MS, so a fast refresh is still visible
+      await Promise.all([onRefresh(), wait(MIN_REFRESH_MS)]);
     } finally {
       setIsRefreshing(false);
     }
