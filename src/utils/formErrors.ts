@@ -11,8 +11,18 @@
 
 import { FieldErrors, FieldValues } from "react-hook-form";
 
-// Labels of the fields that currently have a error, in the order of
-// 'labels' (pass them in screen order). Fields not in 'labels' are ignored
+/**
+ * The labels of the fields that currently have an error, for the form's
+ * error summary. Listed in the order of `labels` (pass them in screen
+ * order); fields not in `labels` are ignored.
+ *
+ * @param errors - react-hook-form's `formState.errors`.
+ * @param labels - Field name -> its translated label, in screen order.
+ * @returns The labels of the fields with an error.
+ * @example
+ * getErrorFieldLabels(errors, { lastName: "Last name", birthDate: "Date of birth" });
+ * ["Date of birth"] when only birthDate has an error
+ */
 export const getErrorFieldLabels = <T extends FieldValues>(
   errors: FieldErrors<T>,
   labels: Partial<Record<keyof T & string, string>>,

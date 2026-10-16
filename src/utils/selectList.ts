@@ -35,6 +35,20 @@ type BuildSelectListParams = Readonly<{
   sortAscending?: boolean;
 }>;
 
+/**
+ * Builds the rows of a select sheet: pinned options first (when not
+ * searching), then the options, filtered by the search, sorted and split
+ * into A-Z sections if asked.
+ *
+ * @param params.options - All options of the list.
+ * @param params.query - The search text ("" = no search).
+ * @param params.locale - The app language (sections only in English).
+ * @param params.pinnedValues - Values shown first, in this order.
+ * @param params.groupByLetter - Sort and add A-Z section headers.
+ * @param params.sortAscending - Sort by label without sections.
+ * @returns The rows to render and the A-Z index (letter -> header row).
+ * @example buildSelectList({ options, query: "phil", locale: "en" }).rows;
+ */
 export const buildSelectList = ({
   options,
   query,

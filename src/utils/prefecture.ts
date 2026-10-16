@@ -9,14 +9,20 @@
  * 3.
  ********************************************************************************************/
 
-// Matches a prefecture name (e.g. from the postal lookup) to the list:
-// "AOMORI KEN", "Aomori" or "aomori" -> "AOMORI KEN". Not found -> "" so the
-
 import { PREFECTURE_OPTIONS } from "../constants/prefectures";
 
-// user picks it from the list instead of getting an invisible value.
+/**
+ * Matches a prefecture name (e.g. from the postal code lookup) to the
+ * prefecture list, by its value or its label, ignoring case and extra
+ * spaces. Not found -> "", so the user picks it from the list instead of
+ * getting a value the picker can't show.
+ *
+ * @param name - The prefecture name ("AOMORI KEN", "Aomori", "aomori").
+ * @returns The list's value ("AOMORI KEN"), or "" if there's no match.
+ * @example findPrefectureValue("Tokyo"); // "TOKYO TO"
+ */
 export const findPrefectureValue = (name: string): string => {
-  const normalized = name.trim().toUpperCase();
+  const normalized = name.trim().replaceAll(/\s+/g, " ").toUpperCase();
   return (
     PREFECTURE_OPTIONS.find(
       (option) => option.value === normalized || option.label === normalized,

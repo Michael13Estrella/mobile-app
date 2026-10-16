@@ -20,7 +20,15 @@ const SMART_PUNCTUATION: ReadonlyArray<readonly [RegExp, string]> = [
   [/\u00A0/g, " "], // non-breaking space             -> space
 ];
 
-// "Lawson’" -> "Lawson'", "O’Brien–Smith" -> "O'Brien-Smith"
+/**
+ * Converts typographic punctuation that keyboards insert automatically
+ * (curly quotes, long dashes, …) back to plain ASCII, so text passes
+ * half-width validation and reaches the backend as typed.
+ *
+ * @param text - The text as typed.
+ * @returns The text with plain punctuation.
+ * @example normalizeSmartPunctuation("O’Brien–Smith"); // "O'Brien-Smith"
+ */
 export const normalizeSmartPunctuation = (text: string): string =>
   SMART_PUNCTUATION.reduce(
     (result, [pattern, replacement]) => result.replace(pattern, replacement),

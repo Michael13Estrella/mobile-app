@@ -12,9 +12,15 @@
 const capitalize = (part: string): string =>
   part.charAt(0).toUpperCase() + part.slice(1);
 
-// Display form of a person's name sent in capitals by the server:
-// "JUAN DELA CRUZ" -> "Juan Dela Cruz", "MARY-ANN O'NEIL" -> "Mary-Ann O'Neil".
-// For display only: keep the original when sending names back to the API.
+/**
+ * A person's name, sent in capitals by the server, in normal capitalization
+ * for display: each word capitalized, also after "-" and "'". For display
+ * only: keep the original when sending names back to the API.
+ *
+ * @param name - The name as sent (e.g. "JUAN DELA CRUZ").
+ * @returns The display name, trimmed, single spaces between words.
+ * @example formatPersonName("MARY-ANN O'NEIL"); // "Mary-Ann O'Neil"
+ */
 export const formatPersonName = (name: string): string =>
   name
     .trim()
