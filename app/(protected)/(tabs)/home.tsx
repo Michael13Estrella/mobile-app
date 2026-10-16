@@ -24,15 +24,22 @@ import { RemittanceSimulator } from "../../../src/components/features/home/Remit
 import { useCharges } from "../../../src/hooks/useCharges";
 import { OffersCarousel } from "../../../src/components/features/home/OffersCarousel";
 import { SAMPLE_OFFERS } from "../../../__mocks__/offers";
+import { useState } from "react";
 export default function HomeScreen() {
   const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
   const { charges, refresh: refreshCharges } = useCharges();
   const displayName = useRemitterDisplayName();
 
+  // Changing the simulator's key on refresh remounts it: both fields
+  // start empty again
+  const [simulatorKey, setSimulatorKey] = useState(0);
+
   // Pull-to-refresh both the dashboard and the rates.
-  const handleRefresh = () =>
-    Promise.all([refresh(), refreshRates(), refreshCharges()]);
+  const handleRefresh = () => {
+    setSimulatorKey((key) => key + 1);
+    return Promise.all([refresh(), refreshRates(), refreshCharges()]);
+  };
 
   return (
     <AppScreen gradient contentGap={Spacing.s5} onRefresh={handleRefresh}>
@@ -64,9 +71,10 @@ export default function HomeScreen() {
       <ExchangeRateCard />
 
       <RemittanceSimulator
+        key={simulatorKey}
         rates={rates}
         chargeTiers={charges}
-        allowJpy={false}
+        allowJpy={true}
         onSendPress={() => {}}
       />
 

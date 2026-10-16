@@ -336,7 +336,10 @@
       "fromLabel": "You send",
       "toLabel": "Beneficiary gets",
       "charge": "Remittance charge",
-      "totalMoneyOut": "Total money out"
+      "liftingCharge": "Lifting charge",
+      "totalMoneyOut": "Total money out",
+      "minimumSend": "The minimum amount to send is {{amount}} {{currency}}",
+      "minimumReceive": "The minimum amount to receive is {{amount}} {{currency}}"
     },
     "transactions": {
       "title": "Recent transactions",
