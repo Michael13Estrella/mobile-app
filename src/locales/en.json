@@ -341,6 +341,9 @@
     "transactions": {
       "title": "Recent transactions",
       "sendMoneyTo": "Send Money to {{name}}"
+    },
+    "offers": {
+      "title": "Offers for you"
     }
   },
 

@@ -22,6 +22,8 @@ import { Spacing } from "../../../src/constants/spacing";
 import { RecentTransactions } from "../../../src/components/features/home/RecentTransactions";
 import { RemittanceSimulator } from "../../../src/components/features/home/RemitanceSimulator";
 import { useCharges } from "../../../src/hooks/useCharges";
+import { OffersCarousel } from "../../../src/components/features/home/OffersCarousel";
+import { SAMPLE_OFFERS } from "../../../__mocks__/offers";
 export default function HomeScreen() {
   const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
@@ -74,6 +76,9 @@ export default function HomeScreen() {
         walletCurrency={data?.wallet.currency ?? WALLET_CURRENCY}
         onViewAllPress={() => {}}
       />
+
+      {/* Offers */}
+      <OffersCarousel offers={SAMPLE_OFFERS} />
     </AppScreen>
   );
 }
