@@ -12,7 +12,7 @@
 import { ReactNode } from "react";
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { resolveShadows } from "../../../theme/shadows";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const DEFAULT_SIZE = 40;
