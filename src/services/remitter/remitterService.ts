@@ -10,25 +10,58 @@
  ********************************************************************************************/
 
 import { ENDPOINTS } from "../../constants/endpoints";
-import { DashboardStatsResponse } from "../../types";
+import { DashboardStatsResponse, RemitterGuidResponse } from "../../types";
 import { apiClient } from "../api/apiClient";
 import { keycloakService } from "../auth/keycloakService";
-import { deviceEnrollmentService } from "../security/deviceEnrollmentService";
-
-// The signed-in user's remitterGuid (cached on the device after the first fetch).
-const getRemitterGuid = async (): Promise<string | null> => {
-  const kcId = await keycloakService.getCurrentKcId();
-  if (!kcId) return null;
-  return deviceEnrollmentService.ensureRemitterGuid(kcId);
-};
+import { userStorageService } from "../storage/userStorageService";
 
 export const remitterService = {
-  // Home dashboard: remitter profile, recent beneficiaries and transactions,
-  // last login and wallet. null when it couldn't be loaded (no session,
-  // network or server error); the caller shows the error state.
+  /**
+   * The remitterGuid of a user: from the device if saved, otherwise
+   * fetched from the API and saved for next time
+   *
+   * @param kcId - The keycloak user id.
+   * @returns The remitterGuid
+   * @throws when it isn't saved and can't be fetched.
+   */
+  ensureRemitterGuid: async (kcId: string): Promise<string> => {
+    const existing = await userStorageService.getRemitterGuid(kcId);
+    if (existing) return existing;
+
+    const { ok, data } = await apiClient.plain.get<RemitterGuidResponse>(
+      ENDPOINTS.REMITTER_GUID(kcId),
+    );
+
+    if (!ok || !data?.remitterGuid) {
+      throw new Error("Failed to fetch remitter guid");
+    }
+
+    await userStorageService.setRemitterGuid(kcId, data.remitterGuid);
+    return data.remitterGuid;
+  },
+
+  /**
+   * The signed-in user's remitterGuid, for API URLs.
+   *
+   * @returns The remitterGuid, or `null` without a session.
+   * @throws When it isn't saved and can't be fetched.
+   */
+  getCurrentRemitterGuid: async (): Promise<string | null> => {
+    const kcId = await keycloakService.getCurrentKcId();
+    if (!kcId) return null;
+    return remitterService.ensureRemitterGuid(kcId);
+  },
+
+  /**
+   * Home dashboard: remitter profile, recent beneficiaries and transactions,
+   * last login and wallet
+   *
+   * @returns The dashboardStatsResponse, or `null` when it couldn't be loaded (no
+   * session, network or server error); the caller shows the error state.
+   */
   fetchDashboardStats: async (): Promise<DashboardStatsResponse | null> => {
     try {
-      const remitterGuid = await getRemitterGuid();
+      const remitterGuid = await remitterService.getCurrentRemitterGuid();
       if (!remitterGuid) return null;
 
       const { ok, data } = await apiClient.critical.get<DashboardStatsResponse>(

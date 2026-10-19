@@ -39,6 +39,10 @@ export const ENDPOINTS = {
   REMITTER_DASHBOARD_STATS: (remitterGuid: string) =>
     `/api/remitters/${remitterGuid}/dashboard-stats`,
 
+  // Beneficiary
+  MANAGE_BENEFICIARIES: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/manage-beneficiaries`,
+
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>
     `/api/notifications/${remitterGuid}/register-push-notification`,

@@ -373,7 +373,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: Spacing.s2,
-    paddingHorizontal: Spacing.s4,
+    paddingHorizontal: Spacing.s5,
+    paddingVertical: Spacing.s4,
   },
   fullWidth: {
     width: "100%",

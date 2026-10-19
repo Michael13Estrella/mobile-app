@@ -189,6 +189,15 @@ export const LightColors = {
   buttonGlassBorderMiddle: Palette.white000,
   buttonGlassBorderEnd: Palette.white025,
 
+  // Tabs (e.g. Manage Beneficiaries): selected underline and count badges
+  tabIndicator: Palette.mbBlue500,
+  tabBadgeBackground: Palette.mbGrey100,
+  tabBadgeActiveBackground: Palette.mbAzureAlpha20,
+
+  // Beneficiary avatar background
+  avatarGradientStart: Palette.mbAzure050,
+  avatarGradientEnd: Palette.sysSkyBlue050,
+
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",
 } as const;
@@ -316,6 +325,15 @@ export const DarkColors = {
   buttonGlassBorderStart: Palette.white050,
   buttonGlassBorderMiddle: Palette.white000,
   buttonGlassBorderEnd: Palette.white025,
+
+  // Tabs (e.g. Manage Beneficiaries): selected underline and count badges
+  tabIndicator: Palette.mbBlue500,
+  tabBadgeBackground: Palette.mbGrey100,
+  tabBadgeActiveBackground: Palette.mbAzureAlpha20,
+
+  // Beneficiary avatar background
+  avatarGradientStart: Palette.mbAzure050,
+  avatarGradientEnd: Palette.sysSkyBlue050,
 
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",

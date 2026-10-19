@@ -26,7 +26,8 @@
     "signUp": "Sign up",
     "optional": "(Optional)",
     "signingIn": "Signing in",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "add": "Add"
   },
   "------------------------------ FORM ------------------------------": "",
   "form": {
@@ -347,6 +348,23 @@
     },
     "offers": {
       "title": "Offers for you"
+    }
+  },
+
+  "------------------------------ BENEFICIARIES ------------------------------": "",
+  "beneficiaries": {
+    "title": "Manage Beneficiaries",
+    "categories": {
+      "ownAccount": "Own Account",
+      "individual": "Individuals",
+      "corporate": "Corporate"
+    },
+    "empty": "No beneficiaries yet.",
+    "noResults": "No beneficiaries match your search.",
+    "loadError": "Couldn't load your beneficiaries. Pull down to try again.",
+    "payoutMethods": {
+      "one": "{{count}} payout method",
+      "other": "{{count}} payout methods"
     }
   },
 

@@ -1,0 +1,67 @@
+/*******************************************************************************************
+ * System Name    MBJ Mobile App
+ * Author Name    Michael ESTRELLA
+ * Create Date    2026-10-19
+ *
+ * Edit History
+ * 1.
+ * 2.
+ * 3.
+ ********************************************************************************************/
+
+import { ReactNode } from "react";
+import { useAppTheme } from "../../../hooks/useAppTheme";
+import { resolveShadows } from "../../../theme/shadows";
+import { StyleSheet, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+
+const DEFAULT_SIZE = 40;
+const GRADIENT_START = { x: 0, y: 1 };
+const GRADIENT_END = { x: 0, y: 0 };
+
+type BeneficiaryAvatarProps = Readonly<{
+  // Diameter of the circle
+  size?: number;
+  // What's inside: an icon or the initials
+  children: ReactNode;
+}>;
+
+/**
+ * The round avatar of a beneficiary: a light blue-to-white gradient with a
+ * soft shadow.
+ *
+ * @example <BeneficiaryAvatar><BrandIcon name="user01Line" /></BeneficiaryAvatar>
+ */
+export function BeneficiaryAvatar({
+  size = DEFAULT_SIZE,
+  children,
+}: BeneficiaryAvatarProps) {
+  const { colors } = useAppTheme();
+  const shadows = resolveShadows(colors);
+
+  return (
+    <LinearGradient
+      colors={[colors.avatarGradientStart, colors.avatarGradientEnd]}
+      start={GRADIENT_START}
+      end={GRADIENT_END}
+      style={[
+        styles.avatar,
+        {
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          boxShadow: shadows.neutral02Bottom,
+        },
+      ]}
+    >
+      {children}
+    </LinearGradient>
+  );
+}
+
+const styles = StyleSheet.create({
+  avatar: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

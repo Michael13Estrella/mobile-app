@@ -15,7 +15,6 @@ import {
   Modal,
   Pressable,
   StyleSheet,
-  TextInput,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -30,14 +29,12 @@ import { useAppTheme } from "../../../hooks/useAppTheme";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { useAppSelector } from "../../../store";
 import { Spacing } from "../../../constants/spacing";
-import { Typography } from "../../../constants/typography";
-import { FIELD_SIZE } from "../../../theme/field";
 import { DropdownOption } from "../../../utils/referenceData";
 import { buildSelectList, SelectListRow } from "../../../utils/selectList";
 import { AppText } from "../../common/AppText";
-import { BrandIcon } from "../../icons";
 import { ALPHABET_INDEX_WIDTH, AlphabetIndex } from "./AlphabetIndex";
 import { SelectOptionRow } from "./SelectOptionRow";
+import { AppSearchInput } from "../AppSearchInput";
 
 const SHEET_HEIGHT = "87%";
 const SHEET_RADIUS = 24;
@@ -315,30 +312,11 @@ export function SelectSheet({
 
           {/* Search */}
           {showSearch && (
-            <View
-              style={[
-                styles.search,
-                {
-                  borderColor: colors.borderSubtle,
-                  backgroundColor: colors.inputBackground,
-                },
-              ]}
-            >
-              <BrandIcon
-                name="searchLine"
-                size={SEARCH_ICON_SIZE}
-                color={colors.iconBrandPrimary}
-              />
-              <TextInput
-                value={query}
-                onChangeText={setQuery}
-                placeholder={t("common.search")}
-                placeholderTextColor={colors.textTertiary}
-                selectionColor={colors.inputBorderFocused}
-                autoCorrect={false}
-                style={[styles.searchInput, { color: colors.textPrimary }]}
-              />
-            </View>
+            <AppSearchInput
+              value={query}
+              onChangeText={setQuery}
+              style={styles.search}
+            />
           )}
 
           {/* Options */}
@@ -411,20 +389,8 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.s5,
   },
   search: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.s4,
-    height: FIELD_SIZE.height,
-    borderRadius: FIELD_SIZE.height / 2,
-    borderWidth: FIELD_SIZE.borderWidth,
-    paddingHorizontal: Spacing.s5,
     marginHorizontal: Spacing.s7,
     marginBottom: Spacing.s4,
-  },
-  searchInput: {
-    flex: 1,
-    height: "100%",
-    fontSize: Typography.sizes.md,
   },
   listArea: {
     flex: 1,

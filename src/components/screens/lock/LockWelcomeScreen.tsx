@@ -64,8 +64,16 @@ export function LockWelcomeScreen({
 
   const isBiometric = method === "biometric";
 
+  const handleRefresh = () => {
+    return Promise.all([]);
+  };
+
   return (
-    <AppScreen gradient contentContainerStyle={styles.content}>
+    <AppScreen
+      gradient
+      contentContainerStyle={styles.content}
+      onRefresh={handleRefresh}
+    >
       <View style={styles.top}>
         <View style={styles.logoContainer}>
           <AppText typographyType="h1" color={colors.textBrandPrimary}>

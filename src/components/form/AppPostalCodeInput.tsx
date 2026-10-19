@@ -42,7 +42,9 @@ type AppPostalCodeInputProps<T extends FieldValues> = Readonly<{
 }>;
 
 function SearchIcon({ color }: Readonly<{ color: string }>) {
-  return <BrandIcon name="searchLine" size={SEARCH_ICON_SIZE} color={color} />;
+  return (
+    <BrandIcon name="searchMdLine" size={SEARCH_ICON_SIZE} color={color} />
+  );
 }
 
 export function AppPostalCodeInput<T extends FieldValues>({

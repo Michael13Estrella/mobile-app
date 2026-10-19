@@ -11,15 +11,11 @@
 
 import { ENDPOINTS } from "../../constants/endpoints";
 import { SECURITY } from "../../constants/security";
-import {
-  DeviceEnrollRequest,
-  DeviceEnrollResponse,
-  RemitterGuidResponse,
-} from "../../types";
+import { DeviceEnrollRequest, DeviceEnrollResponse } from "../../types";
 import { Language } from "../../types/language.types";
 import { buildUserKey } from "../../utils/secureStoreKeys";
 import { apiClient } from "../api/apiClient";
-import { userStorageService } from "../storage/userStorageService";
+import { remitterService } from "../remitter/remitterService";
 import { deviceService } from "./deviceService";
 import * as SecureStore from "expo-secure-store";
 
@@ -38,25 +34,10 @@ export const deviceEnrollmentService = {
     return await SecureStore.getItemAsync(enrolledKey(kcId));
   },
 
-  ensureRemitterGuid: async (kcId: string): Promise<string> => {
-    const existing = await userStorageService.getRemitterGuid(kcId);
-    if (existing) return existing;
-
-    const { ok, data } = await apiClient.plain.get<RemitterGuidResponse>(
-      ENDPOINTS.REMITTER_GUID(kcId),
-    );
-
-    if (!ok || !data?.remitterGuid)
-      throw new Error("Failed to fetch remitter guid");
-
-    await userStorageService.setRemitterGuid(kcId, data.remitterGuid);
-    return data.remitterGuid;
-  },
-
   ensureEnrolled: async (kcId: string): Promise<void> => {
     if (await deviceEnrollmentService.isUserEnrolled(kcId)) return;
 
-    const remitterGuid = await deviceEnrollmentService.ensureRemitterGuid(kcId);
+    const remitterGuid = await remitterService.ensureRemitterGuid(kcId);
 
     const { dbrsPublicKey, deviceOs, lang } =
       await deviceService.prepareEnrollment();

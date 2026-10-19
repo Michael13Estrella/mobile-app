@@ -131,13 +131,10 @@ describe("refreshAccessToken", () => {
 
     const result = await keycloakService.refreshAccessToken();
 
-    expect(buildSigned).toHaveBeenCalledWith(
-      "POST",
-      ENDPOINTS.AUTH_REFRESH,
-      { refreshToken: "refresh-1" },
-      false,
-      false,
-    );
+    expect(buildSigned).toHaveBeenCalledWith("POST", ENDPOINTS.AUTH_REFRESH, {
+      refreshToken: "refresh-1",
+      isWriteLoginInfo: false,
+    });
     expect(globalThis.fetch).toHaveBeenCalledWith(
       fakeRequest.url,
       fakeRequest.init,
@@ -153,6 +150,26 @@ describe("refreshAccessToken", () => {
       "access-2",
       opts,
     );
+  });
+
+  it("marks a passcode login in the refresh request", async () => {
+    (SecureStore.getItemAsync as jest.Mock).mockResolvedValue("refresh-1");
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({
+        accessToken: "access-2",
+        refreshToken: "refresh-2",
+        expiresIn: 300,
+        tokenType: "Bearer",
+      }),
+    });
+
+    await keycloakService.refreshAccessToken(true);
+
+    expect(buildSigned).toHaveBeenCalledWith("POST", ENDPOINTS.AUTH_REFRESH, {
+      refreshToken: "refresh-1",
+      isWriteLoginInfo: true,
+    });
   });
 
   it("keeps the stored refresh token when the response omits it", async () => {

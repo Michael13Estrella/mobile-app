@@ -48,7 +48,7 @@ function OfferCard({
     >
       <View style={styles.texts}>
         <AppText
-          typographyType="title1"
+          typographyType="title2"
           weight="bold"
           color={colors.textOnBrand}
           numberOfLines={3}
@@ -56,7 +56,7 @@ function OfferCard({
           {offer.title}
         </AppText>
         <AppText
-          typographyType="body3"
+          typographyType="body4"
           color={colors.textOnBrand}
           numberOfLines={3}
         >
