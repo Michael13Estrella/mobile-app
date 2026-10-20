@@ -15,6 +15,7 @@ import { router } from "expo-router";
 import { Spacing } from "../../constants/spacing";
 import { BrandIcon } from "../icons";
 import { AppText } from "./AppText";
+import { ReactNode } from "react";
 
 const BACK_HIT_SLOP = 10;
 const SIDE_WIDTH = 40; // matches the back button's footprint, keeps title centered
@@ -22,9 +23,11 @@ const SIDE_WIDTH = 40; // matches the back button's footprint, keeps title cente
 type AppHeaderProps = Readonly<{
   title: string;
   onBack?: () => void;
+  // Optional action on the right (e.g. a delete icon)
+  right?: ReactNode;
 }>;
 
-export const AppHeader = ({ title, onBack }: AppHeaderProps) => {
+export const AppHeader = ({ title, onBack, right }: AppHeaderProps) => {
   const { colors } = useAppTheme();
 
   const handleBack = () => {
@@ -56,7 +59,7 @@ export const AppHeader = ({ title, onBack }: AppHeaderProps) => {
       >
         {title}
       </AppText>
-      <View style={styles.side} />
+      <View style={styles.side}>{right}</View>
     </View>
   );
 };

@@ -9,7 +9,12 @@
  * 3.
  ********************************************************************************************/
 
-import { getBeneficiaryTitle, matchesBeneficiarySearch } from "../beneficiary";
+import {
+  getBeneficiaryAddress,
+  getBeneficiaryFullName,
+  getBeneficiaryTitle,
+  matchesBeneficiarySearch,
+} from "../beneficiary";
 import { BeneficiarySummary } from "../../types";
 
 const beneficiary = (
@@ -78,5 +83,52 @@ describe("matchesBeneficiarySearch", () => {
 
   it("doesn't match other text", () => {
     expect(matchesBeneficiarySearch(juan, "travel")).toBe(false);
+  });
+});
+
+describe("getBeneficiaryFullName", () => {
+  const names = {
+    firstName: "JOSH",
+    middleName: "CULLEN",
+    lastName: "SANTOS",
+    companyName: "",
+  };
+
+  it("joins and formats first, middle and last name", () => {
+    expect(getBeneficiaryFullName(names)).toBe("Josh Cullen Santos");
+  });
+
+  it("skips an empty middle name", () => {
+    expect(getBeneficiaryFullName({ ...names, middleName: "" })).toBe(
+      "Josh Santos",
+    );
+  });
+
+  it("uses the company name for companies", () => {
+    expect(getBeneficiaryFullName({ ...names, companyName: "ABC INC." })).toBe(
+      "ABC INC.",
+    );
+  });
+});
+
+describe("getBeneficiaryAddress", () => {
+  it("joins the parts on separate lines", () => {
+    expect(
+      getBeneficiaryAddress({
+        address1: "1999 Anastacio Street",
+        address2: "Guadalupe Nuevo",
+        zipPosCode: "1212",
+      }),
+    ).toBe("1999 Anastacio Street,\nGuadalupe Nuevo,\n1212");
+  });
+
+  it("leaves out empty parts", () => {
+    expect(
+      getBeneficiaryAddress({
+        address1: "1999 Anastacio Street",
+        address2: " ",
+        zipPosCode: "",
+      }),
+    ).toBe("1999 Anastacio Street");
   });
 });

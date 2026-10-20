@@ -26,7 +26,6 @@ import { AppScreen } from "../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../src/components/common/AppHeader";
 import { RegisterSectionHeader } from "../../../src/components/features/register/RegisterSectionHeader";
 import { ConfirmSection } from "../../../src/components/features/register/ConfirmSection";
-import { ConfirmRow } from "../../../src/components/features/register/ConfirmRow";
 import { formatIsoDate } from "../../../src/utils/formatDate";
 import { findNationalityName } from "../../../src/utils/nationality";
 import { JAPANESE_NATIONALITY_CODE } from "../../../src/constants/nationality";
@@ -40,6 +39,7 @@ import { REMITTER_PHONE_COUNTRY } from "../../../src/constants/phone";
 import { formatPostalCode } from "../../../src/utils/formatFields";
 import { useAuth } from "../../../src/hooks/useAuth";
 import { clearRegistrationSecrets } from "../../../src/store/slices/registrationSlice";
+import { DetailRow } from "../../../src/components/common/DetailRow";
 
 const PROFESSION_OTHERS_CODE = "30";
 const VISA_STATUS_OTHERS_CODE = "99";
@@ -154,19 +154,19 @@ export default function RegisterConfirmScreen() {
         title={t("registerConfirm.sections.basic")}
         onEdit={() => editStep("/(auth)/(register)/basic-info")}
       >
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.lastName.label")}
           value={details.lastName}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.firstName.label")}
           value={details.firstName}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.middleName.label")}
           value={details.middleName}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.nationality.label")}
           value={findNationalityName(
             nationalities,
@@ -174,19 +174,19 @@ export default function RegisterConfirmScreen() {
             locale,
           )}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.nickname.label")}
           value={details.nickName}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.gender.label")}
           value={genderLabelKey ? t(genderLabelKey) : ""}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.dateOfBirth.label")}
           value={formatIsoDate(details.birthDate, locale)}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.advertisingSource.label")}
           value={labelFor(advertisingSources, details.advertisingCode)}
         />
@@ -198,28 +198,28 @@ export default function RegisterConfirmScreen() {
         onEdit={() => editStep("/(auth)/(register)/employment-info")}
       >
         {details.nationality !== JAPANESE_NATIONALITY_CODE && (
-          <ConfirmRow
+          <DetailRow
             label={t("remitter.visaStatus.label")}
             value={visaStatus}
           />
         )}
 
-        <ConfirmRow label={t("remitter.profession.label")} value={profession} />
+        <DetailRow label={t("remitter.profession.label")} value={profession} />
         {/* Only the fields relevant to the chosen occupation are filled in. */}
         {!!details.companyName && (
-          <ConfirmRow
+          <DetailRow
             label={t("remitter.companyName.label")}
             value={details.companyName}
           />
         )}
         {!!details.schoolName && (
-          <ConfirmRow
+          <DetailRow
             label={t("remitter.schoolName.label")}
             value={details.schoolName}
           />
         )}
         {!!details.natureOfBusiness && (
-          <ConfirmRow
+          <DetailRow
             label={t("remitter.natureOfBusiness.label")}
             value={details.natureOfBusiness}
           />
@@ -231,24 +231,24 @@ export default function RegisterConfirmScreen() {
         title={t("registerConfirm.sections.contact")}
         onEdit={() => editStep("/(auth)/(register)/contact-info")}
       >
-        <ConfirmRow label={t("remitter.mobile.label")} value={phoneNumber} />
-        <ConfirmRow
+        <DetailRow label={t("remitter.mobile.label")} value={phoneNumber} />
+        <DetailRow
           label={t("remitter.postalCode.label")}
           value={formatPostalCode(details.postalCode)}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.prefecture.label")}
           value={prefectureLabel}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.city.label")}
           value={details.addressLine1}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.address.label")}
           value={details.addressLine2}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.streetNumber.label")}
           value={details.addressLine3}
         />
@@ -259,15 +259,15 @@ export default function RegisterConfirmScreen() {
         title={t("registerConfirm.sections.identity")}
         onEdit={() => editStep("/(auth)/(register)/identity-info")}
       >
-        <ConfirmRow
+        <DetailRow
           label={t("registerConfirm.idType")}
           value={labelFor(primaryIds, details.primaryIDType)}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.primaryIdNo.label")}
           value={details.primaryIDNo}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("remitter.primaryIdExpiry.label")}
           value={formatIsoDate(details.primaryIDExpiry, locale)}
         />

@@ -10,19 +10,26 @@
  ********************************************************************************************/
 
 import { StyleSheet, View } from "react-native";
-import { useAppTheme } from "../../../hooks/useAppTheme";
-import { Spacing } from "../../../constants/spacing";
-import { AppText } from "../../common/AppText";
+import { useAppTheme } from "../../hooks/useAppTheme";
+import { AppText } from "./AppText";
+import { Spacing } from "../../constants/spacing";
 
 const EMPTY_VALUE = "-";
 
-type ConfirmRowProps = Readonly<{
+type DetailRowProps = Readonly<{
   label: string;
   value?: string;
 }>;
 
-// One "LABEL ....... value" line in a confirm-screen card.
-export function ConfirmRow({ label, value }: ConfirmRowProps) {
+/**
+ * One "LABEL ....... value" line in a details card: the label in grey
+ * capitals on the left, the value on the right. Long values wrap.
+ *
+ * @param label - The filed name (uppercased by style; pass normal text).
+ * @param value - The value; shows "-" when empty or missing
+ * @example <DetailRow label={t("remitter.mobile.label")} value={phoneNumber} />
+ */
+export function DetailRow({ label, value }: DetailRowProps) {
   const { colors } = useAppTheme();
 
   return (

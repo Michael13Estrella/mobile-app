@@ -20,13 +20,13 @@ import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../src/constants/spacing";
 import { AppText } from "../../../src/components/common/AppText";
 import { AppCard } from "../../../src/components/common/AppCard";
-import { ConfirmRow } from "../../../src/components/features/register/ConfirmRow";
 import { formatIsoDate } from "../../../src/utils/formatDate";
 import { useReferenceData } from "../../../src/hooks/useReferenceData";
 import { getReferenceLabel } from "../../../src/utils/referenceData";
 import { StatusIcon } from "../../../src/components/common/StatusIcon";
 import { AppHeader } from "../../../src/components/common/AppHeader";
 import { AppDivider } from "../../../src/components/common/AppDivider";
+import { DetailRow } from "../../../src/components/common/DetailRow";
 
 export default function RegisterSubmittedScreen() {
   const { colors } = useAppTheme();
@@ -87,19 +87,19 @@ export default function RegisterSubmittedScreen() {
       </View>
 
       <AppCard variant="outlined">
-        <ConfirmRow label={t("login.email.label")} value={email} />
-        <ConfirmRow
+        <DetailRow label={t("login.email.label")} value={email} />
+        <DetailRow
           label={t("remitter.dateOfBirth.label")}
           value={formatIsoDate(details.birthDate, locale)}
         />
-        <ConfirmRow
+        <DetailRow
           label={t("onboarding.submitted.idProvided")}
           value={idTypeName}
         />
 
         <AppDivider />
 
-        <ConfirmRow
+        <DetailRow
           label={t("onboarding.submitted.referral")}
           value={referralName}
         />
