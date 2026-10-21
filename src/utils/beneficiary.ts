@@ -9,7 +9,13 @@
  * 3.
  ********************************************************************************************/
 
-import { BeneficiaryDetail, BeneficiarySummary } from "../types";
+import { E_WALLET_BANK_CODES } from "../constants/beneficiary";
+import { PAYOUT_TYPE } from "../constants/transaction";
+import {
+  BeneficiaryDetail,
+  BeneficiaryPayout,
+  BeneficiarySummary,
+} from "../types";
 import { formatPersonName } from "./formatName";
 
 /**
@@ -75,3 +81,17 @@ export const getBeneficiaryAddress = (
     .map((part) => part.trim())
     .filter(Boolean)
     .join(",\n");
+
+/**
+ * Whether a payout method is an e-wallet (GCash, Maya): an "THer banks"
+ * payout to one of the e-wallet bank codes
+ *
+ * @param payout - The payout method.
+ * @returns true for an e-wallet.
+ * @example isEWalletPayout({ payoutType: "OB", bankCode: "0273" }); // true (GCash)
+ */
+export const isEWalletPayout = (
+  payout: Pick<BeneficiaryPayout, "payoutType" | "bankCode">,
+): boolean =>
+  payout.payoutType === PAYOUT_TYPE.OTHER_BANKS &&
+  E_WALLET_BANK_CODES.includes(payout.bankCode);

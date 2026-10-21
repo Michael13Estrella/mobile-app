@@ -17,3 +17,15 @@ export const BENEFICIARY_CATEGORIES: readonly BeneficiaryCategory[] = [
   "individual",
   "corporate",
 ];
+
+// BeneficiaryDetail.beneficiaryType
+export const BENEFICIARY_TYPE = {
+  INDIVIDUAL: "I",
+  CORPORATE: "C",
+} as const;
+
+// BeneficiaryPayout.bankCode of e-wallets (sent as "Other banks")
+export const E_WALLET_BANK_CODES: readonly string[] = [
+  "0273", // GCash
+  "0270", // Maya
+];

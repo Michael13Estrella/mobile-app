@@ -13,6 +13,7 @@ import {
   getBeneficiaryAddress,
   getBeneficiaryFullName,
   getBeneficiaryTitle,
+  isEWalletPayout,
   matchesBeneficiarySearch,
 } from "../beneficiary";
 import { BeneficiarySummary } from "../../types";
@@ -130,5 +131,20 @@ describe("getBeneficiaryAddress", () => {
         zipPosCode: "",
       }),
     ).toBe("1999 Anastacio Street");
+  });
+});
+
+describe("isEWalletPayout", () => {
+  it("is true for GCash and Maya sent as Other banks", () => {
+    expect(isEWalletPayout({ payoutType: "OB", bankCode: "0273" })).toBe(true);
+    expect(isEWalletPayout({ payoutType: "OB", bankCode: "0270" })).toBe(true);
+  });
+
+  it("is false for other banks", () => {
+    expect(isEWalletPayout({ payoutType: "OB", bankCode: "0010" })).toBe(false);
+  });
+
+  it("is false when the payout type isn't Other banks", () => {
+    expect(isEWalletPayout({ payoutType: "CA", bankCode: "0273" })).toBe(false);
   });
 });

@@ -14,11 +14,13 @@ import { useAppTheme } from "../../hooks/useAppTheme";
 import { ActivityIndicator } from "react-native-paper";
 import { AppText } from "./AppText";
 import { Spacing } from "../../constants/spacing";
+import { BrandIcon, BrandIconName } from "../icons";
 
 type TextAlign = "left" | "center" | "right";
 
 // Extra touch area around the text, so a short label is still easy to tap.
-const HIT_SLOP = Spacing.s3;
+const HIT_SLOP = Spacing.s2;
+const ICON_SIZE = 16;
 
 type AppTextButtonProps = Readonly<{
   label: string;
@@ -28,6 +30,9 @@ type AppTextButtonProps = Readonly<{
   align?: TextAlign;
   // Text size: "button1" matches a full-size AppButton next to it.
   size?: "button1" | "button2" | "button3";
+  // Optional icon before the label
+  icon?: BrandIconName;
+  tone?: "primary" | "danger";
 }>;
 
 function alignToFlex(align: TextAlign): "flex-start" | "center" | "flex-end" {
@@ -43,9 +48,12 @@ export function AppTextButton({
   loading = false,
   align = "left",
   size = "button3",
+  icon,
+  tone = "primary",
 }: AppTextButtonProps) {
   const { colors } = useAppTheme();
   const isDisabled = disabled || loading;
+  const color = tone === "danger" ? colors.textError : colors.buttonPrimary;
 
   return (
     // Layout box: takes the row/column space and positions the button.
@@ -54,19 +62,20 @@ export function AppTextButton({
       <Pressable
         onPress={onPress}
         disabled={isDisabled}
-        hitSlop={8}
-        style={styles.pressable}
+        hitSlop={HIT_SLOP}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        style={[styles.pressable, size === "button1" && styles.buttonHeight]}
       >
         {loading ? (
-          <ActivityIndicator size="small" color={colors.buttonPrimary} />
+          <ActivityIndicator size="small" color={color} />
         ) : (
-          <AppText
-            typographyType={size}
-            weight="bold"
-            color={colors.buttonPrimary}
-          >
-            {label}
-          </AppText>
+          <>
+            {icon && <BrandIcon name={icon} size={ICON_SIZE} color={color} />}
+            <AppText typographyType={size} weight="bold" color={color}>
+              {label}
+            </AppText>
+          </>
         )}
       </Pressable>
     </View>
@@ -79,6 +88,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   pressable: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.s2,
     paddingVertical: Spacing.s3,
+  },
+  buttonHeight: {
+    minHeight: 48,
   },
 });

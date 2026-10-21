@@ -198,6 +198,9 @@ export const LightColors = {
   avatarGradientStart: Palette.mbAzure050,
   avatarGradientEnd: Palette.sysSkyBlue050,
 
+  // Payout method icon box (Beneficiary Information)
+  payoutIconBackground: Palette.mbAzure050,
+
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",
 } as const;
@@ -334,6 +337,9 @@ export const DarkColors = {
   // Beneficiary avatar background
   avatarGradientStart: Palette.mbAzure050,
   avatarGradientEnd: Palette.sysSkyBlue050,
+
+  // Payout method icon box (Beneficiary Information)
+  payoutIconBackground: Palette.mbAzure050,
 
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",

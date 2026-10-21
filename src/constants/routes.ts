@@ -11,6 +11,9 @@
 
 import { Href } from "expo-router";
 
+// Every screen path in one place, with the full group path, matching the
+// folders in app/. Keys are prefixed with their group.
+// Dynamic routes are functions that take their params.
 export const ROUTES = {
   // Auth
   AUTH_WELCOME: "/(auth)/welcome",
@@ -37,7 +40,11 @@ export const ROUTES = {
 
   // Beneficiaries
   MANAGE_BENEFICIARIES: "/(protected)/(beneficiaries)/manage-beneficiaries",
+  BENEFICIARY_DETAILS: (beneficiaryGuid: string) => ({
+    pathname: "/(protected)/(beneficiaries)/beneficiary/[beneficiaryGuid]",
+    params: { beneficiaryGuid },
+  }),
 
   // Development
   PREVIEW: "/preview",
-} as const satisfies Record<string, Href>;
+} as const satisfies Record<string, Href | ((...params: string[]) => Href)>;

@@ -27,7 +27,8 @@
     "optional": "(Optional)",
     "signingIn": "Signing in",
     "viewAll": "View all",
-    "add": "Add"
+    "add": "Add",
+    "delete": "Delete"
   },
   "------------------------------ FORM ------------------------------": "",
   "form": {
@@ -355,7 +356,7 @@
     }
   },
 
-  "------------------------------ BENEFICIARIES ------------------------------": "",
+  "------------------------------ MANAGE BENEFICIARIES ------------------------------": "",
   "beneficiaries": {
     "title": "Manage Beneficiaries",
     "categories": {
@@ -369,6 +370,27 @@
     "payoutMethods": {
       "one": "{{count}} payout method",
       "other": "{{count}} payout methods"
+    }
+  },
+
+  "------------------------------ BENEFICIARY DETAILS ------------------------------": "",
+  "beneficiary": {
+    "details": {
+      "title": "Beneficiary Information",
+      "detailsTitle": "Beneficiary details",
+      "nickname": "Nickname",
+      "relationship": "Relationship",
+      "mobile": "Mobile number",
+      "officePhone": "Office phone number",
+      "address": "Address",
+      "gender": "Gender",
+      "birthDate": "Date of birth",
+      "establishDate": "Date of establishment",
+      "payoutsTitle": "Payout methods",
+      "addPayout": "Add payout method",
+      "sendMoney": "Send money",
+      "editDetails": "Edit details",
+      "loadError": "Couldn't load this beneficiary. Pull down to try again."
     }
   },
 

@@ -18,8 +18,8 @@ export type PhoneCountry = Readonly<{
 export const PHONE_DIGIT_PLACEHOLDER = "x";
 
 export const PHONE_COUNTRIES = {
-  JP: { dialCode: "81", isoAlpha2: "JP", template: "xx - xxxx - xxxx" },
-  PH: { dialCode: "63", isoAlpha2: "PH", template: "xxx - xxx - xxxx" },
+  JP: { dialCode: "81", isoAlpha2: "JP", template: "xx xxxx xxxx" },
+  PH: { dialCode: "63", isoAlpha2: "PH", template: "xxx xxx xxxx" },
 } as const satisfies Record<string, PhoneCountry>;
 
 export const REMITTER_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.JP;

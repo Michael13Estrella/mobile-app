@@ -60,10 +60,10 @@ export interface BeneficiaryDetail {
   zipPosCode: string;
   countryCode: string;
   // Birth date (persons) or establishment date (companies), ISO date-time.
-  birthOrEstablishDate: string;
+  birthOrEstablishDate: string | null;
   beneAlias: string;
   // ISO data-time; may be empty when there was no transfer yet
-  lastTransactionDate: string;
+  lastTransactionDate: string | null;
   myAccountFlg: number;
 }
 

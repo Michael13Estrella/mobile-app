@@ -11,13 +11,15 @@
 
 import { ReactNode } from "react";
 import { useAppTheme } from "../../hooks/useAppTheme";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 import { Spacing } from "../../constants/spacing";
 import { AppText } from "./AppText";
 import { AppCard } from "./AppCard";
 
 type DetailSectionProps = Readonly<{
   title: string;
+  // Overrides for the card (e.g. rows that set their own spacing)
+  cardStyle?: ViewStyle;
   children: ReactNode;
 }>;
 
@@ -27,7 +29,11 @@ type DetailSectionProps = Readonly<{
  *
  * @example <DetailSection title="Beneficiary details"><DetailRow … /></DetailSection>
  */
-export function DetailSection({ title, children }: DetailSectionProps) {
+export function DetailSection({
+  title,
+  cardStyle,
+  children,
+}: DetailSectionProps) {
   const { colors } = useAppTheme();
 
   return (
@@ -40,7 +46,7 @@ export function DetailSection({ title, children }: DetailSectionProps) {
       >
         {title}
       </AppText>
-      <AppCard style={styles.card}>{children}</AppCard>
+      <AppCard style={{ ...styles.card, ...cardStyle }}>{children}</AppCard>
     </View>
   );
 }

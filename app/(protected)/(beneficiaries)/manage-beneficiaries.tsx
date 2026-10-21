@@ -26,6 +26,7 @@ import { AppSearchInput } from "../../../src/components/form/AppSearchInput";
 import { AppTabs } from "../../../src/components/common/AppTabs";
 import { AppFloatingButton } from "../../../src/components/common/AppFloatingButton";
 import { useManageBeneficiaries } from "../../../src/hooks/useManageBeneficiaries";
+import { ROUTES } from "../../../src/constants/routes";
 
 // Room below the last card, so the floating "+ Add" never covers it.
 const FLOATING_BUTTON_CLEARANCE = Spacing.s12;
@@ -88,7 +89,9 @@ export default function ManageBeneficiariesScreen() {
       <BeneficiaryCard
         key={beneficiary.beneficiaryGuid}
         beneficiary={beneficiary}
-        onPress={() => {}}
+        onPress={() =>
+          router.push(ROUTES.BENEFICIARY_DETAILS(beneficiary.beneficiaryGuid))
+        }
       />
     ));
   };
