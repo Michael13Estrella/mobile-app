@@ -12,6 +12,7 @@
 import { ComponentProps, ReactNode, useState } from "react";
 import {
   LayoutChangeEvent,
+  Platform,
   StyleProp,
   StyleSheet,
   View,
@@ -47,7 +48,7 @@ const AnimatedGestureScrollView = Animated.createAnimatedComponent(
 
 // Space below the footer (keyboard closed: above the home indicator;
 // keyboard open: between the footer and the keyboard).
-const BOTTOM_PADDING_EXTRA = Spacing.s7;
+const BOTTOM_PADDING_EXTRA = Platform.OS === "ios" ? Spacing.s0 : Spacing.s5;
 // Space kept between a focused input and the sticky footer above the keyboard.
 const FOCUSED_INPUT_GAP = Spacing.s10;
 

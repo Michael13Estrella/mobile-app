@@ -51,7 +51,7 @@ const TAB_CONFIG: Readonly<Record<string, TabConfig>> = {
   },
   "send-money": {
     labelKey: "tabs.sendMoney",
-    icon: "bankNote01Line",
+    icon: "bankNote01_24_Line",
     isCenter: true,
   },
   "pay-bills": {
