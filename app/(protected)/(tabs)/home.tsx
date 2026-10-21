@@ -25,6 +25,8 @@ import { useCharges } from "../../../src/hooks/useCharges";
 import { OffersCarousel } from "../../../src/components/features/home/OffersCarousel";
 import { SAMPLE_OFFERS } from "../../../__mocks__/offers";
 import { useState } from "react";
+import { router } from "expo-router";
+import { ROUTES } from "../../../src/constants/routes";
 export default function HomeScreen() {
   const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
@@ -64,7 +66,7 @@ export default function HomeScreen() {
         beneficiaries={data?.recentBeneficiaries ?? null}
         onAddPress={() => {}} // Todo
         onBeneficiaryPress={() => {}} // Todo
-        onViewAllPress={() => {}}
+        onViewAllPress={() => router.push(ROUTES.MANAGE_BENEFICIARIES)}
       />
 
       {/* Exchange rate card */}
@@ -74,7 +76,7 @@ export default function HomeScreen() {
         key={simulatorKey}
         rates={rates}
         chargeTiers={charges}
-        allowJpy={true}
+        allowJpy={!!data?.hasMetrobankYenAccount}
         onSendPress={() => {}}
       />
 

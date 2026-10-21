@@ -27,6 +27,7 @@ import { Spacing } from "../../src/constants/spacing";
 import { ExchangeRateCard } from "../../src/components/common/ExchangeRateCard";
 import { AppScreen } from "../../src/components/common/AppScreen";
 import { Palette } from "../../src/constants/palette";
+import { ROUTES } from "../../src/constants/routes";
 
 export default function WelcomeScreen() {
   const { login, isLoading, error } = useAuth();
@@ -40,19 +41,19 @@ export default function WelcomeScreen() {
     const res = await login();
 
     if (res.status === "otp" && res.txId) {
-      router.replace({ pathname: "/(auth)/otp", params: { txId: res.txId } });
+      router.replace({ pathname: ROUTES.AUTH_OTP, params: { txId: res.txId } });
       return;
     }
 
     // failure/cancel: login() already dispatched the error. Force a return to
     // welcome in case the OIDC deep-link race left us stranded on callback's
     // AuthLoadingOverlay with nothing else to navigate away from it.
-    router.dismissTo("/(auth)/welcome");
+    router.dismissTo(ROUTES.AUTH_WELCOME);
   };
 
   const handleCreateAccount = () => {
     dispatch(clearRegistration()); // wipe any abandoned data
-    router.push("/(auth)/(register)/login-info");
+    router.push(ROUTES.REGISTER_LOGIN_INFO);
   };
 
   return (
@@ -71,7 +72,7 @@ export default function WelcomeScreen() {
             size={28}
             color={OldPalette.white}
             onPress={() => {
-              router.push("/(auth)/settings");
+              router.push(ROUTES.AUTH_SETTINGS);
             }}
           />
         </TouchableOpacity>
@@ -119,7 +120,7 @@ export default function WelcomeScreen() {
           <AppButton
             label="Preview (dev)"
             variant="ghost"
-            onPress={() => router.push("/preview")}
+            onPress={() => router.push(ROUTES.PREVIEW)}
           />
         )}
       </View>

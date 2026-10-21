@@ -32,6 +32,7 @@ import { devReset } from "../../src/services/security/devReset";
 import { useAuth } from "../../src/hooks/useAuth";
 import { biometricService } from "../../src/services/security/biometricService";
 import { IconName } from "../../src/types";
+import { ROUTES } from "../../src/constants/routes";
 
 const LANG_OPTIONS = [
   { value: "en" as const, label: "English", isoCode: "US" },
@@ -108,7 +109,7 @@ export default function SettingsScreen() {
 
   const handleDevReset = async () => {
     await devReset(user ? [user.id] : []);
-    router.replace("/(auth)/welcome");
+    router.replace(ROUTES.AUTH_WELCOME);
   };
 
   return (

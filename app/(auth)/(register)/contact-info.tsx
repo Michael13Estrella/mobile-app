@@ -41,6 +41,7 @@ import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNav
 import { getErrorFieldLabels } from "../../../src/utils/formErrors";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
 import { findPrefectureValue } from "../../../src/utils/prefecture";
+import { ROUTES } from "../../../src/constants/routes";
 
 export default function RegisterContactInfoScreen() {
   const { t } = useTranslation();
@@ -164,7 +165,7 @@ export default function RegisterContactInfoScreen() {
         mobile,
       }),
     );
-    goNext("/(auth)/(register)/identity-info");
+    goNext(ROUTES.REGISTER_IDENTITY_INFO);
   };
 
   return (

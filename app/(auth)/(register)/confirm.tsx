@@ -40,6 +40,7 @@ import { formatPostalCode } from "../../../src/utils/formatFields";
 import { useAuth } from "../../../src/hooks/useAuth";
 import { clearRegistrationSecrets } from "../../../src/store/slices/registrationSlice";
 import { DetailRow } from "../../../src/components/common/DetailRow";
+import { ROUTES } from "../../../src/constants/routes";
 
 const PROFESSION_OTHERS_CODE = "30";
 const VISA_STATUS_OTHERS_CODE = "99";
@@ -152,7 +153,7 @@ export default function RegisterConfirmScreen() {
       {/* Basic information */}
       <ConfirmSection
         title={t("registerConfirm.sections.basic")}
-        onEdit={() => editStep("/(auth)/(register)/basic-info")}
+        onEdit={() => editStep(ROUTES.REGISTER_BASIC_INFO)}
       >
         <DetailRow
           label={t("remitter.lastName.label")}
@@ -195,7 +196,7 @@ export default function RegisterConfirmScreen() {
       {/* Employment information */}
       <ConfirmSection
         title={t("registerConfirm.sections.employment")}
-        onEdit={() => editStep("/(auth)/(register)/employment-info")}
+        onEdit={() => editStep(ROUTES.REGISTER_EMPLOYMENT_INFO)}
       >
         {details.nationality !== JAPANESE_NATIONALITY_CODE && (
           <DetailRow
@@ -229,7 +230,7 @@ export default function RegisterConfirmScreen() {
       {/* Contact information */}
       <ConfirmSection
         title={t("registerConfirm.sections.contact")}
-        onEdit={() => editStep("/(auth)/(register)/contact-info")}
+        onEdit={() => editStep(ROUTES.REGISTER_CONTACT_INFO)}
       >
         <DetailRow label={t("remitter.mobile.label")} value={phoneNumber} />
         <DetailRow
@@ -257,7 +258,7 @@ export default function RegisterConfirmScreen() {
       {/* Identity information */}
       <ConfirmSection
         title={t("registerConfirm.sections.identity")}
-        onEdit={() => editStep("/(auth)/(register)/identity-info")}
+        onEdit={() => editStep(ROUTES.REGISTER_IDENTITY_INFO)}
       >
         <DetailRow
           label={t("registerConfirm.idType")}

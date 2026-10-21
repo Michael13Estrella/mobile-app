@@ -33,6 +33,7 @@ import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
 import { getErrorFieldLabels } from "../../../src/utils/formErrors";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
+import { ROUTES } from "../../../src/constants/routes";
 
 const VISA_STATUS_OTHERS_CODE = "99";
 const PROFESSION_OTHERS_CODE = "30";
@@ -234,7 +235,7 @@ export default function RegisterEmploymentInfoScreen() {
         natureOfBusiness: data.natureOfBusiness ?? "",
       }),
     );
-    goNext("/(auth)/(register)/contact-info");
+    goNext(ROUTES.REGISTER_CONTACT_INFO);
   };
 
   return (

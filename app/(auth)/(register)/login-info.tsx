@@ -30,6 +30,7 @@ import { RegisterStepper } from "../../../src/components/features/register/Regis
 import { FieldsContainer } from "../../../src/components/form/FieldsContainer";
 import { RegisterSectionHeader } from "../../../src/components/features/register/RegisterSectionHeader";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
+import { ROUTES } from "../../../src/constants/routes";
 
 export default function RegisterAccountScreen() {
   const { colors } = useAppTheme();
@@ -94,7 +95,7 @@ export default function RegisterAccountScreen() {
         return;
       }
 
-      router.push("/(auth)/(register)/verify-email");
+      router.push(ROUTES.REGISTER_VERIFY_EMAIL);
     } finally {
       setSubmitting(false);
     }

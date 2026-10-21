@@ -30,6 +30,7 @@ import { RegisterStepper } from "../../../src/components/features/register/Regis
 import { AppText } from "../../../src/components/common/AppText";
 import Mail02 from "../../../assets/images/icons/mail-02.svg";
 import { OtpResendRow } from "../../../src/components/features/otp/OtpResendRow";
+import { ROUTES } from "../../../src/constants/routes";
 
 const OTP_LENGTH = SECURITY.OTP.LENGTH;
 const RESEND_COOLDOWN_SECONDS = SECURITY.OTP.RESEND_COOLDOWN_SECONDS;
@@ -62,7 +63,7 @@ export default function VerifyEmailScreen() {
         setError("otp", { message: result.message ?? t("errors.generic") });
         return;
       }
-      router.replace("/(auth)/(register)/basic-info");
+      router.replace(ROUTES.REGISTER_BASIC_INFO);
     } finally {
       setVerifying(false);
     }

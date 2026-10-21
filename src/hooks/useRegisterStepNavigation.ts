@@ -13,10 +13,10 @@ import { useEffect } from "react";
 import { Href, router, useLocalSearchParams, useNavigation } from "expo-router";
 import { CommonActions, ParamListBase } from "expo-router/react-navigation";
 import type { NativeStackNavigationProp } from "expo-router/native-stack";
+import { ROUTES } from "../constants/routes";
 
 // Passed by the Confirm screen's "Edit" buttons.
 export const REGISTER_EDIT_MODE = "edit";
-const CONFIRM_ROUTE = "/(auth)/(register)/confirm";
 
 // Navigation for registration steps.
 // Editing from Confirm walks through the following steps too (pre-filled),
@@ -38,7 +38,7 @@ export function useRegisterStepNavigation() {
   // Always a push, so Confirm slides in forward. After an edit walk-through,
   // Confirm's useCollapseEditHistory removes the screens left behind it.
   const goToConfirm = () => {
-    router.push(CONFIRM_ROUTE);
+    router.push(ROUTES.REGISTER_CONFIRM);
   };
 
   return { isEditing, goNext, goToConfirm };

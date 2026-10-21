@@ -27,6 +27,7 @@ import { Spacing } from "../../../src/constants/spacing";
 import { AppScreen } from "../../../src/components/common/AppScreen";
 import { AppText } from "../../../src/components/common/AppText";
 import { AppTextButton } from "../../../src/components/common/AppTextButton";
+import { ROUTES } from "../../../src/constants/routes";
 
 const ICON_SIZE = 72;
 
@@ -51,9 +52,7 @@ export default function EnableBiometricScreen() {
     dispatch(setNeedsPasscodeSetup(false));
     if (user) void biometricService.clearReprompt(user.id);
     router.replace(
-      hasJustRegistered
-        ? "/(protected)/(onboarding)/submitted"
-        : "/(protected)/(tabs)/home",
+      hasJustRegistered ? ROUTES.ONBOARDING_SUBMITTED : ROUTES.HOME,
     );
   };
 

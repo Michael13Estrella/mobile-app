@@ -27,6 +27,7 @@ import { StatusIcon } from "../../../src/components/common/StatusIcon";
 import { AppHeader } from "../../../src/components/common/AppHeader";
 import { AppDivider } from "../../../src/components/common/AppDivider";
 import { DetailRow } from "../../../src/components/common/DetailRow";
+import { ROUTES } from "../../../src/constants/routes";
 
 export default function RegisterSubmittedScreen() {
   const { colors } = useAppTheme();
@@ -52,7 +53,7 @@ export default function RegisterSubmittedScreen() {
 
   const handleExplore = () => {
     dispatch(clearRegistration()); // last of the sign-up data leaves memory
-    router.replace("/(protected)/(tabs)/home");
+    router.replace(ROUTES.HOME);
   };
 
   return (

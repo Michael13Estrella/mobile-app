@@ -344,7 +344,11 @@
     },
     "transactions": {
       "title": "Recent transactions",
-      "sendMoneyTo": "Send Money to {{name}}"
+      "empty": "No transactions yet",
+      "sendMoneyTo": "Send Money to {{name}}",
+      "billsPayment": "Bills Payment {{name}}",
+      "addToWallet": "Add to Wallet",
+      "refund": "Refund"
     },
     "offers": {
       "title": "Offers for you"

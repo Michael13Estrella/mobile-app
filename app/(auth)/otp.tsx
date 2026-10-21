@@ -30,6 +30,7 @@ import Mail02 from "../../assets/images/icons/mail-02.svg";
 import { AppText } from "../../src/components/common/AppText";
 import { OtpResendRow } from "../../src/components/features/otp/OtpResendRow";
 import { AppToast } from "../../src/components/common/AppToast";
+import { ROUTES } from "../../src/constants/routes";
 
 const OTP_LENGTH = SECURITY.OTP.LENGTH;
 const RESEND_COOLDOWN_SECONDS: number = SECURITY.OTP.RESEND_COOLDOWN_SECONDS;
@@ -73,7 +74,7 @@ export default function OtpScreen() {
       // Success: the root layout leaves (auth) once the session exists.
       const result = await verifyOtp(txId, otp);
       if (result === "locked") {
-        router.replace("/(auth)/welcome");
+        router.replace(ROUTES.AUTH_WELCOME);
         return;
       }
       if (result === "failed") setValue("otp", ""); // wrong/expired -> clear for retry

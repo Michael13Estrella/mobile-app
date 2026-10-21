@@ -10,7 +10,7 @@
  ********************************************************************************************/
 
 import React, { ReactNode, useEffect, useState } from "react";
-import { Slot, router, useSegments } from "expo-router";
+import { Href, Slot, router, useSegments } from "expo-router";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { PaperProvider } from "react-native-paper";
@@ -75,6 +75,7 @@ import {
 } from "../src/constants/typography";
 import { AuthLoadingOverlay } from "../src/components/screens/AuthLoadingOverlay";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { ROUTES } from "../src/constants/routes";
 
 const SPLASH_MIN_DURATION_MS = 3000;
 
@@ -90,10 +91,10 @@ if (__DEV__) {
 const resolvePostLoginRoute = (
   needsPasscodeSetup: boolean,
   needsBiometricPrompt: boolean,
-): string => {
-  if (needsPasscodeSetup) return "/(protected)/(onboarding)/secure-prompt";
-  if (needsBiometricPrompt) return "/(protected)/(onboarding)/biometric";
-  return "/(protected)/(tabs)/home";
+): Href => {
+  if (needsPasscodeSetup) return ROUTES.ONBOARDING_SECURE_PROMPT;
+  if (needsBiometricPrompt) return ROUTES.ONBOARDING_BIOMETRIC;
+  return ROUTES.HOME;
 };
 
 function AppContent() {
@@ -272,12 +273,12 @@ function AppContent() {
     );
 
     if (atRoot) {
-      router.replace(hasSession ? postLoginRoute : "/(auth)/welcome");
+      router.replace(hasSession ? postLoginRoute : ROUTES.AUTH_WELCOME);
       return; // keep splash up until we land
     }
 
     if (!isAuthenticated && inProtected) {
-      router.replace("/(auth)/welcome");
+      router.replace(ROUTES.AUTH_WELCOME);
       return;
     }
 
@@ -289,7 +290,7 @@ function AppContent() {
     // HARD GATE: an authenticated session without a PASSCODE may not sit anywhere in
     // (protected) except the onboarding group.
     if (isAuthenticated && needsPasscodeSetup && inProtected && !inOnboarding) {
-      router.replace("/(protected)/(onboarding)/secure-prompt");
+      router.replace(ROUTES.ONBOARDING_SECURE_PROMPT);
       return;
     }
 

@@ -19,6 +19,7 @@ import { AppScreen } from "../../../src/components/common/AppScreen";
 import { Spacing } from "../../../src/constants/spacing";
 import { AppText } from "../../../src/components/common/AppText";
 import SecureAppIllustration from "../../../assets/images/illustrations/Secure-your-transactions-with-AppKey.svg";
+import { ROUTES } from "../../../src/constants/routes";
 
 const ILLUSTRATION_SIZE = 160;
 
@@ -33,7 +34,7 @@ export default function SecurePromptScreen() {
         <AppButton
           label={t("onboarding.securePrompt.button")}
           variant="gradient"
-          onPress={() => router.push("/(protected)/(onboarding)/set-passcode")}
+          onPress={() => router.push(ROUTES.ONBOARDING_SET_PASSCODE)}
         />
       }
     >

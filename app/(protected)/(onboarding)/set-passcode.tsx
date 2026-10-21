@@ -25,6 +25,7 @@ import { AppScreen } from "../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../src/components/common/AppHeader";
 import PasscodeLockIcon from "../../../assets/images/icons/passcode-lock.svg";
 import { AppText } from "../../../src/components/common/AppText";
+import { ROUTES } from "../../../src/constants/routes";
 
 const PASSCODE_LENGTH = SECURITY.PASSCODE.LENGTH;
 const ICON_SIZE = 72;
@@ -50,7 +51,7 @@ export default function SetPasscodeScreen() {
     try {
       await passcodeService.set(user.id, passcode);
       // Saved: the user can't come back to this screen with Back
-      router.replace("/(protected)/(onboarding)/biometric");
+      router.replace(ROUTES.ONBOARDING_BIOMETRIC);
     } catch {
       setError(t("errors.generic"));
     } finally {

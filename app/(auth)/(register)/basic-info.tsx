@@ -45,6 +45,7 @@ import {
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
 import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { ROUTES } from "../../../src/constants/routes";
 
 const MIN_AGE_YEAR = 18;
 
@@ -166,7 +167,7 @@ export default function RegisterBasicInfoScreen() {
         advertisingCode: data.advertisingCode,
       }),
     );
-    goNext("/(auth)/(register)/employment-info");
+    goNext(ROUTES.REGISTER_EMPLOYMENT_INFO);
   };
 
   return (
