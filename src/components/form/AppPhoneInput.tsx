@@ -25,7 +25,6 @@ import { FieldShell } from "./FieldShell";
 import { MaskedDigitsInput } from "./MaskedDigitsInput";
 
 const FLAG_SIZE = 16;
-const FLAG_BOX_RADIUS = 4;
 const CONTACT_ICON_SIZE = 16;
 
 type AppPhoneInputProps<T extends FieldValues> = Readonly<{
@@ -112,7 +111,6 @@ export function AppPhoneInput<T extends FieldValues>({
             size={FLAG_SIZE}
             shape="square"
           />
-          {/* <CountryFlag isoCode={country.isoAlpha2} size={FLAG_SIZE} /> */}
         </View>
         <Text style={[styles.dialCode, { color: fieldColors.text }]}>
           +{country.dialCode}

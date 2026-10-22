@@ -15,13 +15,14 @@ import { setLocale as setLocaleAction } from "../store/slices/uiSlice";
 import { preferenceService } from "../services/storage/preferenceService";
 import { Language } from "../types/language.types";
 import { deviceEnrollmentService } from "../services/security/deviceEnrollmentService";
+import { TranslationKey } from "../types";
 
 export const useTranslation = () => {
   const dispatch = useAppDispatch();
   const locale = useAppSelector((state) => state.ui.locale);
   const isAuthenticated = useAppSelector((s) => s.auth.isAuthenticated);
 
-  const t = (key: string, options?: Record<string, unknown>) => {
+  const t = (key: TranslationKey, options?: Record<string, unknown>) => {
     return i18n.t(key, options);
   };
 

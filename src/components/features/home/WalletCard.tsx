@@ -135,7 +135,7 @@ export function WalletCard({
                   onPress={onDetailsPress}
                   hitSlop={Spacing.s3}
                   accessibilityRole="button"
-                  accessibilityLabel={t("home.wallet.details")}
+                  accessibilityLabel={t("home.wallet.addToWallet")}
                 >
                   <BrandIcon
                     name="arrowNarrowRightLine"
@@ -170,9 +170,7 @@ export function WalletCard({
                   hitSlop={Spacing.s3}
                   accessibilityRole="button"
                   accessibilityLabel={
-                    isHidden
-                      ? t("home.wallet.showBalance")
-                      : t("home.wallet.hideBalance")
+                    isHidden ? "Hide Balance" : "Show Balance"
                   }
                 >
                   <BrandIcon

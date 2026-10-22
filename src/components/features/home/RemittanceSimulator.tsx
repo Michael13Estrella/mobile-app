@@ -157,10 +157,6 @@ export function RemittanceSimulator({
 
   const receiveAmount = parseAmountInput(receiveValue);
 
-  // Amount entered, charges loaded, but no tier covers it (e.g. too large).
-  const isOutOfRange =
-    sendAmount > 0 && chargeTiers.length > 0 && tier === null;
-
   // The minimum of the field the user typed in (once something is entered):
   // "You send" -> the send minimum, "Beneficiary gets" -> the receive minimum.
   const isSendTyped = edited.side === "send";
@@ -242,7 +238,7 @@ export function RemittanceSimulator({
 
         {/* (PHP) / (USD) / (JPY) */}
         <SegmentedControl
-          accessibilityLabel={t("home.simulator.currency")}
+          accessibilityLabel={t("home.simulator.title")}
           value={receiveCurrency}
           onChange={handleCurrencyChange}
           options={receiveCurrencies.map((code) => ({
@@ -277,12 +273,6 @@ export function RemittanceSimulator({
               : ""
           }
         />
-
-        {isOutOfRange && (
-          <AppText typographyType="body3" color={colors.textError}>
-            {t("home.simulator.outOfRange")}
-          </AppText>
-        )}
 
         {!!minimumMessage && (
           <AppText typographyType="body3" color={colors.textError}>

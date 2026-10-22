@@ -1,11 +1,11 @@
-import { RecentTransaction } from "../types";
+import { RecentTransaction, TranslationKey } from "../types";
 import { formatPersonName } from "./formatName";
 import { TRANS_POST_TYPE } from "../constants/transaction";
 import { PAYOUT_TYPE } from "../constants/beneficiary";
 
 export type TransactionTitle = Readonly<{
   // Translation key of the title
-  key: string;
+  key: TranslationKey;
   // The other party, for keys with {{name}}.
   name?: string;
 }>;
