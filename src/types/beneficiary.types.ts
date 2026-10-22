@@ -67,7 +67,7 @@ export interface BeneficiaryDetail {
   myAccountFlg: number;
 }
 
-// One way the beneficiary can receive money (e.g. a bank account).
+// Beneficiary's payout
 export interface BeneficiaryPayout {
   payoutId: number;
   beneficiaryGuid: string;

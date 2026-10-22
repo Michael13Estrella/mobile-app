@@ -27,6 +27,7 @@ import { AppTabs } from "../../../src/components/common/AppTabs";
 import { AppFloatingButton } from "../../../src/components/common/AppFloatingButton";
 import { useManageBeneficiaries } from "../../../src/hooks/useManageBeneficiaries";
 import { ROUTES } from "../../../src/constants/routes";
+import { AddBeneficiarySheet } from "../../../src/components/features/beneficiary/AddBeneficiarySheet";
 
 // Room below the last card, so the floating "+ Add" never covers it.
 const FLOATING_BUTTON_CLEARANCE = Spacing.s12;
@@ -40,6 +41,9 @@ export default function ManageBeneficiariesScreen() {
     BENEFICIARY_CATEGORIES[0],
   );
   const [query, setQuery] = useState("");
+
+  // "+ Add" drawer (asks for the beneficiary type)
+  const [isAddBeneSheetOpen, setIsAddBeneSheetOpen] = useState(false);
 
   // Each tab's beneficiaries matching the search (all of them when empty)
   const filtered = (key: BeneficiaryCategory) =>
@@ -125,7 +129,13 @@ export default function ManageBeneficiariesScreen() {
       <AppFloatingButton
         label={t("common.add")}
         icon="plusLine"
-        onPress={() => {}}
+        onPress={() => setIsAddBeneSheetOpen(true)}
+      />
+
+      <AddBeneficiarySheet
+        visible={isAddBeneSheetOpen}
+        onSelect={() => setIsAddBeneSheetOpen(false)}
+        onClose={() => setIsAddBeneSheetOpen(false)}
       />
     </View>
   );

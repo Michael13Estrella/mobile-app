@@ -391,6 +391,14 @@
       "sendMoney": "Send money",
       "editDetails": "Edit details",
       "loadError": "Couldn't load this beneficiary. Pull down to try again."
+    },
+    "add": {
+      "typeTitle": "Beneficiary type",
+      "types": {
+        "ownAccount": "Own account",
+        "individual": "Individual",
+        "corporate": "Corporate"
+      }
     }
   },
 

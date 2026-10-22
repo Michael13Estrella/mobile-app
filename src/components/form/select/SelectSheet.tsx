@@ -66,6 +66,7 @@ type SelectSheetProps = Readonly<{
   groupByLetter?: boolean;
   sortAscending?: boolean;
   showFlags?: boolean;
+  fitContent?: boolean;
 }>;
 
 // The common selection drawer used by every dropdown (AppSelect).
@@ -82,6 +83,7 @@ export function SelectSheet({
   groupByLetter = false,
   sortAscending = false,
   showFlags = false,
+  fitContent = false,
 }: SelectSheetProps) {
   const { colors } = useAppTheme();
   const { t } = useTranslation();
@@ -280,6 +282,7 @@ export function SelectSheet({
           accessibilityViewIsModal
           style={[
             styles.sheet,
+            fitContent ? styles.fitHeight : styles.fullHeight,
             { backgroundColor: colors.surface, paddingBottom: insets.bottom },
             sheetAnimatedStyle,
           ]}
@@ -320,7 +323,7 @@ export function SelectSheet({
           )}
 
           {/* Options */}
-          <View style={styles.listArea}>
+          <View style={fitContent ? styles.listAreaFit : styles.listArea}>
             <FlatList
               ref={listRef}
               onLayout={handleListLayout}
@@ -376,7 +379,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   sheet: {
-    height: SHEET_HEIGHT,
     borderTopLeftRadius: SHEET_RADIUS,
     borderTopRightRadius: SHEET_RADIUS,
     paddingTop: Spacing.s7,
@@ -394,6 +396,15 @@ const styles = StyleSheet.create({
   },
   listArea: {
     flex: 1,
+  },
+  listAreaFit: {
+    flexShrink: 1,
+  },
+  fullHeight: {
+    height: SHEET_HEIGHT,
+  },
+  fitHeight: {
+    maxHeight: SHEET_HEIGHT,
   },
   sectionHeader: {
     height: SECTION_HEADER_HEIGHT,

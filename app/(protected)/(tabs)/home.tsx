@@ -27,6 +27,7 @@ import { SAMPLE_OFFERS } from "../../../__mocks__/offers";
 import { useState } from "react";
 import { router } from "expo-router";
 import { ROUTES } from "../../../src/constants/routes";
+import { AddBeneficiarySheet } from "../../../src/components/features/beneficiary/AddBeneficiarySheet";
 export default function HomeScreen() {
   const { data, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
@@ -37,6 +38,9 @@ export default function HomeScreen() {
   // start empty again
   const [simulatorKey, setSimulatorKey] = useState(0);
 
+  // "Add Beneficiary" drawer (asks for beneficiary type)
+  const [isAddBeneSheetOpen, setIsAddBeneSheetOpen] = useState(false);
+
   // Pull-to-refresh both the dashboard and the rates.
   const handleRefresh = () => {
     setSimulatorKey((key) => key + 1);
@@ -44,51 +48,59 @@ export default function HomeScreen() {
   };
 
   return (
-    <AppScreen gradient contentGap={Spacing.s5} onRefresh={handleRefresh}>
-      {/* Header: nickname and last login */}
-      <HomeHeader
-        displayName={displayName}
-        lastLogin={data?.lastLogin ?? null}
-        unreadCount={0}
+    <>
+      <AppScreen gradient contentGap={Spacing.s5} onRefresh={handleRefresh}>
+        {/* Header: nickname and last login */}
+        <HomeHeader
+          displayName={displayName}
+          lastLogin={data?.lastLogin ?? null}
+          unreadCount={0}
+        />
+
+        {/* Wallet card */}
+        <WalletCard
+          balance={data?.wallet.currentBalance ?? null}
+          currency={data?.wallet.currency ?? WALLET_CURRENCY}
+          rates={rates}
+          onDetailsPress={() => {}} // Todo
+          onAddToWalletPress={() => {}} // Todo
+        />
+
+        {/* Recent beneficiaries */}
+        <RecentBeneficiaries
+          beneficiaries={data?.recentBeneficiaries ?? null}
+          onAddPress={() => setIsAddBeneSheetOpen(true)}
+          onBeneficiaryPress={() => {}} // Todo
+          onViewAllPress={() => router.push(ROUTES.MANAGE_BENEFICIARIES)}
+        />
+
+        {/* Exchange rate card */}
+        <ExchangeRateCard />
+
+        <RemittanceSimulator
+          key={simulatorKey}
+          rates={rates}
+          chargeTiers={charges}
+          allowJpy={!!data?.hasMetrobankYenAccount}
+          onSendPress={() => {}}
+        />
+
+        {/* Recent transactions */}
+        <RecentTransactions
+          transactions={data?.recentTransactions ?? null}
+          walletCurrency={data?.wallet.currency ?? WALLET_CURRENCY}
+          onViewAllPress={() => {}}
+        />
+
+        {/* Offers */}
+        <OffersCarousel offers={SAMPLE_OFFERS} />
+      </AppScreen>
+
+      <AddBeneficiarySheet
+        visible={isAddBeneSheetOpen}
+        onSelect={() => setIsAddBeneSheetOpen(false)}
+        onClose={() => setIsAddBeneSheetOpen(false)}
       />
-
-      {/* Wallet card */}
-      <WalletCard
-        balance={data?.wallet.currentBalance ?? null}
-        currency={data?.wallet.currency ?? WALLET_CURRENCY}
-        rates={rates}
-        onDetailsPress={() => {}} // Todo
-        onAddToWalletPress={() => {}} // Todo
-      />
-
-      {/* Recent beneficiaries */}
-      <RecentBeneficiaries
-        beneficiaries={data?.recentBeneficiaries ?? null}
-        onAddPress={() => {}} // Todo
-        onBeneficiaryPress={() => {}} // Todo
-        onViewAllPress={() => router.push(ROUTES.MANAGE_BENEFICIARIES)}
-      />
-
-      {/* Exchange rate card */}
-      <ExchangeRateCard />
-
-      <RemittanceSimulator
-        key={simulatorKey}
-        rates={rates}
-        chargeTiers={charges}
-        allowJpy={!!data?.hasMetrobankYenAccount}
-        onSendPress={() => {}}
-      />
-
-      {/* Recent transactions */}
-      <RecentTransactions
-        transactions={data?.recentTransactions ?? null}
-        walletCurrency={data?.wallet.currency ?? WALLET_CURRENCY}
-        onViewAllPress={() => {}}
-      />
-
-      {/* Offers */}
-      <OffersCarousel offers={SAMPLE_OFFERS} />
-    </AppScreen>
+    </>
   );
 }
