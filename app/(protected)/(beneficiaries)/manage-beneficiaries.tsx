@@ -134,7 +134,10 @@ export default function ManageBeneficiariesScreen() {
 
       <AddBeneficiarySheet
         visible={isAddBeneSheetOpen}
-        onSelect={() => setIsAddBeneSheetOpen(false)}
+        onSelect={(category) => {
+          setIsAddBeneSheetOpen(false);
+          router.push(ROUTES.ADD_BENEFICIARY(category));
+        }}
         onClose={() => setIsAddBeneSheetOpen(false)}
       />
     </View>

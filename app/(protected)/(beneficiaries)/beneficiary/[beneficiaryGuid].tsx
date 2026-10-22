@@ -53,7 +53,7 @@ export default function BeneficiaryDetailsScreen() {
           color={colors.textSecondary}
           style={styles.state}
         >
-          {t("beneficiary.details.loadError")}
+          {t("beneficiaryDetails.loadError")}
         </AppText>
       );
     }
@@ -94,7 +94,7 @@ export default function BeneficiaryDetailsScreen() {
       onPress={() => {}}
       hitSlop={ACTION_HIT_SLOP}
       accessibilityRole="button"
-      accessibilityLabel={t("beneficiary.details.deleteBeneficiary")}
+      accessibilityLabel={t("common.delete")}
       style={styles.headerAction}
     >
       <BrandIcon name="trash03Line" color={colors.iconError} />
@@ -104,14 +104,14 @@ export default function BeneficiaryDetailsScreen() {
   const footer = beneficiary && (
     <View style={styles.footer}>
       <AppButton
-        label={t("beneficiary.details.sendMoney")}
+        label={t("beneficiaryDetails.sendMoney")}
         variant="gradient"
         icon="bankNote01_24_Line"
         // TODO
         onPress={() => {}}
       />
       <AppTextButton
-        label={t("beneficiary.details.editDetails")}
+        label={t("beneficiaryDetails.editDetails")}
         size="button1"
         align="center"
         // TODO
@@ -127,7 +127,7 @@ export default function BeneficiaryDetailsScreen() {
       onRefresh={refresh}
       header={
         <AppHeader
-          title={t("beneficiary.details.title")}
+          title={t("beneficiaryDetails.title")}
           onBack={() => router.back()}
           right={deleteAction}
         />

@@ -145,7 +145,7 @@ export const LightColors = {
 
   // Forms/Inputs
   inputBackground: Palette.white100,
-  inputBorder: OldPalette.slate400,
+  inputBorder: Palette.mbGrey050,
   inputPlaceholder: OldPalette.slate400,
   inputBorderError: Palette.sysRed600,
   inputBorderFocused: Palette.mbBlue500,

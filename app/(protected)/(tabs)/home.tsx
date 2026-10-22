@@ -98,7 +98,10 @@ export default function HomeScreen() {
 
       <AddBeneficiarySheet
         visible={isAddBeneSheetOpen}
-        onSelect={() => setIsAddBeneSheetOpen(false)}
+        onSelect={(category) => {
+          setIsAddBeneSheetOpen(false);
+          router.push(ROUTES.ADD_BENEFICIARY(category));
+        }}
         onClose={() => setIsAddBeneSheetOpen(false)}
       />
     </>

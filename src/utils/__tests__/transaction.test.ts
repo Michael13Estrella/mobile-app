@@ -14,8 +14,9 @@ import {
   getTransactionTitle,
   isMoneyIn,
 } from "../transaction";
-import { PAYOUT_TYPE, TRANS_POST_TYPE } from "../../constants/transaction";
+import { TRANS_POST_TYPE } from "../../constants/transaction";
 import { RecentTransaction } from "../../types";
+import { PAYOUT_TYPE } from "../../constants/beneficiary";
 
 const transaction = (
   fields: Partial<RecentTransaction> = {},

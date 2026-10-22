@@ -18,11 +18,3 @@ export const TRANS_POST_TYPE = {
   // Money back (e.g. reversed remittance to a closed account)
   REFUND: 2,
 } as const;
-
-// RecentTransaction.payoutType: how the beneficiary receives it.
-export const PAYOUT_TYPE = {
-  METROBANK_ACCOUNT: "CA",
-  CASH_PICKUP: "CP",
-  OTHER_BANKS: "OB",
-  BILLS_PAYMENT: "BP",
-} as const;

@@ -19,6 +19,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppText } from "../common/AppText";
 import { GradientText } from "../common/GradientText";
+import { TranslationKey } from "../../types";
 
 const TAB_ICON_SIZE = 24;
 const BAR_RADIUS = Spacing.s7;
@@ -32,7 +33,7 @@ const RING_GRADIENT_START = { x: 0, y: 0 };
 const RING_GRADIENT_END = { x: 1, y: 1 };
 
 type TabConfig = Readonly<{
-  labelKey: string;
+  labelKey: TranslationKey;
   icon: BrandIconName;
   // Icon when the tab is selected (e.g. filled); defaults to `icon`
   activeIcon?: BrandIconName;

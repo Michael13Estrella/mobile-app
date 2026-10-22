@@ -33,6 +33,7 @@ type AppSelectProps<T extends FieldValues> = Readonly<{
   options: SelectOption[];
   placeholder?: string;
   required?: boolean;
+  disabled?: boolean;
 
   // Drawer options (see SelectSheet)
   headerAction?: SelectHeaderAction;
@@ -40,6 +41,7 @@ type AppSelectProps<T extends FieldValues> = Readonly<{
   groupByLetter?: boolean;
   sortAscending?: boolean;
   showFlags?: boolean;
+  fitContent?: boolean;
 }>;
 
 function SelectChevronIcon({ color }: Readonly<{ color: string }>) {
@@ -60,11 +62,13 @@ export function AppSelect<T extends FieldValues>({
   options,
   placeholder,
   required = false,
+  disabled = false,
   headerAction,
   pinnedValues,
   groupByLetter,
   sortAscending,
   showFlags,
+  fitContent = false,
 }: AppSelectProps<T>) {
   const [visible, setVisible] = useState(false);
 
@@ -105,7 +109,7 @@ export function AppSelect<T extends FieldValues>({
       errorMessage={errorMessage}
     >
       {/* Select field */}
-      <Pressable onPress={openPicker}>
+      <Pressable onPress={openPicker} disabled={disabled}>
         <View style={styles.fieldTouchArea}>
           <TextInput
             value={selectedLabel}
@@ -142,6 +146,7 @@ export function AppSelect<T extends FieldValues>({
         groupByLetter={groupByLetter}
         sortAscending={sortAscending}
         showFlags={showFlags}
+        fitContent={fitContent}
       />
     </FieldShell>
   );

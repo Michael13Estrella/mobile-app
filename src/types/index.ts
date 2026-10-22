@@ -25,4 +25,5 @@ export * from "./offer.types";
 export * from "./referenceData.types";
 export * from "./register.types";
 export * from "./remitter.types";
+export * from "./translation.types";
 export * from "./user.types";

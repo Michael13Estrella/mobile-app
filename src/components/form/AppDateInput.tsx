@@ -22,7 +22,7 @@ import { LEADING_ICON_GAP, LEADING_ICON_SIZE } from "./FieldLeadingIcon";
 import { MaskedDigitsInput } from "./MaskedDigitsInput";
 
 const DATE_DIGIT_COUNT = 8;
-const EN_TEMPLATE = "MM / DD / YYYY";
+const EN_TEMPLATE = "mm / dd / yyyy";
 const JA_TEMPLATE = "YYYY年 MM月 DD日";
 
 type AppDateInputProps<T extends FieldValues> = Readonly<{

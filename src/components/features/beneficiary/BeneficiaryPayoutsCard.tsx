@@ -40,7 +40,7 @@ export function BeneficiaryPayoutsCard({
 
   return (
     <DetailSection
-      title={t("beneficiary.details.payoutsTitle")}
+      title={t("beneficiaryDetails.payoutsTitle")}
       cardStyle={styles.card}
     >
       {payouts.map((payout) => (
@@ -55,7 +55,7 @@ export function BeneficiaryPayoutsCard({
 
       <View style={styles.button}>
         <AppTextButton
-          label={t("beneficiary.details.addPayout")}
+          label={t("beneficiaryDetails.addPayout")}
           icon="plusLine"
           onPress={onAddPayout}
         />

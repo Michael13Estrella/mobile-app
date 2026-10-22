@@ -9,12 +9,18 @@
  * 3.
  ********************************************************************************************/
 
-import { E_WALLET_BANK_CODES } from "../constants/beneficiary";
-import { PAYOUT_TYPE } from "../constants/transaction";
+import {
+  BENEFICIARY_TYPE,
+  E_WALLET_BANK_CODES,
+  MY_ACCOUNT_FLAG,
+  PAYOUT_TYPE,
+} from "../constants/beneficiary";
+import { IndividualFormValues } from "../schemas/individualBeneficiarySchema";
 import {
   BeneficiaryDetail,
   BeneficiaryPayout,
   BeneficiarySummary,
+  CreateIndividualBeneficiary,
 } from "../types";
 import { formatPersonName } from "./formatName";
 
@@ -95,3 +101,37 @@ export const isEWalletPayout = (
 ): boolean =>
   payout.payoutType === PAYOUT_TYPE.OTHER_BANKS &&
   E_WALLET_BANK_CODES.includes(payout.bankCode);
+
+// An optional field for the request: trimmed, or left out (undefined) when
+// empty, since the API takes missing fields
+const optionalField = (value: string): string | undefined =>
+  value.trim() || undefined;
+
+/**
+ * The beneficiary part of the create request, from the individual form.
+ * Optional fields left empty are left out,
+ *
+ * @param values - The individual form's values
+ * @param isOwnAccount - Whether it's the remitter's own account
+ * @returns The individual beneficiary as the API expects it
+ * @example toCreateIndividualBeneficiary(values, false).beneficiaryType; // "I"
+ */
+export const toCreateIndividualBeneficiary = (
+  values: IndividualFormValues,
+  isOwnAccount: boolean,
+): CreateIndividualBeneficiary => ({
+  beneficiaryType: BENEFICIARY_TYPE.INDIVIDUAL,
+  myAccountFlg: isOwnAccount ? MY_ACCOUNT_FLAG.YES : MY_ACCOUNT_FLAG.NO,
+  beneAlias: optionalField(values.beneAlias),
+  lastName: values.lastName.trim(),
+  firstName: values.firstName.trim(),
+  middleName: optionalField(values.middleName),
+  gender: values.gender || undefined,
+  birthOrEstablishDate: optionalField(values.birthDate),
+  address1: values.addressLine1.trim(),
+  address2: optionalField(values.addressLine2),
+  cityProvCode: values.cityProvCode,
+  zipPosCode: values.zipPosCode,
+  relationToBeneCode: values.relationToBeneCode,
+  mobileNo: optionalField(values.mobileNo),
+});

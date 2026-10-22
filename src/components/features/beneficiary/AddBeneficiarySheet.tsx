@@ -36,7 +36,7 @@ export function AddBeneficiarySheet({
 
   const options: DropdownOption[] = BENEFICIARY_CATEGORIES.map((category) => ({
     value: category,
-    label: t(`beneficiary.add.types.${category}`),
+    label: t(`addBeneficiary.drawer.types.${category}`),
   }));
 
   // Back from the option's string value to its category (no cast needed)
@@ -50,7 +50,7 @@ export function AddBeneficiarySheet({
   return (
     <SelectSheet
       visible={visible}
-      title={t("beneficiary.add.typeTitle")}
+      title={t("addBeneficiary.drawer.title")}
       options={options}
       onSelect={handleSelect}
       headerAction="cancel"

@@ -42,13 +42,21 @@ export const referenceDataService = {
     return ok && data ? data : null;
   },
 
-  searchPhilippineAreas: async (
-    keyword: string,
+  // Philippine provinces; [] when they couldn't be loaded
+  fetchPhilippineCityProvinces: async (): Promise<PhilippineAreaResult[]> => {
+    const { ok, data } = await apiClient.plain.get<PhilippineAreaResult[]>(
+      ENDPOINTS.REFERENCE_PHILIPPINE_CITY_PROV,
+    );
+    return ok && data ? data : [];
+  },
+
+  // The cities/municipalities of a province; [] when they couldn't be loaded
+  fetchPhilippineTownAreas: async (
+    cityProvCode: string,
   ): Promise<PhilippineAreaResult[]> => {
     const { ok, data } = await apiClient.plain.get<PhilippineAreaResult[]>(
-      ENDPOINTS.REFERENCE_PHILIPPINE_AREAS(keyword),
+      ENDPOINTS.REFERENCE_PHILIPPINE_TOWN_AREA(cityProvCode),
     );
-
     return ok && data ? data : [];
   },
 };

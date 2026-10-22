@@ -44,6 +44,8 @@ export const ENDPOINTS = {
     `/api/remitters/${remitterGuid}/manage-beneficiaries`,
   BENEFICIARY_PAYOUTS: (remitterGuid: string, beneficiaryGuid: string) =>
     `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payouts`,
+  CREATE_BENEFICIARY: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/beneficiaries`,
 
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>
@@ -62,8 +64,9 @@ export const ENDPOINTS = {
   REFERENCE_NATIONALITY: "/api/reference-master/nationality",
   REFERENCE_POSTAL: (postalCode: string) =>
     `/api/reference-master/postal/${postalCode}`,
-  REFERENCE_PHILIPPINE_AREAS: (keyword: string) =>
-    `/api/reference-master/philippine-areas/${keyword}`,
+  REFERENCE_PHILIPPINE_CITY_PROV: "/api/reference-master/philippine-city-prov",
+  REFERENCE_PHILIPPINE_TOWN_AREA: (cityProvCode: string) =>
+    `/api/reference-master/philippine-town-area/${cityProvCode}`,
   REFERENCE_CHARGES: "/api/reference-master/charges",
 
   EXCHANGE_RATES_CACHED: "/api/reference-master/exrates-cache",

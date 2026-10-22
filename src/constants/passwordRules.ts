@@ -9,6 +9,7 @@
  * 3.
  ********************************************************************************************/
 
+import { TranslationKey } from "../types";
 import {
   PASSWORD_HAS_SPACE_REGEX,
   PASSWORD_MIN_LENGTH,
@@ -16,7 +17,7 @@ import {
 } from "./validation";
 
 export type PasswordRule = Readonly<{
-  labelKey: string;
+  labelKey: TranslationKey;
   test: (password: string) => boolean;
 }>;
 

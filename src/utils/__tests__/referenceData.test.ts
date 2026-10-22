@@ -9,7 +9,11 @@
  * 3.
  ********************************************************************************************/
 
-import { getReferenceLabel, toDropdownOptions } from "../referenceData";
+import {
+  getReferenceLabel,
+  toAreaOptions,
+  toDropdownOptions,
+} from "../referenceData";
 import { ReferenceDataItem } from "../../types/referenceData.types";
 
 const ITEMS: ReferenceDataItem[] = [
@@ -47,5 +51,19 @@ describe("getReferenceLabel", () => {
     expect(getReferenceLabel(ITEMS, "99", "en")).toBe("99");
     // The list not loaded yet.
     expect(getReferenceLabel([], "01", "ja")).toBe("01");
+  });
+});
+
+describe("toAreaOptions", () => {
+  it("uses the code as value and the name as label, in order", () => {
+    expect(
+      toAreaOptions([
+        { code: "1376", name: "Metro Manila" },
+        { code: "0128", name: "Cebu" },
+      ]),
+    ).toEqual([
+      { value: "1376", label: "Metro Manila" },
+      { value: "0128", label: "Cebu" },
+    ]);
   });
 });

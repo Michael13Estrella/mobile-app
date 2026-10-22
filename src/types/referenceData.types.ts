@@ -32,6 +32,6 @@ export interface PostalLookupResult {
 }
 
 export interface PhilippineAreaResult {
-  areaZipCodeAndCityProvCode: string;
-  areaNameAndCityProvName: string;
+  code: string;
+  name: string;
 }

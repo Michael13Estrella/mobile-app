@@ -374,33 +374,107 @@
   },
 
   "------------------------------ BENEFICIARY DETAILS ------------------------------": "",
-  "beneficiary": {
-    "details": {
-      "title": "Beneficiary Information",
-      "detailsTitle": "Beneficiary details",
-      "nickname": "Nickname",
-      "relationship": "Relationship",
-      "mobile": "Mobile number",
-      "officePhone": "Office phone number",
-      "address": "Address",
-      "gender": "Gender",
-      "birthDate": "Date of birth",
-      "establishDate": "Date of establishment",
-      "payoutsTitle": "Payout methods",
-      "addPayout": "Add payout method",
-      "sendMoney": "Send money",
-      "editDetails": "Edit details",
-      "loadError": "Couldn't load this beneficiary. Pull down to try again."
-    },
-    "add": {
-      "typeTitle": "Beneficiary type",
+  "beneficiaryDetails": {
+    "title": "Beneficiary Information",
+    "detailsTitle": "Beneficiary details",
+    "nickname": "Nickname",
+    "relationship": "Relationship",
+    "mobileNo": "Mobile number",
+    "officeTelNo": "Office phone number",
+    "address": "Address",
+    "gender": "Gender",
+    "birthDate": "Date of birth",
+    "establishDate": "Date of establishment",
+    "payoutsTitle": "Payout methods",
+    "addPayout": "Add payout method",
+    "sendMoney": "Send money",
+    "editDetails": "Edit details",
+    "loadError": "Couldn't load this beneficiary. Pull down to try again."
+  },
+
+  "------------------------------ ADD BENEFICIARY ------------------------------": "",
+  "addBeneficiary": {
+    "drawer": {
+      "title": "BeneficiaryType",
       "types": {
         "ownAccount": "Own account",
         "individual": "Individual",
         "corporate": "Corporate"
       }
+    },
+    "title": "Add Beneficiary",
+    "notificationSection": {
+      "title": "Notification Details",
+      "description": "Recipients will receive transaction notifications via the provided mobile number"
     }
   },
+
+  "------------------------------ BENEFICIARY FIELDS ------------------------------": "",
+  "beneficiaryFields": {
+    "nickname": {
+      "label": "Nickname",
+      "placeholder": "Beneficiary's nickname"
+    },
+    "lastName": {
+      "label": "Last name",
+      "placeholder": "Beneficiary's last name"
+    },
+    "firstName": {
+      "label": "First name",
+      "placeholder": "Beneficiary's first name"
+    },
+    "middleName": {
+      "label": "Middle name",
+      "placeholder": "Beneficiary's middle name"
+    },
+    "gender": {
+      "label": "Gender",
+      "male": "Male",
+      "female": "Female"
+    },
+    "relationship": {
+      "label": "Relationship",
+      "placeholder": "Select relationship"
+    },
+    "mobileNo": {
+      "label": "Mobile number",
+      "validation": "Enter a 10-digit mobile number without the first 0 (e.g. 932 123 5678)"
+    },
+    "officeTelNo": {
+      "label": "Office tel no.",
+      "placeholder": "Enter office tel no."
+    },
+    "dateOfBirth": {
+      "label": "Date of Birth"
+    },
+    "addressLine1": {
+      "label": "Address line 1",
+      "placeholder": "Beneficiary's street address"
+    },
+    "addressLine2": {
+      "label": "Address line 2",
+      "placeholder": "Beneficiary's barangay, village"
+    },
+    "province": {
+      "label": "Province",
+      "placeholder": "Select Beneficiary's Province"
+    },
+    "city": {
+      "label": "City/Municipality",
+      "placeholder": "Select Beneficiary's City/Municipality"
+    },
+    "companyName": {
+      "label": "Company name",
+      "placeholder": "Enter company name"
+    },
+    "establishDate": {
+      "label": "Date of establishment"
+    }
+  },
+
+  "------------------------------ XXXX ------------------------------": "",
+  "------------------------------ XX ------------------------------": "",
+  "------------------------------ X ------------------------------": "",
 
   "biometric": {
     "promptMessage": "Authenticate to continue."

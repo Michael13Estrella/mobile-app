@@ -11,7 +11,6 @@
 
 import { Control, FieldValues, Path } from "react-hook-form";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import CountryFlag from "react-native-country-flag";
 import { Contact } from "expo-contacts";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { useFormField } from "../../hooks/useFormField";
@@ -21,7 +20,7 @@ import { Typography } from "../../constants/typography";
 import { Spacing } from "../../constants/spacing";
 import { PhoneCountry } from "../../constants/phone";
 import { toPhoneDigits } from "../../utils/phone";
-import { BrandIcon } from "../icons";
+import { BrandCountryFlag, BrandIcon } from "../icons";
 import { FieldShell } from "./FieldShell";
 import { MaskedDigitsInput } from "./MaskedDigitsInput";
 
@@ -107,8 +106,13 @@ export function AppPhoneInput<T extends FieldValues>({
         ]}
       >
         {/* Fixed country: flag + dial code */}
-        <View style={[styles.flagBox, { borderColor: colors.borderDefault }]}>
-          <CountryFlag isoCode={country.isoAlpha2} size={FLAG_SIZE} />
+        <View>
+          <BrandCountryFlag
+            code={country.isoAlpha2}
+            size={FLAG_SIZE}
+            shape="square"
+          />
+          {/* <CountryFlag isoCode={country.isoAlpha2} size={FLAG_SIZE} /> */}
         </View>
         <Text style={[styles.dialCode, { color: fieldColors.text }]}>
           +{country.dialCode}
@@ -148,12 +152,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: FIELD_SIZE.paddingHorizontal,
     gap: Spacing.s4,
-  },
-  flagBox: {
-    borderWidth: FIELD_SIZE.borderWidth,
-    borderRadius: FLAG_BOX_RADIUS,
-    paddingHorizontal: Spacing.s1,
-    paddingVertical: Spacing.s1,
   },
   dialCode: {
     fontSize: Typography.sizes.md,

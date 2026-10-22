@@ -70,11 +70,11 @@ describe("isValidPhoneNumber", () => {
 
 describe("formatPhoneNumber", () => {
   it("formats with the country code and template", () => {
-    expect(formatPhoneNumber(JP, "9012345678")).toBe("+81 90 - 1234 - 5678");
-    expect(formatPhoneNumber(PH, "9171234567")).toBe("+63 917 - 123 - 4567");
+    expect(formatPhoneNumber(JP, "9012345678")).toBe("+81 90 1234 5678");
+    expect(formatPhoneNumber(PH, "9171234567")).toBe("+63 917 123 4567");
   });
 
   it("leaves missing digits empty", () => {
-    expect(formatPhoneNumber(JP, "90")).toBe("+81 90 -  - ");
+    expect(formatPhoneNumber(JP, "90")).toBe("+81 90  ");
   });
 });

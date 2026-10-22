@@ -102,7 +102,7 @@ export function AppGenderSelect<T extends FieldValues>({
               ]}
             >
               <AppText
-                typographyType="body1"
+                typographyType="button2"
                 weight={isSelected ? "bold" : "regular"}
                 color={
                   isSelected ? colors.textBrandPrimary : colors.textPrimary

@@ -10,6 +10,7 @@
  ********************************************************************************************/
 
 import { Href } from "expo-router";
+import { BeneficiaryCategory } from "../types";
 
 // Every screen path in one place, with the full group path, matching the
 // folders in app/. Keys are prefixed with their group.
@@ -44,7 +45,11 @@ export const ROUTES = {
     pathname: "/(protected)/(beneficiaries)/beneficiary/[beneficiaryGuid]",
     params: { beneficiaryGuid },
   }),
+  ADD_BENEFICIARY: (category: BeneficiaryCategory) => ({
+    pathname: "/(protected)/(beneficiaries)/add-beneficiary/[category]",
+    params: { category },
+  }),
 
   // Development
   PREVIEW: "/preview",
-} as const satisfies Record<string, Href | ((...params: string[]) => Href)>;
+} as const satisfies Record<string, Href | ((...params: never[]) => Href)>;

@@ -10,7 +10,10 @@
  ********************************************************************************************/
 
 import { Language } from "../types/language.types";
-import { ReferenceDataItem } from "../types/referenceData.types";
+import {
+  PhilippineAreaResult,
+  ReferenceDataItem,
+} from "../types/referenceData.types";
 
 export interface DropdownOption {
   label: string;
@@ -60,3 +63,16 @@ export const getReferenceLabel = (
   if (!item) return code;
   return item ? labelOf(item, locale) : code;
 };
+
+/**
+ * Picker options for Philippine areas (provinces or towns): `value` is the
+ * code the API expects back, `label` the name.
+ *
+ * @param areas - The list from the area API
+ * @returns One option per area, in the API's order
+ * @example toAreaOptions([{ code: "1376", name: "Metro Manila" }]); // [{ value: "1376", label: "Metro Manila" }]
+ */
+export const toAreaOptions = (
+  areas: readonly PhilippineAreaResult[],
+): DropdownOption[] =>
+  areas.map(({ code, name }) => ({ value: code, label: name }));

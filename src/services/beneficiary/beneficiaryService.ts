@@ -12,8 +12,11 @@
 import { ENDPOINTS } from "../../constants/endpoints";
 import {
   BeneficiaryPayoutsResponse,
+  CreateBeneficiaryRequest,
+  CreateBeneficiaryResult,
   ManageBeneficiariesResponse,
 } from "../../types";
+import { firstErrorMessage } from "../../utils/apiErrors";
 import { apiClient } from "../api/apiClient";
 import { remitterService } from "../remitter/remitterService";
 
@@ -64,6 +67,34 @@ export const beneficiaryService = {
     } catch {
       // getCurrentRemitterGuid throws when the guid can't be fetched
       return null;
+    }
+  },
+
+  /**
+   * Saves a new beneficiary together with its first payout method.
+   *
+   * @param request - The beneficiary and the payout (only the fields of their types)
+   * @returns `{ ok: true }` when saved; otherwise `ok: false`, with the
+   * server's first error message
+   */
+  createBeneficiary: async (
+    request: CreateBeneficiaryRequest,
+  ): Promise<CreateBeneficiaryResult> => {
+    try {
+      const remitterGuid = await remitterService.getCurrentRemitterGuid();
+      if (!remitterGuid) return { ok: false };
+
+      const { ok, errors } = await apiClient.critical.post(
+        ENDPOINTS.CREATE_BENEFICIARY(remitterGuid),
+        request,
+      );
+
+      return ok
+        ? { ok: true }
+        : { ok: false, message: firstErrorMessage(errors) };
+    } catch {
+      // getCurrentRemitterGuid throws when the guid can't be fetched
+      return { ok: false };
     }
   },
 };

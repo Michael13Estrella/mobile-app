@@ -15,8 +15,13 @@ import {
   getBeneficiaryTitle,
   isEWalletPayout,
   matchesBeneficiarySearch,
+  toCreateIndividualBeneficiary,
 } from "../beneficiary";
 import { BeneficiarySummary } from "../../types";
+import {
+  EMPTY_INDIVIDUAL_FORM,
+  IndividualFormValues,
+} from "../../schemas/individualBeneficiarySchema";
 
 const beneficiary = (
   fields: Partial<BeneficiarySummary> = {},
@@ -146,5 +151,65 @@ describe("isEWalletPayout", () => {
 
   it("is false when the payout type isn't Other banks", () => {
     expect(isEWalletPayout({ payoutType: "CA", bankCode: "0273" })).toBe(false);
+  });
+});
+
+describe("toCreateIndividualBeneficiary", () => {
+  const values = (
+    fields: Partial<IndividualFormValues> = {},
+  ): IndividualFormValues => ({
+    ...EMPTY_INDIVIDUAL_FORM,
+    lastName: "Santos",
+    firstName: "Josh",
+    addressLine1: "1999 Anastacio Street",
+    cityProvCode: "1376",
+    zipPosCode: "1212",
+    relationToBeneCode: "05",
+    ...fields,
+  });
+
+  it("is an individual, not the own account, by default", () => {
+    const result = toCreateIndividualBeneficiary(values(), false);
+    expect(result.beneficiaryType).toBe("I");
+    expect(result.myAccountFlg).toBe(0);
+  });
+
+  it("flags the remitter's own account", () => {
+    expect(toCreateIndividualBeneficiary(values(), true).myAccountFlg).toBe(1);
+  });
+
+  it("maps the form names to the API names", () => {
+    const result = toCreateIndividualBeneficiary(
+      values({ birthDate: "1993-10-22", addressLine2: "Guadalupe Nuevo" }),
+      false,
+    );
+    expect(result.birthOrEstablishDate).toBe("1993-10-22");
+    expect(result.address1).toBe("1999 Anastacio Street");
+    expect(result.address2).toBe("Guadalupe Nuevo");
+  });
+
+  it("trims the typed values", () => {
+    const result = toCreateIndividualBeneficiary(
+      values({ firstName: "  Josh ", beneAlias: " JS " }),
+      false,
+    );
+    expect(result.firstName).toBe("Josh");
+    expect(result.beneAlias).toBe("JS");
+  });
+
+  it("leaves empty optional fields out of the request", () => {
+    const json = JSON.parse(
+      JSON.stringify(toCreateIndividualBeneficiary(values(), false)),
+    );
+    for (const field of [
+      "beneAlias",
+      "middleName",
+      "gender",
+      "birthOrEstablishDate",
+      "address2",
+      "mobileNo",
+    ]) {
+      expect(json).not.toHaveProperty(field);
+    }
   });
 });

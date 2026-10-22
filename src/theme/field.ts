@@ -66,7 +66,7 @@ export const resolveFieldColors = (
   colors: AppColors,
 ): FieldColors => {
   const base: FieldColors = {
-    border: colors.borderDefault,
+    border: colors.inputBorder,
     background: colors.inputBackground,
     text: colors.textPrimary,
     placeholder: colors.textTertiary,

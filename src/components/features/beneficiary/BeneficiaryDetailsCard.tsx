@@ -43,34 +43,34 @@ export function BeneficiaryDetailsCard({
   const date = beneficiary.birthOrEstablishDate?.split("T").at(0) ?? "";
 
   return (
-    <DetailSection title={t("beneficiary.details.detailsTitle")}>
+    <DetailSection title={t("beneficiaryDetails.title")}>
       <DetailRow
-        label={t("beneficiary.details.nickname")}
+        label={t("beneficiaryDetails.nickname")}
         value={beneficiary.beneAlias}
       />
 
       <DetailRow
-        label={t("beneficiary.details.relationship")}
+        label={t("beneficiaryDetails.relationship")}
         value={relationship}
       />
 
       {isCorporate ? (
         <DetailRow
-          label={t("beneficiary.details.officePhone")}
+          label={t("beneficiaryDetails.officeTelNo")}
           value={beneficiary.officeTelNo}
         />
       ) : (
-        <DetailRow label={t("beneficiary.details.mobile")} value={mobile} />
+        <DetailRow label={t("beneficiaryDetails.mobileNo")} value={mobile} />
       )}
 
       <DetailRow
-        label={t("beneficiary.details.address")}
+        label={t("beneficiaryDetails.address")}
         value={getBeneficiaryAddress(beneficiary)}
       />
 
       {!isCorporate && (
         <DetailRow
-          label={t("beneficiary.details.gender")}
+          label={t("beneficiaryFields.gender.label")}
           value={genderLabelKey && t(genderLabelKey)}
         />
       )}
@@ -78,8 +78,8 @@ export function BeneficiaryDetailsCard({
       <DetailRow
         label={
           isCorporate
-            ? t("beneficiary.details.establishDate")
-            : t("beneficiary.details.birthDate")
+            ? t("beneficiaryFields.establishDate.label")
+            : t("beneficiaryFields.dateOfBirth.label")
         }
         value={date && formatIsoDate(date, locale)}
       />
