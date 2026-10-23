@@ -20,7 +20,7 @@ import { useAppSelector, useAppDispatch, store } from "../src/store";
 import { useAppTheme } from "../src/hooks/useAppTheme";
 import { setTokens, setUser } from "../src/store/slices/authSlice";
 import { keycloakService } from "../src/services/auth/keycloakService";
-import { decodeToken, isTokenExpired } from "../src/utils/tokenUtils";
+import { decodeToken, isTokenExpired } from "../src/utils/security/tokenUtils";
 import {
   setAppReady,
   setLocale,

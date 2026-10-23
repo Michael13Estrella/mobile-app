@@ -19,7 +19,7 @@ import { useTranslation } from "../../../hooks/useTranslation";
 import { BrandIcon } from "../../icons";
 import { GradientText } from "../../common/GradientText";
 import { AppText } from "../../common/AppText";
-import { formatPersonName } from "../../../utils/formatName";
+import { formatPersonName } from "../../../utils/format/formatName";
 import { AppTextButton } from "../../common/AppTextButton";
 
 const AVATAR_SIZE = 50;

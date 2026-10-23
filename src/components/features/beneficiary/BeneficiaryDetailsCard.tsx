@@ -3,9 +3,9 @@ import { BENEFICIARY_PHONE_COUNTRY } from "../../../constants/phone";
 import { GENDER_OPTIONS } from "../../../constants/userFields";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { BeneficiaryDetail } from "../../../types";
-import { getBeneficiaryAddress } from "../../../utils/beneficiary";
-import { formatIsoDate } from "../../../utils/formatDate";
-import { formatPhoneNumber } from "../../../utils/phone";
+import { getBeneficiaryAddress } from "../../../utils/beneficiary/beneficiary";
+import { formatIsoDate } from "../../../utils/format/formatDate";
+import { formatPhoneNumber } from "../../../utils/format/phone";
 import { DetailRow } from "../../common/DetailRow";
 import { DetailSection } from "../../common/DetailSection";
 

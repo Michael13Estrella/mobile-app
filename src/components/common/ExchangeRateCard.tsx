@@ -17,7 +17,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { useExchangeRates } from "../../hooks/useExchangeRates";
 import { ExchangeRate } from "../../types/exchangeRate.types";
 import { AppText } from "./AppText";
-import { formatDateTime } from "../../utils/formatDate";
+import { formatDateTime } from "../../utils/format/formatDate";
 import { BrandIcon, BrandCountryFlag } from "../icons";
 import { CURRENCY_COUNTRY } from "../../constants/currency";
 

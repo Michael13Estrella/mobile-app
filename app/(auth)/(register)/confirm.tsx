@@ -26,17 +26,17 @@ import { AppScreen } from "../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../src/components/common/AppHeader";
 import { RegisterSectionHeader } from "../../../src/components/features/register/RegisterSectionHeader";
 import { ConfirmSection } from "../../../src/components/features/register/ConfirmSection";
-import { formatIsoDate } from "../../../src/utils/formatDate";
-import { findNationalityName } from "../../../src/utils/nationality";
+import { formatIsoDate } from "../../../src/utils/format/formatDate";
+import { findNationalityName } from "../../../src/utils/referenceData/nationality";
 import { JAPANESE_NATIONALITY_CODE } from "../../../src/constants/nationality";
 import {
   REGISTER_EDIT_MODE,
   useCollapseEditHistory,
 } from "../../../src/hooks/useRegisterStepNavigation";
 import { PREFECTURE_OPTIONS } from "../../../src/constants/prefectures";
-import { formatPhoneNumber } from "../../../src/utils/phone";
+import { formatPhoneNumber } from "../../../src/utils/format/phone";
 import { REMITTER_PHONE_COUNTRY } from "../../../src/constants/phone";
-import { formatPostalCode } from "../../../src/utils/formatFields";
+import { formatPostalCode } from "../../../src/utils/form/formatFields";
 import { useAuth } from "../../../src/hooks/useAuth";
 import { clearRegistrationSecrets } from "../../../src/store/slices/registrationSlice";
 import { DetailRow } from "../../../src/components/common/DetailRow";

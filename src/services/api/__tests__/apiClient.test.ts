@@ -10,7 +10,7 @@
  ********************************************************************************************/
 
 import { store } from "../../../store";
-import { isTokenExpired } from "../../../utils/tokenUtils";
+import { isTokenExpired } from "../../../utils/security/tokenUtils";
 import { keycloakService } from "../../auth/keycloakService";
 import { tokenService } from "../../auth/tokenService";
 import { apiClient } from "../apiClient";
@@ -24,7 +24,7 @@ jest.mock("../../auth/keycloakService", () => ({
   keycloakService: { refreshAccessToken: jest.fn() },
 }));
 
-jest.mock("../../../utils/tokenUtils", () => ({
+jest.mock("../../../utils/security/tokenUtils", () => ({
   isTokenExpired: jest.fn(),
 }));
 

@@ -13,7 +13,7 @@ import { ENDPOINTS } from "../../constants/endpoints";
 import { SECURITY } from "../../constants/security";
 import { DeviceEnrollRequest, DeviceEnrollResponse } from "../../types";
 import { Language } from "../../types/language.types";
-import { buildUserKey } from "../../utils/secureStoreKeys";
+import { buildUserKey } from "../../utils/security/secureStoreKeys";
 import { apiClient } from "../api/apiClient";
 import { remitterService } from "../remitter/remitterService";
 import { deviceService } from "./deviceService";

@@ -12,7 +12,7 @@
 import { useTranslation } from "../../../src/hooks/useTranslation";
 import { useAppDispatch, useAppSelector } from "../../../src/store";
 import { useReferenceData } from "../../../src/hooks/useReferenceData";
-import { toDropdownOptions } from "../../../src/utils/referenceData";
+import { toDropdownOptions } from "../../../src/utils/referenceData/referenceData";
 import z from "zod";
 import { HALF_WIDTH_ROMAJI_REGEX } from "../../../src/constants/validation";
 import { useEffect, useMemo } from "react";
@@ -31,7 +31,7 @@ import { RegisterSectionHeader } from "../../../src/components/features/register
 import { FieldsContainer } from "../../../src/components/form/FieldsContainer";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
-import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { getErrorFieldLabels } from "../../../src/utils/form/formErrors";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
 import { ROUTES } from "../../../src/constants/routes";
 

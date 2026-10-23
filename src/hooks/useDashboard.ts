@@ -13,7 +13,7 @@ import { useCallback, useRef, useState } from "react";
 import { userStorageService } from "../services/storage/userStorageService";
 import { useAppDispatch, useAppSelector } from "../store";
 import { DashboardStatsResponse, Remitter } from "../types";
-import { getRemitterDisplayName } from "../utils/remitter";
+import { getRemitterDisplayName } from "../utils/remitter/remitter";
 import { remitterService } from "../services/remitter/remitterService";
 import { setRemitter } from "../store/slices/remitterSlice";
 import { useFocusEffect } from "expo-router";

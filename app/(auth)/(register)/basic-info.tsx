@@ -19,7 +19,7 @@ import { updateRegistrationDetails } from "../../../src/store/slices/registratio
 import { AppInput } from "../../../src/components/form/AppInput";
 import { AppButton } from "../../../src/components/common/AppButton";
 import { useReferenceData } from "../../../src/hooks/useReferenceData";
-import { toDropdownOptions } from "../../../src/utils/referenceData";
+import { toDropdownOptions } from "../../../src/utils/referenceData/referenceData";
 import { AppSelect } from "../../../src/components/form/AppSelect";
 import { HALF_WIDTH_ROMAJI_REGEX } from "../../../src/constants/validation";
 import { AppGenderSelect } from "../../../src/components/form/AppGenderSelect";
@@ -32,19 +32,19 @@ import {
   calculateAge,
   isFutureDate,
   isValidCalendarDate,
-} from "../../../src/utils/dateValidation";
+} from "../../../src/utils/form/dateValidation";
 import { RegisterStepper } from "../../../src/components/features/register/RegisterStepper";
 import { FieldsContainer } from "../../../src/components/form/FieldsContainer";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { useNationalities } from "../../../src/hooks/useNationalities";
-import { toNationalityOptions } from "../../../src/utils/nationality";
+import { toNationalityOptions } from "../../../src/utils/referenceData/nationality";
 import {
   isNickNameRequired,
   PINNED_NATIONALITY_CODES,
 } from "../../../src/constants/nationality";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
-import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { getErrorFieldLabels } from "../../../src/utils/form/formErrors";
 import { ROUTES } from "../../../src/constants/routes";
 
 const MIN_AGE_YEAR = 18;

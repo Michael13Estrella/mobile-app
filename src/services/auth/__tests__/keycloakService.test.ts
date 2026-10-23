@@ -12,7 +12,7 @@
 import * as SecureStore from "expo-secure-store";
 import * as AuthSession from "expo-auth-session";
 import { buildSigned } from "../../api/apiTransport";
-import { decodeToken } from "../../../utils/tokenUtils";
+import { decodeToken } from "../../../utils/security/tokenUtils";
 import { ENDPOINTS } from "../../../constants/endpoints";
 import { keycloakService } from "../keycloakService";
 import type { AuthTokens } from "../../../types/auth.types";
@@ -29,7 +29,7 @@ jest.mock("expo-auth-session", () => ({
 jest.mock("../../api/apiTransport", () => ({
   buildSigned: jest.fn(),
 }));
-jest.mock("../../../utils/tokenUtils", () => ({
+jest.mock("../../../utils/security/tokenUtils", () => ({
   decodeToken: jest.fn(),
 }));
 

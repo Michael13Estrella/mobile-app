@@ -13,7 +13,7 @@ import * as SecureStore from "expo-secure-store";
 import bcrypt from "bcryptjs";
 import QuickCrypto from "react-native-quick-crypto";
 import { SECURITY } from "../../constants/security";
-import { buildUserKey } from "../../utils/secureStoreKeys";
+import { buildUserKey } from "../../utils/security/secureStoreKeys";
 
 bcrypt.setRandomFallback((len) => Array.from(QuickCrypto.randomBytes(len)));
 

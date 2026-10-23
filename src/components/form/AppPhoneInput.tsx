@@ -19,7 +19,7 @@ import { FIELD_SIZE } from "../../theme/field";
 import { Typography } from "../../constants/typography";
 import { Spacing } from "../../constants/spacing";
 import { PhoneCountry } from "../../constants/phone";
-import { toPhoneDigits } from "../../utils/phone";
+import { toPhoneDigits } from "../../utils/format/phone";
 import { BrandCountryFlag, BrandIcon } from "../icons";
 import { FieldShell } from "./FieldShell";
 import { MaskedDigitsInput } from "./MaskedDigitsInput";

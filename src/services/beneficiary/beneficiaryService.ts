@@ -16,7 +16,7 @@ import {
   CreateBeneficiaryResult,
   ManageBeneficiariesResponse,
 } from "../../types";
-import { firstErrorMessage } from "../../utils/apiErrors";
+import { firstErrorMessage } from "../../utils/api/apiErrors";
 import { apiClient } from "../api/apiClient";
 import { remitterService } from "../remitter/remitterService";
 

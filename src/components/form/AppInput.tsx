@@ -22,7 +22,7 @@ import {
   FieldLeadingIcon,
   LEADING_ICON_CONTENT_PADDING,
 } from "./FieldLeadingIcon";
-import { normalizeSmartPunctuation } from "../../utils/normalizeText";
+import { normalizeSmartPunctuation } from "../../utils/form/normalizeText";
 
 const LINE_HEIGHT = Typography.sizes.md * Typography.lineHeights.normal;
 

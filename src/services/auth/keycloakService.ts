@@ -18,7 +18,7 @@ import {
 } from "../../types/auth.types";
 import { buildSigned } from "../api/apiTransport";
 import { ENDPOINTS } from "../../constants/endpoints";
-import { decodeToken } from "../../utils/tokenUtils";
+import { decodeToken } from "../../utils/security/tokenUtils";
 import { tokenService } from "./tokenService";
 
 const discovery = {

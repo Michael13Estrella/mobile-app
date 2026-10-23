@@ -23,7 +23,7 @@ import { AppScreen } from "../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../src/components/common/AppHeader";
 import { Spacing } from "../../../src/constants/spacing";
 import { useAppSelector } from "../../../src/store";
-import { maskEmail } from "../../../src/utils/maskEmail";
+import { maskEmail } from "../../../src/utils/format/maskEmail";
 import { useForm, useWatch } from "react-hook-form";
 import { AppToast } from "../../../src/components/common/AppToast";
 import { RegisterStepper } from "../../../src/components/features/register/RegisterStepper";

@@ -11,7 +11,7 @@
 
 import * as SecureStore from "expo-secure-store";
 import { SECURITY } from "../../constants/security";
-import { buildUserKey } from "../../utils/secureStoreKeys";
+import { buildUserKey } from "../../utils/security/secureStoreKeys";
 
 const K = SECURITY.STORE_KEYS;
 

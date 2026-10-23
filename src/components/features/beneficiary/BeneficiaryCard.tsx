@@ -17,7 +17,7 @@ import { Spacing } from "../../../constants/spacing";
 import { AppCard } from "../../common/AppCard";
 import { BeneficiaryAvatar } from "./BeneficiaryAvatar";
 import { AppText } from "../../common/AppText";
-import { getBeneficiaryTitle } from "../../../utils/beneficiary";
+import { getBeneficiaryTitle } from "../../../utils/beneficiary/beneficiary";
 import { resolveShadows } from "../../../theme/shadows";
 import { GradientText } from "../../common/GradientText";
 

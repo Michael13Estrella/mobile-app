@@ -29,14 +29,14 @@ import {
   sendAmountForNet,
   yenToYenAmountForNet,
   yenToYenNet,
-} from "../../../utils/charges";
-import { convertAmount } from "../../../utils/exchangeRate";
-import { formatAmount } from "../../../utils/formatCurrency";
+} from "../../../utils/remittance/charges";
+import { convertAmount } from "../../../utils/remittance/exchangeRate";
+import { formatAmount } from "../../../utils/format/formatCurrency";
 import {
   parseAmountInput,
   roundHalfEven,
   roundUp,
-} from "../../../utils/amountInput";
+} from "../../../utils/remittance/amountInput";
 import { AppButton } from "../../common/AppButton";
 import { AppCard } from "../../common/AppCard";
 import { AppText } from "../../common/AppText";

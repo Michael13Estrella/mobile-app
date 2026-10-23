@@ -12,7 +12,7 @@
 import { BENEFICIARY_CATEGORIES } from "../../../constants/beneficiary";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { BeneficiaryCategory } from "../../../types";
-import { DropdownOption } from "../../../utils/referenceData";
+import { DropdownOption } from "../../../utils/referenceData/referenceData";
 import { SelectSheet } from "../../form/select/SelectSheet";
 
 type AddBeneficiarySheetProps = Readonly<{

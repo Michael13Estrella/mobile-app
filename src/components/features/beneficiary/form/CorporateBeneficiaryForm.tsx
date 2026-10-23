@@ -23,7 +23,7 @@ import {
   CorporateFormValues,
   EMPTY_CORPORATE_FORM,
 } from "../../../../schemas/beneficiary/corporateBeneficiarySchema";
-import { getErrorFieldLabels } from "../../../../utils/formErrors";
+import { getErrorFieldLabels } from "../../../../utils/form/formErrors";
 import { AppButton } from "../../../common/AppButton";
 import { AppDivider } from "../../../common/AppDivider";
 import { AppHeader } from "../../../common/AppHeader";

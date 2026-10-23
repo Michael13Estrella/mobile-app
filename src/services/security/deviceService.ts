@@ -16,10 +16,10 @@ import {
   encryptBodyGcm,
   hmacSha256Base64,
   signEcdsaBase64,
-} from "../../utils/crypto";
+} from "../../utils/security/crypto";
 import { Platform } from "react-native";
 import { DeviceEnrollRequest, DeviceOs } from "../../types";
-import { buildUserKey } from "../../utils/secureStoreKeys";
+import { buildUserKey } from "../../utils/security/secureStoreKeys";
 import { store } from "../../store";
 
 const KEYS = SECURITY.STORE_KEYS;

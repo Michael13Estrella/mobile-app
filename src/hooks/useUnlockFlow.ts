@@ -18,7 +18,7 @@ import { setLocked } from "../store/slices/uiSlice";
 import { passcodeService } from "../services/security/passcodeService";
 import { keycloakService } from "../services/auth/keycloakService";
 import { setTokens, setUser } from "../store/slices/authSlice";
-import { decodeToken } from "../utils/tokenUtils";
+import { decodeToken } from "../utils/security/tokenUtils";
 import { biometricService } from "../services/security/biometricService";
 import { BiometryType } from "react-native-biometrics";
 import { userStorageService } from "../services/storage/userStorageService";

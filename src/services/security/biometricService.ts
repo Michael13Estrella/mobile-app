@@ -12,7 +12,7 @@
 import ReactNativeBiometrics, { BiometryType } from "react-native-biometrics";
 import * as SecureStore from "expo-secure-store";
 import { SECURITY } from "../../constants/security";
-import { buildUserKey } from "../../utils/secureStoreKeys";
+import { buildUserKey } from "../../utils/security/secureStoreKeys";
 
 // allowDeviceCredentials:false => biometric ONLY (no passcode fallback) = high assurance.
 // FLip to true only if you intentionally accept device PIN/passcode as an equal factor.

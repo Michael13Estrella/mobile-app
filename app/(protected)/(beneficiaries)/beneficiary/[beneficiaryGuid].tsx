@@ -21,7 +21,7 @@ import { GradientText } from "../../../../src/components/common/GradientText";
 import { BeneficiaryDetailsCard } from "../../../../src/components/features/beneficiary/BeneficiaryDetailsCard";
 import { AppScreen } from "../../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../../src/components/common/AppHeader";
-import { getBeneficiaryFullName } from "../../../../src/utils/beneficiary";
+import { getBeneficiaryFullName } from "../../../../src/utils/beneficiary/beneficiary";
 import { BeneficiaryPayoutsCard } from "../../../../src/components/features/beneficiary/BeneficiaryPayoutsCard";
 import { BrandIcon } from "../../../../src/components/icons";
 import { AppButton } from "../../../../src/components/common/AppButton";

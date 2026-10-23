@@ -12,7 +12,7 @@
 import { z } from "zod";
 import { Translate } from "../../hooks/useTranslation";
 import { HALF_WIDTH_ROMAJI_REGEX } from "../../constants/validation";
-import { isValidPhoneNumber } from "../../utils/phone";
+import { isValidPhoneNumber } from "../../utils/format/phone";
 import { BENEFICIARY_PHONE_COUNTRY } from "../../constants/phone";
 
 /**

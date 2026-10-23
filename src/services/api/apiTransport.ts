@@ -12,8 +12,8 @@
 import { CONFIG } from "../../constants/config";
 import { SECURITY } from "../../constants/security";
 import { store } from "../../store";
-import { jcs } from "../../utils/canonicalize";
-import { randomNonce, sha256Base64 } from "../../utils/crypto";
+import { jcs } from "../../utils/security/canonicalize";
+import { randomNonce, sha256Base64 } from "../../utils/security/crypto";
 import { tokenService } from "../auth/tokenService";
 import { deviceService } from "../security/deviceService";
 

@@ -35,12 +35,12 @@ import { AppPhoneInput } from "../../../src/components/form/AppPhoneInput";
 import { AppPostalCodeInput } from "../../../src/components/form/AppPostalCodeInput";
 import { FieldsContainer } from "../../../src/components/form/FieldsContainer";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
-import { isValidPhoneNumber } from "../../../src/utils/phone";
+import { isValidPhoneNumber } from "../../../src/utils/format/phone";
 import { REMITTER_PHONE_COUNTRY } from "../../../src/constants/phone";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
-import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { getErrorFieldLabels } from "../../../src/utils/form/formErrors";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
-import { findPrefectureValue } from "../../../src/utils/prefecture";
+import { findPrefectureValue } from "../../../src/utils/referenceData/prefecture";
 import { ROUTES } from "../../../src/constants/routes";
 
 export default function RegisterContactInfoScreen() {

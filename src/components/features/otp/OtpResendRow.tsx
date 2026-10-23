@@ -1,6 +1,6 @@
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { useTranslation } from "../../../hooks/useTranslation";
-import { formatCooldown } from "../../../utils/formatCooldown";
+import { formatCooldown } from "../../../utils/format/formatCooldown";
 import { AppText } from "../../common/AppText";
 import { AppTextButton } from "../../common/AppTextButton";
 

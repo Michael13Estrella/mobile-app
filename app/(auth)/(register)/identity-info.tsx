@@ -25,13 +25,13 @@ import { AppButton } from "../../../src/components/common/AppButton";
 
 import { RegisterSectionHeader } from "../../../src/components/features/register/RegisterSectionHeader";
 import { useReferenceData } from "../../../src/hooks/useReferenceData";
-import { toDropdownOptions } from "../../../src/utils/referenceData";
+import { toDropdownOptions } from "../../../src/utils/referenceData/referenceData";
 import { AppSelect } from "../../../src/components/form/AppSelect";
 import { AppInput } from "../../../src/components/form/AppInput";
 import { AppDateInput } from "../../../src/components/form/AppDateInput";
 import { FORM_VALIDATION_MODE } from "../../../src/constants/form";
 import { useRegisterStepNavigation } from "../../../src/hooks/useRegisterStepNavigation";
-import { getErrorFieldLabels } from "../../../src/utils/formErrors";
+import { getErrorFieldLabels } from "../../../src/utils/form/formErrors";
 import { FormErrorSummary } from "../../../src/components/form/FormErrorSummary";
 
 export default function RegisterIdentityInfoScreen() {

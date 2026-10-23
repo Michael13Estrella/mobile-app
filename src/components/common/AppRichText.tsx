@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { splitBoldText } from "../../utils/richText";
+import { splitBoldText } from "../../utils/ui/richText";
 import { AppText, TypographyType } from "./AppText";
 
 type AppRichTextProps = Readonly<{

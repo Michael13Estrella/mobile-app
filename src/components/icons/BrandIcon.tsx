@@ -20,7 +20,7 @@ import {
 } from "./brandIconPaths";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { useId } from "react";
-import { resolveIconGrid } from "../../utils/iconGrid";
+import { resolveIconGrid } from "../../utils/ui/iconGrid";
 
 const DEFAULT_SIZE = 24;
 

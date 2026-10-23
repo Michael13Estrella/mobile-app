@@ -15,7 +15,7 @@ import { useAppTheme } from "../../../src/hooks/useAppTheme";
 import { useTranslation } from "../../../src/hooks/useTranslation";
 import { BeneficiaryCategory } from "../../../src/types";
 import { BENEFICIARY_CATEGORIES } from "../../../src/constants/beneficiary";
-import { matchesBeneficiarySearch } from "../../../src/utils/beneficiary";
+import { matchesBeneficiarySearch } from "../../../src/utils/beneficiary/beneficiary";
 import { router } from "expo-router";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { AppText } from "../../../src/components/common/AppText";

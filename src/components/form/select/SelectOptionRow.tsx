@@ -11,7 +11,7 @@
 
 import { Pressable, StyleSheet, View } from "react-native";
 import { useAppTheme } from "../../../hooks/useAppTheme";
-import { DropdownOption } from "../../../utils/referenceData";
+import { DropdownOption } from "../../../utils/referenceData/referenceData";
 import { Spacing } from "../../../constants/spacing";
 import { AppText } from "../../common/AppText";
 import CountryFlag from "react-native-country-flag";

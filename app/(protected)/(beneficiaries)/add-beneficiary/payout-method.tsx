@@ -10,11 +10,6 @@
  ********************************************************************************************/
 
 import { FC, useState } from "react";
-import {
-  BENEFICIARY_PAYOUT_TYPES,
-  BeneficiaryPayoutType,
-  PAYOUT_TYPE,
-} from "../../../../src/constants/beneficiary";
 import { useAppTheme } from "../../../../src/hooks/useAppTheme";
 import { useTranslation } from "../../../../src/hooks/useTranslation";
 import { AppScreen } from "../../../../src/components/common/AppScreen";
@@ -29,6 +24,11 @@ import { SvgProps } from "react-native-svg";
 import { AppHeader } from "../../../../src/components/common/AppHeader";
 import { router } from "expo-router";
 import { AppButton } from "../../../../src/components/common/AppButton";
+import {
+  BENEFICIARY_PAYOUT_TYPES,
+  BeneficiaryPayoutType,
+  PAYOUT_TYPE,
+} from "../../../../src/constants/payout";
 
 // Each payout method's icon and its texts in addPayoutMethod.options (a
 // Record, so a new payout type can't be missed)

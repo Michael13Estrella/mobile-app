@@ -6,7 +6,7 @@ import {
 } from "./beneficiaryCommonSchema";
 import { Translate } from "../../hooks/useTranslation";
 import { GENDER_VALUES } from "../../constants/userFields";
-import { isFutureDate, isValidCalendarDate } from "../../utils/dateValidation";
+import { isFutureDate, isValidCalendarDate } from "../../utils/form/dateValidation";
 
 /**
  * The rules of the individual beneficiary form (add, edit and own account).

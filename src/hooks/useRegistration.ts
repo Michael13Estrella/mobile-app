@@ -28,8 +28,8 @@ import {
   setRegistrationTokens,
   setTxId,
 } from "../store/slices/registrationSlice";
-import { firstErrorMessage } from "../utils/apiErrors";
-import { trimFields, uppercaseFields } from "../utils/formatFields";
+import { firstErrorMessage } from "../utils/api/apiErrors";
+import { trimFields, uppercaseFields } from "../utils/form/formatFields";
 
 type Result = { ok: boolean; message?: string };
 // A successful registration return the new session's tokens for sign-in.

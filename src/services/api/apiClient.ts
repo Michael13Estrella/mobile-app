@@ -11,7 +11,7 @@
 
 import { tokenService } from "../auth/tokenService";
 import { keycloakService } from "../auth/keycloakService";
-import { isTokenExpired } from "../../utils/tokenUtils";
+import { isTokenExpired } from "../../utils/security/tokenUtils";
 import { store } from "../../store";
 import { ApiResult, Method, SecurityMode, request } from "./apiTransport";
 

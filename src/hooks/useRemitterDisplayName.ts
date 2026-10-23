@@ -10,7 +10,7 @@
  ********************************************************************************************/
 
 import { useAppSelector } from "../store";
-import { getRemitterDisplayName } from "../utils/remitter";
+import { getRemitterDisplayName } from "../utils/remitter/remitter";
 
 // The signed-in remitter's display name, or null until the dashboard loads
 export function useRemitterDisplayName(): string | null {

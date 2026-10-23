@@ -29,7 +29,7 @@ import {
   OtpVerifyRequest,
   TokenResponse,
 } from "../types/auth.types";
-import { decodeToken } from "../utils/tokenUtils";
+import { decodeToken } from "../utils/security/tokenUtils";
 import { deviceEnrollmentService } from "../services/security/deviceEnrollmentService";
 import { biometricService } from "../services/security/biometricService";
 import { biometricEnrollment } from "../services/security/biometricEnrollmentService";
@@ -48,7 +48,7 @@ import {
   setNeedsPasscodeSetup,
 } from "../store/slices/uiSlice";
 import { notificationService } from "../services/notifications/notificationService";
-import { firstErrorMessage } from "../utils/apiErrors";
+import { firstErrorMessage } from "../utils/api/apiErrors";
 import { userStorageService } from "../services/storage/userStorageService";
 
 export const useAuth = () => {

@@ -16,10 +16,10 @@ import { useTranslation } from "../../../hooks/useTranslation";
 import { RecentTransaction } from "../../../types";
 import { Spacing } from "../../../constants/spacing";
 import { AppText } from "../../common/AppText";
-import { formatShortDateTime } from "../../../utils/formatDate";
-import { formatAmount } from "../../../utils/formatCurrency";
+import { formatShortDateTime } from "../../../utils/format/formatDate";
+import { formatAmount } from "../../../utils/format/formatCurrency";
 import { AppTextButton } from "../../common/AppTextButton";
-import { getTransactionTitle, isMoneyIn } from "../../../utils/transaction";
+import { getTransactionTitle, isMoneyIn } from "../../../utils/remittance/transaction";
 
 const MONEY_IN_SIGN = "+";
 const MONEY_OUT_SIGN = "-";

@@ -23,7 +23,7 @@ import { useTranslation } from "../../../../src/hooks/useTranslation";
 import {
   toCreateCorporateBeneficiary,
   toCreateIndividualBeneficiary,
-} from "../../../../src/utils/beneficiary";
+} from "../../../../src/utils/beneficiary/beneficiary";
 import { CorporateBeneficiaryForm } from "../../../../src/components/features/beneficiary/form/CorporateBeneficiaryForm";
 import { CorporateFormValues } from "../../../../src/schemas/beneficiary/corporateBeneficiarySchema";
 import { ROUTES } from "../../../../src/constants/routes";

@@ -17,8 +17,8 @@ import { Spacing } from "../../../constants/spacing";
 import { BrandIcon, BrandIconName } from "../../icons";
 import { AppText } from "../../common/AppText";
 import { AppTextButton } from "../../common/AppTextButton";
-import { isEWalletPayout } from "../../../utils/beneficiary";
-import { PAYOUT_TYPE } from "../../../constants/beneficiary";
+import { PAYOUT_TYPE } from "../../../constants/payout";
+import { isEWalletPayout } from "../../../utils/beneficiary/payout";
 
 const ICON_BOX_SIZE = 36;
 const ICON_BOX_RADIUS = 8;

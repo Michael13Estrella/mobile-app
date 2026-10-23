@@ -9,7 +9,8 @@
  * 3.
  ********************************************************************************************/
 
-import { BENEFICIARY_TYPE, PAYOUT_TYPE } from "../constants/beneficiary";
+import { BENEFICIARY_TYPE } from "../constants/beneficiary";
+import { PAYOUT_TYPE } from "../constants/payout";
 import { Gender } from "../constants/userFields";
 
 export interface BeneficiarySummary {

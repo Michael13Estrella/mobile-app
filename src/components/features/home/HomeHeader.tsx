@@ -15,7 +15,7 @@ import { useTranslation } from "../../../hooks/useTranslation";
 import { Spacing } from "../../../constants/spacing";
 import Logo from "../../../../assets/icons/brand.svg";
 import { AppText } from "../../common/AppText";
-import { formatDateTimeWithSeconds } from "../../../utils/formatDate";
+import { formatDateTimeWithSeconds } from "../../../utils/format/formatDate";
 import { INTL_LOCALE } from "../../../constants/locale";
 
 const LOGO_SIZE = 32;

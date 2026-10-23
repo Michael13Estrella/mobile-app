@@ -20,7 +20,7 @@ import {
 import {
   formatAmountInput,
   sanitizeAmountInput,
-} from "../../utils/amountInput";
+} from "../../utils/remittance/amountInput";
 import { INTL_LOCALE } from "../../constants/locale";
 import { StyleSheet, TextInput, View } from "react-native";
 import { Spacing } from "../../constants/spacing";

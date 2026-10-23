@@ -29,7 +29,7 @@ jest.mock("../../security/deviceService", () => ({
 }));
 
 // Fix the non-deterministic crypto so we can assert exact headers.
-jest.mock("../../../utils/crypto", () => ({
+jest.mock("../../../utils/security/crypto", () => ({
   randomNonce: jest.fn(() => "test-nonce"),
   sha256Base64: jest.fn(() => "test-hash"),
 }));

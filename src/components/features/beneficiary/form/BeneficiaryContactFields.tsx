@@ -16,7 +16,7 @@ import { Spacing } from "../../../../constants/spacing";
 import { useAppTheme } from "../../../../hooks/useAppTheme";
 import { useReferenceData } from "../../../../hooks/useReferenceData";
 import { useTranslation } from "../../../../hooks/useTranslation";
-import { toDropdownOptions } from "../../../../utils/referenceData";
+import { toDropdownOptions } from "../../../../utils/referenceData/referenceData";
 import { AppText } from "../../../common/AppText";
 import { AppPhoneInput } from "../../../form/AppPhoneInput";
 import { AppSelect } from "../../../form/AppSelect";

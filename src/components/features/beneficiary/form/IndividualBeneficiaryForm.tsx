@@ -14,7 +14,7 @@ import { useTranslation } from "../../../../hooks/useTranslation";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FORM_VALIDATION_MODE } from "../../../../constants/form";
-import { getErrorFieldLabels } from "../../../../utils/formErrors";
+import { getErrorFieldLabels } from "../../../../utils/form/formErrors";
 import { AppScreen } from "../../../common/AppScreen";
 import { FieldsContainer } from "../../../form/FieldsContainer";
 import { AppInput } from "../../../form/AppInput";
