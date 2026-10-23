@@ -18,7 +18,7 @@ import { AppButton } from "../../../src/components/common/AppButton";
 import { AppScreen } from "../../../src/components/common/AppScreen";
 import { Spacing } from "../../../src/constants/spacing";
 import { AppText } from "../../../src/components/common/AppText";
-import SecureAppIllustration from "../../../assets/images/illustrations/Secure-your-transactions-with-AppKey.svg";
+import SecureAppIllustration from "../../../assets/illustrations/secure-your-transactions-with-app-key.svg";
 import { ROUTES } from "../../../src/constants/routes";
 
 const ILLUSTRATION_SIZE = 160;

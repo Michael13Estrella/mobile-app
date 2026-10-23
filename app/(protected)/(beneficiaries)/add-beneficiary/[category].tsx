@@ -72,7 +72,6 @@ export default function AddBeneficiaryScreen() {
           onSubmit={handleIndividualSubmit}
         />
       );
-    // TODO CorporateBeneficiaryForm
     case "corporate":
       return (
         <CorporateBeneficiaryForm

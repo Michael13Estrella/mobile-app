@@ -13,7 +13,7 @@ import { StyleSheet, View } from "react-native";
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { Spacing } from "../../../constants/spacing";
-import Logo from "../../../../assets/images/icons/brand.svg";
+import Logo from "../../../../assets/icons/brand.svg";
 import { AppText } from "../../common/AppText";
 import { formatDateTimeWithSeconds } from "../../../utils/formatDate";
 import { INTL_LOCALE } from "../../../constants/locale";

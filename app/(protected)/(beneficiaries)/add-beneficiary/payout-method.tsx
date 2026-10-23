@@ -9,8 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { useState } from "react";
-import { BrandIconName } from "../../../../src/components/icons";
+import { FC, useState } from "react";
 import {
   BENEFICIARY_PAYOUT_TYPES,
   BeneficiaryPayoutType,
@@ -23,25 +22,32 @@ import { AppText } from "../../../../src/components/common/AppText";
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../../src/constants/spacing";
 import { PayoutMethodOption } from "../../../../src/components/features/beneficiary/payout/PayoutMethodOption";
+import MetrobankAccountIcon from "../../../../assets/icons/payout/metrobank-account.svg";
+import OtherBankIcon from "../../../../assets/icons/payout/other-bank.svg";
+import CashPickupIcon from "../../../../assets/icons/payout/cash-pickup.svg";
+import { SvgProps } from "react-native-svg";
+import { AppHeader } from "../../../../src/components/common/AppHeader";
+import { router } from "expo-router";
+import { AppButton } from "../../../../src/components/common/AppButton";
 
 // Each payout method's icon and its texts in addPayoutMethod.options (a
 // Record, so a new payout type can't be missed)
 const PAYOUT_METHOD_OPTIONS = {
   [PAYOUT_TYPE.METROBANK_ACCOUNT]: {
-    icon: "bankLine",
+    icon: MetrobankAccountIcon,
     textKey: "metrobankAccount",
   },
   [PAYOUT_TYPE.OTHER_BANKS]: {
-    icon: "arrowNarrowRightLine",
+    icon: OtherBankIcon,
     textKey: "otherBanks",
   },
   [PAYOUT_TYPE.CASH_PICKUP]: {
-    icon: "bankNote01Line",
+    icon: CashPickupIcon,
     textKey: "cashPickup",
   },
 } as const satisfies Record<
   BeneficiaryPayoutType,
-  Readonly<{ icon: BrandIconName; textKey: string }>
+  Readonly<{ icon: FC<SvgProps>; textKey: string }>
 >;
 
 export default function PayoutMethodScreen() {
@@ -55,32 +61,55 @@ export default function PayoutMethodScreen() {
   const handleNext = () => {};
 
   return (
-    <AppScreen gradient>
-      <AppText typographyType="body2" color={colors.textPrimary}>
-        {t("addPayoutMethod.title")}
-      </AppText>
+    <AppScreen
+      gradient
+      header={
+        <AppHeader
+          title={t("addBeneficiary.title")}
+          onBack={() => router.back()}
+        />
+      }
+      footer={
+        <AppButton
+          label={t("common.next")}
+          variant="gradient"
+          disabled={!payoutType}
+          onPress={handleNext}
+        />
+      }
+    >
+      <View style={styles.container}>
+        <AppText typographyType="label2" color={colors.textPrimary}>
+          {t("addPayoutMethod.title")}
+        </AppText>
 
-      <View style={styles.options} accessibilityRole="radiogroup">
-        {BENEFICIARY_PAYOUT_TYPES.map((type) => {
-          const { icon, textKey } = PAYOUT_METHOD_OPTIONS[type];
+        <View style={styles.options} accessibilityRole="radiogroup">
+          {BENEFICIARY_PAYOUT_TYPES.map((type) => {
+            const { icon, textKey } = PAYOUT_METHOD_OPTIONS[type];
 
-          return (
-            <PayoutMethodOption
-              key={type}
-              icon={icon}
-              title={t(`addPayoutMethod.options.${textKey}.title`)}
-              description={t(`addPayoutMethod.options.${textKey}.description`)}
-              selected={payoutType === type}
-              onPress={() => setPayoutType(type)}
-            />
-          );
-        })}
+            return (
+              <PayoutMethodOption
+                key={type}
+                icon={icon}
+                title={t(`addPayoutMethod.options.${textKey}.title`)}
+                description={t(
+                  `addPayoutMethod.options.${textKey}.description`,
+                )}
+                selected={payoutType === type}
+                onPress={() => setPayoutType(type)}
+              />
+            );
+          })}
+        </View>
       </View>
     </AppScreen>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    gap: Spacing.s3,
+  },
   options: {
     gap: Spacing.s5,
   },

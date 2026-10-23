@@ -27,7 +27,7 @@ import {
   WALLET_ESTIMATE_CURRENCIES,
 } from "../../../constants/currency";
 import { AppButton } from "../../common/AppButton";
-import CardPattern from "../../../../assets/images/pattern/wallet-card-pattern.svg";
+import CardPattern from "../../../../assets/patterns/wallet-card-pattern.svg";
 
 const CARD_RADIUS = Spacing.s6;
 const CARD_TOP_BORDER_WIDTH = 3;

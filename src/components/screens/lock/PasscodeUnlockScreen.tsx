@@ -19,7 +19,7 @@ import { AppHeader } from "../../common/AppHeader";
 import { AppButton } from "../../common/AppButton";
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../constants/spacing";
-import PasscodeLockIcon from "../../../../assets/images/icons/passcode-lock.svg";
+import PasscodeLockIcon from "../../../../assets/icons/passcode-lock.svg";
 import { AppText } from "../../common/AppText";
 import { AppCodeInput } from "../../form/AppCodeInput";
 import { AppTextButton } from "../../common/AppTextButton";

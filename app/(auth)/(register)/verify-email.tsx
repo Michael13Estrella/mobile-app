@@ -28,7 +28,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { AppToast } from "../../../src/components/common/AppToast";
 import { RegisterStepper } from "../../../src/components/features/register/RegisterStepper";
 import { AppText } from "../../../src/components/common/AppText";
-import Mail02 from "../../../assets/images/icons/mail-02.svg";
+import Mail02 from "../../../assets/icons/mail-02.svg";
 import { OtpResendRow } from "../../../src/components/features/otp/OtpResendRow";
 import { ROUTES } from "../../../src/constants/routes";
 

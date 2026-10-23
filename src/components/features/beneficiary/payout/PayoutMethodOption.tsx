@@ -17,12 +17,13 @@ import { resolveShadows } from "../../../../theme/shadows";
 import { AppCard } from "../../../common/AppCard";
 import { AppRichText } from "../../../common/AppRichText";
 import { AppText } from "../../../common/AppText";
-import { BrandIcon, BrandIconName } from "../../../icons";
+import { SvgProps } from "react-native-svg";
+import { FC } from "react";
 
 const ICON_SIZE = 32;
 
 type PayoutMethodOptionProps = Readonly<{
-  icon: BrandIconName;
+  icon: FC<SvgProps>;
   title: string;
   // Bold parts between double asterisks
   description: string;
@@ -34,10 +35,10 @@ type PayoutMethodOptionProps = Readonly<{
  * One choice on the payout method screen: a card with an icon, a title and
  * a description; the selected one has a blue border.
  *
- * @example <PayoutMethodOption icon="bankLine" title="Metrobank account" description="…" selected onPress={select} />
+ * @example <PayoutMethodOption icon={MetrobankAccountIcon} title="Metrobank account" description="…" selected onPress={select} />
  */
 export function PayoutMethodOption({
-  icon,
+  icon: Icon,
   title,
   description,
   selected,
@@ -63,11 +64,11 @@ export function PayoutMethodOption({
           borderColor: selected ? colors.inputBorderFocused : "transparent",
         }}
       >
-        <BrandIcon name={icon} size={ICON_SIZE} gradient />
+        <Icon width={ICON_SIZE} height={ICON_SIZE} />
 
         <View style={styles.texts}>
           <AppText
-            typographyType="body1"
+            typographyType="title1"
             weight="bold"
             color={colors.textPrimary}
           >

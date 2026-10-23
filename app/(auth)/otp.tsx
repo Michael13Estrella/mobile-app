@@ -26,7 +26,7 @@ import { clearError } from "../../src/store/slices/authSlice";
 import { Spacing } from "../../src/constants/spacing";
 import { AppScreen } from "../../src/components/common/AppScreen";
 import { AppHeader } from "../../src/components/common/AppHeader";
-import Mail02 from "../../assets/images/icons/mail-02.svg";
+import Mail02 from "../../assets/icons/mail-02.svg";
 import { AppText } from "../../src/components/common/AppText";
 import { OtpResendRow } from "../../src/components/features/otp/OtpResendRow";
 import { AppToast } from "../../src/components/common/AppToast";

@@ -23,7 +23,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { Spacing } from "../../../src/constants/spacing";
 import { AppScreen } from "../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../src/components/common/AppHeader";
-import PasscodeLockIcon from "../../../assets/images/icons/passcode-lock.svg";
+import PasscodeLockIcon from "../../../assets/icons/passcode-lock.svg";
 import { AppText } from "../../../src/components/common/AppText";
 import { ROUTES } from "../../../src/constants/routes";
 
