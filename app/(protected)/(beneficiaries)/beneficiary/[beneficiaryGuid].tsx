@@ -106,7 +106,7 @@ export default function BeneficiaryDetailsScreen() {
       <AppButton
         label={t("beneficiaryDetails.sendMoney")}
         variant="gradient"
-        icon="bankNote01_24_Line"
+        icon="bankNote01Line"
         // TODO
         onPress={() => {}}
       />

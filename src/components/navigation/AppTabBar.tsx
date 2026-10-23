@@ -11,7 +11,7 @@
 
 import { BottomTabBarProps } from "expo-router/build/react-navigation/bottom-tabs";
 import { Spacing } from "../../constants/spacing";
-import { BrandIcon, BrandIconName } from "../icons";
+import { BrandIcon, BrandIconName, IconGrid } from "../icons";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,6 +22,7 @@ import { GradientText } from "../common/GradientText";
 import { TranslationKey } from "../../types";
 
 const TAB_ICON_SIZE = 24;
+const TAB_ICON_GRID = "M" satisfies IconGrid;
 const BAR_RADIUS = Spacing.s7;
 const BAR_BORDER_WIDTH = 1;
 // Raised "Send Money" button in the middle of the bar.
@@ -52,7 +53,7 @@ const TAB_CONFIG: Readonly<Record<string, TabConfig>> = {
   },
   "send-money": {
     labelKey: "tabs.sendMoney",
-    icon: "bankNote01_24_Line",
+    icon: "bankNote01Line",
     isCenter: true,
   },
   "pay-bills": {
@@ -107,6 +108,7 @@ export function AppTabBar({ state, navigation }: Readonly<BottomTabBarProps>) {
           const icon = (
             <BrandIcon
               name={iconName}
+              grid={TAB_ICON_GRID}
               size={TAB_ICON_SIZE}
               color={colors.iconTertiary}
               // Selected tab and the center button use the brand gradient

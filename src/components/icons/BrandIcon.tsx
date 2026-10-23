@@ -10,29 +10,51 @@
  ********************************************************************************************/
 
 import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
-import { BRAND_ICON_PATHS, BrandIconName } from "./brandIconPaths";
+import {
+  BRAND_ICON_PATHS,
+  BrandIconDefinition,
+  BrandIconGrid,
+  BrandIconName,
+  ICON_GRID_SIZES,
+  ICON_GRIDS,
+} from "./brandIconPaths";
 import { useAppTheme } from "../../hooks/useAppTheme";
 import { useId } from "react";
+import { resolveIconGrid } from "../../utils/iconGrid";
 
 const DEFAULT_SIZE = 24;
 
 export type BrandIconGradient = Readonly<{ from: string; to: string }>;
 
-export type BrandIconProps = Readonly<{
-  name: BrandIconName;
+export type BrandIconProps<N extends BrandIconName> = Readonly<{
+  name: N;
+  // Which drawing to use: "S" (16 grid), "M" (24) or "L" (96); only the
+  // ones this icon has. Default: "S", or the icon's only drawing
+  grid?: BrandIconGrid<N>;
+  // Shown size in points (independent of the grid)
   size?: number;
   color?: string;
   gradient?: boolean | BrandIconGradient;
 }>;
 
-export function BrandIcon({
+export function BrandIcon<N extends BrandIconName>({
   name,
+  grid,
   size = DEFAULT_SIZE,
   color,
   gradient,
-}: BrandIconProps) {
+}: BrandIconProps<N>) {
   const { colors } = useAppTheme();
-  const { viewBox, paths } = BRAND_ICON_PATHS[name];
+
+  // The drawing for the chosen grid; its viewBox is the grid's size
+  const drawings: BrandIconDefinition = BRAND_ICON_PATHS[name];
+  const chosenGrid = resolveIconGrid(
+    ICON_GRIDS.filter((item) => drawings[item] !== undefined),
+    grid,
+  );
+  const paths = drawings[chosenGrid] ?? [];
+  const gridSize = ICON_GRID_SIZES[chosenGrid];
+
   // Unique per icon instance, so several gradient icons can share a screen.
   // (useId contains ":" characters, which aren't valid in an SVG reference)
   const gradientId = `brandIconGradient${useId().replaceAll(":", "")}`;
@@ -48,7 +70,12 @@ export function BrandIcon({
     : (color ?? colors.primary);
 
   return (
-    <Svg width={size} height={size} viewBox={viewBox} fill="none">
+    <Svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${gridSize} ${gridSize}`}
+      fill="none"
+    >
       {gradientColors && (
         <Defs>
           <LinearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">

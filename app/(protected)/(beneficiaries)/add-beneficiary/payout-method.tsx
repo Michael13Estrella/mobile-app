@@ -36,7 +36,7 @@ const PAYOUT_METHOD_OPTIONS = {
     textKey: "otherBanks",
   },
   [PAYOUT_TYPE.CASH_PICKUP]: {
-    icon: "bankNote01_16_Line",
+    icon: "bankNote01Line",
     textKey: "cashPickup",
   },
 } as const satisfies Record<

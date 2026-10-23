@@ -47,8 +47,7 @@ export function PayoutMethodRow({ payout, onDelete }: PayoutMethodRowProps) {
   const getPayoutIconName = (payout: BeneficiaryPayout): BrandIconName => {
     if (isEWalletPayout(payout)) return "wallet02Line";
 
-    if (payout.payoutType === PAYOUT_TYPE.CASH_PICKUP)
-      return "bankNote01_16_Line";
+    if (payout.payoutType === PAYOUT_TYPE.CASH_PICKUP) return "bankNote01Line";
 
     if (payout.payoutType === PAYOUT_TYPE.BILLS_PAYMENT)
       return "receiptCheckLine";
