@@ -54,12 +54,12 @@ export default function AddBeneficiaryScreen() {
         toCreateIndividualBeneficiary(values, category === "ownAccount"),
       ),
     );
-    router.push(ROUTES.ADD_BENEFICIARY_PAYOUT_METHOD);
+    router.push(ROUTES.ADD_BENEFICIARY_SELECT_PAYOUT_METHOD);
   };
 
   const handleCorporateSubmit = (values: CorporateFormValues) => {
     dispatch(setBeneficiaryDetails(toCreateCorporateBeneficiary(values)));
-    router.push(ROUTES.ADD_BENEFICIARY_PAYOUT_METHOD);
+    router.push(ROUTES.ADD_BENEFICIARY_SELECT_PAYOUT_METHOD);
   };
 
   switch (category) {

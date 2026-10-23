@@ -1,7 +1,7 @@
 /*******************************************************************************************
  * System Name    MBJ Mobile App
  * Author Name    Michael ESTRELLA
- * Create Date    2026-10-22
+ * Create Date    2026-10-23
  *
  * Edit History
  * 1.
@@ -10,28 +10,28 @@
  ********************************************************************************************/
 
 import { FC, useState } from "react";
-import { useAppTheme } from "../../../../src/hooks/useAppTheme";
-import { useTranslation } from "../../../../src/hooks/useTranslation";
-import { AppScreen } from "../../../../src/components/common/AppScreen";
-import { AppText } from "../../../../src/components/common/AppText";
 import { StyleSheet, View } from "react-native";
-import { Spacing } from "../../../../src/constants/spacing";
-import { PayoutMethodOption } from "../../../../src/components/features/beneficiary/payout/PayoutMethodOption";
-import MetrobankAccountIcon from "../../../../assets/icons/payout/metrobank-account.svg";
-import OtherBankIcon from "../../../../assets/icons/payout/other-bank.svg";
-import CashPickupIcon from "../../../../assets/icons/payout/cash-pickup.svg";
-import { SvgProps } from "react-native-svg";
-import { AppHeader } from "../../../../src/components/common/AppHeader";
 import { router } from "expo-router";
-import { AppButton } from "../../../../src/components/common/AppButton";
+import { SvgProps } from "react-native-svg";
+import CashPickupIcon from "../../../../../assets/icons/payout/cash-pickup.svg";
+import MetrobankAccountIcon from "../../../../../assets/icons/payout/metrobank-account.svg";
+import OtherBankIcon from "../../../../../assets/icons/payout/other-bank.svg";
 import {
   BENEFICIARY_PAYOUT_TYPES,
   BeneficiaryPayoutType,
   PAYOUT_TYPE,
-} from "../../../../src/constants/payout";
+} from "../../../../constants/payout";
+import { Spacing } from "../../../../constants/spacing";
+import { useAppTheme } from "../../../../hooks/useAppTheme";
+import { useTranslation } from "../../../../hooks/useTranslation";
+import { AppButton } from "../../../common/AppButton";
+import { AppHeader } from "../../../common/AppHeader";
+import { AppScreen } from "../../../common/AppScreen";
+import { AppText } from "../../../common/AppText";
+import { PayoutMethodOption } from "./PayoutMethodOption";
 
-// Each payout method's icon and its texts in addPayoutMethod.options (a
-// Record, so a new payout type can't be missed)
+// Each payout method's illustration and its texts in addPayoutMethod.options
+// (a Record, so a new payout type can't be missed)
 const PAYOUT_METHOD_OPTIONS = {
   [PAYOUT_TYPE.METROBANK_ACCOUNT]: {
     icon: MetrobankAccountIcon,
@@ -50,25 +50,35 @@ const PAYOUT_METHOD_OPTIONS = {
   Readonly<{ icon: FC<SvgProps>; textKey: string }>
 >;
 
-export default function PayoutMethodScreen() {
+type PayoutMethodPickerProps = Readonly<{
+  // "Add Beneficiary" / "Add Payout Method"
+  title: string;
+  // The chosen payout type, when Next is tapped
+  onNext: (payoutType: BeneficiaryPayoutType) => void;
+}>;
+
+/**
+ * The "Select payout method" screen: one card per payout type, then Next.
+ * Only reports the choice; the screen using it decides where Next goes
+ * (add beneficiary, add payout method).
+ *
+ * @example <PayoutMethodPicker title={t("addBeneficiary.title")} onNext={openPayoutForm} />
+ */
+export function PayoutMethodPicker({ title, onNext }: PayoutMethodPickerProps) {
   const { t } = useTranslation();
   const { colors } = useAppTheme();
   const [payoutType, setPayoutType] = useState<BeneficiaryPayoutType | null>(
     null,
   );
 
-  // TODO
-  const handleNext = () => {};
+  const handleNext = () => {
+    if (payoutType) onNext(payoutType);
+  };
 
   return (
     <AppScreen
       gradient
-      header={
-        <AppHeader
-          title={t("addBeneficiary.title")}
-          onBack={() => router.back()}
-        />
-      }
+      header={<AppHeader title={title} onBack={() => router.back()} />}
       footer={
         <AppButton
           label={t("common.next")}

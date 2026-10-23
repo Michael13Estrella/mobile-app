@@ -23,7 +23,10 @@ export const buildMetrobankAccountSchema = (t: Translate) =>
     accountNo: z
       .string()
       .min(1, t("validation.required"))
-      .length(METROBANK_ACCOUNT_NO_LENGTH),
+      .length(
+        METROBANK_ACCOUNT_NO_LENGTH,
+        t("payoutFields.accountNo.metrobankAccountValidation"),
+      ),
     currency: z.enum(METROBANK_ACCOUNT_CURRENCIES),
     branchName: romajiText(t),
   });

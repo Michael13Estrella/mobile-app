@@ -49,8 +49,10 @@ export const ROUTES = {
     pathname: "/(protected)/(beneficiaries)/add-beneficiary/[category]",
     params: { category },
   }),
-  ADD_BENEFICIARY_PAYOUT_METHOD:
-    "/(protected)/(beneficiaries)/add-beneficiary/payout-method",
+  ADD_BENEFICIARY_SELECT_PAYOUT_METHOD:
+    "/(protected)/(beneficiaries)/add-beneficiary/payout",
+  ADD_BENEFICIARY_METROBANK_ACCOUNT:
+    "/(protected)/(beneficiaries)/add-beneficiary/payout/metrobank-account",
 
   // Development
   PREVIEW: "/preview",

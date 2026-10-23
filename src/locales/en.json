@@ -495,6 +495,22 @@
     }
   },
 
+  "------------------------------ PAYOUT FIELDS ------------------------------": "",
+  "payoutFields": {
+    "accountNo": {
+      "label": "Account number",
+      "placeholder": "Beneficiary's account number",
+      "metrobankAccountValidation": "Enter the 13-digit Metrobank account number."
+    },
+    "currency": {
+      "label": "Currency"
+    },
+    "branch": {
+      "label": "Branch",
+      "placeholder": "Beneficiary's branch"
+    }
+  },
+
   "------------------------------ XXXX ------------------------------": "",
   "------------------------------ XX ------------------------------": "",
   "------------------------------ X ------------------------------": "",

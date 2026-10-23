@@ -10,18 +10,20 @@
  ********************************************************************************************/
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CreateBeneficiaryDetails } from "../../types";
+import { CreateBeneficiaryDetails, CreateBeneficiaryPayout } from "../../types";
 import { logout } from "./authSlice";
 
 // Memory only (never persisted): the details hold personal data
 interface AddBeneficiaryState {
-  // The beneficiary form, kept from its "Next" until the payout step saves
-  // both together; null before "Next"
+  // The beneficiary form, kept from its "Next"; null before
   details: CreateBeneficiaryDetails | null;
+  // The payout method's details, kept from its "Next"; null before
+  payout: CreateBeneficiaryPayout | null;
 }
 
 const initialState: AddBeneficiaryState = {
   details: null,
+  payout: null,
 };
 
 const addBeneficiarySlice = createSlice({
@@ -35,6 +37,13 @@ const addBeneficiarySlice = createSlice({
       state.details = action.payload;
     },
 
+    setBeneficiaryPayout: (
+      state,
+      action: PayloadAction<CreateBeneficiaryPayout>,
+    ) => {
+      state.payout = action.payload;
+    },
+
     // After saving, or when the user leaves the flow
     clearAddBeneficiary: () => initialState,
   },
@@ -43,6 +52,9 @@ const addBeneficiarySlice = createSlice({
   },
 });
 
-export const { setBeneficiaryDetails, clearAddBeneficiary } =
-  addBeneficiarySlice.actions;
+export const {
+  setBeneficiaryDetails,
+  setBeneficiaryPayout,
+  clearAddBeneficiary,
+} = addBeneficiarySlice.actions;
 export default addBeneficiarySlice.reducer;
