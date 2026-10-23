@@ -114,7 +114,7 @@ export const LightColors = {
   textPrimary: Palette.mbGrey800,
   textSecondary: Palette.mbGrey500,
   textTertiary: Palette.mbGrey400,
-  textDisabled: OldPalette.slate400,
+  textDisabled: Palette.mbGrey300,
   textInverse: OldPalette.white,
   textLink: OldPalette.secondary,
   textHeader: OldPalette.primary,
@@ -151,6 +151,7 @@ export const LightColors = {
   inputBorderFocused: Palette.mbBlue500,
   inputBackgroundError: Palette.white100,
   inputPlaceholderError: Palette.sysRed600,
+  inputBorderDisabled: Palette.mbGrey300,
   inputBackgroundDisabled: Palette.mbGrey050,
 
   // Buttons
@@ -254,7 +255,7 @@ export const DarkColors = {
   textPrimary: Palette.mbGrey800,
   textSecondary: Palette.mbGrey500,
   textTertiary: Palette.mbGrey400,
-  textDisabled: OldPalette.slate400,
+  textDisabled: Palette.mbGrey300,
   textInverse: OldPalette.white,
   textLink: OldPalette.secondary,
   textHeader: OldPalette.primary,
@@ -291,6 +292,7 @@ export const DarkColors = {
   inputPlaceholder: OldPalette.slate400,
   inputBackgroundError: Palette.sysRed050,
   inputPlaceholderError: Palette.sysRed400,
+  inputBorderDisabled: Palette.mbGrey300,
   inputBackgroundDisabled: Palette.mbGrey050,
 
   // Buttons

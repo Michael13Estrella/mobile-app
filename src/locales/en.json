@@ -395,7 +395,7 @@
   "------------------------------ ADD BENEFICIARY ------------------------------": "",
   "addBeneficiary": {
     "drawer": {
-      "title": "BeneficiaryType",
+      "title": "Beneficiary Type",
       "types": {
         "ownAccount": "Own account",
         "individual": "Individual",
@@ -406,6 +406,25 @@
     "notificationSection": {
       "title": "Notification Details",
       "description": "Recipients will receive transaction notifications via the provided mobile number"
+    }
+  },
+
+  "------------------------------ ADD PAYOUT METHOD ------------------------------": "",
+  "addPayoutMethod": {
+    "title": "Select payout method",
+    "options": {
+      "metrobankAccount": {
+        "title": "Metrobank account",
+        "description": "Account no., currency (**PHP, USD, JPY**) and branch (optional)."
+      },
+      "otherBanks": {
+        "title": "Other bank account / e-wallet",
+        "description": "Bank name, account no., currency (**PHP and USD only**) and branch. For **GCash / Maya**, only account no. is required."
+      },
+      "cashPickup": {
+        "title": "Cash pick-up",
+        "description": "Beneficiary claims cash at any payout partner. No details needed."
+      }
     }
   },
 
@@ -442,26 +461,30 @@
     },
     "officeTelNo": {
       "label": "Office tel no.",
-      "placeholder": "Enter office tel no."
+      "validation": "Enter a 10-digit mobile number without the first 0 (e.g. 932 123 5678)"
     },
     "dateOfBirth": {
       "label": "Date of Birth"
     },
     "addressLine1": {
       "label": "Address line 1",
-      "placeholder": "Beneficiary's street address"
+      "placeholder": "Beneficiary's street address",
+      "companyPlaceholder": "Company's street address"
     },
     "addressLine2": {
       "label": "Address line 2",
-      "placeholder": "Beneficiary's barangay, village"
+      "placeholder": "Beneficiary's subdivision/village",
+      "companyPlaceholder": "Company's subdivision/village"
     },
     "province": {
       "label": "Province",
-      "placeholder": "Select Beneficiary's Province"
+      "placeholder": "Select Beneficiary's Province",
+      "companyPlaceholder": " Select Company's Province"
     },
     "city": {
       "label": "City/Municipality",
-      "placeholder": "Select Beneficiary's City/Municipality"
+      "placeholder": "Select Beneficiary's City/Municipality",
+      "companyPlaceholder": "Select Company's City/Municipality"
     },
     "companyName": {
       "label": "Company name",

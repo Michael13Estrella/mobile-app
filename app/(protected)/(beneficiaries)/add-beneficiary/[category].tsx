@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useAppDispatch } from "../../../../src/store";
 import { BENEFICIARY_CATEGORIES } from "../../../../src/constants/beneficiary";
 import { useEffect } from "react";
@@ -18,9 +18,15 @@ import {
   setBeneficiaryDetails,
 } from "../../../../src/store/slices/addBeneficiarySlice";
 import { IndividualBeneficiaryForm } from "../../../../src/components/features/beneficiary/form/IndividualBeneficiaryForm";
-import { IndividualFormValues } from "../../../../src/schemas/individualBeneficiarySchema";
+import { IndividualFormValues } from "../../../../src/schemas/beneficiary/individualBeneficiarySchema";
 import { useTranslation } from "../../../../src/hooks/useTranslation";
-import { toCreateIndividualBeneficiary } from "../../../../src/utils/beneficiary";
+import {
+  toCreateCorporateBeneficiary,
+  toCreateIndividualBeneficiary,
+} from "../../../../src/utils/beneficiary";
+import { CorporateBeneficiaryForm } from "../../../../src/components/features/beneficiary/form/CorporateBeneficiaryForm";
+import { CorporateFormValues } from "../../../../src/schemas/beneficiary/corporateBeneficiarySchema";
+import { ROUTES } from "../../../../src/constants/routes";
 
 // Add Beneficiary: opened from the beneficiary type drawer; shows the form
 // of the chosen type
@@ -48,7 +54,12 @@ export default function AddBeneficiaryScreen() {
         toCreateIndividualBeneficiary(values, category === "ownAccount"),
       ),
     );
-    // TODO: open the payout step
+    router.push(ROUTES.ADD_BENEFICIARY_PAYOUT_METHOD);
+  };
+
+  const handleCorporateSubmit = (values: CorporateFormValues) => {
+    dispatch(setBeneficiaryDetails(toCreateCorporateBeneficiary(values)));
+    router.push(ROUTES.ADD_BENEFICIARY_PAYOUT_METHOD);
   };
 
   switch (category) {
@@ -63,6 +74,13 @@ export default function AddBeneficiaryScreen() {
       );
     // TODO CorporateBeneficiaryForm
     case "corporate":
+      return (
+        <CorporateBeneficiaryForm
+          title={t("addBeneficiary.title")}
+          submitLabel={t("common.next")}
+          onSubmit={handleCorporateSubmit}
+        />
+      );
     default:
       return null;
   }

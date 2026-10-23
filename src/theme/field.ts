@@ -37,6 +37,7 @@ export type FieldColors = Readonly<{
   text: string;
   placeholder: string;
   icon: string;
+  iconButton: string;
 }>;
 
 type FieldStatusInput = Readonly<{
@@ -71,6 +72,7 @@ export const resolveFieldColors = (
     text: colors.textPrimary,
     placeholder: colors.textTertiary,
     icon: colors.iconTertiary,
+    iconButton: colors.iconBrandPrimary,
   };
 
   switch (status) {
@@ -83,6 +85,7 @@ export const resolveFieldColors = (
         background: colors.inputBackgroundError,
         placeholder: colors.inputPlaceholderError,
         icon: colors.iconError,
+        iconButton: colors.iconError,
       };
 
     case "success":
@@ -93,10 +96,12 @@ export const resolveFieldColors = (
     case "disabled":
       return {
         ...base,
+        border: colors.inputBorderDisabled,
         background: colors.inputBackgroundDisabled,
         text: colors.textDisabled,
         placeholder: colors.textDisabled,
         icon: colors.textDisabled,
+        iconButton: colors.textDisabled,
       };
     default:
       return base;

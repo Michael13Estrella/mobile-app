@@ -38,3 +38,6 @@ export const useTranslation = () => {
 
   return { t, locale, setLocale };
 };
+
+// The t function, for code outside components (e.g. schema builders)
+export type Translate = ReturnType<typeof useTranslation>["t"];

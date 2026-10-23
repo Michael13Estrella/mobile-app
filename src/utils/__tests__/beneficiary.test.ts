@@ -15,13 +15,18 @@ import {
   getBeneficiaryTitle,
   isEWalletPayout,
   matchesBeneficiarySearch,
+  toCreateCorporateBeneficiary,
   toCreateIndividualBeneficiary,
 } from "../beneficiary";
 import { BeneficiarySummary } from "../../types";
 import {
   EMPTY_INDIVIDUAL_FORM,
   IndividualFormValues,
-} from "../../schemas/individualBeneficiarySchema";
+} from "../../schemas/beneficiary/individualBeneficiarySchema";
+import {
+  CorporateFormValues,
+  EMPTY_CORPORATE_FORM,
+} from "../../schemas/beneficiary/corporateBeneficiarySchema";
 
 const beneficiary = (
   fields: Partial<BeneficiarySummary> = {},
@@ -204,6 +209,54 @@ describe("toCreateIndividualBeneficiary", () => {
     for (const field of [
       "beneAlias",
       "middleName",
+      "gender",
+      "birthOrEstablishDate",
+      "address2",
+      "mobileNo",
+    ]) {
+      expect(json).not.toHaveProperty(field);
+    }
+  });
+});
+
+describe("toCreateCorporateBeneficiary", () => {
+  const values = (
+    fields: Partial<CorporateFormValues> = {},
+  ): CorporateFormValues => ({
+    ...EMPTY_CORPORATE_FORM,
+    companyName: "Acme Trading Inc.",
+    officeTelNo: "9171234567",
+    addressLine1: "88 Ayala Avenue",
+    cityProvCode: "1376",
+    zipPosCode: "1226",
+    relationToBeneCode: "09",
+    ...fields,
+  });
+
+  it("is a corporate beneficiary, never the own account", () => {
+    const result = toCreateCorporateBeneficiary(values());
+    expect(result.beneficiaryType).toBe("C");
+    expect(result.myAccountFlg).toBe(0);
+  });
+
+  it("sends the company fields and the shared ones, trimmed", () => {
+    const result = toCreateCorporateBeneficiary(
+      values({ companyName: "  Acme Trading Inc. " }),
+    );
+    expect(result.companyName).toBe("Acme Trading Inc.");
+    expect(result.officeTelNo).toBe("9171234567");
+    expect(result.address1).toBe("88 Ayala Avenue");
+    expect(result.zipPosCode).toBe("1226");
+  });
+
+  it("sends no person fields and leaves empty optional fields out", () => {
+    const json = JSON.parse(
+      JSON.stringify(toCreateCorporateBeneficiary(values())),
+    );
+    for (const field of [
+      "firstName",
+      "lastName",
+      "beneAlias",
       "gender",
       "birthOrEstablishDate",
       "address2",

@@ -73,7 +73,7 @@ export function AppSelect<T extends FieldValues>({
   const [visible, setVisible] = useState(false);
 
   const { value, onChange, onFocus, onBlur, errorMessage, fieldColors } =
-    useFormField({ control, name });
+    useFormField({ control, name, disabled });
 
   const selectedLabel = options.find((o) => o.value === value)?.label ?? "";
 
@@ -109,7 +109,12 @@ export function AppSelect<T extends FieldValues>({
       errorMessage={errorMessage}
     >
       {/* Select field */}
-      <Pressable onPress={openPicker} disabled={disabled}>
+      <Pressable
+        onPress={openPicker}
+        disabled={disabled}
+        accessibilityRole="button"
+        accessibilityState={{ disabled }}
+      >
         <View style={styles.fieldTouchArea}>
           <TextInput
             value={selectedLabel}
@@ -126,7 +131,7 @@ export function AppSelect<T extends FieldValues>({
             right={
               <TextInput.Icon
                 icon={SelectChevronIcon}
-                color={fieldColors.icon}
+                color={fieldColors.iconButton}
               />
             }
           />
