@@ -24,4 +24,5 @@ export const FieldLimits = {
   companyName: 60,
   natureOfBusiness: 40,
   schoolName: 40,
+  relationToBeneOthers: 30,
 };

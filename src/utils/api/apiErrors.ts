@@ -9,8 +9,6 @@
  * 3.
  ********************************************************************************************/
 
-import { error } from "node:console";
-
 // The text of one error as the server sends it: a plain message, or an
 // object with one (e.g. { propertyName, message, metaData })
 const messageOf = (item: unknown): string | undefined => {

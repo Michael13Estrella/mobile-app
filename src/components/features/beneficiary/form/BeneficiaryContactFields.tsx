@@ -24,6 +24,7 @@ import { BeneficiaryCommonValues } from "../../../../schemas/beneficiary/benefic
 import { RELATIONSHIP_OTHERS_CODE } from "../../../../constants/beneficiary";
 import { useEffect } from "react";
 import { AppInput } from "../../../form/AppInput";
+import { FieldLimits } from "../../../../constants/fieldLimits";
 
 type BeneficiaryContactFieldsProps = Readonly<{
   // "Mobile number" (individual) or "Company mobile number" (corporate)
@@ -83,6 +84,7 @@ export function BeneficiaryContactFields({
           name="relationToBeneOthers"
           required
           placeholder={t("beneficiaryFields.relationshipOthers.placeholder")}
+          maxLength={FieldLimits.relationToBeneOthers}
         />
       )}
 
