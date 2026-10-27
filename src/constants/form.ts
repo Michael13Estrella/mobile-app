@@ -12,10 +12,10 @@
 import { UseFormProps } from "react-hook-form";
 
 // Shared validation timing for all forms:
-// - first validation when a field loses focus (no errors while typing
-//   into a field for the first time),
-// - after that, re-validation on every change so errors clear as soon
-//   as the input is fixed.
+// - before the first submit: validation on every change and on blur, so
+//   isValid (which enables the submit buttons) is always current,
+// - after a submit (e.g. back to the form from Confirm to edit it):
+//   re-validation when a field loses focus.
 export const FORM_VALIDATION_MODE = {
   mode: "all",
   reValidateMode: "onBlur",
