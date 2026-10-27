@@ -21,7 +21,8 @@ export interface ApiResult<T> {
   ok: boolean;
   status: number;
   data: T | null;
-  errors?: Record<string, string[]>;
+  // As the server sent them; read them with firstErrorMessage
+  errors?: unknown;
 }
 
 export type FetchInit = NonNullable<Parameters<typeof fetch>[1]>;
@@ -139,7 +140,7 @@ export const request = async <T>(
           ok: false,
           status: res.status,
           data: null,
-          errors: (json as { errors?: Record<string, string[]> })?.errors,
+          errors: (json as { errors?: unknown } | null)?.errors,
         };
   } catch (e) {
     if (__DEV__) console.log("Request error: ", e);
