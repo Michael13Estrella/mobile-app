@@ -53,6 +53,10 @@ export const ROUTES = {
     "/(protected)/(beneficiaries)/add-beneficiary/payout",
   ADD_BENEFICIARY_METROBANK_ACCOUNT:
     "/(protected)/(beneficiaries)/add-beneficiary/payout/metrobank-account",
+  ADD_BENEFICIARY_CONFIRM:
+    "/(protected)/(beneficiaries)/add-beneficiary/confirm",
+  ADD_BENEFICIARY_SUBMITTED:
+    "/(protected)/(beneficiaries)/add-beneficiary/submitted",
 
   // Development
   PREVIEW: "/preview",

@@ -11,8 +11,10 @@
 
 import {
   getBeneficiaryAddress,
+  getBeneficiaryCategory,
   getBeneficiaryFullName,
   getBeneficiaryTitle,
+  getNewBeneficiaryName,
   matchesBeneficiarySearch,
   toCreateCorporateBeneficiary,
   toCreateIndividualBeneficiary,
@@ -248,5 +250,54 @@ describe("toCreateCorporateBeneficiary", () => {
     ]) {
       expect(json).not.toHaveProperty(field);
     }
+  });
+});
+
+describe("getBeneficiaryCategory", () => {
+  it("is corporate for a company", () => {
+    expect(
+      getBeneficiaryCategory({ beneficiaryType: "C", myAccountFlg: 0 }),
+    ).toBe("corporate");
+  });
+
+  it("is the own account for a person flagged as the remitter", () => {
+    expect(
+      getBeneficiaryCategory({ beneficiaryType: "I", myAccountFlg: 1 }),
+    ).toBe("ownAccount");
+  });
+
+  it("is an individual otherwise", () => {
+    expect(
+      getBeneficiaryCategory({ beneficiaryType: "I", myAccountFlg: 0 }),
+    ).toBe("individual");
+  });
+});
+
+describe("getNewBeneficiaryName", () => {
+  it("is the formatted full name for a person", () => {
+    expect(
+      getNewBeneficiaryName(
+        toCreateIndividualBeneficiary(
+          {
+            ...EMPTY_INDIVIDUAL_FORM,
+            firstName: "JOSH",
+            middleName: "CULLEN",
+            lastName: "SANTOS",
+          },
+          false,
+        ),
+      ),
+    ).toBe("Josh Cullen Santos");
+  });
+
+  it("is the company name for a company", () => {
+    expect(
+      getNewBeneficiaryName(
+        toCreateCorporateBeneficiary({
+          ...EMPTY_CORPORATE_FORM,
+          companyName: "Acme Trading Inc.",
+        }),
+      ),
+    ).toBe("Acme Trading Inc.");
   });
 });

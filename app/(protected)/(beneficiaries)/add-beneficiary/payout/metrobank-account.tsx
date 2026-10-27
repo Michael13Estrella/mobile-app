@@ -9,12 +9,14 @@
  * 3.
  ********************************************************************************************/
 
+import { router } from "expo-router";
 import { MetrobankAccountForm } from "../../../../../src/components/features/beneficiary/payout/MetrobankAccountForm";
 import { useTranslation } from "../../../../../src/hooks/useTranslation";
 import { MetrobankAccountFormValues } from "../../../../../src/schemas/payout/metrobankAccountSchema";
 import { useAppDispatch } from "../../../../../src/store";
 import { setBeneficiaryPayout } from "../../../../../src/store/slices/addBeneficiarySlice";
 import { toCreateMetrobankPayout } from "../../../../../src/utils/beneficiary/payout";
+import { ROUTES } from "../../../../../src/constants/routes";
 
 // Add Beneficiary, after "Metrobank account" was picked: the account details
 export default function AddMetrobankAccountScreen() {
@@ -23,6 +25,8 @@ export default function AddMetrobankAccountScreen() {
 
   const handleSubmit = (values: MetrobankAccountFormValues) => {
     dispatch(setBeneficiaryPayout(toCreateMetrobankPayout(values)));
+
+    router.push(ROUTES.ADD_BENEFICIARY_CONFIRM);
   };
 
   return (

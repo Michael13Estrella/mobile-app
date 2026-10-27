@@ -33,3 +33,21 @@ export const formatPersonName = (name: string): string =>
         .join("-"),
     )
     .join(" ");
+
+/**
+ * The initials of a name for an avatar: the first letter of its first and
+ * last word, in capitals.
+ *
+ * @param name - A full name ("Josh Cullen Santos") or a company name
+ * @returns One or two capital letters, or "" for an empty name
+ * @example getInitials("Josh Cullen Santos"); // "JS"
+ */
+export const getInitials = (name: string): string => {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const first = words.at(0);
+  const last = words.length > 1 ? words.at(-1) : undefined;
+  return [first, last]
+    .map((word) => word?.at(0) ?? "")
+    .join("")
+    .toUpperCase();
+};

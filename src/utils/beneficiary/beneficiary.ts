@@ -14,8 +14,10 @@ import { BeneficiaryCommonValues } from "../../schemas/beneficiary/beneficiaryCo
 import { CorporateFormValues } from "../../schemas/beneficiary/corporateBeneficiarySchema";
 import { IndividualFormValues } from "../../schemas/beneficiary/individualBeneficiarySchema";
 import {
+  BeneficiaryCategory,
   BeneficiaryDetail,
   BeneficiarySummary,
+  CreateBeneficiaryDetails,
   CreateCorporateBeneficiary,
   CreateIndividualBeneficiary,
 } from "../../types";
@@ -138,3 +140,42 @@ export const toCreateCorporateBeneficiary = (
   officeTelNo: values.officeTelNo,
   ...toCreateBeneficiaryCommon(values),
 });
+
+/**
+ * Which kind of beneficiary a new one is (for its "Type" and the drawer
+ * texts): corporate, the remitter's own account, or an individual.
+ *
+ * @param details - The new beneficiary
+ * @returns Its category
+ * @example getBeneficiaryCategory({ beneficiaryType: "I", myAccountFlg: 1 }); // "ownAccount"
+ */
+export const getBeneficiaryCategory = (
+  details: Pick<CreateBeneficiaryDetails, "beneficiaryType" | "myAccountFlg">,
+): BeneficiaryCategory => {
+  if (details.beneficiaryType === BENEFICIARY_TYPE.CORPORATE) {
+    return "corporate";
+  }
+  return details.myAccountFlg === MY_ACCOUNT_FLAG.YES
+    ? "ownAccount"
+    : "individual";
+};
+
+/**
+ * The name to show for a new beneficiary: the company name, or the person's
+ * first, middle and last name (formatted).
+ *
+ * @param details - The new beneficiary
+ * @returns The display name
+ * @example getNewBeneficiaryName(individual); // "Josh Cullen Santos"
+ */
+export const getNewBeneficiaryName = (
+  details: CreateBeneficiaryDetails,
+): string =>
+  details.beneficiaryType === BENEFICIARY_TYPE.CORPORATE
+    ? details.companyName
+    : getBeneficiaryFullName({
+        firstName: details.firstName,
+        middleName: details.middleName ?? "",
+        lastName: details.lastName,
+        companyName: "",
+      });

@@ -10,13 +10,22 @@
  ********************************************************************************************/
 
 import {
+  ACCOUNT_NO_MASK,
+  ACCOUNT_NO_VISIBLE_DIGITS,
   E_WALLET_BANK_CODES,
+  METROBANK_ACCOUNT_NO_TEMPLATE,
   METROBANK_BANK_CODE,
+  METROBANK_BANK_NAME,
   PAYOUT_TYPE,
 } from "../../constants/payout";
 import { MetrobankAccountFormValues } from "../../schemas/payout/metrobankAccountSchema";
-import { BeneficiaryPayout, CreateBeneficiaryPayoutCA } from "../../types";
+import {
+  BeneficiaryPayout,
+  CreateBeneficiaryPayoutCA,
+  PayoutSummary,
+} from "../../types";
 import { optionalField } from "../api/requestFields";
+import { fillDigitsTemplate } from "../format/phone";
 
 /**
  * Whether a payout method is an e-wallet (GCash, Maya): an "THer banks"
@@ -49,3 +58,43 @@ export const toCreateMetrobankPayout = (
   caAccountNo: values.accountNo,
   caBranchName: optionalField(values.branchName),
 });
+
+/**
+ * An account number with only its last digits shown, for summaries.
+ *
+ * @param accountNo - The account number (digits only)
+ * @returns "•••• " and the last 4 digits, or the number itself when it's
+ *    too short to mask
+ * @example maskAccountNumber("3456789121537"); // "•••• 1537"
+ */
+export const maskAccountNumber = (accountNo: string): string =>
+  accountNo.length > ACCOUNT_NO_VISIBLE_DIGITS
+    ? `${ACCOUNT_NO_MASK} ${accountNo.slice(-ACCOUNT_NO_VISIBLE_DIGITS)}`
+    : accountNo;
+
+/**
+ * What a payout row shows for a new Metrobank account payout.
+ *
+ * @param payout - The Metrobank account payout from the draft
+ * @returns The row's bank, account number and currency
+ * @example toMetrobankPayoutSummary(payout).bankName; // "Metrobank"
+ */
+export const toMetrobankPayoutSummary = (
+  payout: CreateBeneficiaryPayoutCA,
+): PayoutSummary => ({
+  payoutType: payout.payoutType,
+  bankCode: METROBANK_BANK_CODE,
+  bankName: METROBANK_BANK_NAME,
+  accountNo: payout.caAccountNo,
+  currency: payout.currency,
+});
+
+/**
+ * A Metrobank account number in its groups, for display.
+ *
+ * @param accountNo - The 13 digits
+ * @returns The grouped number
+ * @example formatMetrobankAccountNo("3456789121537"); // "345 678 912 1537"
+ */
+export const formatMetrobankAccountNo = (accountNo: string): string =>
+  fillDigitsTemplate(METROBANK_ACCOUNT_NO_TEMPLATE, accountNo);

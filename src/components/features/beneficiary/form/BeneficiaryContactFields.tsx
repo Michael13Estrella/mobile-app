@@ -54,6 +54,7 @@ export function BeneficiaryContactFields({
         label={t("beneficiaryFields.relationship.label")}
         placeholder={t("beneficiaryFields.relationship.placeholder")}
         options={toDropdownOptions(relationships, locale)}
+        fitContent
       />
 
       {/* Notification details */}

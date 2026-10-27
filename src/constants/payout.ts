@@ -35,9 +35,16 @@ export const E_WALLET_BANK_CODES: readonly string[] = [
 ];
 
 // Metrobank account payouts (CA)
-export const METROBANK_BANK_CODE = "";
+export const METROBANK_BANK_CODE = "1066";
 // 13 digits, shown as "345 678 912 1237"
 export const METROBANK_ACCOUNT_NO_TEMPLATE = "xxx xxx xxx xxxx";
 export const METROBANK_ACCOUNT_NO_LENGTH = 13;
 // A Metrobank account can receive any currency the app sends
 export { RECEIVE_CURRENCIES as METROBANK_ACCOUNT_CURRENCIES } from "./currency";
+
+// Shown as the bank of a Metrobank account payout
+export const METROBANK_BANK_NAME = "Metrobank";
+
+// Masked account numbers show only the last digits ("•••• 7890")
+export const ACCOUNT_NO_MASK = "••••";
+export const ACCOUNT_NO_VISIBLE_DIGITS = 4;

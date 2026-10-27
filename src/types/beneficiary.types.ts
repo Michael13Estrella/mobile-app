@@ -164,3 +164,9 @@ export interface CreateBeneficiaryRequest {
 export type CreateBeneficiaryResult =
   | Readonly<{ ok: true }>
   | Readonly<{ ok: false; message?: string }>;
+
+// What a payout row shows: a saved payout, or a new one before it's saved
+export type PayoutSummary = Pick<
+  BeneficiaryPayout,
+  "payoutType" | "bankCode" | "bankName" | "accountNo" | "currency"
+>;

@@ -20,6 +20,7 @@ import { Palette } from "../../constants/palette";
 import { AppText } from "./AppText";
 import { GradientBorder } from "./GradientBorder";
 import { BrandIcon, BrandIconName } from "../icons";
+import { resolveShadows } from "../../theme/shadows";
 
 type ButtonVariant =
   | "solid"
@@ -27,7 +28,8 @@ type ButtonVariant =
   | "gradientOutline"
   | "outline"
   | "ghost"
-  | "glass";
+  | "glass"
+  | "elevated";
 
 const ICON_SIZE = 18;
 
@@ -240,6 +242,10 @@ export const AppButton = ({
         : colors.buttonDisabledBackground,
       text: onDark ? OldPalette.slate500 : colors.buttonDisabledText,
     },
+    elevated: {
+      background: colors.surface,
+      text: colors.buttonPrimary,
+    },
   };
 
   const textColorByVariant: Record<ButtonVariant, string> = {
@@ -249,6 +255,7 @@ export const AppButton = ({
     outline: resolvedColors.outline.text,
     ghost: resolvedColors.ghost.text,
     glass: resolvedColors.glass.text,
+    elevated: resolvedColors.elevated.text,
   };
 
   const styleByVariant: Record<ButtonVariant, ViewStyle> = {
@@ -268,6 +275,11 @@ export const AppButton = ({
     glass: {
       backgroundColor: resolvedColors.glass.background,
     },
+    elevated: {
+      backgroundColor: colors.surface,
+      borderRadius: 8,
+      boxShadow: resolveShadows(colors).neutral02Bottom,
+    },
   };
 
   const disabledStyleByVariant: Record<ButtonVariant, ViewStyle> = {
@@ -277,9 +289,14 @@ export const AppButton = ({
     outline: { backgroundColor: resolvedColors.disabled.background },
     ghost: { backgroundColor: "transparent" },
     glass: { backgroundColor: resolvedColors.glass.background },
+    elevated: {
+      backgroundColor: resolvedColors.disabled.background,
+      borderRadius: 8,
+    },
   };
 
-  const isTransparentVariant = variant === "outline" || variant === "ghost";
+  const isTransparentVariant =
+    variant === "outline" || variant === "ghost" || variant === "elevated";
   const textColor = isDisabled
     ? resolvedColors.disabled.text
     : textColorByVariant[variant];

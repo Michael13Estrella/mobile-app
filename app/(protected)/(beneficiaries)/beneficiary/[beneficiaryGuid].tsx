@@ -16,8 +16,6 @@ import { useBeneficiaryDetails } from "../../../../src/hooks/useBeneficiaryDetai
 import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import { AppText } from "../../../../src/components/common/AppText";
 import { Spacing } from "../../../../src/constants/spacing";
-import { BeneficiaryAvatar } from "../../../../src/components/features/beneficiary/BeneficiaryAvatar";
-import { GradientText } from "../../../../src/components/common/GradientText";
 import { BeneficiaryDetailsCard } from "../../../../src/components/features/beneficiary/BeneficiaryDetailsCard";
 import { AppScreen } from "../../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../../src/components/common/AppHeader";
@@ -26,6 +24,7 @@ import { BeneficiaryPayoutsCard } from "../../../../src/components/features/bene
 import { BrandIcon } from "../../../../src/components/icons";
 import { AppButton } from "../../../../src/components/common/AppButton";
 import { AppTextButton } from "../../../../src/components/common/AppTextButton";
+import { BeneficiaryProfile } from "../../../../src/components/features/beneficiary/BeneficiaryProfile";
 
 const AVATAR_SIZE = 56;
 // Extra touch area around the header's trash icon
@@ -60,20 +59,10 @@ export default function BeneficiaryDetailsScreen() {
 
     return (
       <>
-        <View style={styles.profile}>
-          <BeneficiaryAvatar size={AVATAR_SIZE}>
-            <GradientText typographyType="h4">
-              {beneficiary.nameInitial}
-            </GradientText>
-          </BeneficiaryAvatar>
-          <AppText
-            typographyType="h3"
-            color={colors.textPrimary}
-            style={styles.name}
-          >
-            {getBeneficiaryFullName(beneficiary)}
-          </AppText>
-        </View>
+        <BeneficiaryProfile
+          initials={beneficiary.nameInitial}
+          name={getBeneficiaryFullName(beneficiary)}
+        />
 
         <BeneficiaryDetailsCard beneficiary={beneficiary} />
 

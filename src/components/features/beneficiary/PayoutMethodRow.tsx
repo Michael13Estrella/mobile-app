@@ -12,13 +12,16 @@
 import { StyleSheet, View } from "react-native";
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { useTranslation } from "../../../hooks/useTranslation";
-import { BeneficiaryPayout } from "../../../types";
+import { PayoutSummary } from "../../../types";
 import { Spacing } from "../../../constants/spacing";
 import { BrandIcon, BrandIconName } from "../../icons";
 import { AppText } from "../../common/AppText";
 import { AppTextButton } from "../../common/AppTextButton";
 import { PAYOUT_TYPE } from "../../../constants/payout";
-import { isEWalletPayout } from "../../../utils/beneficiary/payout";
+import {
+  isEWalletPayout,
+  maskAccountNumber,
+} from "../../../utils/beneficiary/payout";
 
 const ICON_BOX_SIZE = 36;
 const ICON_BOX_RADIUS = 8;
@@ -26,34 +29,45 @@ const ICON_SIZE = 16;
 // Between the account number and the currency ("123 456 · PHP")
 const DETAILS_SEPARATOR = " · ";
 
+const getPayoutIconName = (payout: PayoutSummary): BrandIconName => {
+  if (isEWalletPayout(payout)) return "wallet02Line";
+  if (payout.payoutType === PAYOUT_TYPE.CASH_PICKUP) return "bankNote01Line";
+  if (payout.payoutType === PAYOUT_TYPE.BILLS_PAYMENT)
+    return "receiptCheckLine";
+
+  return "bankLine";
+};
+
 type PayoutMethodRowProps = Readonly<{
-  payout: BeneficiaryPayout;
-  onDelete: () => void;
+  payout: PayoutSummary;
+  // Shows "Delete" (e.g. Beneficiary Information); none without it
+  onDelete?: () => void;
+  // Only the last digits of the account number (e.g. Confirm Details)
+  maskAccountNo?: boolean;
 }>;
 
 /**
- * One payout method
+ * One payout method of a beneficiary: its icon (bank, e-wallet, cash
+ * pickup or bills payment), name, account number and currency, and an
+ * optional Delete action.
  *
- * @param param0
+ * @example <PayoutMethodRow payout={payout} onDelete={() => confirmDelete(payout)} />
  */
-export function PayoutMethodRow({ payout, onDelete }: PayoutMethodRowProps) {
+export function PayoutMethodRow({
+  payout,
+  onDelete,
+  maskAccountNo = false,
+}: PayoutMethodRowProps) {
   const { colors } = useAppTheme();
   const { t } = useTranslation();
 
-  const details = [payout.accountNo, payout.currency]
+  const accountNo = maskAccountNo
+    ? maskAccountNumber(payout.accountNo)
+    : payout.accountNo;
+
+  const details = [accountNo, payout.currency]
     .filter(Boolean)
     .join(DETAILS_SEPARATOR);
-
-  const getPayoutIconName = (payout: BeneficiaryPayout): BrandIconName => {
-    if (isEWalletPayout(payout)) return "wallet02Line";
-
-    if (payout.payoutType === PAYOUT_TYPE.CASH_PICKUP) return "bankNote01Line";
-
-    if (payout.payoutType === PAYOUT_TYPE.BILLS_PAYMENT)
-      return "receiptCheckLine";
-
-    return "bankLine";
-  };
 
   return (
     <View style={styles.row}>
@@ -88,13 +102,15 @@ export function PayoutMethodRow({ payout, onDelete }: PayoutMethodRowProps) {
         </AppText>
       </View>
 
-      <View>
-        <AppTextButton
-          label={t("common.delete")}
-          tone="danger"
-          onPress={onDelete}
-        />
-      </View>
+      {onDelete && (
+        <View>
+          <AppTextButton
+            label={t("common.delete")}
+            tone="danger"
+            onPress={onDelete}
+          />
+        </View>
+      )}
     </View>
   );
 }

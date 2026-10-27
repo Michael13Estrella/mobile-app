@@ -79,3 +79,22 @@ export const formatPhoneNumber = (
 
   return `+${country.dialCode} ${masked}`;
 };
+
+/**
+ * Digits shown in a template's groups: each "x" takes the next digit.
+ *
+ * @param template - One "x" per digit (e.g. "xxx xxx xxx xxxx")
+ * @param digits - The digits
+ * @returns The grouped digits; missing digits leave their slots empty
+ * @example fillDigitsTemplate("xxx xxx", "123456"); // "123 456"
+ */
+export const fillDigitsTemplate = (
+  template: string,
+  digits: string,
+): string => {
+  let next = 0;
+  return template.replace(
+    new RegExp(PHONE_DIGIT_PLACEHOLDER, "g"),
+    () => digits[next++] ?? "",
+  );
+};

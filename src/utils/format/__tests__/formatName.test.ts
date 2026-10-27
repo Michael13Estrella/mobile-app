@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { formatPersonName } from "../formatName";
+import { formatPersonName, getInitials } from "../formatName";
 
 describe("formatPersonName", () => {
   it("title-cases each word", () => {
@@ -39,5 +39,20 @@ describe("formatPersonName", () => {
   it("returns an empty string for an empty name", () => {
     expect(formatPersonName("")).toBe("");
     expect(formatPersonName("   ")).toBe("");
+  });
+});
+
+describe("getInitials", () => {
+  it("uses the first and last word", () => {
+    expect(getInitials("Josh Cullen Santos")).toBe("JS");
+  });
+
+  it("uses one letter for a single word, in capitals", () => {
+    expect(getInitials("acme")).toBe("A");
+  });
+
+  it("ignores extra spaces and is empty without a name", () => {
+    expect(getInitials("  maria   banks ")).toBe("MB");
+    expect(getInitials("")).toBe("");
   });
 });

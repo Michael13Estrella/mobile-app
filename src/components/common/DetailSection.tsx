@@ -18,6 +18,8 @@ import { AppCard } from "./AppCard";
 
 type DetailSectionProps = Readonly<{
   title: string;
+  // Shown at the end of the title row (e.g. an "Edit button")
+  action?: ReactNode;
   // Overrides for the card (e.g. rows that set their own spacing)
   cardStyle?: ViewStyle;
   children: ReactNode;
@@ -31,6 +33,7 @@ type DetailSectionProps = Readonly<{
  */
 export function DetailSection({
   title,
+  action,
   cardStyle,
   children,
 }: DetailSectionProps) {
@@ -38,14 +41,17 @@ export function DetailSection({
 
   return (
     <View style={styles.section}>
-      <AppText
-        typographyType="overline1"
-        weight="bold"
-        color={colors.textSecondary}
-        style={styles.title}
-      >
-        {title}
-      </AppText>
+      <View style={styles.titleRow}>
+        <AppText
+          typographyType="overline1"
+          weight="bold"
+          color={colors.textSecondary}
+          style={styles.title}
+        >
+          {title}
+        </AppText>
+        {action}
+      </View>
       <AppCard style={{ ...styles.card, ...cardStyle }}>{children}</AppCard>
     </View>
   );
@@ -58,7 +64,12 @@ const styles = StyleSheet.create({
   title: {
     textTransform: "uppercase",
   },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   card: {
-    gap: Spacing.s5,
+    gap: Spacing.s4,
   },
 });

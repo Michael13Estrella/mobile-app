@@ -9,7 +9,13 @@
  * 3.
  ********************************************************************************************/
 
-import { isEWalletPayout, toCreateMetrobankPayout } from "../payout";
+import {
+  formatMetrobankAccountNo,
+  isEWalletPayout,
+  maskAccountNumber,
+  toCreateMetrobankPayout,
+  toMetrobankPayoutSummary,
+} from "../payout";
 
 describe("isEWalletPayout", () => {
   it("is true for GCash and Maya sent as Other banks", () => {
@@ -48,5 +54,41 @@ describe("toCreateMetrobankPayout", () => {
     expect(
       JSON.parse(JSON.stringify(toCreateMetrobankPayout(values))),
     ).not.toHaveProperty("caBranchName");
+  });
+});
+
+describe("maskAccountNumber", () => {
+  it("shows only the last 4 digits", () => {
+    expect(maskAccountNumber("3456789121537")).toBe("•••• 1537");
+  });
+
+  it("leaves a number of 4 digits or less as it is", () => {
+    expect(maskAccountNumber("1537")).toBe("1537");
+  });
+});
+
+describe("toMetrobankPayoutSummary", () => {
+  it("shows Metrobank with the account number and currency", () => {
+    expect(
+      toMetrobankPayoutSummary(
+        toCreateMetrobankPayout({
+          accountNo: "3456789121537",
+          currency: "USD",
+          branchName: "",
+        }),
+      ),
+    ).toEqual({
+      payoutType: "CA",
+      bankCode: expect.any(String),
+      bankName: "Metrobank",
+      accountNo: "3456789121537",
+      currency: "USD",
+    });
+  });
+});
+
+describe("formatMetrobankAccountNo", () => {
+  it("groups the 13 digits as on the card", () => {
+    expect(formatMetrobankAccountNo("3456789121537")).toBe("345 678 912 1537");
   });
 });

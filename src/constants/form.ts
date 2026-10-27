@@ -18,5 +18,5 @@ import { UseFormProps } from "react-hook-form";
 //   as the input is fixed.
 export const FORM_VALIDATION_MODE = {
   mode: "all",
-  reValidateMode: "onChange",
+  reValidateMode: "onBlur",
 } as const satisfies Pick<UseFormProps, "mode" | "reValidateMode">;
