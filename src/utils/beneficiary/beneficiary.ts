@@ -102,6 +102,8 @@ const toCreateBeneficiaryCommon = (values: BeneficiaryCommonValues) => ({
   cityProvCode: values.cityProvCode,
   zipPosCode: values.zipPosCode,
   relationToBeneCode: values.relationToBeneCode,
+  // Only filled with "Others" (the form clears it otherwise)
+  relationToBeneOthers: optionalField(values.relationToBeneOthers),
   mobileNo: optionalField(values.mobileNo),
 });
 

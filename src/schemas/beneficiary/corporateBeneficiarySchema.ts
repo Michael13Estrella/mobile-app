@@ -14,6 +14,7 @@ import type { Translate } from "../../hooks/useTranslation";
 import {
   buildBeneficiaryCommonShape,
   EMPTY_BENEFICIARY_COMMON,
+  requireRelationshipOthers,
   romajiText,
 } from "./beneficiaryCommonSchema";
 
@@ -27,11 +28,13 @@ import {
 export const buildCorporateBeneficiarySchema = (t: Translate) => {
   const required = t("validation.required");
 
-  return z.object({
-    companyName: romajiText(t).min(1, required),
-    officeTelNo: z.string().min(1, required),
-    ...buildBeneficiaryCommonShape(t),
-  });
+  return z
+    .object({
+      companyName: romajiText(t).min(1, required),
+      officeTelNo: z.string().min(1, required),
+      ...buildBeneficiaryCommonShape(t),
+    })
+    .superRefine(requireRelationshipOthers(t));
 };
 
 export type CorporateFormValues = z.infer<

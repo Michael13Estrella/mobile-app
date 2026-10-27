@@ -10,7 +10,7 @@
  ********************************************************************************************/
 
 import { StyleSheet, View } from "react-native";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { BENEFICIARY_PHONE_COUNTRY } from "../../../../constants/phone";
 import { Spacing } from "../../../../constants/spacing";
 import { useAppTheme } from "../../../../hooks/useAppTheme";
@@ -21,6 +21,9 @@ import { AppText } from "../../../common/AppText";
 import { AppPhoneInput } from "../../../form/AppPhoneInput";
 import { AppSelect } from "../../../form/AppSelect";
 import { BeneficiaryCommonValues } from "../../../../schemas/beneficiary/beneficiaryCommonSchema";
+import { RELATIONSHIP_OTHERS_CODE } from "../../../../constants/beneficiary";
+import { useEffect } from "react";
+import { AppInput } from "../../../form/AppInput";
 
 type BeneficiaryContactFieldsProps = Readonly<{
   // "Mobile number" (individual) or "Company mobile number" (corporate)
@@ -42,7 +45,19 @@ export function BeneficiaryContactFields({
 }: BeneficiaryContactFieldsProps) {
   const { t, locale } = useTranslation();
   const { colors } = useAppTheme();
-  const { control } = useFormContext<BeneficiaryCommonValues>();
+
+  const { control, setValue, clearErrors } =
+    useFormContext<BeneficiaryCommonValues>();
+
+  const relationToBeneCode = useWatch({ control, name: "relationToBeneCode" });
+  const isOthers = relationToBeneCode === RELATIONSHIP_OTHERS_CODE;
+
+  // The typed relationship only counts with "Others": cleared otherwise
+  useEffect(() => {
+    if (isOthers) return;
+    setValue("relationToBeneOthers", "");
+    clearErrors("relationToBeneOthers");
+  }, [isOthers, setValue, clearErrors]);
 
   // Relationships from the reference master (cached after the first load)
   const { items: relationships } = useReferenceData("relationWithBene");
@@ -60,6 +75,16 @@ export function BeneficiaryContactFields({
         fitContent
         disabled={lockRelationship}
       />
+
+      {/* Relationship Others */}
+      {isOthers && (
+        <AppInput
+          control={control}
+          name="relationToBeneOthers"
+          required
+          placeholder={t("beneficiaryFields.relationshipOthers.placeholder")}
+        />
+      )}
 
       {/* Notification details */}
       <View style={styles.sectionTitle}>

@@ -29,6 +29,7 @@ import {
   CorporateFormValues,
   EMPTY_CORPORATE_FORM,
 } from "../../../schemas/beneficiary/corporateBeneficiarySchema";
+import { RELATIONSHIP_OTHERS_CODE } from "../../../constants/beneficiary";
 
 const beneficiary = (
   fields: Partial<BeneficiarySummary> = {},
@@ -203,6 +204,21 @@ describe("toCreateIndividualBeneficiary", () => {
     ]) {
       expect(json).not.toHaveProperty(field);
     }
+  });
+
+  it("sends the typed relationship with Others, and leaves it out otherwise", () => {
+    expect(
+      toCreateIndividualBeneficiary(
+        values({
+          relationToBeneCode: RELATIONSHIP_OTHERS_CODE,
+          relationToBeneOthers: " Godparent ",
+        }),
+        false,
+      ).relationToBeneOthers,
+    ).toBe("Godparent");
+    expect(
+      toCreateIndividualBeneficiary(values(), false).relationToBeneOthers,
+    ).toBeUndefined();
   });
 });
 

@@ -14,6 +14,7 @@ import { Translate } from "../../hooks/useTranslation";
 import { HALF_WIDTH_ROMAJI_REGEX } from "../../constants/validation";
 import { isValidPhoneNumber } from "../../utils/format/phone";
 import { BENEFICIARY_PHONE_COUNTRY } from "../../constants/phone";
+import { RELATIONSHIP_OTHERS_CODE } from "../../constants/beneficiary";
 
 /**
  * A text field in half-width romaji (names, addresses).
@@ -44,6 +45,8 @@ export const buildBeneficiaryCommonShape = (t: Translate) => {
     // The chosen city/municipality's code
     zipPosCode: z.string().min(1, required),
     relationToBeneCode: z.string().min(1, required),
+    // Required with "Others" only (requireRelationshipOthers)
+    relationToBeneOthers: romajiText(t),
     mobileNo: z
       .string()
       .refine(
@@ -65,6 +68,7 @@ export const EMPTY_BENEFICIARY_COMMON: BeneficiaryCommonValues = {
   cityProvCode: "",
   zipPosCode: "",
   relationToBeneCode: "",
+  relationToBeneOthers: "",
   mobileNo: "",
 };
 
@@ -86,5 +90,36 @@ export const getBeneficiaryCommonLabels = (
   cityProvCode: t("beneficiaryFields.province.label"),
   zipPosCode: t("beneficiaryFields.city.label"),
   relationToBeneCode: t("beneficiaryFields.relationship.label"),
+  relationToBeneOthers: t("beneficiaryFields.relationship.label"),
   mobileNo: mobileLabel,
 });
+
+/**
+ * The "Others" relationship rule, shared by both beneficiary forms: with
+ * "Others" chosen, the typed relationship is required.
+ *
+ * @param t - The translate function, for the error message
+ * @returns The check to pass to the form schema's .superRefine
+ * @example z.object({ … }).superRefine(requireRelationshipOthers(t));
+ */
+export const requireRelationshipOthers =
+  (t: Translate) =>
+  (
+    values: Pick<
+      BeneficiaryCommonValues,
+      "relationToBeneCode" | "relationToBeneOthers"
+    >,
+    ctx: z.RefinementCtx,
+  ) => {
+    if (
+      values.relationToBeneCode !== RELATIONSHIP_OTHERS_CODE ||
+      values.relationToBeneOthers.trim()
+    ) {
+      return;
+    }
+    ctx.addIssue({
+      code: "custom",
+      path: ["relationToBeneOthers"],
+      message: t("validation.required"),
+    });
+  };

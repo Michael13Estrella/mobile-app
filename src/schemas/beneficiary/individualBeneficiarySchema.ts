@@ -2,11 +2,15 @@ import { z } from "zod";
 import {
   buildBeneficiaryCommonShape,
   EMPTY_BENEFICIARY_COMMON,
+  requireRelationshipOthers,
   romajiText,
 } from "./beneficiaryCommonSchema";
 import { Translate } from "../../hooks/useTranslation";
 import { GENDER_VALUES } from "../../constants/userFields";
-import { isFutureDate, isValidCalendarDate } from "../../utils/form/dateValidation";
+import {
+  isFutureDate,
+  isValidCalendarDate,
+} from "../../utils/form/dateValidation";
 
 /**
  * The rules of the individual beneficiary form (add, edit and own account).
@@ -18,22 +22,27 @@ import { isFutureDate, isValidCalendarDate } from "../../utils/form/dateValidati
 export const buildIndividualBeneficiarySchema = (t: Translate) => {
   const requiredName = romajiText(t).min(1, t("validation.required"));
 
-  return z.object({
-    beneAlias: romajiText(t),
-    lastName: requiredName,
-    firstName: requiredName,
-    middleName: romajiText(t),
-    gender: z.enum(GENDER_VALUES).or(z.literal("")),
-    // YYYY-MM-DD. Optional, but a typed date must be a real, past date
-    birthDate: z
-      .string()
-      .refine(
-        (iso) => !iso || isValidCalendarDate(iso),
-        t("validation.invalidDate"),
-      )
-      .refine((iso) => !iso || !isFutureDate(iso), t("validation.invalidDate")),
-    ...buildBeneficiaryCommonShape(t),
-  });
+  return z
+    .object({
+      beneAlias: romajiText(t),
+      lastName: requiredName,
+      firstName: requiredName,
+      middleName: romajiText(t),
+      gender: z.enum(GENDER_VALUES).or(z.literal("")),
+      // YYYY-MM-DD. Optional, but a typed date must be a real, past date
+      birthDate: z
+        .string()
+        .refine(
+          (iso) => !iso || isValidCalendarDate(iso),
+          t("validation.invalidDate"),
+        )
+        .refine(
+          (iso) => !iso || !isFutureDate(iso),
+          t("validation.invalidDate"),
+        ),
+      ...buildBeneficiaryCommonShape(t),
+    })
+    .superRefine(requireRelationshipOthers(t));
 };
 
 export type IndividualFormValues = z.infer<

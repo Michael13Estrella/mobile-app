@@ -103,11 +103,10 @@ export function ConfirmBeneficiaryCard({
       <DetailRow label={t("beneficiaryDetails.address")} value={address} />
       <DetailRow
         label={t("beneficiaryDetails.relationship")}
-        value={getReferenceLabel(
-          relationships,
-          details.relationToBeneCode,
-          locale,
-        )}
+        value={
+          details.relationToBeneOthers ??
+          getReferenceLabel(relationships, details.relationToBeneCode, locale)
+        }
       />
     </DetailSection>
   );

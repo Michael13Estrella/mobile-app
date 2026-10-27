@@ -35,3 +35,7 @@ export const MY_ACCOUNT_FLAG = {
 
 // The relationWithBene code of "Self":
 export const RELATIONSHIP_SELF_CODE = "04";
+
+// The relationWithBene code of "Others": the user types the relationship
+// (sent as relationToBeneOthers)
+export const RELATIONSHIP_OTHERS_CODE = "99";
