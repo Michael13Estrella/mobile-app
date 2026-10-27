@@ -32,4 +32,35 @@ describe("firstErrorMessage", () => {
     expect(firstErrorMessage({})).toBeUndefined();
     expect(firstErrorMessage({ Email: [] })).toBeUndefined();
   });
+
+  it("reads the server's list of error objects", () => {
+    expect(
+      firstErrorMessage([
+        {
+          propertyName: "Payout.CABankNameCode",
+          message: "Bank Code is required field.",
+          metaData: "",
+        },
+      ]),
+    ).toBe("Bank Code is required field.");
+  });
+
+  it("reads error objects grouped by field", () => {
+    expect(
+      firstErrorMessage({
+        CaBankNameCode: [
+          { propertyName: "CaBankNameCode", message: "Required" },
+        ],
+      }),
+    ).toBe("Required");
+  });
+
+  it("never returns anything but a message", () => {
+    expect(
+      firstErrorMessage([{ propertyName: "X", metaData: "" }]),
+    ).toBeUndefined();
+    expect(firstErrorMessage([{ message: 42 }])).toBeUndefined();
+    expect(firstErrorMessage("oops")).toBeUndefined();
+    expect(firstErrorMessage(null)).toBeUndefined();
+  });
 });
