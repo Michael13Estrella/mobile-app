@@ -9,7 +9,11 @@
  * 3.
  ********************************************************************************************/
 
-import { BENEFICIARY_TYPE, MY_ACCOUNT_FLAG } from "../../constants/beneficiary";
+import {
+  BENEFICIARY_TYPE,
+  MY_ACCOUNT_FLAG,
+  RELATIONSHIP_SELF_CODE,
+} from "../../constants/beneficiary";
 import { BeneficiaryCommonValues } from "../../schemas/beneficiary/beneficiaryCommonSchema";
 import { CorporateFormValues } from "../../schemas/beneficiary/corporateBeneficiarySchema";
 import { IndividualFormValues } from "../../schemas/beneficiary/individualBeneficiarySchema";
@@ -20,9 +24,11 @@ import {
   CreateBeneficiaryDetails,
   CreateCorporateBeneficiary,
   CreateIndividualBeneficiary,
+  Remitter,
 } from "../../types";
 import { formatPersonName } from "../format/formatName";
 import { optionalField } from "../api/requestFields";
+import { GENDER_VALUES } from "../../constants/userFields";
 
 /**
  * The name to show for a beneficiary: its alias, otherwise the company name,
@@ -179,3 +185,27 @@ export const getNewBeneficiaryName = (
         lastName: details.lastName,
         companyName: "",
       });
+
+/**
+ * The individual form's starting values for the remitter's own account:
+ * their name, gender and birth date from their profile, and "Self".
+ *
+ * @param profile - The signed-in remitter's profile
+ * @returns The values to prefill (the rest of the form stays empty)
+ * @example toOwnAccountFormValues(profile).relationToBeneCode; // RELATIONSHIP_SELF_CODE
+ */
+export const toOwnAccountFormValues = (
+  profile: Pick<
+    Remitter,
+    "firstName" | "middleName" | "lastName" | "gender" | "birthDate"
+  >,
+): Partial<IndividualFormValues> => ({
+  firstName: profile.firstName,
+  middleName: profile.middleName,
+  lastName: profile.lastName,
+  // Only a value the form's gender choice knows
+  gender: GENDER_VALUES.find((value) => value === profile.gender) ?? "",
+  // The date part only, if the profile sends a date-time
+  birthDate: profile.birthDate.split("T").at(0) ?? "",
+  relationToBeneCode: RELATIONSHIP_SELF_CODE,
+});

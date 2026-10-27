@@ -18,6 +18,7 @@ import {
   matchesBeneficiarySearch,
   toCreateCorporateBeneficiary,
   toCreateIndividualBeneficiary,
+  toOwnAccountFormValues,
 } from "../beneficiary";
 import { BeneficiarySummary } from "../../../types";
 import {
@@ -299,5 +300,33 @@ describe("getNewBeneficiaryName", () => {
         }),
       ),
     ).toBe("Acme Trading Inc.");
+  });
+});
+
+describe("toOwnAccountFormValues", () => {
+  const profile = {
+    firstName: "Josh Cullen",
+    middleName: "",
+    lastName: "Santos",
+    gender: "M",
+    birthDate: "1993-10-22T00:00:00",
+  };
+
+  it("prefills the remitter's name and gender", () => {
+    const values = toOwnAccountFormValues(profile);
+    expect(values.firstName).toBe("Josh Cullen");
+    expect(values.lastName).toBe("Santos");
+    expect(values.gender).toBe("M");
+  });
+
+  it("keeps only the date part of the birth date", () => {
+    expect(toOwnAccountFormValues(profile).birthDate).toBe("1993-10-22");
+    expect(
+      toOwnAccountFormValues({ ...profile, birthDate: "1993-10-22" }).birthDate,
+    ).toBe("1993-10-22");
+  });
+
+  it("leaves an unknown gender unchosen", () => {
+    expect(toOwnAccountFormValues({ ...profile, gender: "X" }).gender).toBe("");
   });
 });

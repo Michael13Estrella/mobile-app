@@ -32,3 +32,6 @@ export const MY_ACCOUNT_FLAG = {
   NO: 0,
   YES: 1,
 } as const;
+
+// The relationWithBene code of "Self":
+export const RELATIONSHIP_SELF_CODE = "04";

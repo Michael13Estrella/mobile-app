@@ -34,6 +34,8 @@ type AppDateInputProps<T extends FieldValues> = Readonly<{
   hint?: string;
   successText?: string;
   leadingIcon?: BrandIconName;
+  // Greyed out, can't be edited (e.g. own account's date of birth)
+  disabled?: boolean;
 }>;
 
 const digitsToIsoEn = (digits: string): string => {
@@ -75,6 +77,7 @@ export function AppDateInput<T extends FieldValues>({
   hint,
   successText,
   leadingIcon,
+  disabled = false,
 }: AppDateInputProps<T>) {
   const { colors } = useAppTheme();
   const locale = useAppSelector((s) => s.ui.locale);
@@ -88,7 +91,7 @@ export function AppDateInput<T extends FieldValues>({
     errorMessage,
     showSuccess,
     fieldColors,
-  } = useFormField({ control, name, successText });
+  } = useFormField({ control, name, disabled, successText });
 
   // Digits typed so far. The form only gets a value (ISO "YYYY-MM-DD") once
   // the date is complete, so partial input is kept here.
@@ -121,7 +124,9 @@ export function AppDateInput<T extends FieldValues>({
             backgroundColor: fieldColors.background,
             borderColor: fieldColors.border,
           },
+          disabled && styles.locked,
         ]}
+        accessibilityState={{ disabled }}
       >
         {!!leadingIcon && (
           <BrandIcon
@@ -156,5 +161,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: FIELD_SIZE.paddingHorizontal,
     // Same icon-to-text spacing as AppInput's leading icon.
     gap: LEADING_ICON_GAP,
+  },
+  // Disabled: can't be focused or typed in (the colors come from the theme)
+  locked: {
+    pointerEvents: "none",
   },
 });

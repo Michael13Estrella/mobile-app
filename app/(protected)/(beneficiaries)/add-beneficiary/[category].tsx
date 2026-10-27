@@ -10,7 +10,7 @@
  ********************************************************************************************/
 
 import { router, useLocalSearchParams } from "expo-router";
-import { useAppDispatch } from "../../../../src/store";
+import { useAppDispatch, useAppSelector } from "../../../../src/store";
 import { BENEFICIARY_CATEGORIES } from "../../../../src/constants/beneficiary";
 import { useEffect } from "react";
 import {
@@ -23,10 +23,13 @@ import { useTranslation } from "../../../../src/hooks/useTranslation";
 import {
   toCreateCorporateBeneficiary,
   toCreateIndividualBeneficiary,
+  toOwnAccountFormValues,
 } from "../../../../src/utils/beneficiary/beneficiary";
 import { CorporateBeneficiaryForm } from "../../../../src/components/features/beneficiary/form/CorporateBeneficiaryForm";
 import { CorporateFormValues } from "../../../../src/schemas/beneficiary/corporateBeneficiarySchema";
 import { ROUTES } from "../../../../src/constants/routes";
+
+const OWN_ACCOUNT_LOCKED_FIELDS = ["birthDate", "relationToBeneCode"] as const;
 
 // Add Beneficiary: opened from the beneficiary type drawer; shows the form
 // of the chosen type
@@ -37,6 +40,7 @@ export default function AddBeneficiaryScreen() {
   const category = BENEFICIARY_CATEGORIES.find(
     (item) => item === params.category,
   );
+  const profile = useAppSelector((s) => s.remitter.profile);
 
   // This screen stays open under the payout step, so it only unmounts when
   // the flow is left (back, of after saving): drop the draft then.
@@ -64,11 +68,22 @@ export default function AddBeneficiaryScreen() {
 
   switch (category) {
     case "ownAccount":
+      return (
+        <IndividualBeneficiaryForm
+          title={t("addBeneficiary.title")}
+          submitLabel={t("common.next")}
+          // The remitter: their own details, birth date and "Self" can't be changed
+          initialValues={profile ? toOwnAccountFormValues(profile) : undefined}
+          lockFields={OWN_ACCOUNT_LOCKED_FIELDS}
+          onSubmit={handleIndividualSubmit}
+        />
+      );
     case "individual":
       return (
         <IndividualBeneficiaryForm
           title={t("addBeneficiary.title")}
           submitLabel={t("common.next")}
+          lockFields={OWN_ACCOUNT_LOCKED_FIELDS}
           onSubmit={handleIndividualSubmit}
         />
       );

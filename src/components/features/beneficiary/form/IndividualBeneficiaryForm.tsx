@@ -43,6 +43,8 @@ type IndividualBeneficiaryFormProps = Readonly<{
   submitLabel: string;
   // Edit: the saved details; own account: the remitter's profile
   initialValues?: Partial<IndividualFormValues>;
+  // Fields that can't be changed (own account: birth date and relationship)
+  lockFields?: readonly (keyof IndividualFormValues)[];
   // While saving: the button shows a spinner
   isSubmitting?: boolean;
   onSubmit: (values: IndividualFormValues) => void;
@@ -58,6 +60,7 @@ export function IndividualBeneficiaryForm({
   title,
   submitLabel,
   initialValues,
+  lockFields = [],
   isSubmitting = false,
   onSubmit,
 }: IndividualBeneficiaryFormProps) {
@@ -164,6 +167,7 @@ export function IndividualBeneficiaryForm({
             optional
             leadingIcon="calendarLine"
             label={t("beneficiaryFields.dateOfBirth.label")}
+            disabled={lockFields.includes("birthDate")}
           />
 
           <AppDivider />
@@ -180,7 +184,10 @@ export function IndividualBeneficiaryForm({
           <AppDivider />
 
           {/* Notification details */}
-          <BeneficiaryContactFields mobileLabel={mobileLabel} />
+          <BeneficiaryContactFields
+            mobileLabel={mobileLabel}
+            lockRelationship={lockFields.includes("relationToBeneCode")}
+          />
         </FieldsContainer>
       </AppScreen>
     </FormProvider>

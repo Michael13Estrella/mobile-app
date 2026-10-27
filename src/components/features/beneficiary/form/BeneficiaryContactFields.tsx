@@ -25,6 +25,8 @@ import { BeneficiaryCommonValues } from "../../../../schemas/beneficiary/benefic
 type BeneficiaryContactFieldsProps = Readonly<{
   // "Mobile number" (individual) or "Company mobile number" (corporate)
   mobileLabel: string;
+  // Own account: the relationship is always "Self"
+  lockRelationship?: boolean;
 }>;
 
 /**
@@ -36,6 +38,7 @@ type BeneficiaryContactFieldsProps = Readonly<{
  */
 export function BeneficiaryContactFields({
   mobileLabel,
+  lockRelationship = false,
 }: BeneficiaryContactFieldsProps) {
   const { t, locale } = useTranslation();
   const { colors } = useAppTheme();
@@ -55,6 +58,7 @@ export function BeneficiaryContactFields({
         placeholder={t("beneficiaryFields.relationship.placeholder")}
         options={toDropdownOptions(relationships, locale)}
         fitContent
+        disabled={lockRelationship}
       />
 
       {/* Notification details */}
