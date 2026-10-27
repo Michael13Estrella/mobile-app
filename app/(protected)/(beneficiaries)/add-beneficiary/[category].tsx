@@ -72,7 +72,7 @@ export default function AddBeneficiaryScreen() {
         <IndividualBeneficiaryForm
           title={t("addBeneficiary.title")}
           submitLabel={t("common.next")}
-          // The remitter: their own details, birth date and "Self" can't be changed
+          // The remitter: their own details, birth date and relationWithBene can't be changed
           initialValues={profile ? toOwnAccountFormValues(profile) : undefined}
           lockFields={OWN_ACCOUNT_LOCKED_FIELDS}
           onSubmit={handleIndividualSubmit}
@@ -83,7 +83,6 @@ export default function AddBeneficiaryScreen() {
         <IndividualBeneficiaryForm
           title={t("addBeneficiary.title")}
           submitLabel={t("common.next")}
-          lockFields={OWN_ACCOUNT_LOCKED_FIELDS}
           onSubmit={handleIndividualSubmit}
         />
       );
