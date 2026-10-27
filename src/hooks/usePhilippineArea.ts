@@ -11,7 +11,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { PhilippineAreaResult } from "../types";
-import { referenceDataService } from "../services/registration/referenceDataService";
+import { referenceDataService } from "../services/reference/referenceDataService";
 
 /**
  * The Philippine provinces, and the cities/municipalities of the chosen one.

@@ -35,3 +35,8 @@ export interface PhilippineAreaResult {
   code: string;
   name: string;
 }
+
+export interface OtherBank {
+  code: string;
+  name: string;
+}

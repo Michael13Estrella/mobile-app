@@ -16,7 +16,7 @@ import {
   setNationalities,
   startLoadingNationalities,
 } from "../store/slices/nationalitySlice";
-import { referenceDataService } from "../services/registration/referenceDataService";
+import { referenceDataService } from "../services/reference/referenceDataService";
 
 export function useNationalities() {
   const dispatch = useAppDispatch();

@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../../src/store";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { referenceDataService } from "../../../src/services/registration/referenceDataService";
+import { referenceDataService } from "../../../src/services/reference/referenceDataService";
 import { updateRegistrationDetails } from "../../../src/store/slices/registrationSlice";
 import { router } from "expo-router";
 import { AppInput } from "../../../src/components/form/AppInput";

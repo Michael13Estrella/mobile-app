@@ -17,7 +17,7 @@ import {
   setReferenceDataForKey,
   startLoadingReferenceData,
 } from "../store/slices/referenceDataSlice";
-import { referenceDataService } from "../services/registration/referenceDataService";
+import { referenceDataService } from "../services/reference/referenceDataService";
 
 export function useReferenceData(key: ReferenceDataKey) {
   const dispatch = useAppDispatch();

@@ -67,6 +67,7 @@ export const ENDPOINTS = {
   REFERENCE_PHILIPPINE_CITY_PROV: "/api/reference-master/philippine-city-prov",
   REFERENCE_PHILIPPINE_TOWN_AREA: (cityProvCode: string) =>
     `/api/reference-master/philippine-town-area/${cityProvCode}`,
+  REFERENCE_OTHER_BANKS: "/api/reference-master/other-banks",
   REFERENCE_CHARGES: "/api/reference-master/charges",
 
   EXCHANGE_RATES_CACHED: "/api/reference-master/exrates-cache",
