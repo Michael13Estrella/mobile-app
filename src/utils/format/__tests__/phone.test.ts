@@ -13,6 +13,7 @@ import {
   formatPhoneNumber,
   getPhoneDigitCount,
   isValidPhoneNumber,
+  toDomesticPhoneNumber,
   toPhoneDigits,
 } from "../phone";
 import { PHONE_COUNTRIES } from "../../../constants/phone";
@@ -76,5 +77,11 @@ describe("formatPhoneNumber", () => {
 
   it("leaves missing digits empty", () => {
     expect(formatPhoneNumber(JP, "90")).toBe("+81 90  ");
+  });
+});
+
+describe("toDomesticPhoneNumber", () => {
+  it("adds the leading 0", () => {
+    expect(toDomesticPhoneNumber("9171234567")).toBe("09171234567");
   });
 });

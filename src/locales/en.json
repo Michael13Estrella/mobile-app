@@ -70,6 +70,7 @@
     "passwordRuleNumber": "1 number",
     "passwordRuleNoSpaces": "No spaces",
     "invalidDate": "Please enter a valid date.",
+    "digitsOnly": "Please enter numbers only",
     "minimumAge": "You must be at least {{min}} years old.",
     "expiryMustBeFuture": "Please use an ID that is valid today or later."
   },
@@ -471,6 +472,9 @@
       "label": "Relationship",
       "placeholder": "Select relationship"
     },
+    "relationshipOthers": {
+      "placeholder": "Enter relationship"
+    },
     "mobileNo": {
       "label": "Mobile number",
       "validation": "Enter a 10-digit mobile number without the first 0 (e.g. 932 123 5678)"
@@ -513,10 +517,15 @@
 
   "------------------------------ PAYOUT FIELDS ------------------------------": "",
   "payoutFields": {
+    "bankName": {
+      "label": "Bank name",
+      "placeholder": "Select the beneficiary's bank"
+    },
     "accountNo": {
       "label": "Account number",
       "placeholder": "Beneficiary's account number",
-      "metrobankAccountValidation": "Enter the 13-digit Metrobank account number."
+      "metrobankAccountValidation": "Enter the 13-digit Metrobank account number.",
+      "eWalletValidation": "Enter the mobile number of the e-wallet (e.g. 917 123 4567)."
     },
     "currency": {
       "label": "Currency"

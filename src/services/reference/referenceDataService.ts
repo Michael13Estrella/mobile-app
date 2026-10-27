@@ -12,6 +12,7 @@
 import { ENDPOINTS, ReferenceDataKey } from "../../constants/endpoints";
 import {
   Nationality,
+  OtherBank,
   PhilippineAreaResult,
   PostalLookupResult,
   ReferenceDataItem,
@@ -56,6 +57,14 @@ export const referenceDataService = {
   ): Promise<PhilippineAreaResult[]> => {
     const { ok, data } = await apiClient.plain.get<PhilippineAreaResult[]>(
       ENDPOINTS.REFERENCE_PHILIPPINE_TOWN_AREA(cityProvCode),
+    );
+    return ok && data ? data : [];
+  },
+
+  // The banks for an "Other bank" payout; [] when they couldn't be loaded
+  fetchOtherBanks: async (): Promise<OtherBank[]> => {
+    const { ok, data } = await apiClient.plain.get<OtherBank[]>(
+      ENDPOINTS.REFERENCE_OTHER_BANKS,
     );
     return ok && data ? data : [];
   },

@@ -140,8 +140,10 @@ export interface CreateBeneficiaryPayoutOB {
   // "PHP", "USD"
   currency: string;
   obBankNameCode: string;
+  // E-wallets: the 11-digit mobile number
   obAccountNo: string;
-  obBranchName: string;
+  // Bank only: e-wallets have no branch
+  obBranchName?: string;
 }
 
 export interface CreateBeneficiaryPayoutCP {

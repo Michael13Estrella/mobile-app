@@ -11,7 +11,7 @@
 
 import {
   getReferenceLabel,
-  toAreaOptions,
+  toCodeNameOptions,
   toDropdownOptions,
 } from "../referenceData";
 import { ReferenceDataItem } from "../../../types/referenceData.types";
@@ -54,10 +54,10 @@ describe("getReferenceLabel", () => {
   });
 });
 
-describe("toAreaOptions", () => {
+describe("toCodeNameOptions", () => {
   it("uses the code as value and the name as label, in order", () => {
     expect(
-      toAreaOptions([
+      toCodeNameOptions([
         { code: "1376", name: "Metro Manila" },
         { code: "0128", name: "Cebu" },
       ]),

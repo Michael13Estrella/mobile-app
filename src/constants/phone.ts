@@ -17,6 +17,10 @@ export type PhoneCountry = Readonly<{
 
 export const PHONE_DIGIT_PLACEHOLDER = "x";
 
+// The domestic leading 0 of a phone number ("0923 123 4567"), The phone
+// fields keep only the digits after it
+export const PHONE_TRUNK_PREFIX = "0";
+
 export const PHONE_COUNTRIES = {
   JP: { dialCode: "81", isoAlpha2: "JP", template: "xx xxxx xxxx" },
   PH: { dialCode: "63", isoAlpha2: "PH", template: "xxx xxx xxxx" },

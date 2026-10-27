@@ -16,6 +16,9 @@ export const HALF_WIDTH_ROMAJI_REGEX = /^[\x20-\x7E]*$/;
 
 export const POSTAL_CODE_REGEX = /^\d{7}$/;
 
+// Digits only (account numbers); "" passes, so required is checked separately
+export const DIGITS_ONLY_REGEX = /^\d*$/;
+
 // Password must have Min. 8 characters and include 1 uppercase, 1 lowercase, 1 digit, and 1 special character
 export const PASSWORD_MIN_LENGTH = 8;
 export const PASSWORD_SPECIAL_CHAR_ONLY_REGEX = /[^A-Za-z0-9\s]/;

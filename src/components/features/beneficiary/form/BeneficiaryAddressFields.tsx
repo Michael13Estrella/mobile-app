@@ -14,10 +14,10 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { FieldLimits } from "../../../../constants/fieldLimits";
 import { usePhilippineAreas } from "../../../../hooks/usePhilippineArea";
 import { useTranslation } from "../../../../hooks/useTranslation";
-import { toAreaOptions } from "../../../../utils/referenceData/referenceData";
 import { AppInput } from "../../../form/AppInput";
 import { AppSelect } from "../../../form/AppSelect";
 import { BeneficiaryCommonValues } from "../../../../schemas/beneficiary/beneficiaryCommonSchema";
+import { toCodeNameOptions } from "../../../../utils/referenceData/referenceData";
 
 type BeneficiaryAddressFieldsProps = Readonly<{
   // "Beneficiary's …" (individual) or "Company's …" (corporate)
@@ -86,7 +86,7 @@ export function BeneficiaryAddressFields({
         required
         label={t("beneficiaryFields.province.label")}
         placeholder={placeholders.province}
-        options={toAreaOptions(provinces)}
+        options={toCodeNameOptions(provinces)}
         groupByLetter
         sortAscending
       />
@@ -99,7 +99,7 @@ export function BeneficiaryAddressFields({
         disabled={!cityProvCode}
         label={t("beneficiaryFields.city.label")}
         placeholder={placeholders.city}
-        options={toAreaOptions(towns)}
+        options={toCodeNameOptions(towns)}
         sortAscending
       />
     </>

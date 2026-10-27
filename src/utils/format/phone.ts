@@ -9,7 +9,11 @@
  * 3.
  ********************************************************************************************/
 
-import { PHONE_DIGIT_PLACEHOLDER, PhoneCountry } from "../../constants/phone";
+import {
+  PHONE_DIGIT_PLACEHOLDER,
+  PHONE_TRUNK_PREFIX,
+  PhoneCountry,
+} from "../../constants/phone";
 
 /**
  * How many digits a phone number has after the country code (the number
@@ -57,6 +61,17 @@ export const isValidPhoneNumber = (
   digits: string,
 ): boolean =>
   digits.length === getPhoneDigitCount(country) && /^\d+$/.test(digits);
+
+/**
+ * A number in its domestic form: the leading 0, then the digits after the
+ * country code.
+ *
+ * @param digits - The national digits (from `toPhoneDigits`)
+ * @returns The number with its leading 0
+ * @example toDomesticPhoneNumber("9171234567"); // "09171234567"
+ */
+export const toDomesticPhoneNumber = (digits: string): string =>
+  `${PHONE_TRUNK_PREFIX}${digits}`;
 
 /**
  * The full number for display (e.g. the confirm screen): the country code,

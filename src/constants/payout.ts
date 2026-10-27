@@ -9,6 +9,8 @@
  * 3.
  ********************************************************************************************/
 
+import { ReceiveCurrency } from "./currency";
+
 export const PAYOUT_TYPE = {
   METROBANK_ACCOUNT: "CA",
   CASH_PICKUP: "CP",
@@ -44,6 +46,19 @@ export { RECEIVE_CURRENCIES as METROBANK_ACCOUNT_CURRENCIES } from "./currency";
 
 // Shown as the bank of a Metrobank account payout
 export const METROBANK_BANK_NAME = "Metrobank";
+
+// Other bank payouts (OB) can receive PHP and USD only
+export const OTHER_BANK_CURRENCIES = [
+  "PHP",
+  "USD",
+] as const satisfies readonly ReceiveCurrency[];
+
+// E-wallets (GCash, Maya) receive PHP only: their form has no currency
+export const E_WALLET_CURRENCY =
+  "PHP" satisfies (typeof OTHER_BANK_CURRENCIES)[number];
+
+// The branch name of a bank account payout (Metrobank and other banks)
+export const PAYOUT_BRANCH_MAX_LENGTH = 40;
 
 // Masked account numbers show only the last digits ("•••• 7890")
 export const ACCOUNT_NO_MASK = "••••";

@@ -36,6 +36,7 @@ export default function BeneficiarySubmittedScreen() {
   const { colors } = useAppTheme();
   const details = useAppSelector((s) => s.addBeneficiary.details);
   const payout = useAppSelector((s) => s.addBeneficiary.payout);
+  const payoutSummary = useAppSelector((s) => s.addBeneficiary.payoutSummary);
   const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
 
   // Android back: the beneficiary is already saved, so it leaves the flow
@@ -50,7 +51,7 @@ export default function BeneficiarySubmittedScreen() {
     return () => subscription.remove();
   }, []);
 
-  if (!details || !payout) return null;
+  if (!details || !payout || !payoutSummary) return null;
 
   return (
     <>
@@ -89,7 +90,11 @@ export default function BeneficiarySubmittedScreen() {
           </AppText>
         </View>
 
-        <SubmittedBeneficiaryCard details={details} payout={payout} />
+        <SubmittedBeneficiaryCard
+          details={details}
+          payout={payout}
+          payoutSummary={payoutSummary}
+        />
 
         {/* <AppCard variant="elevated">
           <AppTextButton

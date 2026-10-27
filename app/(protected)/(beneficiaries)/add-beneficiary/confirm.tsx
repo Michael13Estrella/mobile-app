@@ -25,11 +25,12 @@ import { AppButton } from "../../../../src/components/common/AppButton";
 import { BeneficiaryProfile } from "../../../../src/components/features/beneficiary/BeneficiaryProfile";
 import { getInitials } from "../../../../src/utils/format/formatName";
 import { ConfirmBeneficiaryCard } from "../../../../src/components/features/beneficiary/confirm/ConfirmBeneficiaryCard";
-import { ROUTES } from "../../../../src/constants/routes";
+import {
+  ADD_BENEFICIARY_PAYOUT_ROUTES,
+  ROUTES,
+} from "../../../../src/constants/routes";
 import { StyleSheet, View } from "react-native";
-import { PAYOUT_TYPE } from "../../../../src/constants/payout";
 import { ConfirmPayoutCard } from "../../../../src/components/features/beneficiary/confirm/ConfirmPayoutCard";
-import { toMetrobankPayoutSummary } from "../../../../src/utils/beneficiary/payout";
 import { useState } from "react";
 import { beneficiaryService } from "../../../../src/services/beneficiary/beneficiaryService";
 import { AppToast } from "../../../../src/components/common/AppToast";
@@ -39,13 +40,14 @@ export default function ConfirmBeneficiaryScreen() {
   const { colors } = useAppTheme();
   const details = useAppSelector((s) => s.addBeneficiary.details);
   const payout = useAppSelector((s) => s.addBeneficiary.payout);
+  const payoutSummary = useAppSelector((s) => s.addBeneficiary.payoutSummary);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   // The failed save's message (the server's, or a generic one)
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Only reachable through the form's Next, which sets the draft
-  if (!details || !payout) return null;
+  if (!details || !payout || !payoutSummary) return null;
 
   const name = getNewBeneficiaryName(details);
 
@@ -105,21 +107,22 @@ export default function ConfirmBeneficiaryScreen() {
         }
       />
 
-      {payout.payoutType === PAYOUT_TYPE.METROBANK_ACCOUNT && (
-        <ConfirmPayoutCard
-          payout={toMetrobankPayoutSummary(payout)}
-          onEdit={() =>
-            router.dismissTo(ROUTES.ADD_BENEFICIARY_METROBANK_ACCOUNT)
-          }
-        />
-      )}
+      <ConfirmPayoutCard
+        payout={payoutSummary}
+        onEdit={() =>
+          router.dismissTo(
+            ADD_BENEFICIARY_PAYOUT_ROUTES[payout.payoutType] ??
+              ROUTES.ADD_BENEFICIARY_SELECT_PAYOUT_METHOD,
+          )
+        }
+      />
 
-      {/* <AppToast
+      <AppToast
         message={errorMessage ?? ""}
         variant="error"
         visible={!!errorMessage}
         onDismiss={() => setErrorMessage(null)}
-      /> */}
+      />
     </AppScreen>
   );
 }

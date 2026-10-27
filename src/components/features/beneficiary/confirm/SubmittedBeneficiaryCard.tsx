@@ -16,9 +16,13 @@ import { useTranslation } from "../../../../hooks/useTranslation";
 import {
   CreateBeneficiaryDetails,
   CreateBeneficiaryPayout,
+  PayoutSummary,
 } from "../../../../types";
 import { getBeneficiaryCategory } from "../../../../utils/beneficiary/beneficiary";
-import { formatMetrobankAccountNo } from "../../../../utils/beneficiary/payout";
+import {
+  formatMetrobankAccountNo,
+  isEWalletBankCode,
+} from "../../../../utils/beneficiary/payout";
 import { formatPersonName } from "../../../../utils/format/formatName";
 import { getReferenceLabel } from "../../../../utils/referenceData/referenceData";
 import { AppCard } from "../../../common/AppCard";
@@ -28,17 +32,19 @@ import { DetailRow } from "../../../common/DetailRow";
 type SubmittedBeneficiaryCardProps = Readonly<{
   details: CreateBeneficiaryDetails;
   payout: CreateBeneficiaryPayout;
+  payoutSummary: PayoutSummary;
 }>;
 
 /**
  * The summary on "Beneficiary under review": the type, who it is, and how
  * they receive the money, as just submitted.
  *
- * @example <SubmittedBeneficiaryCard details={draft.details} payout={draft.payout} />
+ * @example <SubmittedBeneficiaryCard details={details} payout={payout} payoutSummary={payoutSummary} />
  */
 export function SubmittedBeneficiaryCard({
   details,
   payout,
+  payoutSummary,
 }: SubmittedBeneficiaryCardProps) {
   const { t, locale } = useTranslation();
   const { items: relationships } = useReferenceData("relationWithBene");
@@ -101,7 +107,27 @@ export function SubmittedBeneficiaryCard({
           />
         </>
       )}
-      {/* TODO (5b-3, 5b-4): other bank and cash pick-up rows */}
+      {/* Other bank / e-wallet (an e-wallet is always PHP) */}
+      {payout.payoutType === PAYOUT_TYPE.OTHER_BANKS && (
+        <>
+          <DetailRow
+            label={t("addBeneficiary.submitted.payoutMethod")}
+            value={payoutSummary.bankName}
+          />
+          <DetailRow
+            label={t("addBeneficiary.submitted.accountNo")}
+            value={payoutSummary.accountNo}
+          />
+          {!isEWalletBankCode(payout.obBankNameCode) && (
+            <DetailRow
+              label={t("payoutFields.currency.label")}
+              value={payout.currency}
+            />
+          )}
+        </>
+      )}
+
+      {/* TODO: cash pick-up */}
     </AppCard>
   );
 }

@@ -13,19 +13,32 @@ import {
   ACCOUNT_NO_MASK,
   ACCOUNT_NO_VISIBLE_DIGITS,
   E_WALLET_BANK_CODES,
+  E_WALLET_CURRENCY,
   METROBANK_ACCOUNT_NO_TEMPLATE,
   METROBANK_BANK_CODE,
   METROBANK_BANK_NAME,
   PAYOUT_TYPE,
 } from "../../constants/payout";
 import { MetrobankAccountFormValues } from "../../schemas/payout/metrobankAccountSchema";
+import { OtherBankAccountFormValues } from "../../schemas/payout/otherBankAccountSchema";
 import {
   BeneficiaryPayout,
   CreateBeneficiaryPayoutCA,
+  CreateBeneficiaryPayoutOB,
   PayoutSummary,
 } from "../../types";
 import { optionalField } from "../api/requestFields";
-import { fillDigitsTemplate } from "../format/phone";
+import { fillDigitsTemplate, toDomesticPhoneNumber } from "../format/phone";
+
+/**
+ * Whether a bank code is an e-wallet's (GCash, Maya).
+ *
+ * @param bankCode - The bank code
+ * @returns true for an e-wallet
+ * @example isEWalletBankCode("0273"); // true (GCash)
+ */
+export const isEWalletBankCode = (bankCode: string): boolean =>
+  E_WALLET_BANK_CODES.includes(bankCode);
 
 /**
  * Whether a payout method is an e-wallet (GCash, Maya): an "THer banks"
@@ -59,6 +72,22 @@ export const toCreateMetrobankPayout = (
   caBranchName: optionalField(values.branchName),
 });
 
+export const toCreateOtherBankPayout = (
+  values: OtherBankAccountFormValues,
+): CreateBeneficiaryPayoutOB => {
+  const isEWallet = isEWalletBankCode(values.bankCode);
+
+  return {
+    payoutType: PAYOUT_TYPE.OTHER_BANKS,
+    currency: isEWallet ? E_WALLET_CURRENCY : values.currency,
+    obBankNameCode: values.bankCode,
+    obAccountNo: isEWallet
+      ? toDomesticPhoneNumber(values.accountNo)
+      : values.accountNo,
+    obBranchName: isEWallet ? undefined : values.branchName.trim(),
+  };
+};
+
 /**
  * An account number with only its last digits shown, for summaries.
  *
@@ -86,6 +115,25 @@ export const toMetrobankPayoutSummary = (
   bankCode: METROBANK_BANK_CODE,
   bankName: METROBANK_BANK_NAME,
   accountNo: payout.caAccountNo,
+  currency: payout.currency,
+});
+
+/**
+ * What a payout row shows for a new other bank / e-wallet payout.
+ *
+ * @param payout - The other bank payout from the draft
+ * @param bankName - The picked bank's name (the request has only its code)
+ * @returns The row's bank, account number and currency
+ * @example toOtherBankPayoutSummary(payout, "GCash").bankName; // "GCash"
+ */
+export const toOtherBankPayoutSummary = (
+  payout: CreateBeneficiaryPayoutOB,
+  bankName: string,
+): PayoutSummary => ({
+  payoutType: payout.payoutType,
+  bankCode: payout.obBankNameCode,
+  bankName,
+  accountNo: payout.obAccountNo,
   currency: payout.currency,
 });
 

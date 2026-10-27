@@ -29,12 +29,11 @@ import { FieldsContainer } from "../../../form/FieldsContainer";
 import {
   METROBANK_ACCOUNT_CURRENCIES,
   METROBANK_ACCOUNT_NO_TEMPLATE,
+  PAYOUT_BRANCH_MAX_LENGTH,
 } from "../../../../constants/payout";
 import { AppDigitsInput } from "../../../form/AppDigitsInput";
 import { AppCurrencySelect } from "../../../form/AppCurrencySelect";
 import { AppInput } from "../../../form/AppInput";
-
-const BRANCH_MAX_LIMIT = 40;
 
 type MetrobankAccountFormProps = Readonly<{
   // "Add Beneficiary" | "Add Payout Method"
@@ -120,7 +119,7 @@ export function MetrobankAccountForm({
           optional
           label={t("payoutFields.branch.label")}
           placeholder={t("payoutFields.branch.placeholder")}
-          maxLength={BRANCH_MAX_LIMIT}
+          maxLength={PAYOUT_BRANCH_MAX_LENGTH}
           autoCapitalize="words"
         />
       </FieldsContainer>

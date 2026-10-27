@@ -11,6 +11,7 @@
 
 import { Href } from "expo-router";
 import { BeneficiaryCategory } from "../types";
+import { BeneficiaryPayoutType, PAYOUT_TYPE } from "./payout";
 
 // Every screen path in one place, with the full group path, matching the
 // folders in app/. Keys are prefixed with their group.
@@ -53,6 +54,8 @@ export const ROUTES = {
     "/(protected)/(beneficiaries)/add-beneficiary/payout",
   ADD_BENEFICIARY_METROBANK_ACCOUNT:
     "/(protected)/(beneficiaries)/add-beneficiary/payout/metrobank-account",
+  ADD_BENEFICIARY_OTHER_BANK:
+    "/(protected)/(beneficiaries)/add-beneficiary/payout/other-bank",
   ADD_BENEFICIARY_CONFIRM:
     "/(protected)/(beneficiaries)/add-beneficiary/confirm",
   ADD_BENEFICIARY_SUBMITTED:
@@ -61,3 +64,12 @@ export const ROUTES = {
   // Development
   PREVIEW: "/preview",
 } as const satisfies Record<string, Href | ((...params: never[]) => Href)>;
+
+// The Add Beneficiary form of each payout type, opened from the payout
+// method picker and from Confirm's "Edit". Cash pick-up has none yet
+export const ADD_BENEFICIARY_PAYOUT_ROUTES: Readonly<
+  Partial<Record<BeneficiaryPayoutType, Href>>
+> = {
+  [PAYOUT_TYPE.METROBANK_ACCOUNT]: ROUTES.ADD_BENEFICIARY_METROBANK_ACCOUNT,
+  [PAYOUT_TYPE.OTHER_BANKS]: ROUTES.ADD_BENEFICIARY_OTHER_BANK,
+};

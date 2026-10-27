@@ -10,7 +10,11 @@
  ********************************************************************************************/
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CreateBeneficiaryDetails, CreateBeneficiaryPayout } from "../../types";
+import {
+  CreateBeneficiaryDetails,
+  CreateBeneficiaryPayout,
+  PayoutSummary,
+} from "../../types";
 import { logout } from "./authSlice";
 
 // Memory only (never persisted): the details hold personal data
@@ -19,11 +23,15 @@ interface AddBeneficiaryState {
   details: CreateBeneficiaryDetails | null;
   // The payout method's details, kept from its "Next"; null before
   payout: CreateBeneficiaryPayout | null;
+  // What Confirm shows for it (e.g. the bank's name, which the request
+  // doesn't have); null before
+  payoutSummary: PayoutSummary | null;
 }
 
 const initialState: AddBeneficiaryState = {
   details: null,
   payout: null,
+  payoutSummary: null,
 };
 
 const addBeneficiarySlice = createSlice({
@@ -39,9 +47,13 @@ const addBeneficiarySlice = createSlice({
 
     setBeneficiaryPayout: (
       state,
-      action: PayloadAction<CreateBeneficiaryPayout>,
+      action: PayloadAction<{
+        payout: CreateBeneficiaryPayout;
+        summary: PayoutSummary;
+      }>,
     ) => {
-      state.payout = action.payload;
+      state.payout = action.payload.payout;
+      state.payoutSummary = action.payload.summary;
     },
 
     // After saving, or when the user leaves the flow
