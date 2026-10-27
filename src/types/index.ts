@@ -9,7 +9,6 @@
  * 3.
  ********************************************************************************************/
 
-export * from "./api.types";
 export * from "./auth.types";
 export * from "./beneficiary.types";
 export * from "./biometric.types";
