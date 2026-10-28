@@ -12,7 +12,7 @@
 import { ReactNode } from "react";
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { resolveShadows } from "../../../theme/shadows";
-import { StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const DEFAULT_SIZE = 40;
@@ -30,7 +30,8 @@ type BeneficiaryAvatarProps = Readonly<{
 
 /**
  * The round avatar of a beneficiary: a light blue-to-white gradient with a
- * soft shadow.
+ * soft shadow. The shadow is on an outer View: the gradient clips to its
+ * round corners, which would cut the shadow off.
  *
  * @example <BeneficiaryAvatar><BrandIcon name="user01Line" /></BeneficiaryAvatar>
  */
@@ -42,29 +43,24 @@ export function BeneficiaryAvatar({
   const { colors } = useAppTheme();
   const shadows = resolveShadows(colors);
 
+  const circle = { width: size, height: size, borderRadius: size / 2 };
+
   return (
-    <LinearGradient
-      colors={[colors.avatarGradientStart, colors.avatarGradientEnd]}
-      start={GRADIENT_START}
-      end={GRADIENT_END}
-      style={[
-        styles.avatar,
-        {
-          width: size,
-          height: size,
-          borderRadius: size / 2,
-          boxShadow: shadows.neutral02Bottom,
-        },
-        style,
-      ]}
-    >
-      {children}
-    </LinearGradient>
+    <View style={[circle, { boxShadow: shadows.neutral02Bottom }, style]}>
+      <LinearGradient
+        colors={[colors.avatarGradientStart, colors.avatarGradientEnd]}
+        start={GRADIENT_START}
+        end={GRADIENT_END}
+        style={[styles.gradient, circle]}
+      >
+        {children}
+      </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  avatar: {
+  gradient: {
     alignItems: "center",
     justifyContent: "center",
   },

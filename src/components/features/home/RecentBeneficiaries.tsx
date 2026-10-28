@@ -13,7 +13,6 @@ import { ReactNode } from "react";
 import { Spacing } from "../../../constants/spacing";
 import { RecentBeneficiary } from "../../../types";
 import { useAppTheme } from "../../../hooks/useAppTheme";
-import { resolveShadows } from "../../../theme/shadows";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { BrandIcon } from "../../icons";
@@ -21,6 +20,7 @@ import { GradientText } from "../../common/GradientText";
 import { AppText } from "../../common/AppText";
 import { formatPersonName } from "../../../utils/format/formatName";
 import { AppTextButton } from "../../common/AppTextButton";
+import { BeneficiaryAvatar } from "../beneficiary/BeneficiaryAvatar";
 
 const AVATAR_SIZE = 50;
 const ITEM_WIDTH = 72;
@@ -34,7 +34,7 @@ const beneficiaryName = (beneficiary: RecentBeneficiary) =>
   beneficiary.companyName.trim() ||
   (formatPersonName(beneficiary.firstName).split(" ").at(0) ?? "");
 
-// beneficiary: a raised white circle; add: a flat dashed circle
+// beneficiary: a raised gradient avatar; add: a flat dashed circle
 type ItemVariant = "beneficiary" | "add";
 
 type ItemProps = Readonly<{
@@ -52,21 +52,6 @@ function BeneficiaryItem({
   children,
 }: ItemProps) {
   const { colors } = useAppTheme();
-  const shadows = resolveShadows(colors);
-
-  const avatarLook =
-    variant === "add"
-      ? [
-          styles.addAvatar,
-          {
-            backgroundColor: colors.addAvatarBackground,
-            borderColor: colors.addAvatarBorder,
-          },
-        ]
-      : {
-          backgroundColor: colors.surface,
-          boxShadow: shadows.neutral02Bottom,
-        };
 
   return (
     <Pressable
@@ -75,7 +60,22 @@ function BeneficiaryItem({
       accessibilityLabel={label}
       style={styles.item}
     >
-      <View style={[styles.avatar, avatarLook]}>{children}</View>
+      {variant === "add" ? (
+        <View
+          style={[
+            styles.addAvatar,
+            {
+              backgroundColor: colors.addAvatarBackground,
+              borderColor: colors.addAvatarBorder,
+            },
+          ]}
+        >
+          {children}
+        </View>
+      ) : (
+        <BeneficiaryAvatar size={AVATAR_SIZE}>{children}</BeneficiaryAvatar>
+      )}
+      {/* <View style={[styles.avatar, avatarLook]}>{children}</View> */}
       <AppText
         typographyType="body3"
         color={colors.textPrimary}
@@ -186,8 +186,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   addAvatar: {
+    width: AVATAR_SIZE,
+    height: AVATAR_SIZE,
+    borderRadius: AVATAR_SIZE / 2,
     borderWidth: ADD_BORDER_WIDTH,
     borderStyle: "dashed",
+    alignItems: "center",
+    justifyContent: "center",
   },
   label: {
     textAlign: "center",
