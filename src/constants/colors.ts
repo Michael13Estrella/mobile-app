@@ -217,6 +217,11 @@ export const LightColors = {
   avatarGradientStart: Palette.mbAzure050,
   avatarGradientEnd: Palette.sysSkyBlue050,
 
+  // "Add Beneficiary" avatar (Home)
+  addAvatarBackground: Palette.mbAzureAlpha05,
+  addAvatarBorder: Palette.mbAzure300,
+  addAvatarIcon: Palette.classicBlue400,
+
   // Payout method icon box (Beneficiary Information)
   payoutIconBackground: Palette.mbAzure050,
 
@@ -378,6 +383,11 @@ export const DarkColors = {
   // Beneficiary avatar background
   avatarGradientStart: Palette.mbAzure050,
   avatarGradientEnd: Palette.sysSkyBlue050,
+
+  // "Add Beneficiary" avatar (Home)
+  addAvatarBackground: Palette.mbAzure050,
+  addAvatarBorder: Palette.mbAzure200,
+  addAvatarIcon: Palette.classicBlue400,
 
   // Payout method icon box (Beneficiary Information)
   payoutIconBackground: Palette.mbAzure050,

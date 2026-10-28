@@ -25,6 +25,7 @@ import { AppTextButton } from "../../common/AppTextButton";
 const AVATAR_SIZE = 50;
 const ITEM_WIDTH = 72;
 const ADD_ICON_SIZE = 24;
+const ADD_BORDER_WIDTH = 1;
 
 const SCREEN_PADDING = Spacing.s7;
 
@@ -33,16 +34,39 @@ const beneficiaryName = (beneficiary: RecentBeneficiary) =>
   beneficiary.companyName.trim() ||
   (formatPersonName(beneficiary.firstName).split(" ").at(0) ?? "");
 
+// beneficiary: a raised white circle; add: a flat dashed circle
+type ItemVariant = "beneficiary" | "add";
+
 type ItemProps = Readonly<{
   label: string;
+  variant?: ItemVariant;
   onPress: () => void;
   children: ReactNode;
 }>;
 
 // A round avatar with its name underneath.
-function BeneficiaryItem({ label, onPress, children }: ItemProps) {
+function BeneficiaryItem({
+  label,
+  variant = "beneficiary",
+  onPress,
+  children,
+}: ItemProps) {
   const { colors } = useAppTheme();
   const shadows = resolveShadows(colors);
+
+  const avatarLook =
+    variant === "add"
+      ? [
+          styles.addAvatar,
+          {
+            backgroundColor: colors.addAvatarBackground,
+            borderColor: colors.addAvatarBorder,
+          },
+        ]
+      : {
+          backgroundColor: colors.surface,
+          boxShadow: shadows.neutral02Bottom,
+        };
 
   return (
     <Pressable
@@ -51,17 +75,7 @@ function BeneficiaryItem({ label, onPress, children }: ItemProps) {
       accessibilityLabel={label}
       style={styles.item}
     >
-      <View
-        style={[
-          styles.avatar,
-          {
-            backgroundColor: colors.surface,
-            boxShadow: shadows.neutral02Bottom,
-          },
-        ]}
-      >
-        {children}
-      </View>
+      <View style={[styles.avatar, avatarLook]}>{children}</View>
       <AppText
         typographyType="body3"
         color={colors.textPrimary}
@@ -96,11 +110,15 @@ export function RecentBeneficiaries({
   return (
     <View style={styles.container}>
       {/* Fixed: stays in place while the list scrolls. */}
-      <BeneficiaryItem label={t("home.beneficiaries.add")} onPress={onAddPress}>
+      <BeneficiaryItem
+        label={t("home.beneficiaries.add")}
+        variant="add"
+        onPress={onAddPress}
+      >
         <BrandIcon
           name="plusLine"
           size={ADD_ICON_SIZE}
-          color={colors.iconBrandPrimary}
+          color={colors.iconBrandSecondary}
         />
       </BeneficiaryItem>
 
@@ -166,6 +184,10 @@ const styles = StyleSheet.create({
     borderRadius: AVATAR_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
+  },
+  addAvatar: {
+    borderWidth: ADD_BORDER_WIDTH,
+    borderStyle: "dashed",
   },
   label: {
     textAlign: "center",
