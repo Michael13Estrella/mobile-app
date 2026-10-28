@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { router } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,6 +44,8 @@ type CorporateBeneficiaryFormProps = Readonly<{
   initialValues?: Partial<CorporateFormValues>;
   // While saving: the button shows a spinner
   isSubmitting?: boolean;
+  // Above the fields (Add: the category's avatar)
+  avatar?: ReactNode;
   onSubmit: (values: CorporateFormValues) => void;
 }>;
 
@@ -59,6 +61,7 @@ export function CorporateBeneficiaryForm({
   submitLabel,
   initialValues,
   isSubmitting = false,
+  avatar,
   onSubmit,
 }: CorporateBeneficiaryFormProps) {
   const { t } = useTranslation();
@@ -103,6 +106,8 @@ export function CorporateBeneficiaryForm({
           </>
         }
       >
+        {avatar}
+
         <FieldsContainer>
           {/* Company name */}
           <AppInput

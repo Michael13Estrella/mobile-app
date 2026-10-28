@@ -201,7 +201,7 @@
       "placeholder": "Enter occupation"
     },
     "companyName": {
-      "label": "CompanyName",
+      "label": "Company name",
       "placeholder": "Enter company name"
     },
     "natureOfBusiness": {
@@ -397,6 +397,10 @@
 
   "------------------------------ ADD BENEFICIARY ------------------------------": "",
   "addBeneficiary": {
+    "avatar": {
+      "nickname": "Nickname",
+      "company": "Company"
+    },
     "drawer": {
       "title": "Beneficiary Type",
       "types": {

@@ -28,6 +28,7 @@ import {
 import { CorporateBeneficiaryForm } from "../../../../src/components/features/beneficiary/form/CorporateBeneficiaryForm";
 import { CorporateFormValues } from "../../../../src/schemas/beneficiary/corporateBeneficiarySchema";
 import { ROUTES } from "../../../../src/constants/routes";
+import { BeneficiaryFormAvatar } from "../../../../src/components/features/beneficiary/form/BeneficiaryFormAvatar";
 
 const OWN_ACCOUNT_LOCKED_FIELDS = ["birthDate", "relationToBeneCode"] as const;
 
@@ -76,6 +77,7 @@ export default function AddBeneficiaryScreen() {
           // editable); birth date and "Self" can't be changed
           initialValues={profile ? toOwnAccountFormValues(profile) : undefined}
           lockFields={OWN_ACCOUNT_LOCKED_FIELDS}
+          avatar={<BeneficiaryFormAvatar category="ownAccount" />}
           onSubmit={handleIndividualSubmit}
         />
       );
@@ -84,6 +86,7 @@ export default function AddBeneficiaryScreen() {
         <IndividualBeneficiaryForm
           title={t("addBeneficiary.title")}
           submitLabel={t("common.next")}
+          avatar={<BeneficiaryFormAvatar category="individual" />}
           onSubmit={handleIndividualSubmit}
         />
       );
@@ -92,6 +95,7 @@ export default function AddBeneficiaryScreen() {
         <CorporateBeneficiaryForm
           title={t("addBeneficiary.title")}
           submitLabel={t("common.next")}
+          avatar={<BeneficiaryFormAvatar category="corporate" />}
           onSubmit={handleCorporateSubmit}
         />
       );

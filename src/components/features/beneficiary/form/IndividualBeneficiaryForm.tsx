@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "../../../../hooks/useTranslation";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -47,6 +47,8 @@ type IndividualBeneficiaryFormProps = Readonly<{
   lockFields?: readonly (keyof IndividualFormValues)[];
   // While saving: the button shows a spinner
   isSubmitting?: boolean;
+  // Above the fields (Add: the category's avatar)
+  avatar?: ReactNode;
   onSubmit: (values: IndividualFormValues) => void;
 }>;
 
@@ -62,6 +64,7 @@ export function IndividualBeneficiaryForm({
   initialValues,
   lockFields = [],
   isSubmitting = false,
+  avatar,
   onSubmit,
 }: IndividualBeneficiaryFormProps) {
   const { t } = useTranslation();
@@ -109,6 +112,8 @@ export function IndividualBeneficiaryForm({
           </>
         }
       >
+        {avatar}
+
         <FieldsContainer>
           {/* Nickname */}
           <AppInput

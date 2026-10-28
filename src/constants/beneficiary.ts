@@ -39,3 +39,6 @@ export const RELATIONSHIP_SELF_CODE = "04";
 // The relationWithBene code of "Others": the user types the relationship
 // (sent as relationToBeneOthers)
 export const RELATIONSHIP_OTHERS_CODE = "99";
+
+// The avatar's initials until a beneficiary name is typed
+export const DEFAULT_BENEFICIARY_INITIALS = "MB";

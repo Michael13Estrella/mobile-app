@@ -12,7 +12,7 @@
 import { ReactNode } from "react";
 import { useAppTheme } from "../../../hooks/useAppTheme";
 import { resolveShadows } from "../../../theme/shadows";
-import { StyleSheet } from "react-native";
+import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 const DEFAULT_SIZE = 40;
@@ -24,6 +24,8 @@ type BeneficiaryAvatarProps = Readonly<{
   size?: number;
   // What's inside: an icon or the initials
   children: ReactNode;
+  // Placement only (e.g. alignSelf); the look stays fixed
+  style?: StyleProp<ViewStyle>;
 }>;
 
 /**
@@ -35,6 +37,7 @@ type BeneficiaryAvatarProps = Readonly<{
 export function BeneficiaryAvatar({
   size = DEFAULT_SIZE,
   children,
+  style,
 }: BeneficiaryAvatarProps) {
   const { colors } = useAppTheme();
   const shadows = resolveShadows(colors);
@@ -52,6 +55,7 @@ export function BeneficiaryAvatar({
           borderRadius: size / 2,
           boxShadow: shadows.neutral02Bottom,
         },
+        style,
       ]}
     >
       {children}
