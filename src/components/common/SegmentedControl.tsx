@@ -46,7 +46,7 @@ type SegmentedControlProps<T extends string> = Readonly<{
   variant?: SegmentedControlVariant;
 }>;
 
-// Pick one of a fex options: a grey track with the selected one raised.
+// Pick one of a few options: a grey track with the selected one raised.
 export function SegmentedControl<T extends string>({
   options,
   value,
