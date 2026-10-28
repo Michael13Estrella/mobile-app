@@ -496,6 +496,9 @@
       "label": "Mobile number",
       "validation": "Enter a 10-digit mobile number without the first 0 (e.g. 932 123 5678)"
     },
+    "companyMobile": {
+      "label": "Company mobile number"
+    },
     "officeTelNo": {
       "label": "Office tel no.",
       "validation": "Enter a 10-digit mobile number without the first 0 (e.g. 932 123 5678)"

@@ -146,7 +146,9 @@ export function CorporateBeneficiaryForm({
 
           <AppDivider />
 
-          <BeneficiaryContactFields mobileLabel={mobileLabel} />
+          <BeneficiaryContactFields
+            mobileLabel={t("beneficiaryFields.companyMobile.label")}
+          />
         </FieldsContainer>
       </AppScreen>
     </FormProvider>

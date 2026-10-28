@@ -44,10 +44,12 @@ export function BeneficiaryDetailsCard({
 
   return (
     <DetailSection title={t("beneficiaryDetails.title")}>
-      <DetailRow
-        label={t("beneficiaryDetails.nickname")}
-        value={beneficiary.beneAlias}
-      />
+      {!isCorporate && (
+        <DetailRow
+          label={t("beneficiaryDetails.nickname")}
+          value={beneficiary.beneAlias}
+        />
+      )}
 
       <DetailRow
         label={t("beneficiaryDetails.relationship")}
