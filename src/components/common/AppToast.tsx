@@ -15,6 +15,7 @@ import { BrandIcon, BrandIconName } from "../icons";
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../constants/spacing";
 import { AppText } from "./AppText";
+import { resolveShadows } from "../../theme/shadows";
 
 type ToastVariant = "success" | "error" | "info" | "warning";
 
@@ -27,7 +28,8 @@ type AppToastProps = Readonly<{
 }>;
 
 const DEFAULT_DURATION_MS = 10000;
-const ICON_CIRCLE_SIZE = 16;
+const TOAST_ICON_SIZE = 14;
+const TOAST_RADIUS = Spacing.s3;
 
 const ICON_BY_VARIANT: Record<ToastVariant, BrandIconName> = {
   success: "checkCircleSolid",
@@ -44,6 +46,7 @@ export function AppToast({
   onDismiss,
 }: AppToastProps) {
   const { colors } = useAppTheme();
+  const shadows = resolveShadows(colors);
 
   useEffect(() => {
     if (!visible || !onDismiss) return;
@@ -70,21 +73,27 @@ export function AppToast({
 
   return (
     <View
-      style={[styles.container, { backgroundColor: bgColorByVariant[variant] }]}
+      style={[
+        styles.container,
+        {
+          backgroundColor: bgColorByVariant[variant],
+          boxShadow: shadows.tinted02Bottom,
+        },
+      ]}
     >
-      <View style={[styles.iconCircle]}>
-        <BrandIcon
-          name={ICON_BY_VARIANT[variant]}
-          size={14}
-          color={iconColorByVariant[variant]}
-        />
-      </View>
-      <AppText typographyType="body2" color={colors.textSecondary}>
+      <BrandIcon
+        name={ICON_BY_VARIANT[variant]}
+        size={TOAST_ICON_SIZE}
+        color={iconColorByVariant[variant]}
+      />
+
+      <AppText
+        typographyType="body2"
+        color={colors.textSecondary}
+        style={styles.message}
+      >
         {message}
       </AppText>
-      {/* <Text style={[styles.message, { color: colors.textSecondary }]}>
-        {message}
-      </Text> */}
     </View>
   );
 }
@@ -94,21 +103,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: Spacing.s3,
-    borderRadius: 8,
+    borderRadius: TOAST_RADIUS,
     padding: Spacing.s4,
-    shadowColor: "#001052",
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 8,
-    shadowOpacity: 0.1,
-    elevation: 6,
   },
-  iconCircle: {
-    width: ICON_CIRCLE_SIZE,
-    height: ICON_CIRCLE_SIZE,
-    borderRadius: ICON_CIRCLE_SIZE / 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  // Wraps next to the icon instead of pushing it off screen
   message: {
     flex: 1,
   },
