@@ -419,7 +419,7 @@
     "submitted": {
       "headerTitle": "Beneficiary Details",
       "title": "Beneficiary under review",
-      "message": "We're checking Josh Cullen Santos's details. We'll notify you by push notification and email once it's done.",
+      "message": "We're checking {{name}}'s details. We'll notify you by push notification and email once it's done.",
       "payoutMethod": "Payout Method",
       "accountNo": "Account No.",
       "addAnother": "Add another beneficiary"
@@ -443,6 +443,19 @@
         "description": "Beneficiary claims cash at any payout partner. No details needed."
       }
     }
+  },
+  "------------------------------ CASH PICK-UP GUIDE ------------------------------": "",
+  "cashPickupGuide": {
+    "title": "Cash pick-up guide",
+    "description": "Your beneficiary doesn't need a bank account. They can claim the money at over 9,000 cash pick-up locations in the Philippines.",
+    "howItWorks": "How it works",
+    "steps": {
+      "notify": "We send your beneficiary a text notification with a single reference number.",
+      "visit": "They go to any payout partner below and bring a valid ID.",
+      "claim": "They give the reference number at the counter and claim the cash."
+    },
+    "partnersTitle": "Payout partners",
+    "idNote": "Your beneficiary must present a valid ID with the same name you entered."
   },
 
   "------------------------------ BENEFICIARY FIELDS ------------------------------": "",

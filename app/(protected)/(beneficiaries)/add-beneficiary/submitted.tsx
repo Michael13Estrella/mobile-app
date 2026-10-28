@@ -96,14 +96,6 @@ export default function BeneficiarySubmittedScreen() {
           payoutSummary={payoutSummary}
         />
 
-        {/* <AppCard variant="elevated">
-          <AppTextButton
-            label={t("addBeneficiary.submitted.addAnother")}
-            icon="plusLine"
-            align="center"
-            onPress={() => setIsAddSheetOpen(true)}
-          />
-        </AppCard> */}
         <AppButton
           label={t("addBeneficiary.submitted.addAnother")}
           variant="elevated"

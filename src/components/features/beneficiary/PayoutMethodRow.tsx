@@ -93,13 +93,15 @@ export function PayoutMethodRow({
         >
           {payout.bankName}
         </AppText>
-        <AppText
-          typographyType="body3"
-          color={colors.textSecondary}
-          numberOfLines={1}
-        >
-          {details}
-        </AppText>
+        {details !== "" && (
+          <AppText
+            typographyType="body3"
+            color={colors.textSecondary}
+            numberOfLines={1}
+          >
+            {details}
+          </AppText>
+        )}
       </View>
 
       {onDelete && (

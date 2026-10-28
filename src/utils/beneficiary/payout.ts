@@ -24,6 +24,7 @@ import { OtherBankAccountFormValues } from "../../schemas/payout/otherBankAccoun
 import {
   BeneficiaryPayout,
   CreateBeneficiaryPayoutCA,
+  CreateBeneficiaryPayoutCP,
   CreateBeneficiaryPayoutOB,
   PayoutSummary,
 } from "../../types";
@@ -89,6 +90,17 @@ export const toCreateOtherBankPayout = (
 };
 
 /**
+ * The payout part of the create request for a cash pick-up: only its type
+ * (the beneficiary picks up the cash at any payout partner).
+ *
+ * @returns The cash pick-up payout, as the API expects it
+ * @example toCreateCashPickupPayout().payoutType; // "CP"
+ */
+export const toCreateCashPickupPayout = (): CreateBeneficiaryPayoutCP => ({
+  payoutType: PAYOUT_TYPE.CASH_PICKUP,
+});
+
+/**
  * An account number with only its last digits shown, for summaries.
  *
  * @param accountNo - The account number (digits only)
@@ -135,6 +147,22 @@ export const toOtherBankPayoutSummary = (
   bankName,
   accountNo: payout.obAccountNo,
   currency: payout.currency,
+});
+
+/**
+ * What a payout row shows for a new cash pick-up: only its name (it has no
+ * bank, account number or currency).
+ *
+ * @param label - The translated "Cash pick-up"
+ * @returns The row's name, with the other fields empty
+ * @example toCashPickupPayoutSummary(t("addPayoutMethod.options.cashPickup.title")).bankName; // "Cash pick-up"
+ */
+export const toCashPickupPayoutSummary = (label: string): PayoutSummary => ({
+  payoutType: PAYOUT_TYPE.CASH_PICKUP,
+  bankCode: "",
+  bankName: label,
+  accountNo: "",
+  currency: "",
 });
 
 /**

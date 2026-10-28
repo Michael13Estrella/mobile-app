@@ -14,6 +14,8 @@ import {
   isEWalletBankCode,
   isEWalletPayout,
   maskAccountNumber,
+  toCashPickupPayoutSummary,
+  toCreateCashPickupPayout,
   toCreateMetrobankPayout,
   toCreateOtherBankPayout,
   toMetrobankPayoutSummary,
@@ -126,6 +128,24 @@ describe("toOtherBankPayoutSummary", () => {
       bankName: "GCash",
       accountNo: "09171234567",
       currency: "PHP",
+    });
+  });
+});
+
+describe("toCreateCashPickupPayout", () => {
+  it("is only the cash pick-up type", () => {
+    expect(toCreateCashPickupPayout()).toEqual({ payoutType: "CP" });
+  });
+});
+
+describe("toCashPickupPayoutSummary", () => {
+  it("shows the label, with no bank, account number or currency", () => {
+    expect(toCashPickupPayoutSummary("Cash pick-up")).toEqual({
+      payoutType: "CP",
+      bankCode: "",
+      bankName: "Cash pick-up",
+      accountNo: "",
+      currency: "",
     });
   });
 });

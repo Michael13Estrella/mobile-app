@@ -15,9 +15,21 @@ import { useAppTheme } from "../../hooks/useAppTheme";
 import { resolveShadows } from "../../theme/shadows";
 import { Pressable, StyleSheet, View } from "react-native";
 import { AppText } from "./AppText";
+import { FIELD_SIZE } from "../../theme/field";
 
-const TRACK_RADIUS = Spacing.s5;
-const SEGMENTED_RADIUS = Spacing.s4;
+// rounded: rounded corners (e.g. form fields)
+// pill: fully round ends
+export type SegmentedControlVariant = "rounded" | "pill";
+
+// Larger than any control's height, so the ends are always half circles
+const PILL_RADIUS = 999;
+
+const RADIUS_BY_VARIANT: Readonly<
+  Record<SegmentedControlVariant, Readonly<{ track: number; segment: number }>>
+> = {
+  rounded: { track: Spacing.s5, segment: Spacing.s4 },
+  pill: { track: PILL_RADIUS, segment: PILL_RADIUS },
+};
 
 export type SegmentOption<T extends string> = Readonly<{
   value: T;
@@ -31,6 +43,7 @@ type SegmentedControlProps<T extends string> = Readonly<{
   value: T;
   onChange: (value: T) => void;
   accessibilityLabel?: string;
+  variant?: SegmentedControlVariant;
 }>;
 
 // Pick one of a fex options: a grey track with the selected one raised.
@@ -39,9 +52,11 @@ export function SegmentedControl<T extends string>({
   value,
   onChange,
   accessibilityLabel,
+  variant = "rounded",
 }: SegmentedControlProps<T>) {
   const { colors } = useAppTheme();
   const shadows = resolveShadows(colors);
+  const radius = RADIUS_BY_VARIANT[variant];
 
   return (
     <View
@@ -49,7 +64,10 @@ export function SegmentedControl<T extends string>({
       accessibilityLabel={accessibilityLabel}
       style={[
         styles.track,
-        { backgroundColor: colors.buttonDisabledBackground },
+        {
+          backgroundColor: colors.segmentedControlBackground,
+          borderRadius: radius.track,
+        },
       ]}
     >
       {options.map((option) => {
@@ -63,8 +81,9 @@ export function SegmentedControl<T extends string>({
             accessibilityLabel={option.label}
             style={[
               styles.segment,
+              { borderRadius: radius.segment },
               isSelected && {
-                backgroundColor: colors.surface,
+                backgroundColor: colors.segmentedControlSelected,
                 boxShadow: shadows.neutral02Bottom,
               },
             ]}
@@ -87,9 +106,9 @@ export function SegmentedControl<T extends string>({
 const styles = StyleSheet.create({
   track: {
     flexDirection: "row",
-    borderRadius: TRACK_RADIUS,
     padding: Spacing.s2,
-    gap: Spacing.s2,
+    gap: Spacing.s0,
+    height: FIELD_SIZE.height,
   },
   segment: {
     flex: 1,
@@ -98,6 +117,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: Spacing.s3,
     paddingVertical: Spacing.s3,
-    borderRadius: SEGMENTED_RADIUS,
   },
 });

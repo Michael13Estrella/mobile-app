@@ -56,6 +56,8 @@ export const ROUTES = {
     "/(protected)/(beneficiaries)/add-beneficiary/payout/metrobank-account",
   ADD_BENEFICIARY_OTHER_BANK:
     "/(protected)/(beneficiaries)/add-beneficiary/payout/other-bank",
+  ADD_BENEFICIARY_CASH_PICKUP:
+    "/(protected)/(beneficiaries)/add-beneficiary/payout/cash-pickup",
   ADD_BENEFICIARY_CONFIRM:
     "/(protected)/(beneficiaries)/add-beneficiary/confirm",
   ADD_BENEFICIARY_SUBMITTED:
@@ -72,4 +74,5 @@ export const ADD_BENEFICIARY_PAYOUT_ROUTES: Readonly<
 > = {
   [PAYOUT_TYPE.METROBANK_ACCOUNT]: ROUTES.ADD_BENEFICIARY_METROBANK_ACCOUNT,
   [PAYOUT_TYPE.OTHER_BANKS]: ROUTES.ADD_BENEFICIARY_OTHER_BANK,
+  [PAYOUT_TYPE.CASH_PICKUP]: ROUTES.ADD_BENEFICIARY_CASH_PICKUP,
 };

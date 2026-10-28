@@ -127,7 +127,13 @@ export function SubmittedBeneficiaryCard({
         </>
       )}
 
-      {/* TODO: cash pick-up */}
+      {/* Cash pick-up: no account details */}
+      {payout.payoutType === PAYOUT_TYPE.CASH_PICKUP && (
+        <DetailRow
+          label={t("addBeneficiary.submitted.payoutMethod")}
+          value={payoutSummary.bankName}
+        />
+      )}
     </AppCard>
   );
 }

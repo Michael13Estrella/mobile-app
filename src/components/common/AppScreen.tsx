@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   footer: {
-    paddingTop: Spacing.s7,
+    paddingTop: Spacing.s5,
     paddingHorizontal: Spacing.s7,
     gap: Spacing.s5,
   },

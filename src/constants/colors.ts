@@ -104,7 +104,7 @@ export const LightColors = {
   backgroundGradientEnd: Palette.sysSkyBlue400,
   background: Palette.mbGrey050,
   backgroundVariant: OldPalette.tertiary,
-  surface: OldPalette.tertiary,
+  surface: Palette.white100,
   surfaceVariant: OldPalette.slate100,
   surfaceElevated: OldPalette.tertiary,
 
@@ -169,6 +169,20 @@ export const LightColors = {
   toastWarningBg: Palette.mbYellow100,
   toastWarningIcon: Palette.mbYellow600,
 
+  // Alert (AppAlert): a light background, a border and an icon per variant
+  alertSuccessBackground: Palette.mbGreen050,
+  alertSuccessBorder: Palette.mbGreen400,
+  alertSuccessIcon: Palette.mbGreen600,
+  alertErrorBackground: Palette.sysRed050,
+  alertErrorBorder: Palette.sysRed400,
+  alertErrorIcon: Palette.sysRed600,
+  alertInfoBackground: Palette.mbAzure050,
+  alertInfoBorder: Palette.mbAzure400,
+  alertInfoIcon: Palette.mbBlue500,
+  alertWarningBackground: Palette.mbYellow050,
+  alertWarningBorder: Palette.mbYellow400,
+  alertWarningIcon: Palette.mbYellow700,
+
   // Selection List
   listItemSelectedBg: Palette.sysSkyBlue500,
   listSectionHeaderBg: Palette.mbGrey050,
@@ -190,6 +204,10 @@ export const LightColors = {
   buttonGlassBorderMiddle: Palette.white000,
   buttonGlassBorderEnd: Palette.white025,
 
+  // Segmented Control (e.g. currency selection)
+  segmentedControlBackground: Palette.mbGrey050,
+  segmentedControlSelected: Palette.white100,
+
   // Tabs (e.g. Manage Beneficiaries): selected underline and count badges
   tabIndicator: Palette.mbBlue500,
   tabBadgeBackground: Palette.mbGrey100,
@@ -201,6 +219,9 @@ export const LightColors = {
 
   // Payout method icon box (Beneficiary Information)
   payoutIconBackground: Palette.mbAzure050,
+
+  // Numbered steps (e.g. the cash pick-up guide's "How it works")
+  stepNumberBackground: Palette.mbAzure050,
 
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",
@@ -310,6 +331,20 @@ export const DarkColors = {
   toastWarningBg: Palette.mbYellow100,
   toastWarningIcon: Palette.mbYellow600,
 
+  // Alert (AppAlert): a light background, a border and an icon per variant
+  alertSuccessBackground: Palette.mbGreen050,
+  alertSuccessBorder: Palette.mbGreen500,
+  alertSuccessIcon: Palette.mbGreen600,
+  alertErrorBackground: Palette.sysRed050,
+  alertErrorBorder: Palette.sysRed400,
+  alertErrorIcon: Palette.sysRed600,
+  alertInfoBackground: Palette.mbAzure050,
+  alertInfoBorder: Palette.mbAzure500,
+  alertInfoIcon: Palette.mbBlue500,
+  alertWarningBackground: Palette.mbYellow050,
+  alertWarningBorder: Palette.mbYellow500,
+  alertWarningIcon: Palette.mbYellow700,
+
   // Selection List
   listItemSelectedBg: Palette.mbAzure050,
   listSectionHeaderBg: Palette.mbGrey050,
@@ -331,6 +366,10 @@ export const DarkColors = {
   buttonGlassBorderMiddle: Palette.white000,
   buttonGlassBorderEnd: Palette.white025,
 
+  // Segmented Control (e.g. currency selection)
+  segmentedControlBackground: Palette.mbGrey050,
+  segmentedControlSelected: Palette.white100,
+
   // Tabs (e.g. Manage Beneficiaries): selected underline and count badges
   tabIndicator: Palette.mbBlue500,
   tabBadgeBackground: Palette.mbGrey100,
@@ -342,6 +381,9 @@ export const DarkColors = {
 
   // Payout method icon box (Beneficiary Information)
   payoutIconBackground: Palette.mbAzure050,
+
+  // Numbered steps (e.g. the cash pick-up guide's "How it works")
+  stepNumberBackground: Palette.mbAzure050,
 
   // Overlay
   overlay: "rgba(15, 23, 42, 0.5)",

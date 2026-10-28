@@ -56,6 +56,7 @@ export function AppCurrencySelect<T extends FieldValues, C extends string>({
   return (
     <FieldShell label={label} required={required} errorMessage={errorMessage}>
       <SegmentedControl
+        variant="pill"
         accessibilityLabel={label}
         value={value}
         onChange={handleChange}
