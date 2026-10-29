@@ -12,7 +12,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   CreateBeneficiaryDetails,
-  CreateBeneficiaryPayout,
+  CreatePayoutRequest,
   PayoutSummary,
 } from "../../types";
 import { logout } from "./authSlice";
@@ -22,7 +22,7 @@ interface AddBeneficiaryState {
   // The beneficiary form, kept from its "Next"; null before
   details: CreateBeneficiaryDetails | null;
   // The payout method's details, kept from its "Next"; null before
-  payout: CreateBeneficiaryPayout | null;
+  payout: CreatePayoutRequest | null;
   // What Confirm shows for it (e.g. the bank's name, which the request
   // doesn't have); null before
   payoutSummary: PayoutSummary | null;
@@ -48,7 +48,7 @@ const addBeneficiarySlice = createSlice({
     setBeneficiaryPayout: (
       state,
       action: PayloadAction<{
-        payout: CreateBeneficiaryPayout;
+        payout: CreatePayoutRequest;
         summary: PayoutSummary;
       }>,
     ) => {

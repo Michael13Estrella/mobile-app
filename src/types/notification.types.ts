@@ -19,9 +19,7 @@ export interface RegisterPushRequest {
 
 // The `data` payload carried by every notification (no sensitive values).
 export type NotificationType =
-  | "transfer_received"
-  | "transfer_sent"
-  | "security_alert";
+  "transfer_received" | "transfer_sent" | "security_alert";
 
 export interface NotificationData {
   type: NotificationType;

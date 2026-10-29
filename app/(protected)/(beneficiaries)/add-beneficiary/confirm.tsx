@@ -25,10 +25,7 @@ import { AppButton } from "../../../../src/components/common/AppButton";
 import { BeneficiaryProfile } from "../../../../src/components/features/beneficiary/BeneficiaryProfile";
 import { getInitials } from "../../../../src/utils/format/formatName";
 import { ConfirmBeneficiaryCard } from "../../../../src/components/features/beneficiary/confirm/ConfirmBeneficiaryCard";
-import {
-  ADD_BENEFICIARY_PAYOUT_ROUTES,
-  ROUTES,
-} from "../../../../src/constants/routes";
+import { ADD_PAYOUT_ROUTES, ROUTES } from "../../../../src/constants/routes";
 import { StyleSheet, View } from "react-native";
 import { ConfirmPayoutCard } from "../../../../src/components/features/beneficiary/confirm/ConfirmPayoutCard";
 import { useState } from "react";
@@ -111,8 +108,8 @@ export default function ConfirmBeneficiaryScreen() {
         payout={payoutSummary}
         onEdit={() =>
           router.dismissTo(
-            ADD_BENEFICIARY_PAYOUT_ROUTES[payout.payoutType] ??
-              ROUTES.ADD_BENEFICIARY_SELECT_PAYOUT_METHOD,
+            ADD_PAYOUT_ROUTES[payout.payoutType] ??
+              ROUTES.ADD_PAYOUT_SELECT_METHOD,
           )
         }
       />

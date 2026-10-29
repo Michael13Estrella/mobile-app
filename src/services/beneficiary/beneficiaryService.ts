@@ -13,8 +13,8 @@ import { ENDPOINTS } from "../../constants/endpoints";
 import {
   BeneficiaryPayoutsResponse,
   CreateBeneficiaryRequest,
-  CreateBeneficiaryResult,
   ManageBeneficiariesResponse,
+  SaveResult,
 } from "../../types";
 import { firstErrorMessage } from "../../utils/api/apiErrors";
 import { apiClient } from "../api/apiClient";
@@ -79,7 +79,7 @@ export const beneficiaryService = {
    */
   createBeneficiary: async (
     request: CreateBeneficiaryRequest,
-  ): Promise<CreateBeneficiaryResult> => {
+  ): Promise<SaveResult> => {
     try {
       const remitterGuid = await remitterService.getCurrentRemitterGuid();
       if (!remitterGuid) return { ok: false };

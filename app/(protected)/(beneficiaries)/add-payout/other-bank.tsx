@@ -10,16 +10,16 @@
  ********************************************************************************************/
 
 import { router } from "expo-router";
-import { useTranslation } from "../../../../../src/hooks/useTranslation";
-import { OtherBankAccountFormValues } from "../../../../../src/schemas/payout/otherBankAccountSchema";
-import { useAppDispatch } from "../../../../../src/store";
-import { setBeneficiaryPayout } from "../../../../../src/store/slices/addBeneficiarySlice";
+import { useTranslation } from "../../../../src/hooks/useTranslation";
+import { OtherBankAccountFormValues } from "../../../../src/schemas/payout/otherBankAccountSchema";
+import { useAppDispatch } from "../../../../src/store";
+import { setBeneficiaryPayout } from "../../../../src/store/slices/addBeneficiarySlice";
 import {
   toCreateOtherBankPayout,
   toOtherBankPayoutSummary,
-} from "../../../../../src/utils/beneficiary/payout";
-import { ROUTES } from "../../../../../src/constants/routes";
-import { OtherBankAccountForm } from "../../../../../src/components/features/beneficiary/payout/OtherBankAccountForm";
+} from "../../../../src/utils/beneficiary/payout";
+import { ROUTES } from "../../../../src/constants/routes";
+import { OtherBankAccountForm } from "../../../../src/components/features/beneficiary/payout/OtherBankAccountForm";
 
 // Add Beneficiary, after "Other bank account / e-wallet" was picked: the account details
 export default function AddOtherBankAccountScreen() {

@@ -12,6 +12,7 @@
 import { BENEFICIARY_TYPE } from "../constants/beneficiary";
 import { PAYOUT_TYPE } from "../constants/payout";
 import { Gender } from "../constants/userFields";
+import { SaveResult } from "./common.types";
 
 export interface BeneficiarySummary {
   remitterGuid: string;
@@ -126,7 +127,7 @@ export type CreateBeneficiaryDetails =
   | CreateIndividualBeneficiary
   | CreateCorporateBeneficiary;
 
-export interface CreateBeneficiaryPayoutCA {
+export interface CreatePayoutMetrobankAccount {
   payoutType: typeof PAYOUT_TYPE.METROBANK_ACCOUNT;
   // "PHP", "USD", "JPY"
   currency: string;
@@ -135,7 +136,7 @@ export interface CreateBeneficiaryPayoutCA {
   caBranchName?: string;
 }
 
-export interface CreateBeneficiaryPayoutOB {
+export interface CreatePayoutOtherBanks {
   payoutType: typeof PAYOUT_TYPE.OTHER_BANKS;
   // "PHP", "USD"
   currency: string;
@@ -146,26 +147,22 @@ export interface CreateBeneficiaryPayoutOB {
   obBranchName?: string;
 }
 
-export interface CreateBeneficiaryPayoutCP {
+export interface CreatePayoutCashPickup {
   payoutType: typeof PAYOUT_TYPE.CASH_PICKUP;
 }
 
-export type CreateBeneficiaryPayout =
-  | CreateBeneficiaryPayoutCA
-  | CreateBeneficiaryPayoutOB
-  | CreateBeneficiaryPayoutCP;
+// A new payout method: Create Beneficiary's payout part, and the whole body
+// of POST /api/remitters/{remitterGuid}/beneficiaries/{beneficiaryGuid}/payout
+export type CreatePayoutRequest =
+  | CreatePayoutMetrobankAccount
+  | CreatePayoutOtherBanks
+  | CreatePayoutCashPickup;
 
 // POST /api/remitters/{remitterGuid}/beneficiaries
 export interface CreateBeneficiaryRequest {
   beneficiary: CreateBeneficiaryDetails;
-  payout: CreateBeneficiaryPayout;
+  payout: CreatePayoutRequest;
 }
-
-// The result of saving a new beneficiary. message: the server's first error
-// message, when it sent one (otherwise the screen shows a generic error)
-export type CreateBeneficiaryResult =
-  | Readonly<{ ok: true }>
-  | Readonly<{ ok: false; message?: string }>;
 
 // What a payout row shows: a saved payout, or a new one before it's saved
 export type PayoutSummary = Pick<

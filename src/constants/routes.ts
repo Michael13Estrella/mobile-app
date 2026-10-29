@@ -50,29 +50,29 @@ export const ROUTES = {
     pathname: "/(protected)/(beneficiaries)/add-beneficiary/[category]",
     params: { category },
   }),
-  ADD_BENEFICIARY_SELECT_PAYOUT_METHOD:
-    "/(protected)/(beneficiaries)/add-beneficiary/payout",
-  ADD_BENEFICIARY_METROBANK_ACCOUNT:
-    "/(protected)/(beneficiaries)/add-beneficiary/payout/metrobank-account",
-  ADD_BENEFICIARY_OTHER_BANK:
-    "/(protected)/(beneficiaries)/add-beneficiary/payout/other-bank",
-  ADD_BENEFICIARY_CASH_PICKUP:
-    "/(protected)/(beneficiaries)/add-beneficiary/payout/cash-pickup",
   ADD_BENEFICIARY_CONFIRM:
     "/(protected)/(beneficiaries)/add-beneficiary/confirm",
   ADD_BENEFICIARY_SUBMITTED:
     "/(protected)/(beneficiaries)/add-beneficiary/submitted",
 
+  // Payout method (shared: Add Beneficiary and a saved beneficiary's
+  // "Add payout method")
+  ADD_PAYOUT_SELECT_METHOD: "/(protected)/(beneficiaries)/add-payout",
+  ADD_PAYOUT_METROBANK_ACCOUNT:
+    "/(protected)/(beneficiaries)/add-payout/metrobank-account",
+  ADD_PAYOUT_OTHER_BANK: "/(protected)/(beneficiaries)/add-payout/other-bank",
+  ADD_PAYOUT_CASH_PICKUP: "/(protected)/(beneficiaries)/add-payout/cash-pickup",
+
   // Development
   PREVIEW: "/preview",
 } as const satisfies Record<string, Href | ((...params: never[]) => Href)>;
 
-// The Add Beneficiary form of each payout type, opened from the payout
-// method picker and from Confirm's "Edit". Cash pick-up has none yet
-export const ADD_BENEFICIARY_PAYOUT_ROUTES: Readonly<
+// The screen of each payout type, opened from the payout method picker and
+// from Confirm's "Edit"
+export const ADD_PAYOUT_ROUTES: Readonly<
   Partial<Record<BeneficiaryPayoutType, Href>>
 > = {
-  [PAYOUT_TYPE.METROBANK_ACCOUNT]: ROUTES.ADD_BENEFICIARY_METROBANK_ACCOUNT,
-  [PAYOUT_TYPE.OTHER_BANKS]: ROUTES.ADD_BENEFICIARY_OTHER_BANK,
-  [PAYOUT_TYPE.CASH_PICKUP]: ROUTES.ADD_BENEFICIARY_CASH_PICKUP,
+  [PAYOUT_TYPE.METROBANK_ACCOUNT]: ROUTES.ADD_PAYOUT_METROBANK_ACCOUNT,
+  [PAYOUT_TYPE.OTHER_BANKS]: ROUTES.ADD_PAYOUT_OTHER_BANK,
+  [PAYOUT_TYPE.CASH_PICKUP]: ROUTES.ADD_PAYOUT_CASH_PICKUP,
 };

@@ -10,16 +10,16 @@
  ********************************************************************************************/
 
 import { router } from "expo-router";
-import { MetrobankAccountForm } from "../../../../../src/components/features/beneficiary/payout/MetrobankAccountForm";
-import { useTranslation } from "../../../../../src/hooks/useTranslation";
-import { MetrobankAccountFormValues } from "../../../../../src/schemas/payout/metrobankAccountSchema";
-import { useAppDispatch } from "../../../../../src/store";
-import { setBeneficiaryPayout } from "../../../../../src/store/slices/addBeneficiarySlice";
+import { MetrobankAccountForm } from "../../../../src/components/features/beneficiary/payout/MetrobankAccountForm";
+import { useTranslation } from "../../../../src/hooks/useTranslation";
+import { MetrobankAccountFormValues } from "../../../../src/schemas/payout/metrobankAccountSchema";
+import { useAppDispatch } from "../../../../src/store";
+import { setBeneficiaryPayout } from "../../../../src/store/slices/addBeneficiarySlice";
 import {
   toCreateMetrobankPayout,
   toMetrobankPayoutSummary,
-} from "../../../../../src/utils/beneficiary/payout";
-import { ROUTES } from "../../../../../src/constants/routes";
+} from "../../../../src/utils/beneficiary/payout";
+import { ROUTES } from "../../../../src/constants/routes";
 
 // Add Beneficiary, after "Metrobank account" was picked: the account details
 export default function AddMetrobankAccountScreen() {

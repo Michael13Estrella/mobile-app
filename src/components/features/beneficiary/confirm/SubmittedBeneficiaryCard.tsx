@@ -15,7 +15,7 @@ import { useReferenceData } from "../../../../hooks/useReferenceData";
 import { useTranslation } from "../../../../hooks/useTranslation";
 import {
   CreateBeneficiaryDetails,
-  CreateBeneficiaryPayout,
+  CreatePayoutRequest,
   PayoutSummary,
 } from "../../../../types";
 import { getBeneficiaryCategory } from "../../../../utils/beneficiary/beneficiary";
@@ -31,7 +31,7 @@ import { DetailRow } from "../../../common/DetailRow";
 
 type SubmittedBeneficiaryCardProps = Readonly<{
   details: CreateBeneficiaryDetails;
-  payout: CreateBeneficiaryPayout;
+  payout: CreatePayoutRequest;
   payoutSummary: PayoutSummary;
 }>;
 

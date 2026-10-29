@@ -12,3 +12,9 @@
 export interface StatusResponse {
   status: string;
 }
+
+// the result of a save (create, add, update, delete). message: the
+// server's first error message, when it sent one (otherwise the screen
+// shows a generic error)
+export type SaveResult =
+  Readonly<{ ok: true }> | Readonly<{ ok: false; message?: string }>;

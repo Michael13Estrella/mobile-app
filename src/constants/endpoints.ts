@@ -46,6 +46,8 @@ export const ENDPOINTS = {
     `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payouts`,
   CREATE_BENEFICIARY: (remitterGuid: string) =>
     `/api/remitters/${remitterGuid}/beneficiaries`,
+  ADD_PAYOUT: (remitterGuid: string, beneficiaryGuid: string) =>
+    `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payout`,
 
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>

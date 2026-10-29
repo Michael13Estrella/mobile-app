@@ -23,9 +23,9 @@ import { MetrobankAccountFormValues } from "../../schemas/payout/metrobankAccoun
 import { OtherBankAccountFormValues } from "../../schemas/payout/otherBankAccountSchema";
 import {
   BeneficiaryPayout,
-  CreateBeneficiaryPayoutCA,
-  CreateBeneficiaryPayoutCP,
-  CreateBeneficiaryPayoutOB,
+  CreatePayoutMetrobankAccount,
+  CreatePayoutCashPickup,
+  CreatePayoutOtherBanks,
   PayoutSummary,
 } from "../../types";
 import { optionalField } from "../api/requestFields";
@@ -65,7 +65,7 @@ export const isEWalletPayout = (
  */
 export const toCreateMetrobankPayout = (
   values: MetrobankAccountFormValues,
-): CreateBeneficiaryPayoutCA => ({
+): CreatePayoutMetrobankAccount => ({
   payoutType: PAYOUT_TYPE.METROBANK_ACCOUNT,
   currency: values.currency,
   caBankNameCode: METROBANK_BANK_CODE,
@@ -75,7 +75,7 @@ export const toCreateMetrobankPayout = (
 
 export const toCreateOtherBankPayout = (
   values: OtherBankAccountFormValues,
-): CreateBeneficiaryPayoutOB => {
+): CreatePayoutOtherBanks => {
   const isEWallet = isEWalletBankCode(values.bankCode);
 
   return {
@@ -96,7 +96,7 @@ export const toCreateOtherBankPayout = (
  * @returns The cash pick-up payout, as the API expects it
  * @example toCreateCashPickupPayout().payoutType; // "CP"
  */
-export const toCreateCashPickupPayout = (): CreateBeneficiaryPayoutCP => ({
+export const toCreateCashPickupPayout = (): CreatePayoutCashPickup => ({
   payoutType: PAYOUT_TYPE.CASH_PICKUP,
 });
 
@@ -121,7 +121,7 @@ export const maskAccountNumber = (accountNo: string): string =>
  * @example toMetrobankPayoutSummary(payout).bankName; // "Metrobank"
  */
 export const toMetrobankPayoutSummary = (
-  payout: CreateBeneficiaryPayoutCA,
+  payout: CreatePayoutMetrobankAccount,
 ): PayoutSummary => ({
   payoutType: payout.payoutType,
   bankCode: METROBANK_BANK_CODE,
@@ -139,7 +139,7 @@ export const toMetrobankPayoutSummary = (
  * @example toOtherBankPayoutSummary(payout, "GCash").bankName; // "GCash"
  */
 export const toOtherBankPayoutSummary = (
-  payout: CreateBeneficiaryPayoutOB,
+  payout: CreatePayoutOtherBanks,
   bankName: string,
 ): PayoutSummary => ({
   payoutType: payout.payoutType,
