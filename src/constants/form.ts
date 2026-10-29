@@ -12,11 +12,14 @@
 import { UseFormProps } from "react-hook-form";
 
 // Shared validation timing for all forms:
-// - before the first submit: validation on every change and on blur, so
-//   isValid (which enables the submit buttons) is always current,
+// - a field shows its error only after it first loses focus (no errors
+//   while the user is still typing); from then on it's re-checked on every
+//   change, so the error clears as soon as it's fixed,
 // - after a submit (e.g. back to the form from Confirm to edit it):
 //   re-validation when a field loses focus.
+// isValid (which enables the submit buttons) stays current on every change
+// in any mode: react-hook-form re-runs the schema for it.
 export const FORM_VALIDATION_MODE = {
-  mode: "all",
+  mode: "onTouched",
   reValidateMode: "onBlur",
 } as const satisfies Pick<UseFormProps, "mode" | "reValidateMode">;
