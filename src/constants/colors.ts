@@ -131,6 +131,7 @@ export const LightColors = {
   iconTertiary: Palette.mbGrey400,
   iconError: Palette.sysRed600,
   iconSuccess: Palette.sysGreen400,
+  iconDangerBackground: Palette.mbUltra050,
 
   // Borders
   borderDefault: Palette.mbGrey200,
@@ -159,6 +160,7 @@ export const LightColors = {
   buttonPrimary: Palette.mbBlue500,
   buttonDisabledBackground: Palette.mbGrey050,
   buttonDisabledText: Palette.mbGrey200,
+  buttonDanger: Palette.sysRed600,
 
   // Toast
   toastSuccessBg: Palette.mbGreen100,
@@ -299,6 +301,7 @@ export const DarkColors = {
   iconTertiary: Palette.mbGrey400,
   iconError: Palette.sysRed600,
   iconSuccess: Palette.sysGreen500,
+  iconDangerBackground: Palette.mbUltra050,
 
   // Borders
   borderDefault: Palette.mbGrey200,
@@ -327,6 +330,7 @@ export const DarkColors = {
   buttonPrimary: Palette.mbBlue500,
   buttonDisabledBackground: Palette.mbGrey050,
   buttonDisabledText: Palette.mbGrey200,
+  buttonDanger: Palette.sysRed600,
 
   // Toast
   toastSuccessBg: Palette.mbGreen100,

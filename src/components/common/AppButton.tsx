@@ -29,7 +29,8 @@ type ButtonVariant =
   | "outline"
   | "ghost"
   | "glass"
-  | "elevated";
+  | "elevated"
+  | "danger";
 
 const ICON_SIZE = 18;
 
@@ -246,6 +247,10 @@ export const AppButton = ({
       background: colors.surface,
       text: colors.buttonPrimary,
     },
+    danger: {
+      background: colors.buttonDanger,
+      text: Palette.white100,
+    },
   };
 
   const textColorByVariant: Record<ButtonVariant, string> = {
@@ -256,6 +261,7 @@ export const AppButton = ({
     ghost: resolvedColors.ghost.text,
     glass: resolvedColors.glass.text,
     elevated: resolvedColors.elevated.text,
+    danger: resolvedColors.danger.text,
   };
 
   const styleByVariant: Record<ButtonVariant, ViewStyle> = {
@@ -280,6 +286,9 @@ export const AppButton = ({
       borderRadius: 8,
       boxShadow: resolveShadows(colors).neutral02Bottom,
     },
+    danger: {
+      backgroundColor: resolvedColors.danger.background,
+    },
   };
 
   const disabledStyleByVariant: Record<ButtonVariant, ViewStyle> = {
@@ -293,6 +302,7 @@ export const AppButton = ({
       backgroundColor: resolvedColors.disabled.background,
       borderRadius: 8,
     },
+    danger: { backgroundColor: resolvedColors.disabled.background },
   };
 
   const isTransparentVariant =
