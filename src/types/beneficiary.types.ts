@@ -12,7 +12,6 @@
 import { BENEFICIARY_TYPE } from "../constants/beneficiary";
 import { PAYOUT_TYPE } from "../constants/payout";
 import { Gender } from "../constants/userFields";
-import { SaveResult } from "./common.types";
 
 export interface BeneficiarySummary {
   remitterGuid: string;
