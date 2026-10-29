@@ -13,6 +13,7 @@ import {
   getBeneficiaryAddress,
   getBeneficiaryCategory,
   getBeneficiaryFullName,
+  getBeneficiaryShortName,
   getBeneficiaryTitle,
   getNewBeneficiaryName,
   matchesBeneficiarySearch,
@@ -344,5 +345,37 @@ describe("toOwnAccountFormValues", () => {
 
   it("leaves an unknown gender unchosen", () => {
     expect(toOwnAccountFormValues({ ...profile, gender: "X" }).gender).toBe("");
+  });
+});
+
+describe("getBeneficiaryShortName", () => {
+  it("prefers the nickname", () => {
+    expect(
+      getBeneficiaryShortName({
+        beneAlias: "Josh",
+        companyName: "",
+        firstName: "JOSHUA",
+      }),
+    ).toBe("Josh");
+  });
+
+  it("uses the company name for a company", () => {
+    expect(
+      getBeneficiaryShortName({
+        beneAlias: "",
+        companyName: "ABC Inc.",
+        firstName: "",
+      }),
+    ).toBe("ABC Inc.");
+  });
+
+  it("falls back to the formatted first name", () => {
+    expect(
+      getBeneficiaryShortName({
+        beneAlias: "",
+        companyName: "",
+        firstName: "JOSH",
+      }),
+    ).toBe("Josh");
   });
 });

@@ -15,11 +15,17 @@ import { PayoutMethodPicker } from "../../../../src/components/features/benefici
 import { useAddPayoutFlow } from "../../../../src/hooks/useAddPayoutFlow";
 
 export default function SelectPayoutMethodScreen() {
-  const { title, getPayoutRoute } = useAddPayoutFlow();
+  const { title, hideCashPickup, getPayoutRoute } = useAddPayoutFlow();
 
   const handleNext = (payoutType: BeneficiaryPayoutType) => {
     router.push(getPayoutRoute(payoutType));
   };
 
-  return <PayoutMethodPicker title={title} onNext={handleNext} />;
+  return (
+    <PayoutMethodPicker
+      title={title}
+      hideCashPickup={hideCashPickup}
+      onNext={handleNext}
+    />
+  );
 }

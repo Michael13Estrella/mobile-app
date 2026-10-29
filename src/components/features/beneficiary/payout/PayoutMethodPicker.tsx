@@ -55,6 +55,7 @@ type PayoutMethodPickerProps = Readonly<{
   title: string;
   // The chosen payout type, when Next is tapped
   onNext: (payoutType: BeneficiaryPayoutType) => void;
+  hideCashPickup?: boolean;
 }>;
 
 /**
@@ -64,7 +65,11 @@ type PayoutMethodPickerProps = Readonly<{
  *
  * @example <PayoutMethodPicker title={t("addBeneficiary.title")} onNext={openPayoutForm} />
  */
-export function PayoutMethodPicker({ title, onNext }: PayoutMethodPickerProps) {
+export function PayoutMethodPicker({
+  title,
+  onNext,
+  hideCashPickup = false,
+}: PayoutMethodPickerProps) {
   const { t } = useTranslation();
   const { colors } = useAppTheme();
   const [payoutType, setPayoutType] = useState<BeneficiaryPayoutType | null>(
@@ -94,7 +99,9 @@ export function PayoutMethodPicker({ title, onNext }: PayoutMethodPickerProps) {
         </AppText>
 
         <View style={styles.options} accessibilityRole="radiogroup">
-          {BENEFICIARY_PAYOUT_TYPES.map((type) => {
+          {BENEFICIARY_PAYOUT_TYPES.filter(
+            (type) => !(hideCashPickup && type === PAYOUT_TYPE.CASH_PICKUP),
+          ).map((type) => {
             const { icon, textKey } = PAYOUT_METHOD_OPTIONS[type];
 
             return (

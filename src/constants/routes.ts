@@ -59,9 +59,12 @@ export const ROUTES = {
   // "Add payout method")
   ADD_PAYOUT_SELECT_METHOD: "/(protected)/(beneficiaries)/add-payout",
   // A saved beneficiary's "Add payout method": the same screens, saving to them
-  ADD_PAYOUT_FOR_BENEFICIARY: (beneficiaryGuid: string) => ({
+  ADD_PAYOUT_FOR_BENEFICIARY: (
+    beneficiaryGuid: string,
+    hasCashPickup: boolean,
+  ) => ({
     pathname: "/(protected)/(beneficiaries)/add-payout",
-    params: { beneficiaryGuid },
+    params: { beneficiaryGuid, hasCashPickup: String(hasCashPickup) },
   }),
   ADD_PAYOUT_METROBANK_ACCOUNT:
     "/(protected)/(beneficiaries)/add-payout/metrobank-account",

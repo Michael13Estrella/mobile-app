@@ -97,4 +97,28 @@ export const beneficiaryService = {
       return { ok: false };
     }
   },
+
+  /**
+   * Deletes a saved beneficiary, with its payout methods.
+   *
+   * @param beneficiaryGuid - The beneficiary to delete
+   * @returns `{ ok: true }` when deleted; otherwise `ok: false`, with the
+   * server's first error message
+   */
+  deleteBeneficiary: async (beneficiaryGuid: string): Promise<SaveResult> => {
+    try {
+      const remitterGuid = await remitterService.getCurrentRemitterGuid();
+      if (!remitterGuid) return { ok: false };
+
+      const { ok, errors } = await apiClient.critical.delete(
+        ENDPOINTS.DELETE_BENEFICIARY(remitterGuid, beneficiaryGuid),
+      );
+
+      return ok
+        ? { ok: true }
+        : { ok: false, message: firstErrorMessage(errors) };
+    } catch {
+      return { ok: false };
+    }
+  },
 };

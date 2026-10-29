@@ -391,6 +391,21 @@
     "payoutsTitle": "Payout methods",
     "addPayout": "Add payout method",
     "payoutAdded": "Payout method added",
+    "deleteBeneficiary": {
+      "title": "Delete {{name}}?",
+      "message": "You won't be able to send money to {{nickname}} anymore. To send again, you'll need to add them as a new beneficiary.",
+      "keep": "Keep as beneficiary",
+      "deleted": {
+        "title": "Beneficiary deleted",
+        "message": "{{name}} has been removed from your beneficiaries."
+      }
+    },
+    "deletePayout": {
+      "title": "Delete this payout method?",
+      "message": "You won't be able to send money to {{account}} anymore. You can add it again later.",
+      "keep": "Keep payout method",
+      "deleted": "Payout method deleted"
+    },
     "sendMoney": "Send money",
     "editDetails": "Edit details",
     "loadError": "Couldn't load this beneficiary. Pull down to try again."

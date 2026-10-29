@@ -11,6 +11,7 @@
 
 import {
   formatMetrobankAccountNo,
+  getPayoutLabel,
   isEWalletBankCode,
   isEWalletPayout,
   maskAccountNumber,
@@ -147,5 +148,19 @@ describe("toCashPickupPayoutSummary", () => {
       accountNo: "",
       currency: "",
     });
+  });
+});
+
+describe("getPayoutLabel", () => {
+  it("shows the bank and the last digits", () => {
+    expect(
+      getPayoutLabel({ bankName: "Metrobank", accountNo: "3456789121537" }),
+    ).toBe("Metrobank •••• 1537");
+  });
+
+  it("shows only the name without an account number", () => {
+    expect(getPayoutLabel({ bankName: "Cash pick-up", accountNo: "" })).toBe(
+      "Cash pick-up",
+    );
   });
 });

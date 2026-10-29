@@ -18,6 +18,7 @@ import { AppDivider } from "../../common/AppDivider";
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../constants/spacing";
 import { AppTextButton } from "../../common/AppTextButton";
+import { MIN_BENEFICIARY_PAYOUTS } from "../../../constants/payout";
 
 type BeneficiaryPayoutsCardProps = Readonly<{
   payouts: readonly BeneficiaryPayout[];
@@ -27,7 +28,7 @@ type BeneficiaryPayoutsCardProps = Readonly<{
 
 /**
  * The "Payout methods" card of Beneficiary Information: one row per payout
- * method, then "+ Add payout method".
+ * method (with Delete, unless it's the only one), then "+ Add payout method".
  *
  * @example <BeneficiaryPayoutsCard payouts={data.payouts} onDeletePayout={…} onAddPayout={…} />
  */
@@ -38,6 +39,9 @@ export function BeneficiaryPayoutsCard({
 }: BeneficiaryPayoutsCardProps) {
   const { t } = useTranslation();
 
+  // The last payout method can't be deleted (no Delete on its row)
+  const canDelete = payouts.length > MIN_BENEFICIARY_PAYOUTS;
+
   return (
     <DetailSection
       title={t("beneficiaryDetails.payoutsTitle")}
@@ -47,7 +51,7 @@ export function BeneficiaryPayoutsCard({
         <Fragment key={payout.payoutId}>
           <PayoutMethodRow
             payout={payout}
-            onDelete={() => onDeletePayout(payout)}
+            onDelete={canDelete ? () => onDeletePayout(payout) : undefined}
           />
           <AppDivider marginVertical={false} style={styles.fullWidth} />
         </Fragment>

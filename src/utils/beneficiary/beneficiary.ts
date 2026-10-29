@@ -80,6 +80,24 @@ export const getBeneficiaryFullName = (beneficiary: NameFields): string =>
   );
 
 /**
+ * How to call a beneficiary in a sentence: the nickname, otherwise the
+ * company name, otherwise the first name.
+ *
+ * @param beneficiary - The name fields
+ * @returns The short name
+ * @example getBeneficiaryShortName({ beneAlias: "", companyName: "", firstName: "JOSH" }); // "Josh"
+ */
+export const getBeneficiaryShortName = (
+  beneficiary: Pick<
+    BeneficiaryDetail,
+    "beneAlias" | "companyName" | "firstName"
+  >,
+): string =>
+  beneficiary.beneAlias.trim() ||
+  beneficiary.companyName.trim() ||
+  formatPersonName(beneficiary.firstName);
+
+/**
  * The beneficiary's address on separate lines, empty parts left out.
  *
  * @param beneficiary - The address fields.

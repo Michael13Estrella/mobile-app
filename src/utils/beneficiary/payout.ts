@@ -114,6 +114,22 @@ export const maskAccountNumber = (accountNo: string): string =>
     : accountNo;
 
 /**
+ * A payout method in one line, for texts about it (e.g. a delete
+ * confirmation): its bank and the last digits of the account number.
+ *
+ * @param payout - A saved or new payout
+ * @returns e.g. "Metrobank •••• 1537"; only the name when it has no
+ *    account number (cash pick-up)
+ * @example getPayoutLabel({ bankName: "Metrobank", accountNo: "3456789121537", … }); // "Metrobank •••• 1537"
+ */
+export const getPayoutLabel = (
+  payout: Pick<PayoutSummary, "bankName" | "accountNo">,
+): string =>
+  [payout.bankName, payout.accountNo && maskAccountNumber(payout.accountNo)]
+    .filter(Boolean)
+    .join(" ");
+
+/**
  * What a payout row shows for a new Metrobank account payout.
  *
  * @param payout - The Metrobank account payout from the draft

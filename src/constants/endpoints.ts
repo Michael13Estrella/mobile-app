@@ -46,8 +46,16 @@ export const ENDPOINTS = {
     `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payouts`,
   CREATE_BENEFICIARY: (remitterGuid: string) =>
     `/api/remitters/${remitterGuid}/beneficiaries`,
+  DELETE_BENEFICIARY: (remitterGuid: string, beneficiaryGuid: string) =>
+    `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}`,
   ADD_PAYOUT: (remitterGuid: string, beneficiaryGuid: string) =>
     `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payout`,
+  DELETE_PAYOUT: (
+    remitterGuid: string,
+    beneficiaryGuid: string,
+    payoutId: number,
+  ) =>
+    `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payout/${payoutId}`,
 
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>

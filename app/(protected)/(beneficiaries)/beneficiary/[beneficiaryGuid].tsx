@@ -19,13 +19,21 @@ import { Spacing } from "../../../../src/constants/spacing";
 import { BeneficiaryDetailsCard } from "../../../../src/components/features/beneficiary/BeneficiaryDetailsCard";
 import { AppScreen } from "../../../../src/components/common/AppScreen";
 import { AppHeader } from "../../../../src/components/common/AppHeader";
-import { getBeneficiaryFullName } from "../../../../src/utils/beneficiary/beneficiary";
+import {
+  getBeneficiaryFullName,
+  getBeneficiaryShortName,
+} from "../../../../src/utils/beneficiary/beneficiary";
 import { BeneficiaryPayoutsCard } from "../../../../src/components/features/beneficiary/BeneficiaryPayoutsCard";
 import { BrandIcon } from "../../../../src/components/icons";
 import { AppButton } from "../../../../src/components/common/AppButton";
 import { AppTextButton } from "../../../../src/components/common/AppTextButton";
 import { BeneficiaryProfile } from "../../../../src/components/features/beneficiary/BeneficiaryProfile";
 import { ROUTES } from "../../../../src/constants/routes";
+import { AppConfirmSheet } from "../../../../src/components/common/AppConfirmSheet";
+import { useDeletePayout } from "../../../../src/hooks/useDeletePayout";
+import { getPayoutLabel } from "../../../../src/utils/beneficiary/payout";
+import { PAYOUT_TYPE } from "../../../../src/constants/payout";
+import { useDeleteBeneficiary } from "../../../../src/hooks/useDeleteBeneficiary";
 
 // Extra touch area around the header's trash icon
 const ACTION_HIT_SLOP = Spacing.s3;
@@ -38,6 +46,12 @@ export default function BeneficiaryDetailsScreen() {
   }>();
   const { data, isLoading, refresh } = useBeneficiaryDetails(beneficiaryGuid);
   const beneficiary = data?.beneficiary;
+
+  const deleteBeneficiary = useDeleteBeneficiary(
+    beneficiaryGuid,
+    beneficiary ? getBeneficiaryFullName(beneficiary) : "",
+  );
+  const deletePayout = useDeletePayout(beneficiaryGuid, refresh);
 
   const renderContent = () => {
     if (isLoading) {
@@ -68,11 +82,16 @@ export default function BeneficiaryDetailsScreen() {
 
         <BeneficiaryPayoutsCard
           payouts={data.payouts}
-          // TODO
-          onDeletePayout={() => {}}
-          // TODO
+          onDeletePayout={deletePayout.askToDelete}
           onAddPayout={() =>
-            router.push(ROUTES.ADD_PAYOUT_FOR_BENEFICIARY(beneficiaryGuid))
+            router.push(
+              ROUTES.ADD_PAYOUT_FOR_BENEFICIARY(
+                beneficiaryGuid,
+                data.payouts.some(
+                  (payout) => payout.payoutType === PAYOUT_TYPE.CASH_PICKUP,
+                ),
+              ),
+            )
           }
         />
       </>
@@ -81,8 +100,7 @@ export default function BeneficiaryDetailsScreen() {
 
   const deleteAction = beneficiary && (
     <Pressable
-      // TODO
-      onPress={() => {}}
+      onPress={deleteBeneficiary.askToDelete}
       hitSlop={ACTION_HIT_SLOP}
       accessibilityRole="button"
       accessibilityLabel={t("common.delete")}
@@ -126,6 +144,38 @@ export default function BeneficiaryDetailsScreen() {
       footer={footer}
     >
       {renderContent()}
+
+      <AppConfirmSheet
+        visible={deletePayout.isOpen}
+        title={t("beneficiaryDetails.deletePayout.title")}
+        message={t("beneficiaryDetails.deletePayout.message", {
+          account: deletePayout.payout
+            ? getPayoutLabel(deletePayout.payout)
+            : "",
+        })}
+        confirmLabel={t("common.delete")}
+        cancelLabel={t("beneficiaryDetails.deletePayout.keep")}
+        isConfirming={deletePayout.isDeleting}
+        onConfirm={() => void deletePayout.confirmDelete()}
+        onCancel={deletePayout.cancelDelete}
+      />
+
+      {beneficiary && (
+        <AppConfirmSheet
+          visible={deleteBeneficiary.isOpen}
+          title={t("beneficiaryDetails.deleteBeneficiary.title", {
+            name: getBeneficiaryFullName(beneficiary),
+          })}
+          message={t("beneficiaryDetails.deleteBeneficiary.message", {
+            nickname: getBeneficiaryShortName(beneficiary),
+          })}
+          confirmLabel={t("common.delete")}
+          cancelLabel={t("beneficiaryDetails.deleteBeneficiary.keep")}
+          isConfirming={deleteBeneficiary.isDeleting}
+          onConfirm={() => void deleteBeneficiary.confirmDelete()}
+          onCancel={deleteBeneficiary.cancelDelete}
+        />
+      )}
     </AppScreen>
   );
 }

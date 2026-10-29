@@ -21,7 +21,11 @@ import { payoutService } from "../services/payout/payoutService";
 import { showToast, showToastOnNextScreen } from "../store/slices/uiSlice";
 
 // Set when adding a payout to a saved beneficiary; absent in Add Beneficiary
-type AddPayoutParams = Readonly<{ beneficiaryGuid?: string }>;
+type AddPayoutParams = Readonly<{
+  beneficiaryGuid?: string;
+  // "true" when they already have a cash pick-up
+  hasCashPickup?: string;
+}>;
 
 /**
  * The payout screens (picker and each method) are shared by two flows:
@@ -37,7 +41,8 @@ type AddPayoutParams = Readonly<{ beneficiaryGuid?: string }>;
 export function useAddPayoutFlow() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { beneficiaryGuid } = useLocalSearchParams<AddPayoutParams>();
+  const { beneficiaryGuid, hasCashPickup } =
+    useLocalSearchParams<AddPayoutParams>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -91,6 +96,8 @@ export function useAddPayoutFlow() {
     ),
     submitLabel: t(isAddingToSaved ? "common.save" : "common.next"),
     isSubmitting,
+    // Only one cash pick-up per beneficiary
+    hideCashPickup: hasCashPickup === String(true),
     getPayoutRoute,
     submit,
   };

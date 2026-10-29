@@ -45,4 +45,32 @@ export const payoutService = {
       return { ok: false };
     }
   },
+
+  /**
+   * Deletes one of a saved beneficiary's payout methods.
+   *
+   * @param beneficiaryGuid - The beneficiary it belongs to
+   * @param payoutId - The payout method to delete
+   * @returns `{ ok: true }` when deleted; otherwise `ok: false`, with the
+   * server's first error message
+   */
+  deletePayout: async (
+    beneficiaryGuid: string,
+    payoutId: number,
+  ): Promise<SaveResult> => {
+    try {
+      const remitterGuid = await remitterService.getCurrentRemitterGuid();
+      if (!remitterGuid) return { ok: false };
+
+      const { ok, errors } = await apiClient.critical.delete(
+        ENDPOINTS.DELETE_PAYOUT(remitterGuid, beneficiaryGuid, payoutId),
+      );
+
+      return ok
+        ? { ok: true }
+        : { ok: false, message: firstErrorMessage(errors) };
+    } catch {
+      return { ok: false };
+    }
+  },
 };

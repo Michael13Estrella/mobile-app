@@ -63,3 +63,7 @@ export const PAYOUT_BRANCH_MAX_LENGTH = 40;
 // Masked account numbers show only the last digits ("•••• 7890")
 export const ACCOUNT_NO_MASK = "••••";
 export const ACCOUNT_NO_VISIBLE_DIGITS = 4;
+
+// A saved beneficiary keeps at least this many payout methods: the last
+// one can't be deleted
+export const MIN_BENEFICIARY_PAYOUTS = 1;
