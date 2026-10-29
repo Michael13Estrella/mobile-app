@@ -34,6 +34,10 @@ const SHADOW_SPECS = {
     { x: 0, y: 2, blur: 4, spread: 0, color: "shadowNeutralLow" },
     { x: 0, y: 4, blur: 8, spread: 2, color: "shadowNeutralLow" },
   ],
+  neutral03Bottom: [
+    { x: 0, y: 4, blur: 8, spread: 0, color: "shadowNeutralDefault" },
+    { x: 0, y: 8, blur: 12, spread: 4, color: "shadowNeutralLow" },
+  ],
 } as const satisfies Record<string, ShadowLayer[]>;
 
 type ShadowName = keyof typeof SHADOW_SPECS;

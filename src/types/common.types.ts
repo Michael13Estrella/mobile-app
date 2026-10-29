@@ -17,4 +17,8 @@ export interface StatusResponse {
 // server's first error message, when it sent one (otherwise the screen
 // shows a generic error)
 export type SaveResult =
-  Readonly<{ ok: true }> | Readonly<{ ok: false; message?: string }>;
+  | Readonly<{ ok: true }>
+  | Readonly<{ ok: false; message?: string }>;
+
+// The kinds of toast (AppToast)
+export type ToastVariant = "success" | "error" | "info" | "warning";

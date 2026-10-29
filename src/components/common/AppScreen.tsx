@@ -36,6 +36,7 @@ import {
   GestureDetector,
   ScrollView as GestureScrollView,
 } from "react-native-gesture-handler";
+import { AppToastHost } from "./AppToastHost";
 
 // Gesture-handler's ScrollView, animatable for KeyboardAwareScrollView: only
 // this one can run together with the pull-to-refresh gesture. With React
@@ -54,6 +55,9 @@ const FOCUSED_INPUT_GAP = Spacing.s10;
 
 const REFRESH_ICON: BrandIconName = "refreshCw05Line";
 const REFRESH_ICON_SIZE = 24;
+
+// Space between the header (or the status bar) and the toast
+const TOAST_TOP_GAP = 0;
 
 type GradientPoint = Readonly<{ x: number; y: number }>;
 type GradientColors = [string, string, ...string[]];
@@ -167,6 +171,11 @@ export function AppScreen({
             </KeyboardAwareScrollView>
           </Animated.View>
         </GestureDetector>
+
+        {/* Floats over the content, right under the header */}
+        <AppToastHost
+          top={header ? TOAST_TOP_GAP : insets.top + TOAST_TOP_GAP}
+        />
       </View>
 
       {!!footer && (

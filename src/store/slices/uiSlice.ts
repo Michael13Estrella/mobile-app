@@ -11,6 +11,11 @@
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Language } from "../../types/language.types";
+import type { ToastVariant } from "../../types";
+
+// The toast on screen. id changes with every showToast, so the same
+// message shown twice restarts its timer
+type Toast = Readonly<{ id: number; message: string; variant: ToastVariant }>;
 
 interface UIState {
   themeMode: "light" | "dark" | "system";
@@ -21,11 +26,10 @@ interface UIState {
   isAuthenticating: boolean;
   needsPasscodeSetup: boolean;
   needsBiometricPrompt: boolean;
-  toast: {
-    visible: boolean;
-    message: string;
-    type: "success" | "error" | "info" | "warning";
-  } | null;
+  toast: Toast | null;
+  // A toast for the screen that gets focus next (e.g. saved, then back):
+  // navigation runs after the current code, so that screen shows it itself
+  pendingToast: Omit<Toast, "id"> | null;
 }
 
 const initialState: UIState = {
@@ -38,6 +42,7 @@ const initialState: UIState = {
   needsPasscodeSetup: false,
   needsBiometricPrompt: false,
   toast: null,
+  pendingToast: null,
 };
 
 const uiSlice = createSlice({
@@ -68,11 +73,28 @@ const uiSlice = createSlice({
     setNeedsBiometricPrompt: (state, action: PayloadAction<boolean>) => {
       state.needsBiometricPrompt = action.payload;
     },
-    showToast: (state, action: PayloadAction<UIState["toast"]>) => {
-      state.toast = action.payload;
+    // Replaces the toast on screen (only one at a time)
+    showToast: (state, action: PayloadAction<Omit<Toast, "id">>) => {
+      state.toast = { id: (state.toast?.id ?? 0) + 1, ...action.payload };
     },
     hideToast: (state) => {
       state.toast = null;
+    },
+    // Shown by the next screen that gets focus, not this one
+    showToastOnNextScreen: (
+      state,
+      action: PayloadAction<Omit<Toast, "id">>,
+    ) => {
+      state.pendingToast = action.payload;
+    },
+    // Called by a screen when it gets focus
+    showPendingToast: (state) => {
+      if (!state.pendingToast) return;
+      state.toast = {
+        id: (state.toast?.id ?? 0) + 1,
+        ...state.pendingToast,
+      };
+      state.pendingToast = null;
     },
     setLocale: (state, action: PayloadAction<Language>) => {
       state.locale = action.payload;
@@ -90,6 +112,8 @@ export const {
   setNeedsBiometricPrompt,
   showToast,
   hideToast,
+  showToastOnNextScreen,
+  showPendingToast,
   setLocale,
 } = uiSlice.actions;
 

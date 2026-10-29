@@ -75,6 +75,7 @@ export const LightColors = {
   shadowTintedLow: Palette.mbAzureAlpha10,
   shadowTintedMedium: Palette.mbAzureAlpha20,
   shadowNeutralLow: Palette.mbBlueAlpha05,
+  shadowNeutralDefault: Palette.mbBlueAlpha10,
 
   // Brand gradient (active tab icons, gradient rings): purple -> blue
   brandGradientStart: Palette.mbHelio500,
@@ -242,6 +243,7 @@ export const DarkColors = {
   shadowTintedLow: Palette.mbAzureAlpha10,
   shadowTintedMedium: Palette.mbAzureAlpha20,
   shadowNeutralLow: Palette.mbBlueAlpha05,
+  shadowNeutralDefault: Palette.mbBlueAlpha10,
 
   // Brand gradient (active tab icons, gradient rings): purple -> blue
   brandGradientStart: Palette.mbHelio500,
