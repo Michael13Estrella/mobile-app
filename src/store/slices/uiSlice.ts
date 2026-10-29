@@ -15,7 +15,12 @@ import type { ToastVariant } from "../../types";
 
 // The toast on screen. id changes with every showToast, so the same
 // message shown twice restarts its timer
-type Toast = Readonly<{ id: number; message: string; variant: ToastVariant }>;
+type Toast = Readonly<{
+  id: number;
+  title?: string;
+  message: string;
+  variant: ToastVariant;
+}>;
 
 interface UIState {
   themeMode: "light" | "dark" | "system";

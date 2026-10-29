@@ -70,6 +70,7 @@ export function AppToastHost({ top }: AppToastHostProps) {
         // A new toast restarts AppToast (and its timer)
         key={toast.id}
         visible
+        title={toast.title}
         message={toast.message}
         variant={toast.variant}
         onDismiss={() => dispatch(hideToast())}

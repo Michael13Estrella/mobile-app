@@ -57,7 +57,7 @@ const REFRESH_ICON: BrandIconName = "refreshCw05Line";
 const REFRESH_ICON_SIZE = 24;
 
 // Space between the header (or the status bar) and the toast
-const TOAST_TOP_GAP = 0;
+const TOAST_TOP_GAP = Spacing.s4;
 
 type GradientPoint = Readonly<{ x: number; y: number }>;
 type GradientColors = [string, string, ...string[]];

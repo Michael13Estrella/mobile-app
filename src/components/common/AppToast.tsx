@@ -19,6 +19,8 @@ import { AppText } from "./AppText";
 import { ToastVariant } from "../../types";
 
 type AppToastProps = Readonly<{
+  // Optional bold line above the message
+  title?: string;
   message: string;
   variant?: ToastVariant;
   visible: boolean;
@@ -38,9 +40,10 @@ const CLOSE_HIT_SLOP = Spacing.s3;
  * which stays on the screen): the text in a light box colored by its
  * variant, and a ✕ to close it sooner.
  *
- * @example <AppToast visible={isSaved} variant="success" message={t("beneficiaryDetails.payoutAdded")} onDismiss={hideToast} />
+ * @example <AppToast visible variant="success" title={t("…deleted")} message={t("…deletedMessage", { name })} onDismiss={hideToast} />
  */
 export function AppToast({
+  title,
   message,
   variant = "success",
   visible,
@@ -93,13 +96,24 @@ export function AppToast({
         },
       ]}
     >
-      <AppText
-        typographyType="body2"
-        color={colors.textPrimary}
-        style={styles.message}
-      >
-        {message}
-      </AppText>
+      <View style={styles.texts}>
+        {!!title && (
+          <AppText
+            typographyType="title2"
+            weight="bold"
+            color={colors.textPrimary}
+          >
+            {title}
+          </AppText>
+        )}
+        <AppText
+          typographyType="body3"
+          color={colors.textPrimary}
+          style={styles.message}
+        >
+          {message}
+        </AppText>
+      </View>
 
       {!!onDismiss && (
         <Pressable
@@ -122,7 +136,7 @@ export function AppToast({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: Spacing.s3,
     borderRadius: TOAST_RADIUS,
     borderWidth: TOAST_BORDER_WIDTH,
@@ -133,5 +147,10 @@ const styles = StyleSheet.create({
   // Wraps next to the ✕ instead of pushing it off screen
   message: {
     flex: 1,
+  },
+  // Wraps next to the ✕ instead of pushing it off screen
+  texts: {
+    flex: 1,
+    gap: Spacing.s2,
   },
 });
