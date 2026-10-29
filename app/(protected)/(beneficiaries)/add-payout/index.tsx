@@ -11,19 +11,15 @@
 
 import { router } from "expo-router";
 import { BeneficiaryPayoutType } from "../../../../src/constants/payout";
-import { useTranslation } from "../../../../src/hooks/useTranslation";
 import { PayoutMethodPicker } from "../../../../src/components/features/beneficiary/payout/PayoutMethodPicker";
-import { ADD_PAYOUT_ROUTES } from "../../../../src/constants/routes";
+import { useAddPayoutFlow } from "../../../../src/hooks/useAddPayoutFlow";
 
 export default function SelectPayoutMethodScreen() {
-  const { t } = useTranslation();
+  const { title, getPayoutRoute } = useAddPayoutFlow();
 
   const handleNext = (payoutType: BeneficiaryPayoutType) => {
-    const route = ADD_PAYOUT_ROUTES[payoutType];
-    if (route) router.push(route);
+    router.push(getPayoutRoute(payoutType));
   };
 
-  return (
-    <PayoutMethodPicker title={t("addBeneficiary.title")} onNext={handleNext} />
-  );
+  return <PayoutMethodPicker title={title} onNext={handleNext} />;
 }

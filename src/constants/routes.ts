@@ -58,6 +58,11 @@ export const ROUTES = {
   // Payout method (shared: Add Beneficiary and a saved beneficiary's
   // "Add payout method")
   ADD_PAYOUT_SELECT_METHOD: "/(protected)/(beneficiaries)/add-payout",
+  // A saved beneficiary's "Add payout method": the same screens, saving to them
+  ADD_PAYOUT_FOR_BENEFICIARY: (beneficiaryGuid: string) => ({
+    pathname: "/(protected)/(beneficiaries)/add-payout",
+    params: { beneficiaryGuid },
+  }),
   ADD_PAYOUT_METROBANK_ACCOUNT:
     "/(protected)/(beneficiaries)/add-payout/metrobank-account",
   ADD_PAYOUT_OTHER_BANK: "/(protected)/(beneficiaries)/add-payout/other-bank",
@@ -69,10 +74,8 @@ export const ROUTES = {
 
 // The screen of each payout type, opened from the payout method picker and
 // from Confirm's "Edit"
-export const ADD_PAYOUT_ROUTES: Readonly<
-  Partial<Record<BeneficiaryPayoutType, Href>>
-> = {
+export const ADD_PAYOUT_ROUTES = {
   [PAYOUT_TYPE.METROBANK_ACCOUNT]: ROUTES.ADD_PAYOUT_METROBANK_ACCOUNT,
   [PAYOUT_TYPE.OTHER_BANKS]: ROUTES.ADD_PAYOUT_OTHER_BANK,
   [PAYOUT_TYPE.CASH_PICKUP]: ROUTES.ADD_PAYOUT_CASH_PICKUP,
-};
+} as const satisfies Record<BeneficiaryPayoutType, Href>;

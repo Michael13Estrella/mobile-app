@@ -25,8 +25,8 @@ import { BrandIcon } from "../../../../src/components/icons";
 import { AppButton } from "../../../../src/components/common/AppButton";
 import { AppTextButton } from "../../../../src/components/common/AppTextButton";
 import { BeneficiaryProfile } from "../../../../src/components/features/beneficiary/BeneficiaryProfile";
+import { ROUTES } from "../../../../src/constants/routes";
 
-const AVATAR_SIZE = 56;
 // Extra touch area around the header's trash icon
 const ACTION_HIT_SLOP = Spacing.s3;
 
@@ -71,7 +71,9 @@ export default function BeneficiaryDetailsScreen() {
           // TODO
           onDeletePayout={() => {}}
           // TODO
-          onAddPayout={() => {}}
+          onAddPayout={() =>
+            router.push(ROUTES.ADD_PAYOUT_FOR_BENEFICIARY(beneficiaryGuid))
+          }
         />
       </>
     );

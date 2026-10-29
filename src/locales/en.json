@@ -390,6 +390,7 @@
     "establishDate": "Date of establishment",
     "payoutsTitle": "Payout methods",
     "addPayout": "Add payout method",
+    "payoutAdded": "Payout method added",
     "sendMoney": "Send money",
     "editDetails": "Edit details",
     "loadError": "Couldn't load this beneficiary. Pull down to try again."
@@ -432,6 +433,7 @@
 
   "------------------------------ ADD PAYOUT METHOD ------------------------------": "",
   "addPayoutMethod": {
+    "headerTitle": "Add payout method",
     "title": "Select payout method",
     "options": {
       "metrobankAccount": {

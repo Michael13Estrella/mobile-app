@@ -9,39 +9,31 @@
  * 3.
  ********************************************************************************************/
 
-import { router } from "expo-router";
 import { CashPickupGuide } from "../../../../src/components/features/beneficiary/payout/CashPickupGuide";
 import { useTranslation } from "../../../../src/hooks/useTranslation";
-import { useAppDispatch } from "../../../../src/store";
-import { setBeneficiaryPayout } from "../../../../src/store/slices/addBeneficiarySlice";
 import {
   toCashPickupPayoutSummary,
   toCreateCashPickupPayout,
 } from "../../../../src/utils/beneficiary/payout";
-import { ROUTES } from "../../../../src/constants/routes";
+import { useAddPayoutFlow } from "../../../../src/hooks/useAddPayoutFlow";
 
 // Add Beneficiary, after "Cash pick-up" was picked: how it works, then Next
 export default function AddCashPickupScreen() {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
+  const { title, submitLabel, isSubmitting, submit } = useAddPayoutFlow();
 
   const handleNext = () => {
-    dispatch(
-      setBeneficiaryPayout({
-        payout: toCreateCashPickupPayout(),
-        summary: toCashPickupPayoutSummary(
-          t("addPayoutMethod.options.cashPickup.title"),
-        ),
-      }),
+    void submit(
+      toCreateCashPickupPayout(),
+      toCashPickupPayoutSummary(t("addPayoutMethod.options.cashPickup.title")),
     );
-
-    router.push(ROUTES.ADD_BENEFICIARY_CONFIRM);
   };
 
   return (
     <CashPickupGuide
-      title={t("addBeneficiary.title")}
-      submitLabel={t("common.next")}
+      title={title}
+      submitLabel={submitLabel}
+      isSubmitting={isSubmitting}
       onNext={handleNext}
     />
   );
