@@ -62,15 +62,19 @@ export default function HomeScreen() {
           balance={data?.wallet.currentBalance ?? null}
           currency={data?.wallet.currency ?? WALLET_CURRENCY}
           rates={rates}
-          onDetailsPress={() => {}} // Todo
-          onAddToWalletPress={() => {}} // Todo
+          // TODO
+          onDetailsPress={() => {}}
+          // TODO
+          onAddToWalletPress={() => {}}
         />
 
         {/* Recent beneficiaries */}
         <RecentBeneficiaries
           beneficiaries={data?.recentBeneficiaries ?? null}
           onAddPress={() => setIsAddBeneSheetOpen(true)}
-          onBeneficiaryPress={() => {}} // Todo
+          onBeneficiaryPress={(beneficiary) =>
+            router.push(ROUTES.BENEFICIARY_DETAILS(beneficiary.beneficiaryGuid))
+          }
           onViewAllPress={() => router.push(ROUTES.MANAGE_BENEFICIARIES)}
         />
 
