@@ -47,9 +47,12 @@ const AnimatedGestureScrollView = Animated.createAnimatedComponent(
   ComponentProps<typeof KeyboardAwareScrollView>["ScrollViewComponent"]
 >;
 
-// Space below the footer (keyboard closed: above the home indicator;
-// keyboard open: between the footer and the keyboard).
+// Space below the footer while the keyboard is closed (above the home
+// indicator; Android has none of its own).
 const BOTTOM_PADDING_EXTRA = Platform.OS === "ios" ? Spacing.s0 : Spacing.s5;
+// Space between the footer and the open keyboard (both platforms).
+const KEYBOARD_FOOTER_GAP = Spacing.s5;
+
 // Space kept between a focused input and the sticky footer above the keyboard.
 const FOCUSED_INPUT_GAP = Spacing.s10;
 
@@ -98,8 +101,12 @@ export function AppScreen({
   const handleFooterLayout = (e: LayoutChangeEvent) =>
     setFooterHeight(e.nativeEvent.layout.height);
 
-  // The keyboard covers the safe-area inset while open, so that part of the
-  // footer's padding is hidden behind it; only the rest sits above the keyboard.
+  // While the keyboard is open, the footer moves down by this much over it:
+  // its bottom padding hides behind the keyboard, expect KEYBOARD_FOOTER_GAP
+  const keyboardOpenOffset =
+    insets.bottom + BOTTOM_PADDING_EXTRA - KEYBOARD_FOOTER_GAP;
+
+  // The part of the footer above the open keyboard
   const visibleFooterHeight = footer
     ? Math.max(footerHeight - insets.bottom, 0)
     : 0;
@@ -180,7 +187,7 @@ export function AppScreen({
 
       {!!footer && (
         <KeyboardStickyView
-          offset={{ opened: insets.bottom }}
+          offset={{ opened: keyboardOpenOffset }}
           onLayout={handleFooterLayout}
           style={[
             styles.footer,
