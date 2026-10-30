@@ -13,6 +13,8 @@ import ReactNativeBiometrics, { BiometryType } from "react-native-biometrics";
 import * as SecureStore from "expo-secure-store";
 import { SECURITY } from "../../constants/security";
 import { buildUserKey } from "../../utils/security/secureStoreKeys";
+import { Platform } from "react-native";
+import * as Device from "expo-device";
 
 // allowDeviceCredentials:false => biometric ONLY (no passcode fallback) = high assurance.
 // FLip to true only if you intentionally accept device PIN/passcode as an equal factor.
@@ -20,6 +22,13 @@ import { buildUserKey } from "../../utils/security/secureStoreKeys";
 const rnBiometrics = new ReactNativeBiometrics({
   allowDeviceCredentials: false,
 });
+
+// The iOS simulator's keychain doesn't enforce Face ID on the key, so it
+// signs without a prompt. Dev builds on the simulator ask Face ID first
+// (DeviceHub: Device → Face ID → Authorized / Unauthorized) to test the
+// flow. Real devices skip this: the key itself requires Face ID there.
+const SIMULATE_BIOMETRIC_PROMPT =
+  __DEV__ && Platform.OS === "ios" && !Device.isDevice;
 
 const K = SECURITY.STORE_KEYS;
 
@@ -59,6 +68,13 @@ export const biometricService = {
     challenge: string,
     promptMessage: string,
   ): Promise<string> => {
+    if (SIMULATE_BIOMETRIC_PROMPT) {
+      const prompt = await rnBiometrics.simplePrompt({ promptMessage });
+      if (!prompt.success) {
+        throw new Error(prompt.error ?? "Biometric authentication failed");
+      }
+    }
+
     const { success, signature, error } = await rnBiometrics.createSignature({
       promptMessage,
       payload: challenge,
