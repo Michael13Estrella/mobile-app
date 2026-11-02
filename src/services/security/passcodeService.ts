@@ -14,6 +14,7 @@ import bcrypt from "bcryptjs";
 import QuickCrypto from "react-native-quick-crypto";
 import { SECURITY } from "../../constants/security";
 import { buildUserKey } from "../../utils/security/secureStoreKeys";
+import { preferenceService } from "../storage/preferenceService";
 
 bcrypt.setRandomFallback((len) => Array.from(QuickCrypto.randomBytes(len)));
 
@@ -32,6 +33,17 @@ export const passcodeService = {
     const hash = await bcrypt.hash(passcode, ROUNDS);
     await SecureStore.setItemAsync(hashKey(kcId), hash, opts);
     await SecureStore.deleteItemAsync(attemptsKey(kcId));
+    await preferenceService.setPasscodeMarker(kcId);
+  },
+
+  /**
+   * Deletes a passcode set before a reinstall: the keychain can keep the hash,
+   * but the AsyncStorage marker is gone. Call only after a full login, so that
+   * removing the marker can't be used to get past the lock screen.
+   */
+  clearIfFromPreviousInstall: async (kcId: string): Promise<void> => {
+    if (await preferenceService.hasPasscodeMarker(kcId)) return;
+    await passcodeService.clear(kcId);
   },
 
   verify: async (
@@ -64,5 +76,6 @@ export const passcodeService = {
   clear: async (kcId: string): Promise<void> => {
     await SecureStore.deleteItemAsync(hashKey(kcId));
     await SecureStore.deleteItemAsync(attemptsKey(kcId));
+    await preferenceService.clearPasscodeMarker(kcId);
   },
 };

@@ -14,6 +14,11 @@ import { Language } from "../../types/language.types";
 
 const LOCALE_KEY = "@mbj-app/locale";
 const THEME_KEY = "@mbj-app/theme";
+const INSTALL_MARKER_KEY = "@mbj-app/install-marker";
+const INSTALL_MARKER_VALUE = "true";
+const PASSCODE_MARKER_PREFIX = "@mbj-app/passcode-marker-";
+
+const passcodeMarkerKey = (kcId: string) => `${PASSCODE_MARKER_PREFIX}${kcId}`;
 
 export const preferenceService = {
   getLocale: async (): Promise<Language | null> => {
@@ -34,5 +39,25 @@ export const preferenceService = {
 
   setTheme: async (theme: "light" | "dark" | "system"): Promise<void> => {
     await AsyncStorage.setItem(THEME_KEY, theme);
+  },
+
+  hasInstallMarker: async (): Promise<boolean> => {
+    return (await AsyncStorage.getItem(INSTALL_MARKER_KEY)) !== null;
+  },
+
+  setInstallMarker: async (): Promise<void> => {
+    await AsyncStorage.setItem(INSTALL_MARKER_KEY, INSTALL_MARKER_VALUE);
+  },
+
+  hasPasscodeMarker: async (kcId: string): Promise<boolean> => {
+    return (await AsyncStorage.getItem(passcodeMarkerKey(kcId))) !== null;
+  },
+
+  setPasscodeMarker: async (kcId: string): Promise<void> => {
+    await AsyncStorage.setItem(passcodeMarkerKey(kcId), INSTALL_MARKER_VALUE);
+  },
+
+  clearPasscodeMarker: async (kcId: string): Promise<void> => {
+    await AsyncStorage.removeItem(passcodeMarkerKey(kcId));
   },
 };

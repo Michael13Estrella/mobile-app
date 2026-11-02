@@ -76,6 +76,7 @@ import {
 import { AuthLoadingOverlay } from "../src/components/screens/AuthLoadingOverlay";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { ROUTES } from "../src/constants/routes";
+import { freshInstallService } from "../src/services/security/freshInstallService";
 
 const SPLASH_MIN_DURATION_MS = 3000;
 
@@ -191,6 +192,8 @@ function AppContent() {
         if (savedTheme) {
           dispatch(setThemeMode(savedTheme));
         }
+
+        await freshInstallService.clearLeftoverSession();
 
         const accessToken = await keycloakService.getAccessToken();
         const refreshToken = await keycloakService.getRefreshToken();

@@ -80,6 +80,8 @@ export const useAuth = () => {
       const decoded = decodeToken(tokens.accessToken);
       if (!decoded) return;
 
+      await passcodeService.clearIfFromPreviousInstall(decoded.id);
+
       // needsPin = true means the user is first login
       const needsPin = !(await passcodeService.isSet(decoded.id));
       const needsBiometricPrompt = await biometricService.needsReprompt(
@@ -345,13 +347,18 @@ export const useAuth = () => {
 
   // Sign out: clear TOKENS ONLY. The biometric key intentionally survives.
   const signOut = useCallback(async () => {
-    if (!user) return;
+    // The lock screen can show before the user is restored: fall back to the
+    // stored token, which must be read before the tokens are cleared.
+    const kcId = user?.id ?? (await keycloakService.getCurrentKcId());
 
-    await notificationService.unregister(user.id).catch(() => undefined);
-    await userStorageService.clearDisplayName(user.id).catch(() => undefined);
+    if (kcId) {
+      await notificationService.unregister(kcId).catch(() => undefined);
+      await userStorageService.clearDisplayName(kcId).catch(() => undefined);
+    }
+
     await keycloakService.clearTokens(); // delete access + refresh
     dispatch(logout());
-  }, [dispatch]);
+  }, [user, dispatch]);
 
   return {
     isAuthenticated,
