@@ -35,14 +35,17 @@ export const deviceEnrollmentService = {
   },
 
   ensureEnrolled: async (kcId: string): Promise<void> => {
-    if (await deviceEnrollmentService.isUserEnrolled(kcId)) return;
+    const hasIdentity = await deviceService.hasCompleteIdentity();
+    if (hasIdentity && (await deviceEnrollmentService.isUserEnrolled(kcId))) {
+      return;
+    }
 
     const remitterGuid = await remitterService.ensureRemitterGuid(kcId);
 
-    const { dbrsPublicKey, deviceOs, lang } =
-      await deviceService.prepareEnrollment();
+    // A partial identity can't sign or encrypt, so start again with a new key pair
+    if (!hasIdentity) await deviceService.clearIdentity();
 
-    const body: DeviceEnrollRequest = { dbrsPublicKey, deviceOs, lang };
+    const body: DeviceEnrollRequest = await deviceService.prepareEnrollment();
     const { ok, data, status } =
       await apiClient.plain.post<DeviceEnrollResponse>(
         ENDPOINTS.DEVICE_ENROLL(remitterGuid!),
@@ -60,11 +63,13 @@ export const deviceEnrollmentService = {
       throw new Error("Device enrollment failed");
     }
 
-    if (!(await deviceService.getDeviceId())) {
+    if (!hasIdentity) {
       await deviceService.completeEnrollment(data.deviceId, data.hmacKey);
     }
 
-    await SecureStore.setItemAsync(enrolledKey(kcId), "true");
+    await SecureStore.setItemAsync(enrolledKey(kcId), "true", {
+      keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    });
   },
 
   setLanguage: async (lang: Language): Promise<void> => {

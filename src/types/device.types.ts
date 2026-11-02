@@ -20,6 +20,8 @@ export interface DeviceEnrollRequest {
   dbrsPublicKey: string;
   deviceOs: DeviceOs;
   lang?: Language;
+  deviceName?: string;
+  hardwareId?: string;
 }
 
 export interface DeviceEnrollResponse {

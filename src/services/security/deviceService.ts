@@ -10,6 +10,7 @@
  ********************************************************************************************/
 
 import * as SecureStore from "expo-secure-store";
+import * as Application from "expo-application";
 import { SECURITY } from "../../constants/security";
 import QuickCrypto from "react-native-quick-crypto";
 import {
@@ -21,20 +22,66 @@ import { Platform } from "react-native";
 import { DeviceEnrollRequest, DeviceOs } from "../../types";
 import { buildUserKey } from "../../utils/security/secureStoreKeys";
 import { store } from "../../store";
+import * as Device from "expo-device";
 
 const KEYS = SECURITY.STORE_KEYS;
 
+const opts = { keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY };
+
+// Every value a request needs. HARDWARE_ID isn't one: it must outlive re-enrollment
+const IDENTITY_KEYS = [
+  KEYS.DEVICE_PRIVATE,
+  KEYS.DEVICE_PUBLIC,
+  KEYS.DEVICE_ID,
+  KEYS.HMAC_KEY,
+];
+
 export const deviceService = {
-  isEnrolled: async (): Promise<boolean> => {
-    return (await SecureStore.getItemAsync(KEYS.DEVICE_ID)) !== null;
+  hasCompleteIdentity: async (): Promise<boolean> => {
+    const values = await Promise.all(
+      IDENTITY_KEYS.map((key) => SecureStore.getItemAsync(key)),
+    );
+    return values.every((value) => value !== null);
+  },
+
+  clearIdentity: async (): Promise<void> => {
+    await Promise.all(
+      IDENTITY_KEYS.map((key) => SecureStore.deleteItemAsync(key)),
+    );
+  },
+
+  /**
+   * A unique ID for this phone (App Key registration) that stays the same
+   * when the app is reinstalled. Android: ANDROID_ID. iOS: a random ID made
+   * once and kept in the keychain (which survives reinstalling and, being
+   * THIS_DEVICE_ONLY, never moves to another phone through a backup).
+   *
+   * @returns The ID (Android: hex string; iOS: UUID)
+   */
+  getHardwareId: async (): Promise<string> => {
+    if (Platform.OS === "android") return Application.getAndroidId();
+
+    const existing = await SecureStore.getItemAsync(KEYS.HARDWARE_ID);
+    if (existing) return existing;
+
+    const created = QuickCrypto.randomUUID();
+    await SecureStore.setItemAsync(KEYS.HARDWARE_ID, created, {
+      keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    });
+
+    return created;
   },
 
   prepareEnrollment: async (): Promise<DeviceEnrollRequest> => {
-    const deviceOs = Platform.OS === "ios" ? DeviceOs.iOS : DeviceOs.Android;
-    const lang = store.getState().ui.locale;
+    const deviceInfo = {
+      deviceOs: Platform.OS === "ios" ? DeviceOs.iOS : DeviceOs.Android,
+      lang: store.getState().ui.locale,
+      deviceName: Device.modelName ?? undefined,
+      hardwareId: await deviceService.getHardwareId(),
+    };
 
     const existing = await SecureStore.getItemAsync(KEYS.DEVICE_PUBLIC);
-    if (existing) return { dbrsPublicKey: existing, deviceOs, lang };
+    if (existing) return { dbrsPublicKey: existing, ...deviceInfo };
 
     const { privateKey, publicKey } = QuickCrypto.generateKeyPairSync("ec", {
       namedCurve: "P-256",
@@ -56,8 +103,7 @@ export const deviceService = {
 
     return {
       dbrsPublicKey: publicKey as string,
-      deviceOs,
-      lang,
+      ...deviceInfo,
     };
   },
 
@@ -69,8 +115,8 @@ export const deviceService = {
       console.log("deviceId: ", deviceId);
       console.log("hmacKeyBase64: ", hmacKeyBase64);
     }
-    await SecureStore.setItemAsync(KEYS.DEVICE_ID, deviceId);
-    await SecureStore.setItemAsync(KEYS.HMAC_KEY, hmacKeyBase64);
+    await SecureStore.setItemAsync(KEYS.DEVICE_ID, deviceId, opts);
+    await SecureStore.setItemAsync(KEYS.HMAC_KEY, hmacKeyBase64, opts);
   },
 
   getDeviceId: async (): Promise<string | null> => {

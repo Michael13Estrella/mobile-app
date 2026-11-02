@@ -37,6 +37,7 @@ export const SECURITY = {
     DEVICE_PUBLIC: "device_public_key",
     DEVICE_ID: "device_id",
     HMAC_KEY: "hmac_payload_key",
+    HARDWARE_ID: "hardware_id", // iOS: this phone's ID for App Key (Android uses ANDROID_ID)
 
     ENROLLED_PREFIX: "enrolled_", // + kcId (per-user association flag)
     BIOMETRIC_ENABLED_PREFIX: "biometric_enabled_", // + kcId (per-user preference)
