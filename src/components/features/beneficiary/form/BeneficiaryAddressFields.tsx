@@ -100,6 +100,7 @@ export function BeneficiaryAddressFields({
         label={t("beneficiaryFields.city.label")}
         placeholder={placeholders.city}
         options={toCodeNameOptions(towns)}
+        groupByLetter
         sortAscending
       />
     </>
