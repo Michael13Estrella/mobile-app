@@ -19,11 +19,28 @@ import { AppText } from "../../common/AppText";
 import { formatShortDateTime } from "../../../utils/format/formatDate";
 import { formatAmount } from "../../../utils/format/formatCurrency";
 import { AppTextButton } from "../../common/AppTextButton";
-import { getTransactionTitle, isMoneyIn } from "../../../utils/remittance/transaction";
+import {
+  getTransactionTitle,
+  isMoneyIn,
+} from "../../../utils/remittance/transaction";
+import { AppSkeleton } from "../../common/AppSkeleton";
 
 const MONEY_IN_SIGN = "+";
 const MONEY_OUT_SIGN = "-";
 const BORDER_BOTTOM_WIDTH = 1;
+
+const SKELETON_ROW_COUNT = 3;
+const SKELETON_ROWS = Array.from(
+  { length: SKELETON_ROW_COUNT },
+  (_, index) => `skeleton-${index}`,
+);
+// The line heights of the text they stand in for
+const SKELETON_TITLE_HEIGHT = 16;
+const SKELETON_DATE_HEIGHT = 14;
+const SKELETON_AMOUNT_HEIGHT = 20;
+const SKELETON_TITLE_WIDTH = "70%";
+const SKELETON_DATE_WIDTH = "40%";
+const SKELETON_AMOUNT_WIDTH = 88;
 
 type TransactionRowProps = Readonly<{
   transaction: RecentTransaction;
@@ -73,20 +90,65 @@ function TransactionRow({ transaction, walletCurrency }: TransactionRowProps) {
   );
 }
 
+// The section's title with placeholder rows, on the first load.
+function RecentTransactionsSkeleton() {
+  const { colors } = useAppTheme();
+  const { t } = useTranslation();
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <AppText typographyType="h4" color={colors.textPrimary}>
+          {t("home.transactions.title")}
+        </AppText>
+      </View>
+
+      <View>
+        {SKELETON_ROWS.map((row) => (
+          <View
+            key={row}
+            style={[styles.row, { borderColor: colors.borderSubtle }]}
+          >
+            <View style={styles.details}>
+              <AppSkeleton
+                width={SKELETON_TITLE_WIDTH}
+                height={SKELETON_TITLE_HEIGHT}
+              />
+              <AppSkeleton
+                width={SKELETON_DATE_WIDTH}
+                height={SKELETON_DATE_HEIGHT}
+              />
+            </View>
+            <AppSkeleton
+              width={SKELETON_AMOUNT_WIDTH}
+              height={SKELETON_AMOUNT_HEIGHT}
+            />
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
 type RecentTransactionsProps = Readonly<{
   // null while the dashboard is loading
   transactions: readonly RecentTransaction[] | null;
+  // First load: placeholder rows show
+  isLoading: boolean;
   walletCurrency: string;
   onViewAllPress: () => void;
 }>;
 
 export function RecentTransactions({
   transactions,
+  isLoading,
   walletCurrency,
   onViewAllPress,
 }: RecentTransactionsProps) {
   const { colors } = useAppTheme();
   const { t } = useTranslation();
+
+  if (isLoading) return <RecentTransactionsSkeleton />;
 
   // Nothing to show until the dashboard has loaded.
   if (!transactions) return null;

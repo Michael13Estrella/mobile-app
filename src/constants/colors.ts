@@ -109,6 +109,9 @@ export const LightColors = {
   surfaceVariant: OldPalette.slate100,
   surfaceElevated: OldPalette.tertiary,
 
+  // Skeleton
+  skeleton: Palette.mbGreyAlpha10,
+
   // Text
   textBrandPrimary: Palette.mbBlue500,
 
@@ -275,9 +278,12 @@ export const DarkColors = {
   backgroundGradientEnd: Palette.sysSkyBlue400,
   background: Palette.mbGrey050,
   backgroundVariant: OldPalette.tertiary,
-  surface: OldPalette.tertiary,
+  surface: Palette.white100,
   surfaceVariant: OldPalette.slate100,
   surfaceElevated: OldPalette.tertiary,
+
+  // Skeleton
+  skeleton: Palette.mbGreyAlpha10,
 
   // Text
   textBrandPrimary: Palette.mbBlue500,

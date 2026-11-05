@@ -28,8 +28,9 @@ import { useState } from "react";
 import { router } from "expo-router";
 import { ROUTES } from "../../../src/constants/routes";
 import { AddBeneficiarySheet } from "../../../src/components/features/beneficiary/AddBeneficiarySheet";
+
 export default function HomeScreen() {
-  const { data, refresh } = useDashboard();
+  const { data, isLoading, refresh } = useDashboard();
   const { rates, refresh: refreshRates } = useExchangeRates();
   const { charges, refresh: refreshCharges } = useCharges();
   const displayName = useRemitterDisplayName();
@@ -71,6 +72,7 @@ export default function HomeScreen() {
         {/* Recent beneficiaries */}
         <RecentBeneficiaries
           beneficiaries={data?.recentBeneficiaries ?? null}
+          isLoading={isLoading}
           onAddPress={() => setIsAddBeneSheetOpen(true)}
           onBeneficiaryPress={(beneficiary) =>
             router.push(ROUTES.BENEFICIARY_DETAILS(beneficiary.beneficiaryGuid))
@@ -92,6 +94,7 @@ export default function HomeScreen() {
         {/* Recent transactions */}
         <RecentTransactions
           transactions={data?.recentTransactions ?? null}
+          isLoading={isLoading}
           walletCurrency={data?.wallet.currency ?? WALLET_CURRENCY}
           onViewAllPress={() => {}}
         />

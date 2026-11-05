@@ -21,6 +21,7 @@ import { AppText } from "../../common/AppText";
 import { formatPersonName } from "../../../utils/format/formatName";
 import { AppTextButton } from "../../common/AppTextButton";
 import { BeneficiaryAvatar } from "../beneficiary/BeneficiaryAvatar";
+import { AppSkeleton } from "../../common/AppSkeleton";
 
 const AVATAR_SIZE = 50;
 const ITEM_WIDTH = 72;
@@ -28,6 +29,13 @@ const ADD_ICON_SIZE = 24;
 const ADD_BORDER_WIDTH = 1;
 
 const SCREEN_PADDING = Spacing.s7;
+
+const SKELETON_ITEM_COUNT = 4;
+const SKELETON_LABEL_HEIGHT = Spacing.s4;
+const SKELETON_ITEMS = Array.from(
+  { length: SKELETON_ITEM_COUNT },
+  (_, index) => `skeleton-${index}`,
+);
 
 // Company beneficiaries have a company name instead of a person's name
 const beneficiaryName = (beneficiary: RecentBeneficiary) =>
@@ -91,6 +99,8 @@ function BeneficiaryItem({
 type RecentBeneficiariesProps = Readonly<{
   // null while the dashboard is loading (only "Add is shown then")
   beneficiaries: readonly RecentBeneficiary[] | null;
+  // First load: placeholders show beside "Add"
+  isLoading: boolean;
   onAddPress: () => void;
   onBeneficiaryPress: (beneficiary: RecentBeneficiary) => void;
   onViewAllPress: () => void;
@@ -98,6 +108,7 @@ type RecentBeneficiariesProps = Readonly<{
 
 export function RecentBeneficiaries({
   beneficiaries,
+  isLoading,
   onAddPress,
   onBeneficiaryPress,
   onViewAllPress,
@@ -121,6 +132,23 @@ export function RecentBeneficiaries({
           color={colors.iconBrandSecondary}
         />
       </BeneficiaryItem>
+
+      {isLoading && (
+        <ScrollView
+          horizontal
+          scrollEnabled={false}
+          showsHorizontalScrollIndicator={false}
+          style={styles.scroll}
+          contentContainerStyle={styles.list}
+        >
+          {SKELETON_ITEMS.map((item) => (
+            <View key={item} style={styles.item}>
+              <AppSkeleton circle height={AVATAR_SIZE} />
+              <AppSkeleton width={AVATAR_SIZE} height={SKELETON_LABEL_HEIGHT} />
+            </View>
+          ))}
+        </ScrollView>
+      )}
 
       {recent?.length > 0 && (
         <ScrollView
