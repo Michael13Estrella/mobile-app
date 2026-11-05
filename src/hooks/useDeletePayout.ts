@@ -71,7 +71,10 @@ export function useDeletePayout(
 
     dispatch(
       showToast({
-        message: t("beneficiaryDetails.deletePayout.deleted"),
+        title: t("beneficiaryDetails.deletePayout.deleted.title"),
+        message: t("beneficiaryDetails.deletePayout.deleted.message", {
+          bank: payout.bankName,
+        }),
         variant: "success",
       }),
     );

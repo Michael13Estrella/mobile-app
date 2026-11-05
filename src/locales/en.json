@@ -404,7 +404,10 @@
       "title": "Delete this payout method?",
       "message": "You won't be able to send money to {{account}} anymore. You can add it again later.",
       "keep": "Keep payout method",
-      "deleted": "Payout method deleted"
+      "deleted": {
+        "title": "Payment method deleted",
+        "message": "{{bank}} has been removed from this beneficiary's available payment methods"
+      }
     },
     "sendMoney": "Send money",
     "editDetails": "Edit details",
