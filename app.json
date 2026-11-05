@@ -12,7 +12,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#001A88",
-          "image": "./assets/images/metro-send-for-dark.png",
+          "image": "./assets/images/splash-transparent.png",
           "imageWidth": 180,
           "resizeMode": "contain"
         }
@@ -21,14 +21,8 @@
         "expo-localization",
         {
           "supportedLocales": {
-            "ios": [
-              "en",
-              "ja"
-            ],
-            "android": [
-              "en",
-              "ja"
-            ]
+            "ios": ["en", "ja"],
+            "android": ["en", "ja"]
           }
         }
       ],
@@ -62,10 +56,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "CFBundleLocalizations": [
-          "en",
-          "ja"
-        ]
+        "CFBundleLocalizations": ["en", "ja"]
       }
     },
     "android": {
