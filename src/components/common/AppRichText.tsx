@@ -9,6 +9,7 @@
  * 3.
  ********************************************************************************************/
 
+import { StyleProp, TextStyle } from "react-native";
 import { splitBoldText } from "../../utils/ui/richText";
 import { AppText, TypographyType } from "./AppText";
 
@@ -17,6 +18,7 @@ type AppRichTextProps = Readonly<{
   text: string;
   typographyType: TypographyType;
   color: string;
+  style?: StyleProp<TextStyle>;
 }>;
 
 /**
@@ -24,9 +26,14 @@ type AppRichTextProps = Readonly<{
  *
  * @example <AppRichText text={t("…description")} typographyType="body3" color={colors.textSecondary} />
  */
-export function AppRichText({ text, typographyType, color }: AppRichTextProps) {
+export function AppRichText({
+  text,
+  typographyType,
+  color,
+  style,
+}: AppRichTextProps) {
   return (
-    <AppText typographyType={typographyType} color={color}>
+    <AppText typographyType={typographyType} color={color} style={style}>
       {splitBoldText(text).map((part, index) =>
         part.bold ? (
           <AppText

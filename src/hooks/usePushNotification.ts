@@ -72,6 +72,8 @@ export function usePushNotification() {
     const id = lastResponse.notification.request.identifier;
     if (handledId.current === id) return; // already routed this response
     handledId.current = id;
+    // Handled once: after a reload, Expo would return it again and reopen the screen
+    Notifications.clearLastNotificationResponse();
 
     const data = lastResponse.notification.request.content.data as
       | NotificationData

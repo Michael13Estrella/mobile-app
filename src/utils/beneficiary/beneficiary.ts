@@ -176,7 +176,7 @@ export const toCreateCorporateBeneficiary = (
  * @example getBeneficiaryCategory({ beneficiaryType: "I", myAccountFlg: 1 }); // "ownAccount"
  */
 export const getBeneficiaryCategory = (
-  details: Pick<CreateBeneficiaryDetails, "beneficiaryType" | "myAccountFlg">,
+  details: Pick<BeneficiaryDetail, "beneficiaryType" | "myAccountFlg">,
 ): BeneficiaryCategory => {
   if (details.beneficiaryType === BENEFICIARY_TYPE.CORPORATE) {
     return "corporate";

@@ -12,6 +12,7 @@
 import { Href } from "expo-router";
 import { BeneficiaryCategory } from "../types";
 import { BeneficiaryPayoutType, PAYOUT_TYPE } from "./payout";
+import { BeneficiaryReviewResult } from "./beneficiary";
 
 // Every screen path in one place, with the full group path, matching the
 // folders in app/. Keys are prefixed with their group.
@@ -45,6 +46,14 @@ export const ROUTES = {
   BENEFICIARY_DETAILS: (beneficiaryGuid: string) => ({
     pathname: "/(protected)/(beneficiaries)/beneficiary/[beneficiaryGuid]",
     params: { beneficiaryGuid },
+  }),
+  BENEFICIARY_REVIEW_RESULTS: (
+    beneficiaryGuid: string,
+    result: BeneficiaryReviewResult,
+  ) => ({
+    pathname:
+      "/(protected)/(beneficiaries)/beneficiary-review-result/[beneficiaryGuid]",
+    params: { beneficiaryGuid, result },
   }),
   ADD_BENEFICIARY: (category: BeneficiaryCategory) => ({
     pathname: "/(protected)/(beneficiaries)/add-beneficiary/[category]",

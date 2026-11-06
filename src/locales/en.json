@@ -30,7 +30,8 @@
     "add": "Add",
     "delete": "Delete",
     "edit": "Edit",
-    "goToDashboard": "Go to dashboard"
+    "goToDashboard": "Go to dashboard",
+    "contactUs": "Contact Us"
   },
   "------------------------------ FORM ------------------------------": "",
   "form": {
@@ -446,6 +447,18 @@
       "payoutMethod": "Payout Method",
       "accountNo": "Account No.",
       "addAnother": "Add another beneficiary"
+    },
+    "reviewResult": {
+      "type": "Beneficiary type",
+      "approved": {
+        "title": "Beneficiary added",
+        "message": "You can now send money to **{{name}}**."
+      },
+      "denied": {
+        "title": "We couldn't add beneficiary",
+        "message": "You can't send money yet to **{{name}}**. Please contact us for assistance.",
+        "contactUs": "Contact Us"
+      }
     }
   },
 

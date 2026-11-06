@@ -42,3 +42,12 @@ export const RELATIONSHIP_OTHERS_CODE = "99";
 
 // The avatar's initials until a beneficiary name is typed
 export const DEFAULT_BENEFICIARY_INITIALS = "MB";
+
+// The outcome of a new beneficiary's review (shown on the review result screen)
+export const BENEFICIARY_REVIEW_RESULT = {
+  APPROVED: "approved",
+  DENIED: "denied",
+} as const;
+
+export type BeneficiaryReviewResult =
+  (typeof BENEFICIARY_REVIEW_RESULT)[keyof typeof BENEFICIARY_REVIEW_RESULT];
