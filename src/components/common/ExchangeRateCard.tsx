@@ -24,6 +24,8 @@ import { CURRENCY_COUNTRY } from "../../constants/currency";
 const FLAG_SIZE = 24;
 const ARROW_SIZE = 16;
 const RATE_MAX_DECIMALS = 4;
+// Each rate is shown for one unit of the source currency ("1 JPY")
+const RATE_BASE_AMOUNT = 1;
 // Rates are set in Japan time; show them in Japan time on every device.
 const RATE_TIME_ZONE = "Asia/Tokyo";
 
@@ -60,7 +62,7 @@ export function ExchangeRateCard() {
       <View style={[styles.side, styles.leftSide]}>
         <CurrencyFlag currency={rate.fromCurrency} />
         <AppText typographyType="title1" color={colors.textPrimary}>
-          1 {rate.fromCurrency}
+          {`${RATE_BASE_AMOUNT} ${rate.fromCurrency}`}
         </AppText>
       </View>
       <BrandIcon name="arrowNarrowRightLine" size={ARROW_SIZE} />
@@ -71,7 +73,7 @@ export function ExchangeRateCard() {
           weight="bold"
           color={colors.textPrimary}
         >
-          {formatRate(rate.rate)} {rate.toCurrency}
+          {`${formatRate(rate.rate)} ${rate.toCurrency}`}
         </AppText>
       </View>
     </View>
