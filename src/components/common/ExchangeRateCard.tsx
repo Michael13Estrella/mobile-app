@@ -20,6 +20,7 @@ import { AppText } from "./AppText";
 import { formatDateTime } from "../../utils/format/formatDate";
 import { BrandIcon, BrandCountryFlag } from "../icons";
 import { CURRENCY_COUNTRY } from "../../constants/currency";
+import { withCurrencyCode } from "../../utils/format/formatCurrency";
 
 const FLAG_SIZE = 24;
 const ARROW_SIZE = 16;
@@ -62,7 +63,7 @@ export function ExchangeRateCard() {
       <View style={[styles.side, styles.leftSide]}>
         <CurrencyFlag currency={rate.fromCurrency} />
         <AppText typographyType="title1" color={colors.textPrimary}>
-          {`${RATE_BASE_AMOUNT} ${rate.fromCurrency}`}
+          {withCurrencyCode(String(RATE_BASE_AMOUNT), rate.fromCurrency)}
         </AppText>
       </View>
       <BrandIcon name="arrowNarrowRightLine" size={ARROW_SIZE} />
@@ -73,7 +74,7 @@ export function ExchangeRateCard() {
           weight="bold"
           color={colors.textPrimary}
         >
-          {`${formatRate(rate.rate)} ${rate.toCurrency}`}
+          {withCurrencyCode(formatRate(rate.rate), rate.toCurrency)}
         </AppText>
       </View>
     </View>

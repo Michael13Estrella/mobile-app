@@ -32,3 +32,17 @@ export const formatAmount = (
     minimumFractionDigits: fractionDigits,
     maximumFractionDigits: fractionDigits,
   }).format(amount);
+
+// Joins an amount and its currency code so they never wrap apart
+const AMOUNT_CURRENCY_SEPARATOR = "\u00A0"; // non-breaking space
+
+/**
+ * An amount with its currency code after it, kept on one line.
+ *
+ * @param amount - The formatted amount ("0.3995").
+ * @param currency - The currency code ("PHP").
+ * @returns e.g. "0.3995 PHP", joined by a non-breaking space
+ * @example withCurrencyCode("1", "JPY"); // "1 JPY"
+ */
+export const withCurrencyCode = (amount: string, currency: string): string =>
+  `${amount}${AMOUNT_CURRENCY_SEPARATOR}${currency}`;
