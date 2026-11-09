@@ -17,6 +17,7 @@ import { getRemitterDisplayName } from "../utils/remitter/remitter";
 import { remitterService } from "../services/remitter/remitterService";
 import { setRemitter } from "../store/slices/remitterSlice";
 import { useFocusEffect } from "expo-router";
+import { setRecentBeneficiaries } from "../store/slices/dashboardSlice";
 
 // Everything Home shows except the remitter (that one goes to Redux).
 export type DashboardData = Omit<DashboardStatsResponse, "remitter">;
@@ -54,6 +55,7 @@ export function useDashboard() {
 
     const { remitter, ...dashboard } = result;
     dispatch(setRemitter(remitter));
+    dispatch(setRecentBeneficiaries(dashboard.recentBeneficiaries));
     setData(dashboard);
     setHasError(false);
 

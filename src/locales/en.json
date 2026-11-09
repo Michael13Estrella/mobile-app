@@ -589,6 +589,25 @@
     }
   },
 
+  "------------------------------ SEND MONEY ------------------------------": "",
+  "sendMoney": {
+    "title": "Send Money",
+    "beneficiary": {
+      "label": "To",
+      "placeholder": "Select beneficiary"
+    },
+    "beneficiaryPicker": {
+      "title": "Select a beneficiary",
+      "mostRecent": "Most recent",
+      "others": "Other Beneficiaries"
+    },
+    "noBeneficiaries": {
+      "title": "No beneficiaries yet",
+      "message": "Add a beneficiary in the Philippines to start sending money.",
+      "add": "Add beneficiary"
+    }
+  },
+
   "------------------------------ XXXX ------------------------------": "",
   "------------------------------ XX ------------------------------": "",
   "------------------------------ X ------------------------------": "",

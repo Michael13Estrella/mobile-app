@@ -9,10 +9,6 @@
  * 3.
  ********************************************************************************************/
 
-import { ComingSoonScreen } from "../../../src/components/screens/ComingSoonScreen";
-import { useTranslation } from "../../../src/hooks/useTranslation";
-
-export default function SendMoneyScreen() {
-  const { t } = useTranslation();
-  return <ComingSoonScreen title={t("tabs.sendMoney")} />;
+export default function SendMoneyTab() {
+  return null;
 }

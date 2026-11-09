@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import {
   Modal,
   Platform,
@@ -47,6 +47,9 @@ type AppBottomSheetProps = Readonly<{
   visible: boolean;
   // Backdrop tap, Android back, or the sheet's own buttons
   onClose: () => void;
+  // once it has fully slid out (e.g. to open another sheet: two can't be
+  // open at once)
+  onClosed?: () => void;
   backdrop?: SheetBackdrop;
   children: ReactNode;
 }>;
@@ -61,6 +64,7 @@ type AppBottomSheetProps = Readonly<{
 export function AppBottomSheet({
   visible,
   onClose,
+  onClosed,
   backdrop = "dim",
   children,
 }: AppBottomSheetProps) {
@@ -74,15 +78,31 @@ export function AppBottomSheet({
   // Stays true until the slide-out has finished, so closing is animated too
   const [isMounted, setIsMounted] = useState(visible);
 
+  // Whether it has opened since it last finished closing (it also starts
+  // hidden, which isn't a "close")
+  const hasOpened = useRef(false);
+  // The latest onClosed, so a new function each render doesn't restart
+  // the animation
+  const onClosedRef = useRef(onClosed);
+  useEffect(() => {
+    onClosedRef.current = onClosed;
+  });
+
   useEffect(() => {
     if (visible) {
+      hasOpened.current = true;
       setIsMounted(true);
       progress.value = withTiming(1, SHEET_ANIMATION);
       return;
     }
 
     progress.value = withTiming(0, SHEET_ANIMATION);
-    const timer = setTimeout(() => setIsMounted(false), SHEET_ANIMATION_MS);
+    const timer = setTimeout(() => {
+      setIsMounted(false);
+      if (!hasOpened.current) return;
+      hasOpened.current = false;
+      onClosedRef.current?.();
+    }, SHEET_ANIMATION_MS);
     return () => clearTimeout(timer);
   }, [visible, progress]);
 

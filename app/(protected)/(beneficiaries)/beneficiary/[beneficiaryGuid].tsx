@@ -116,8 +116,9 @@ export default function BeneficiaryDetailsScreen() {
         label={t("beneficiaryDetails.sendMoney")}
         variant="gradient"
         icon="bankNote01Line"
-        // TODO
-        onPress={() => {}}
+        onPress={() =>
+          router.push(ROUTES.SEND_MONEY_TO_BENEFICIARY(beneficiaryGuid))
+        }
       />
       <AppTextButton
         label={t("beneficiaryDetails.editDetails")}

@@ -80,6 +80,14 @@ export const ROUTES = {
   ADD_PAYOUT_OTHER_BANK: "/(protected)/(beneficiaries)/add-payout/other-bank",
   ADD_PAYOUT_CASH_PICKUP: "/(protected)/(beneficiaries)/add-payout/cash-pickup",
 
+  // Send Money
+  SEND_MONEY: "/(protected)/(send-money)/send",
+  // From a beneficiary's screen: the same form, that beneficiary picked
+  SEND_MONEY_TO_BENEFICIARY: (beneficiaryGuid: string) => ({
+    pathname: "/(protected)/(send-money)/send",
+    params: { beneficiaryGuid },
+  }),
+
   // Development
   PREVIEW: "/preview",
 } as const satisfies Record<string, Href | ((...params: never[]) => Href)>;

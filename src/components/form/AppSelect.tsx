@@ -11,14 +11,11 @@
 
 import { Control, FieldValues, Path } from "react-hook-form";
 import { useFormField } from "../../hooks/useFormField";
-import { FIELD_SIZE } from "../../theme/field";
 import { useState } from "react";
-import { Keyboard, Pressable, StyleSheet, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { Keyboard } from "react-native";
 import { FieldShell } from "./FieldShell";
-import { LEADING_ICON_SIZE } from "./FieldLeadingIcon";
-import { BrandIcon } from "../icons";
 import { SelectHeaderAction, SelectSheet } from "./select/SelectSheet";
+import { SelectTrigger } from "./select/SelectTrigger";
 
 export interface SelectOption {
   label: string;
@@ -43,16 +40,6 @@ type AppSelectProps<T extends FieldValues> = Readonly<{
   showFlags?: boolean;
   fitContent?: boolean;
 }>;
-
-function SelectChevronIcon({ color }: Readonly<{ color: string }>) {
-  return (
-    <BrandIcon
-      name="chevronSingleDownLine"
-      size={LEADING_ICON_SIZE}
-      color={color}
-    />
-  );
-}
 
 export function AppSelect<T extends FieldValues>({
   control,
@@ -109,34 +96,13 @@ export function AppSelect<T extends FieldValues>({
       errorMessage={errorMessage}
     >
       {/* Select field */}
-      <Pressable
-        onPress={openPicker}
+      <SelectTrigger
+        value={selectedLabel}
+        placeholder={placeholder}
         disabled={disabled}
-        accessibilityRole="button"
-        accessibilityState={{ disabled }}
-      >
-        <View style={styles.fieldTouchArea}>
-          <TextInput
-            value={selectedLabel}
-            editable={false}
-            mode="outlined"
-            placeholder={placeholder}
-            outlineColor={fieldColors.border}
-            activeOutlineColor={fieldColors.border}
-            textColor={fieldColors.text}
-            placeholderTextColor={fieldColors.placeholder}
-            outlineStyle={styles.outline}
-            style={[styles.input, { backgroundColor: fieldColors.background }]}
-            selection={{ start: 0, end: 0 }}
-            right={
-              <TextInput.Icon
-                icon={SelectChevronIcon}
-                color={fieldColors.iconButton}
-              />
-            }
-          />
-        </View>
-      </Pressable>
+        fieldColors={fieldColors}
+        onPress={openPicker}
+      />
 
       <SelectSheet
         visible={visible}
@@ -156,18 +122,3 @@ export function AppSelect<T extends FieldValues>({
     </FieldShell>
   );
 }
-
-const styles = StyleSheet.create({
-  // The whole field acts as one button; the inner input must not take taps.
-  fieldTouchArea: {
-    pointerEvents: "none",
-  },
-  input: {
-    textAlign: "left",
-    height: FIELD_SIZE.height,
-  },
-  outline: {
-    borderRadius: FIELD_SIZE.borderRadius,
-    borderWidth: FIELD_SIZE.borderWidth,
-  },
-});

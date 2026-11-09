@@ -17,6 +17,7 @@ import registrationReducer from "./slices/registrationSlice";
 import referenceDataReducer from "./slices/referenceDataSlice";
 import nationalityReducer from "./slices/nationalitySlice";
 import remitterReducer from "./slices/remitterSlice";
+import dashboardReducer from "./slices/dashboardSlice";
 import addBeneficiaryReducer from "./slices/addBeneficiarySlice";
 import { apiService } from "../services/api/apiService";
 
@@ -28,6 +29,7 @@ export const store = configureStore({
     referenceData: referenceDataReducer,
     nationality: nationalityReducer,
     remitter: remitterReducer,
+    dashboard: dashboardReducer,
     addBeneficiary: addBeneficiaryReducer,
     [apiService.reducerPath]: apiService.reducer,
   },

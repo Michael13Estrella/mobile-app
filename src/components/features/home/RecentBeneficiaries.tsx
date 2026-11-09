@@ -9,24 +9,23 @@
  * 3.
  ********************************************************************************************/
 
-import { ReactNode } from "react";
 import { Spacing } from "../../../constants/spacing";
 import { RecentBeneficiary } from "../../../types";
 import { useAppTheme } from "../../../hooks/useAppTheme";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { BrandIcon } from "../../icons";
 import { GradientText } from "../../common/GradientText";
-import { AppText } from "../../common/AppText";
-import { formatPersonName } from "../../../utils/format/formatName";
 import { AppTextButton } from "../../common/AppTextButton";
-import { BeneficiaryAvatar } from "../beneficiary/BeneficiaryAvatar";
 import { AppSkeleton } from "../../common/AppSkeleton";
+import {
+  AVATAR_ITEM_SIZE,
+  AVATAR_ITEM_WIDTH,
+  BeneficiaryAvatarItem,
+} from "../beneficiary/BeneficiaryAvatarItem";
+import { getRecentBeneficiaryLabel } from "../../../utils/beneficiary/beneficiary";
 
-const AVATAR_SIZE = 50;
-const ITEM_WIDTH = 72;
 const ADD_ICON_SIZE = 24;
-const ADD_BORDER_WIDTH = 1;
 
 const SCREEN_PADDING = Spacing.s7;
 
@@ -36,65 +35,6 @@ const SKELETON_ITEMS = Array.from(
   { length: SKELETON_ITEM_COUNT },
   (_, index) => `skeleton-${index}`,
 );
-
-// Company beneficiaries have a company name instead of a person's name
-const beneficiaryName = (beneficiary: RecentBeneficiary) =>
-  beneficiary.companyName.trim() ||
-  (formatPersonName(beneficiary.firstName).split(" ").at(0) ?? "");
-
-// beneficiary: a raised gradient avatar; add: a flat dashed circle
-type ItemVariant = "beneficiary" | "add";
-
-type ItemProps = Readonly<{
-  label: string;
-  variant?: ItemVariant;
-  onPress: () => void;
-  children: ReactNode;
-}>;
-
-// A round avatar with its name underneath.
-function BeneficiaryItem({
-  label,
-  variant = "beneficiary",
-  onPress,
-  children,
-}: ItemProps) {
-  const { colors } = useAppTheme();
-
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      style={styles.item}
-    >
-      {variant === "add" ? (
-        <View
-          style={[
-            styles.addAvatar,
-            {
-              backgroundColor: colors.addAvatarBackground,
-              borderColor: colors.addAvatarBorder,
-            },
-          ]}
-        >
-          {children}
-        </View>
-      ) : (
-        <BeneficiaryAvatar size={AVATAR_SIZE}>{children}</BeneficiaryAvatar>
-      )}
-      {/* <View style={[styles.avatar, avatarLook]}>{children}</View> */}
-      <AppText
-        typographyType="body3"
-        color={colors.textPrimary}
-        numberOfLines={2}
-        style={styles.label}
-      >
-        {label}
-      </AppText>
-    </Pressable>
-  );
-}
 
 type RecentBeneficiariesProps = Readonly<{
   // null while the dashboard is loading (only "Add is shown then")
@@ -121,7 +61,7 @@ export function RecentBeneficiaries({
   return (
     <View style={styles.container}>
       {/* Fixed: stays in place while the list scrolls. */}
-      <BeneficiaryItem
+      <BeneficiaryAvatarItem
         label={t("home.beneficiaries.add")}
         variant="add"
         onPress={onAddPress}
@@ -131,7 +71,7 @@ export function RecentBeneficiaries({
           size={ADD_ICON_SIZE}
           color={colors.iconBrandSecondary}
         />
-      </BeneficiaryItem>
+      </BeneficiaryAvatarItem>
 
       {isLoading && (
         <ScrollView
@@ -142,9 +82,12 @@ export function RecentBeneficiaries({
           contentContainerStyle={styles.list}
         >
           {SKELETON_ITEMS.map((item) => (
-            <View key={item} style={styles.item}>
-              <AppSkeleton circle height={AVATAR_SIZE} />
-              <AppSkeleton width={AVATAR_SIZE} height={SKELETON_LABEL_HEIGHT} />
+            <View key={item} style={styles.skeletonItem}>
+              <AppSkeleton circle height={AVATAR_ITEM_SIZE} />
+              <AppSkeleton
+                width={AVATAR_ITEM_SIZE}
+                height={SKELETON_LABEL_HEIGHT}
+              />
             </View>
           ))}
         </ScrollView>
@@ -158,15 +101,15 @@ export function RecentBeneficiaries({
           contentContainerStyle={styles.list}
         >
           {recent?.map((beneficiary) => (
-            <BeneficiaryItem
+            <BeneficiaryAvatarItem
               key={beneficiary.beneficiaryGuid}
-              label={beneficiaryName(beneficiary)}
+              label={getRecentBeneficiaryLabel(beneficiary)}
               onPress={() => onBeneficiaryPress(beneficiary)}
             >
               <GradientText typographyType="h5" weight="bold">
                 {beneficiary.nameInitial}
               </GradientText>
-            </BeneficiaryItem>
+            </BeneficiaryAvatarItem>
           ))}
 
           {/* Centered on the circles, not on circle + label. */}
@@ -201,32 +144,13 @@ const styles = StyleSheet.create({
     gap: Spacing.s4,
     paddingRight: SCREEN_PADDING,
   },
-  item: {
-    width: ITEM_WIDTH,
+  skeletonItem: {
+    width: AVATAR_ITEM_WIDTH,
     alignItems: "center",
     gap: Spacing.s3,
   },
-  avatar: {
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
-    borderRadius: AVATAR_SIZE / 2,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addAvatar: {
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
-    borderRadius: AVATAR_SIZE / 2,
-    borderWidth: ADD_BORDER_WIDTH,
-    borderStyle: "dashed",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  label: {
-    textAlign: "center",
-  },
   viewAll: {
-    height: AVATAR_SIZE,
+    height: AVATAR_ITEM_SIZE,
     justifyContent: "center",
   },
 });

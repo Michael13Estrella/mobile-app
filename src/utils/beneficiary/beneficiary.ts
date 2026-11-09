@@ -10,6 +10,7 @@
  ********************************************************************************************/
 
 import {
+  BENEFICIARY_CATEGORIES,
   BENEFICIARY_TYPE,
   MY_ACCOUNT_FLAG,
   RELATIONSHIP_SELF_CODE,
@@ -24,6 +25,8 @@ import {
   CreateBeneficiaryDetails,
   CreateCorporateBeneficiary,
   CreateIndividualBeneficiary,
+  ManageBeneficiariesResponse,
+  RecentBeneficiary,
   Remitter,
 } from "../../types";
 import { formatPersonName } from "../format/formatName";
@@ -42,6 +45,33 @@ export const getBeneficiaryTitle = (beneficiary: BeneficiarySummary): string =>
   formatPersonName(beneficiary.beneAlias.trim()) ||
   beneficiary.companyName.trim() ||
   formatPersonName(`${beneficiary.lastName} ${beneficiary.firstName}`);
+
+/**
+ * Every saved beneficiary in one list, in the Manage Beneficiaries tab
+ * order: own accounts, individuals, then companies.
+ *
+ * @param lists - The Manage Beneficiaries lists
+ * @returns All the beneficiaries
+ * @example getAllBeneficiaries({ ownAccount: [a], individual: [b], corporate: [c] }); // [a, b, c]
+ */
+export const getAllBeneficiaries = (
+  lists: ManageBeneficiariesResponse,
+): BeneficiarySummary[] =>
+  BENEFICIARY_CATEGORIES.flatMap((category) => lists[category]);
+
+/**
+ * The short name under a recent beneficiary's avatar: the company name, or
+ * the person's first given name.
+ *
+ * @param beneficiary - The recent beneficiary
+ * @returns The label
+ * @example getRecentBeneficiaryLabel({ companyName: "", firstName: "JOSH CULLEN" }); // "Josh"
+ */
+export const getRecentBeneficiaryLabel = (
+  beneficiary: Pick<RecentBeneficiary, "companyName" | "firstName">,
+): string =>
+  beneficiary.companyName.trim() ||
+  (formatPersonName(beneficiary.firstName).split(" ").at(0) ?? "");
 
 export const matchesBeneficiarySearch = (
   beneficiary: BeneficiarySummary,

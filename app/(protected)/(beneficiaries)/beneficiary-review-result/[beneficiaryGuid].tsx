@@ -136,8 +136,9 @@ export default function BeneficiaryReviewResultScreen() {
                 label={t("beneficiaryDetails.sendMoney")}
                 variant="gradient"
                 icon="bankNote01Line"
-                // TODO: open Send Money for this beneficiary
-                onPress={() => {}}
+                onPress={() =>
+                  router.push(ROUTES.SEND_MONEY_TO_BENEFICIARY(beneficiaryGuid))
+                }
               />
             ) : (
               <AppButton
