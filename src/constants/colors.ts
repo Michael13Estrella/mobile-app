@@ -16,53 +16,19 @@ export const OldPalette = {
   primary: "#001A88",
   secondary: "#059ED8",
   tertiary: "#FFFFFF",
-  dark: "#09203B",
-  darkVariant: "#112C4B",
 
   white: "#FFFFFF",
 
   // Slate
   slate900: "#0F172A", // dark bg
-  slate800: "#1E293B", // dark surface
   slate700: "#334155", // dark surface variant / dark border / light text primary
-  slate600: "#475569", // light text secondary / dark disabled
   slate500: "#64748b",
   slate400: "#94A3B8", // dark text secondary / light disabled
-  slate200: "#E2E8F0", // light border
   slate100: "#F1F5F9", // light surface variant
-  slate50: "#F8FAFC", // light bg / dark text primary
 
   // Red
-  red100: "#fee2e2",
-  red200: "#fecaca",
-  red300: "#fca5a5",
   red400: "#F87171", // error light
-  red500: "#EF4444", // error default
   red600: "#DC2626", // error dark
-
-  // Green
-  green100: "#dcfce7",
-  green200: "#bbf7d0",
-  green300: "#86efac",
-  green400: "#4ade80",
-  green500: "#22c55e",
-  green600: "#16a34a",
-
-  // Blue
-  blue100: "#dbeafe",
-  blue200: "#bfdbfe",
-  blue300: "#93c5fd",
-  blue400: "#60a5fa",
-  blue500: "#3b82f6",
-  blue600: "#2563eb",
-
-  //amber
-  amber100: "#fef3c7",
-  amber200: "#fde68a",
-  amber300: "#fcd34d",
-  amber400: "#fbbf24",
-  amber500: "#f59e0b",
-  amber600: "#ca8a04",
 } as const;
 
 export const LightColors = {
