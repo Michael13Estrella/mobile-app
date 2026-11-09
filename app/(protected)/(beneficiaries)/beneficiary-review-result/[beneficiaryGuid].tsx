@@ -145,6 +145,8 @@ export default function BeneficiaryReviewResultScreen() {
                 variant="gradient"
                 // TODO: open the contact channel
                 onPress={() => {}}
+                icon="arrowNarrowRightLine"
+                iconPosition="end"
               />
             ))}
           {/* Always here: the header has no back arrow */}

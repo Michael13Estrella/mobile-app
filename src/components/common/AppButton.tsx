@@ -34,6 +34,9 @@ type ButtonVariant =
 
 const ICON_SIZE = 18;
 
+export const ICON_POSITION = { START: "start", END: "end" } as const;
+export type IconPosition = (typeof ICON_POSITION)[keyof typeof ICON_POSITION];
+
 const BUTTON_RADIUS = 24;
 const GLASS_BORDER_WIDTH = 1;
 const GLASS_BORDER_LOCATIONS = [0, 0.5, 1] as const;
@@ -51,6 +54,7 @@ type AppButtonProps = Readonly<{
   fullWidth?: boolean;
   style?: ViewStyle;
   icon?: BrandIconName;
+  iconPosition?: IconPosition;
   onDark?: boolean;
 }>;
 
@@ -58,6 +62,7 @@ type ContentProps = Readonly<{
   loading: boolean;
   label: string;
   icon?: BrandIconName;
+  iconPosition: IconPosition;
   textColor: string;
   spinnerColor: string;
 }>;
@@ -66,15 +71,18 @@ function ButtonContent({
   loading,
   label,
   icon,
+  iconPosition,
   textColor,
   spinnerColor,
 }: ContentProps) {
   if (loading) return <ActivityIndicator size="small" color={spinnerColor} />;
+  const iconNode = icon ? (
+    <BrandIcon name={icon} size={ICON_SIZE} color={textColor} />
+  ) : null;
+  const isIconAtEnd = iconPosition === ICON_POSITION.END;
   return (
     <>
-      {icon ? (
-        <BrandIcon name={icon} size={ICON_SIZE} color={textColor} />
-      ) : null}
+      {!isIconAtEnd && iconNode}
       <AppText
         typographyType="button1"
         weight="bold"
@@ -83,6 +91,7 @@ function ButtonContent({
       >
         {label}
       </AppText>
+      {isIconAtEnd && iconNode}
     </>
   );
 }
@@ -90,18 +99,29 @@ function ButtonContent({
 type GradientLabelRowProps = Readonly<{
   label: string;
   icon?: BrandIconName;
+  iconPosition: IconPosition;
   hidden?: boolean;
 }>;
 
 // Label/icon used both as the MaskedView mask shape and as an invisible copy
 // that sizes the gradient beneath it.
-function GradientLabelRow({ label, icon, hidden }: GradientLabelRowProps) {
+function GradientLabelRow({
+  label,
+  icon,
+  iconPosition,
+  hidden,
+}: GradientLabelRowProps) {
+  const iconNode = icon ? (
+    <BrandIcon name={icon} size={ICON_SIZE} color="black" />
+  ) : null;
+  const isIconAtEnd = iconPosition === ICON_POSITION.END;
   return (
     <View style={[styles.gradientTextRow, hidden && styles.hidden]}>
-      {icon ? <BrandIcon name={icon} size={ICON_SIZE} color="black" /> : null}
+      {!isIconAtEnd && iconNode}
       <AppText typographyType="button1" weight="bold" style={styles.label}>
         {label}
       </AppText>
+      {isIconAtEnd && iconNode}
     </View>
   );
 }
@@ -149,6 +169,7 @@ type GradientOutlineButtonProps = Readonly<{
   spinnerColor: string;
   label: string;
   icon?: BrandIconName;
+  iconPosition: IconPosition;
 }>;
 
 function GradientOutlineButton({
@@ -161,6 +182,7 @@ function GradientOutlineButton({
   spinnerColor,
   label,
   icon,
+  iconPosition,
 }: GradientOutlineButtonProps) {
   return (
     <TouchableOpacity
@@ -184,14 +206,25 @@ function GradientOutlineButton({
             <ActivityIndicator size="small" color={spinnerColor} />
           ) : (
             <MaskedView
-              maskElement={<GradientLabelRow label={label} icon={icon} />}
+              maskElement={
+                <GradientLabelRow
+                  label={label}
+                  icon={icon}
+                  iconPosition={iconPosition}
+                />
+              }
             >
               <LinearGradient
                 colors={gradientColors}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
               >
-                <GradientLabelRow label={label} icon={icon} hidden />
+                <GradientLabelRow
+                  label={label}
+                  icon={icon}
+                  iconPosition={iconPosition}
+                  hidden
+                />
               </LinearGradient>
             </MaskedView>
           )}
@@ -210,6 +243,7 @@ export const AppButton = ({
   fullWidth = true,
   style,
   icon,
+  iconPosition = ICON_POSITION.START,
   onDark = false,
 }: AppButtonProps) => {
   const { colors } = useAppTheme();
@@ -322,6 +356,7 @@ export const AppButton = ({
       loading={loading}
       label={label}
       icon={icon}
+      iconPosition={iconPosition}
       textColor={textColor}
       spinnerColor={spinnerColor}
     />
@@ -357,6 +392,7 @@ export const AppButton = ({
         spinnerColor={resolvedColors.gradient.start}
         label={label}
         icon={icon}
+        iconPosition={iconPosition}
       />
     );
   }
