@@ -50,6 +50,8 @@ import {
 } from "../../../constants/remittance";
 import { AppInput } from "../../form/AppInput";
 import { FieldLimits } from "../../../constants/fieldLimits";
+import { FieldGroup } from "../../form/FieldGroup";
+import { AppDivider } from "../../common/AppDivider";
 
 // Stable empty lists while loading (a new [] each render would redo the
 // drawer's sorting every time)
@@ -221,45 +223,51 @@ export function SendMoneyForm({
           payouts={payouts}
         />
 
-        {/* Source of funds: from the reference master */}
-        <AppSelect
-          control={control}
-          name="sourceFundCode"
-          label={t("sendMoneyFields.sourceFund.label")}
-          placeholder={t("sendMoneyFields.sourceFund.placeholder")}
-          options={toDropdownOptions(sourceFunds, locale)}
-          fitContent
-        />
+        <AppDivider />
 
-        {/* Purpose Others: typed when "Others" is picked */}
-        {isSourceFundOthers && (
-          <AppInput
+        {/* Source of funds */}
+        <FieldGroup>
+          <AppSelect
             control={control}
-            name="sourceFundOthers"
-            placeholder={t("sendMoneyFields.sourceFundOthers.placeholder")}
-            maxLength={FieldLimits.sourceFundOthers}
+            name="sourceFundCode"
+            label={t("sendMoneyFields.sourceFund.label")}
+            placeholder={t("sendMoneyFields.sourceFund.placeholder")}
+            options={toDropdownOptions(sourceFunds, locale)}
+            fitContent
           />
-        )}
 
-        {/* Purpose: from the reference master */}
-        <AppSelect
-          control={control}
-          name="purposeCode"
-          label={t("sendMoneyFields.purpose.label")}
-          placeholder={t("sendMoneyFields.purpose.placeholder")}
-          options={toDropdownOptions(purposes, locale)}
-          fitContent
-        />
+          {isSourceFundOthers && (
+            <AppInput
+              control={control}
+              name="sourceFundOthers"
+              placeholder={t("sendMoneyFields.sourceFundOthers.placeholder")}
+              maxLength={FieldLimits.sourceFundOthers}
+            />
+          )}
+        </FieldGroup>
 
-        {/* Purpose Others: typed when "Others" is picked */}
-        {isPurposeOthers && (
-          <AppInput
+        {/* Purpose */}
+        <FieldGroup>
+          <AppSelect
             control={control}
-            name="purposeOthers"
-            placeholder={t("sendMoneyFields.purposeOthers.placeholder")}
-            maxLength={FieldLimits.purposeOthers}
+            name="purposeCode"
+            label={t("sendMoneyFields.purpose.label")}
+            placeholder={t("sendMoneyFields.purpose.placeholder")}
+            options={toDropdownOptions(purposes, locale)}
+            fitContent
           />
-        )}
+
+          {isPurposeOthers && (
+            <AppInput
+              control={control}
+              name="purposeOthers"
+              placeholder={t("sendMoneyFields.purposeOthers.placeholder")}
+              maxLength={FieldLimits.purposeOthers}
+            />
+          )}
+        </FieldGroup>
+
+        <AppDivider />
       </FieldsContainer>
     </AppScreen>
   );
