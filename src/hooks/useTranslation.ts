@@ -16,15 +16,22 @@ import { preferenceService } from "../services/storage/preferenceService";
 import { Language } from "../types/language.types";
 import { deviceEnrollmentService } from "../services/security/deviceEnrollmentService";
 import { TranslationKey } from "../types";
+import { useCallback } from "react";
 
 export const useTranslation = () => {
   const dispatch = useAppDispatch();
   const locale = useAppSelector((state) => state.ui.locale);
   const isAuthenticated = useAppSelector((s) => s.auth.isAuthenticated);
 
-  const t = (key: TranslationKey, options?: Record<string, unknown>) => {
-    return i18n.t(key, options);
-  };
+  // The same function until the language changes: a new one each render
+  // would re-run every effect and memo that depends on it (an endless
+  // re-render in Send Money). `locale` is a dependency on purpose: i18n.t
+  // reads the current language, so a new language needs a new t
+  const t = useCallback(
+    (key: TranslationKey, options?: Record<string, unknown>) =>
+      i18n.t(key, options),
+    [locale],
+  );
 
   const setLocale = async (lang: Language) => {
     i18n.locale = lang;
