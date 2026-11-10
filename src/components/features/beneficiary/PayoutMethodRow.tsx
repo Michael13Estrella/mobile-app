@@ -19,15 +19,13 @@ import { AppText } from "../../common/AppText";
 import { AppTextButton } from "../../common/AppTextButton";
 import { PAYOUT_TYPE } from "../../../constants/payout";
 import {
+  getPayoutDetails,
   isEWalletPayout,
-  maskAccountNumber,
 } from "../../../utils/beneficiary/payout";
 
 const ICON_BOX_SIZE = 36;
 const ICON_BOX_RADIUS = 8;
 const ICON_SIZE = 16;
-// Between the account number and the currency ("123 456 · PHP")
-const DETAILS_SEPARATOR = " · ";
 
 const getPayoutIconName = (payout: PayoutSummary): BrandIconName => {
   if (isEWalletPayout(payout)) return "wallet02Line";
@@ -44,6 +42,9 @@ type PayoutMethodRowProps = Readonly<{
   onDelete?: () => void;
   // Only the last digits of the account number (e.g. Confirm Details)
   maskAccountNo?: boolean;
+  // Replaces the account number and currency line (e.g. "Any payout
+  // partner" for cash pick-up, which has neither)
+  details?: string;
 }>;
 
 /**
@@ -57,17 +58,12 @@ export function PayoutMethodRow({
   payout,
   onDelete,
   maskAccountNo = false,
+  details: customDetails,
 }: PayoutMethodRowProps) {
   const { colors } = useAppTheme();
   const { t } = useTranslation();
 
-  const accountNo = maskAccountNo
-    ? maskAccountNumber(payout.accountNo)
-    : payout.accountNo;
-
-  const details = [accountNo, payout.currency]
-    .filter(Boolean)
-    .join(DETAILS_SEPARATOR);
+  const details = customDetails ?? getPayoutDetails(payout, maskAccountNo);
 
   return (
     <View style={styles.row}>

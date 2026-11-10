@@ -72,6 +72,7 @@ export const LightColors = {
   background: Palette.mbGrey050,
   backgroundVariant: OldPalette.tertiary,
   surface: Palette.white100,
+  surfacePrimary2: Palette.sysSkyBlue500,
   surfaceVariant: OldPalette.slate100,
   surfaceElevated: OldPalette.tertiary,
 
@@ -122,7 +123,7 @@ export const LightColors = {
   inputBorderFocused: Palette.mbBlue500,
   inputBackgroundError: Palette.white100,
   inputPlaceholderError: Palette.sysRed600,
-  inputBorderDisabled: Palette.mbGrey300,
+  inputBorderDisabled: Palette.mbGreyAlpha10,
   inputBackgroundDisabled: Palette.mbGrey050,
 
   // Buttons
@@ -245,6 +246,7 @@ export const DarkColors = {
   background: Palette.mbGrey050,
   backgroundVariant: OldPalette.tertiary,
   surface: Palette.white100,
+  surfacePrimary2: Palette.sysSkyBlue500,
   surfaceVariant: OldPalette.slate100,
   surfaceElevated: OldPalette.tertiary,
 
@@ -295,7 +297,7 @@ export const DarkColors = {
   inputPlaceholder: OldPalette.slate400,
   inputBackgroundError: Palette.sysRed050,
   inputPlaceholderError: Palette.sysRed400,
-  inputBorderDisabled: Palette.mbGrey300,
+  inputBorderDisabled: Palette.mbGreyAlpha10,
   inputBackgroundDisabled: Palette.mbGrey050,
 
   // Buttons

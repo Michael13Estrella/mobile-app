@@ -605,6 +605,15 @@
       "title": "No beneficiaries yet",
       "message": "Add a beneficiary in the Philippines to start sending money.",
       "add": "Add beneficiary"
+    },
+    "payout": {
+      "label": "Payout method",
+      "placeholder": "Select payout method"
+    },
+    "payoutPicker": {
+      "title": "Payout method",
+      "savedFor": "Saved for {{name}}",
+      "cashPickupDetails": "Any payout partner"
     }
   },
 

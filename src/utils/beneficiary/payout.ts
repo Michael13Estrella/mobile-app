@@ -129,6 +129,28 @@ export const getPayoutLabel = (
     .filter(Boolean)
     .join(" ");
 
+// Between the account number and the currency ("123 456 · PHP")
+const PAYOUT_DETAILS_SEPARATOR = " · ";
+
+/**
+ * A payout method's second line: its account number and currency.
+ *
+ * @param payout - A saved or new payout
+ * @param maskAccountNo - Only the last digits of the account number
+ * @returns e.g. "123 456 123 7891 · PHP"; "" when it has neither (cash pick-up)
+ * @example getPayoutDetails({ accountNo: "3456789121537", currency: "PHP" }, true); // "•••• 1537 · PHP"
+ */
+export const getPayoutDetails = (
+  payout: Pick<PayoutSummary, "accountNo" | "currency">,
+  maskAccountNo = false,
+): string =>
+  [
+    maskAccountNo ? maskAccountNumber(payout.accountNo) : payout.accountNo,
+    payout.currency,
+  ]
+    .filter(Boolean)
+    .join(PAYOUT_DETAILS_SEPARATOR);
+
 /**
  * What a payout row shows for a new Metrobank account payout.
  *

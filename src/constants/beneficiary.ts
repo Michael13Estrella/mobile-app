@@ -51,3 +51,7 @@ export const BENEFICIARY_REVIEW_RESULT = {
 
 export type BeneficiaryReviewResult =
   (typeof BENEFICIARY_REVIEW_RESULT)[keyof typeof BENEFICIARY_REVIEW_RESULT];
+
+// How many beneficiaries the picker's "Most recent" shows; the rest are
+// listed under "Other Beneficiaries"
+export const MAX_PICKER_RECENT_BENEFICIARIES = 4;

@@ -14,6 +14,7 @@ import { BeneficiaryPayoutsResponse } from "../types";
 import { beneficiaryService } from "../services/beneficiary/beneficiaryService";
 import { useFocusEffect } from "expo-router";
 
+// A beneficiary's details and payout methods; "" loads nothing
 export function useBeneficiaryDetails(beneficiaryGuid: string) {
   const [data, setData] = useState<BeneficiaryPayoutsResponse | null>(null);
   const [hasError, setHasError] = useState(false);
@@ -22,6 +23,8 @@ export function useBeneficiaryDetails(beneficiaryGuid: string) {
 
   const refresh = useCallback(async () => {
     const requestId = ++latestRequestId.current;
+    // Nothing asked for yet (e.g. Send Money before "To" is picked)
+    if (!beneficiaryGuid) return;
     const result =
       await beneficiaryService.fetchBeneficiaryPayouts(beneficiaryGuid);
 
@@ -45,10 +48,15 @@ export function useBeneficiaryDetails(beneficiaryGuid: string) {
     }, [refresh]),
   );
 
+  // Only the asked-for beneficiary's details: after a switch, the previous
+  // one's aren't returned while the new ones load
+  const current =
+    data?.beneficiary.beneficiaryGuid === beneficiaryGuid ? data : null;
+
   return {
-    data,
-    // First load: nothing to show yet and no error
-    isLoading: !data && !hasError,
+    data: current,
+    // Loading: a beneficiary is asked for, and its details aren't here yet
+    isLoading: !!beneficiaryGuid && !current && !hasError,
     hasError,
     refresh,
   };

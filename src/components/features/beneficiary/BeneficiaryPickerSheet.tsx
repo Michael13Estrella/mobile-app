@@ -26,6 +26,7 @@ import { GradientText } from "../../common/GradientText";
 import { AppSearchInput } from "../../form/AppSearchInput";
 import { BeneficiaryAvatarItem } from "./BeneficiaryAvatarItem";
 import { BeneficiaryCard } from "./BeneficiaryCard";
+import { MAX_PICKER_RECENT_BENEFICIARIES } from "../../../constants/beneficiary";
 
 // The sheet's side padding (AppBottomSheet's), cancelled around the list so
 // the cards' shadows aren't cut off at its edges
@@ -83,15 +84,16 @@ export function BeneficiaryPickerSheet({
         beneficiary,
       ]),
     );
-    // only those still saved, in the dashboard's order
-    const recentSaved = recentBeneficiaries.flatMap(
-      ({ beneficiaryGuid }) => byGuid.get(beneficiaryGuid) ?? [],
-    );
+    // only those still saved, in the dashboard's order, up to the limit
+    const recent = recentBeneficiaries
+      .flatMap(({ beneficiaryGuid }) => byGuid.get(beneficiaryGuid) ?? [])
+      .slice(0, MAX_PICKER_RECENT_BENEFICIARIES);
+    // Everyone not shown in "Most recent", including recent ones past the limit
     const recentGuids = new Set(
-      recentSaved.map((beneficiary) => beneficiary.beneficiaryGuid),
+      recent.map((beneficiary) => beneficiary.beneficiaryGuid),
     );
     return {
-      recent: recentSaved,
+      recent,
       others: beneficiaries
         .filter((beneficiary) => !recentGuids.has(beneficiary.beneficiaryGuid))
         .sort(byTitle),

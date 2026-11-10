@@ -22,13 +22,25 @@ import { Translate } from "../../hooks/useTranslation";
 export const buildSendMoneySchema = (t: Translate) =>
   z.object({
     beneficiaryGuid: z.string().min(1, t("validation.required")),
+    // A saved payout's id; null until one is picked
+    payoutId: z
+      .number()
+      .nullable()
+      .refine((id) => id !== null, t("validation.required")),
   });
 
-export type SendMoneyFormValues = z.infer<
+// What the fields hold while filling in: nothing picked yet is allowed
+export type SendMoneyFormInput = z.input<
+  ReturnType<typeof buildSendMoneySchema>
+>;
+
+// What a valid form submits: every field picked
+export type SendMoneyFormValues = z.output<
   ReturnType<typeof buildSendMoneySchema>
 >;
 
 // A new form: nothing picked yet
-export const EMPTY_SEND_MONEY_FORM: SendMoneyFormValues = {
+export const EMPTY_SEND_MONEY_FORM: SendMoneyFormInput = {
   beneficiaryGuid: "",
+  payoutId: null,
 };

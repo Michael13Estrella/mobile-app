@@ -81,6 +81,7 @@ export function BeneficiarySelect<T extends FieldValues>({
     <FieldShell label={label} required={required} errorMessage={errorMessage}>
       <SelectTrigger
         value={selectedLabel}
+        description={selected?.relationToBeneDesc}
         placeholder={placeholder}
         disabled={disabled}
         fieldColors={fieldColors}
