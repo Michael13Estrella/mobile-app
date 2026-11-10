@@ -11,6 +11,11 @@
 
 import z from "zod";
 import { Translate } from "../../hooks/useTranslation";
+import { romajiText } from "../beneficiary/beneficiaryCommonSchema";
+import {
+  PURPOSE_OTHERS_CODE,
+  SOURCE_FUND_OTHERS_CODE,
+} from "../../constants/remittance";
 
 /**
  * The rules of the Send Money form.
@@ -20,14 +25,42 @@ import { Translate } from "../../hooks/useTranslation";
  * @example const schema = useMemo(() => buildSendMoneySchema(t), [t]);
  */
 export const buildSendMoneySchema = (t: Translate) =>
-  z.object({
-    beneficiaryGuid: z.string().min(1, t("validation.required")),
-    // A saved payout's id; null until one is picked
-    payoutId: z
-      .number()
-      .nullable()
-      .refine((id) => id !== null, t("validation.required")),
-  });
+  z
+    .object({
+      beneficiaryGuid: z.string().min(1, t("validation.required")),
+      // A saved payout's id; null until one is picked
+      payoutId: z
+        .number()
+        .nullable()
+        .refine((id) => id !== null, t("validation.required")),
+      sourceFundCode: z.string().min(1, t("validation.required")),
+      sourceFundOthers: romajiText(t),
+      purposeCode: z.string().min(1, t("validation.required")),
+      purposeOthers: romajiText(t),
+    })
+    // With "Others" picked, its typed text is required
+    .superRefine((values, ctx) => {
+      if (
+        values.sourceFundCode === SOURCE_FUND_OTHERS_CODE &&
+        !values.sourceFundOthers.trim()
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["sourceFundOthers"],
+          message: t("validation.required"),
+        });
+      }
+      if (
+        values.purposeCode === PURPOSE_OTHERS_CODE &&
+        !values.purposeOthers.trim()
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["purposeOthers"],
+          message: t("validation.required"),
+        });
+      }
+    });
 
 // What the fields hold while filling in: nothing picked yet is allowed
 export type SendMoneyFormInput = z.input<
@@ -43,4 +76,8 @@ export type SendMoneyFormValues = z.output<
 export const EMPTY_SEND_MONEY_FORM: SendMoneyFormInput = {
   beneficiaryGuid: "",
   payoutId: null,
+  sourceFundCode: "",
+  sourceFundOthers: "",
+  purposeCode: "",
+  purposeOthers: "",
 };

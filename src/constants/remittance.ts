@@ -24,3 +24,9 @@ export const REMITTANCE_MINIMUMS: Readonly<
   USD: { send: 2500, receive: 10 },
   JPY: { send: 3000, receive: 1250 },
 };
+
+// The "Others" code of the source-fund list
+export const SOURCE_FUND_OTHERS_CODE = "99";
+
+// The "Others" code of the purpose list
+export const PURPOSE_OTHERS_CODE = "99";

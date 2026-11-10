@@ -41,6 +41,15 @@ import { FormErrorSummary } from "../../form/FormErrorSummary";
 import { BeneficiarySelect } from "../beneficiary/BeneficiarySelect";
 import { useBeneficiaryDetails } from "../../../hooks/useBeneficiaryDetails";
 import { PayoutSelect } from "../beneficiary/PayoutSelect";
+import { AppSelect } from "../../form/AppSelect";
+import { toDropdownOptions } from "../../../utils/referenceData/referenceData";
+import { useReferenceData } from "../../../hooks/useReferenceData";
+import {
+  PURPOSE_OTHERS_CODE,
+  SOURCE_FUND_OTHERS_CODE,
+} from "../../../constants/remittance";
+import { AppInput } from "../../form/AppInput";
+import { FieldLimits } from "../../../constants/fieldLimits";
 
 // Stable empty lists while loading (a new [] each render would redo the
 // drawer's sorting every time)
@@ -64,7 +73,7 @@ export function SendMoneyForm({
   initialBeneficiaryGuid,
   onSubmit,
 }: SendMoneyProps) {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const { data: beneficiaryLists } = useManageBeneficiaries();
   // Saved by the dashboard's last load (Home)
   const recentBeneficiaries =
@@ -86,6 +95,7 @@ export function SendMoneyForm({
     handleSubmit,
     getValues,
     setValue,
+    clearErrors,
     formState: { isValid, errors },
   } = useForm<SendMoneyFormInput, unknown, SendMoneyFormValues>({
     resolver: zodResolver(schema),
@@ -106,6 +116,28 @@ export function SendMoneyForm({
   const { data: details, isLoading: isPayoutLoading } =
     useBeneficiaryDetails(beneficiaryGuid);
   const payouts = details?.payouts ?? NO_PAYOUTS;
+
+  // Reference master lists (cached after the first load)
+  const { items: sourceFunds } = useReferenceData("sourceFund");
+  const { items: purposes } = useReferenceData("purpose");
+
+  const sourceFundCode = useWatch({ control, name: "sourceFundCode" });
+  const purposeCode = useWatch({ control, name: "purposeCode" });
+  const isSourceFundOthers = sourceFundCode === SOURCE_FUND_OTHERS_CODE;
+  const isPurposeOthers = purposeCode === PURPOSE_OTHERS_CODE;
+
+  // A type "Others" text only counts with "Others" picked: cleared otherwise
+  useEffect(() => {
+    if (isSourceFundOthers) return;
+    setValue("sourceFundOthers", EMPTY_SEND_MONEY_FORM.sourceFundOthers);
+    clearErrors("sourceFundOthers");
+  }, [isSourceFundOthers, setValue, clearErrors]);
+
+  useEffect(() => {
+    if (isPurposeOthers) return;
+    setValue("purposeOthers", EMPTY_SEND_MONEY_FORM.purposeOthers);
+    clearErrors("purposeOthers");
+  }, [isPurposeOthers, setValue, clearErrors]);
 
   // A preselected beneficiary that isn't saved anymore (e.g. deleted since)
   // would be a value the user can't see: start over with nothing picked
@@ -139,6 +171,10 @@ export function SendMoneyForm({
   const errorFields = getErrorFieldLabels(errors, {
     beneficiaryGuid: t("sendMoneyFields.beneficiary.label"),
     payoutId: t("sendMoneyFields.payout.label"),
+    sourceFundCode: t("sendMoneyFields.sourceFund.label"),
+    purposeCode: t("sendMoneyFields.purpose.label"),
+    sourceFundOthers: t("sendMoneyFields.sourceFund.label"),
+    purposeOthers: t("sendMoneyFields.purpose.label"),
   });
 
   return (
@@ -184,6 +220,46 @@ export function SendMoneyForm({
           }
           payouts={payouts}
         />
+
+        {/* Source of funds: from the reference master */}
+        <AppSelect
+          control={control}
+          name="sourceFundCode"
+          label={t("sendMoneyFields.sourceFund.label")}
+          placeholder={t("sendMoneyFields.sourceFund.placeholder")}
+          options={toDropdownOptions(sourceFunds, locale)}
+          fitContent
+        />
+
+        {/* Purpose Others: typed when "Others" is picked */}
+        {isSourceFundOthers && (
+          <AppInput
+            control={control}
+            name="sourceFundOthers"
+            placeholder={t("sendMoneyFields.sourceFundOthers.placeholder")}
+            maxLength={FieldLimits.sourceFundOthers}
+          />
+        )}
+
+        {/* Purpose: from the reference master */}
+        <AppSelect
+          control={control}
+          name="purposeCode"
+          label={t("sendMoneyFields.purpose.label")}
+          placeholder={t("sendMoneyFields.purpose.placeholder")}
+          options={toDropdownOptions(purposes, locale)}
+          fitContent
+        />
+
+        {/* Purpose Others: typed when "Others" is picked */}
+        {isPurposeOthers && (
+          <AppInput
+            control={control}
+            name="purposeOthers"
+            placeholder={t("sendMoneyFields.purposeOthers.placeholder")}
+            maxLength={FieldLimits.purposeOthers}
+          />
+        )}
       </FieldsContainer>
     </AppScreen>
   );
