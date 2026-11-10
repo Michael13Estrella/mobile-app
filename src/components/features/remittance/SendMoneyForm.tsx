@@ -137,8 +137,8 @@ export function SendMoneyForm({
   }, [payouts, getValues, setValue]);
 
   const errorFields = getErrorFieldLabels(errors, {
-    beneficiaryGuid: t("sendMoney.beneficiary.label"),
-    payoutId: t("sendMoney.payout.label"),
+    beneficiaryGuid: t("sendMoneyFields.beneficiary.label"),
+    payoutId: t("sendMoneyFields.payout.label"),
   });
 
   return (
@@ -165,8 +165,8 @@ export function SendMoneyForm({
         <BeneficiarySelect
           control={control}
           name="beneficiaryGuid"
-          label={t("sendMoney.beneficiary.label")}
-          placeholder={t("sendMoney.beneficiary.placeholder")}
+          label={t("sendMoneyFields.beneficiary.label")}
+          placeholder={t("sendMoneyFields.beneficiary.placeholder")}
           beneficiaries={beneficiaries}
           recentBeneficiaries={recentBeneficiaries}
         />
@@ -176,8 +176,8 @@ export function SendMoneyForm({
         <PayoutSelect
           control={control}
           name="payoutId"
-          label={t("sendMoney.payout.label")}
-          placeholder={t("sendMoney.payout.placeholder")}
+          label={t("sendMoneyFields.payout.label")}
+          placeholder={t("sendMoneyFields.payout.placeholder")}
           disabled={!selectedBeneficiary || isPayoutLoading}
           beneficiaryName={
             selectedBeneficiary ? getBeneficiaryTitle(selectedBeneficiary) : ""

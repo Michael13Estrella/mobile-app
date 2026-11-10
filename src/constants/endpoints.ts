@@ -70,6 +70,8 @@ export const ENDPOINTS = {
     primaryId: "/api/reference-master/primary-id",
     advertising: "/api/reference-master/advertising",
     relationWithBene: "/api/reference-master/relation-with-bene",
+    sourceFund: "/api/reference-master/source-fund",
+    purpose: "/api/reference-master/purpose",
   },
   REFERENCE_NATIONALITY: "/api/reference-master/nationality",
   REFERENCE_POSTAL: (postalCode: string) =>

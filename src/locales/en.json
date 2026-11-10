@@ -592,10 +592,6 @@
   "------------------------------ SEND MONEY ------------------------------": "",
   "sendMoney": {
     "title": "Send Money",
-    "beneficiary": {
-      "label": "To",
-      "placeholder": "Select beneficiary"
-    },
     "beneficiaryPicker": {
       "title": "Select a beneficiary",
       "mostRecent": "Most recent",
@@ -606,14 +602,36 @@
       "message": "Add a beneficiary in the Philippines to start sending money.",
       "add": "Add beneficiary"
     },
-    "payout": {
-      "label": "Payout method",
-      "placeholder": "Select payout method"
-    },
     "payoutPicker": {
       "title": "Payout method",
       "savedFor": "Saved for {{name}}",
       "cashPickupDetails": "Any payout partner"
+    }
+  },
+
+  "------------------------------ SEND MONEY FIELDS ------------------------------": "",
+  "sendMoneyFields": {
+    "beneficiary": {
+      "label": "To",
+      "placeholder": "Select beneficiary"
+    },
+    "payout": {
+      "label": "Payout method",
+      "placeholder": "Select payout method"
+    },
+    "sourceFund": {
+      "label": "Source of funds",
+      "placeholder": "Select source of funds"
+    },
+    "sourceFundOthers": {
+      "placeholder": "Enter source of funds"
+    },
+    "purpose": {
+      "label": "Purpose",
+      "placeholder": "Select purpose"
+    },
+    "purposeOthers": {
+      "placeholder": "Enter purpose"
     }
   },
 
