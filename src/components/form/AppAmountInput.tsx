@@ -45,6 +45,10 @@ type AppAmountInputProps = Readonly<{
   placeholder?: string;
   hasFlag?: boolean;
   hint?: string;
+  // Shown under the field (instead of the hint), with a red border
+  errorMessage?: string;
+  // Called when the field loses focus (e.g. for the form's "touched")
+  onBlur?: () => void;
 }>;
 
 // Amount with its currency: [flag] JPY 12,000. Shows grouping while typing
@@ -57,6 +61,8 @@ export function AppAmountInput({
   placeholder,
   hasFlag = false,
   hint,
+  errorMessage,
+  onBlur,
 }: AppAmountInputProps) {
   const { colors } = useAppTheme();
   const { locale } = useTranslation();
@@ -65,7 +71,7 @@ export function AppAmountInput({
   const fieldColors = resolveFieldColors(
     resolveFieldStatus({
       disabled: false,
-      hasError: false,
+      hasError: !!errorMessage,
       showSuccess: false,
       isFocused,
     }),
@@ -104,7 +110,10 @@ export function AppAmountInput({
               onChangeValue(sanitizeAmountInput(text, fractionDigits))
             }
             onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onBlur={() => {
+              setIsFocused(false);
+              onBlur?.();
+            }}
             keyboardType={fractionDigits > 0 ? "decimal-pad" : "number-pad"}
             placeholder={placeholder}
             placeholderTextColor={fieldColors.placeholder}
@@ -124,7 +133,7 @@ export function AppAmountInput({
           </AppText>
         )}
       </View>
-      <FieldHelperText hintText={hint} />
+      <FieldHelperText errorMessage={errorMessage} hintText={hint} />
     </View>
   );
 }

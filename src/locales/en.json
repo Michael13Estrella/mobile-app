@@ -606,6 +606,16 @@
       "title": "Payout method",
       "savedFor": "Saved for {{name}}",
       "cashPickupDetails": "Any payout partner"
+    },
+    "amountWithCurrency": "{{currency}}\u00a0{{amount}}",
+    "summary": {
+      "exchangeRate": "Exchange rate",
+      "rate": "1 {{from}} = {{rate}} {{to}}",
+      "remittanceCharge": "Remittance charge",
+      "liftingCharge": "Lifting charge",
+      "totalPayment": "Total Payment",
+      "beneficiaryReceives": "Beneficiary receives",
+      "disclaimer": "TODO"
     }
   },
 
@@ -627,11 +637,17 @@
       "placeholder": "Enter source of funds"
     },
     "purpose": {
-      "label": "Purpose",
+      "label": "Purpose of remittance",
       "placeholder": "Select purpose"
     },
     "purposeOthers": {
       "placeholder": "Enter purpose"
+    },
+    "amount": {
+      "label": "Remittance amount",
+      "placeholder": "Enter amount",
+      "availableBalance": "Available balance: {{amount}}",
+      "insufficientBalance": "Amount exceeds your wallet balance of {{amount}}."
     }
   },
 

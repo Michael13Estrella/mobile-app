@@ -23,6 +23,7 @@ import {
 import {
   buildSendMoneySchema,
   EMPTY_SEND_MONEY_FORM,
+  SendMoneyAmountRules,
   SendMoneyFormInput,
   SendMoneyFormValues,
 } from "../../../schemas/remittance/sendMoneySchema";
@@ -32,8 +33,8 @@ import {
   getAllBeneficiaries,
   getBeneficiaryTitle,
 } from "../../../utils/beneficiary/beneficiary";
-import { useEffect, useMemo } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useEffect, useMemo, useRef } from "react";
+import { useController, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FORM_VALIDATION_MODE } from "../../../constants/form";
 import { getErrorFieldLabels } from "../../../utils/form/formErrors";
@@ -46,18 +47,49 @@ import { toDropdownOptions } from "../../../utils/referenceData/referenceData";
 import { useReferenceData } from "../../../hooks/useReferenceData";
 import {
   PURPOSE_OTHERS_CODE,
+  REMITTANCE_MINIMUMS,
   SOURCE_FUND_OTHERS_CODE,
 } from "../../../constants/remittance";
 import { AppInput } from "../../form/AppInput";
 import { FieldLimits } from "../../../constants/fieldLimits";
 import { FieldGroup } from "../../form/FieldGroup";
 import { AppDivider } from "../../common/AppDivider";
+import {
+  CURRENCY_FRACTION_DIGITS,
+  RECEIVE_CURRENCIES,
+  ReceiveCurrency,
+  WALLET_CURRENCY,
+} from "../../../constants/currency";
+import { useAppTheme } from "../../../hooks/useAppTheme";
+import { useFormatMoney } from "../../../hooks/useFormatMoney";
+import { useCharges } from "../../../hooks/useCharges";
+import { RATE_SOURCE, useExchangeRates } from "../../../hooks/useExchangeRates";
+import {
+  getRemittancePayment,
+  getRemittanceQuote,
+} from "../../../utils/remittance/quote";
+import { parseAmountInput } from "../../../utils/remittance/amountInput";
+import { AppAmountInput } from "../../form/AppAmountInput";
+import { AppText } from "../../common/AppText";
+import { RemittanceSummaryCard } from "./RemittanceSummaryCard";
 
 // Stable empty lists while loading (a new [] each render would redo the
 // drawer's sorting every time)
 const NO_BENEFICIARIES: readonly BeneficiarySummary[] = [];
 const NO_RECENT_BENEFICIARIES: readonly RecentBeneficiary[] = [];
 const NO_PAYOUTS: readonly BeneficiaryPayout[] = [];
+
+// Before the first render's rules are set: nothing known yet
+const UNKNOWN_AMOUNT_RULES: SendMoneyAmountRules = {
+  minimum: null,
+  balance: null,
+  totalPaymentOf: () => null,
+  formatYen: String,
+};
+
+// Whether a payout's currency is one Send Money has a minimum for (a cash pick-up has none)
+const isReceiveCurrency = (currency: string): currency is ReceiveCurrency =>
+  (RECEIVE_CURRENCIES as readonly string[]).includes(currency);
 
 type SendMoneyProps = Readonly<{
   // Preselects this beneficiary (opened from a beneficiary's screen)
@@ -90,7 +122,21 @@ export function SendMoneyForm({
     [beneficiaryLists],
   );
 
-  const schema = useMemo(() => buildSendMoneySchema(t), [t]);
+  const { colors } = useAppTheme();
+  const formatMoney = useFormatMoney();
+  // Saved by the dashboard's last load (Home)
+  const wallet = useAppSelector((s) => s.dashboard.wallet);
+  const { charges } = useCharges();
+  // Real-time rates: this is an actual transfer
+  const { rates } = useExchangeRates(RATE_SOURCE.LIVE);
+
+  // The amount rules depend on fields picked below; the schema reads the
+  // latest ones each time it validates
+  const amountRulesRef = useRef(UNKNOWN_AMOUNT_RULES);
+  const schema = useMemo(
+    () => buildSendMoneySchema(t, () => amountRulesRef.current),
+    [t],
+  );
 
   const {
     control,
@@ -98,6 +144,7 @@ export function SendMoneyForm({
     getValues,
     setValue,
     clearErrors,
+    trigger,
     formState: { isValid, errors },
   } = useForm<SendMoneyFormInput, unknown, SendMoneyFormValues>({
     resolver: zodResolver(schema),
@@ -170,6 +217,47 @@ export function SendMoneyForm({
     }
   }, [payouts, getValues, setValue]);
 
+  // The picked payout's currency is what the beneficiary receives
+  const payoutId = useWatch({ control, name: "payoutId" });
+  const selectedPayout = payouts.find((payout) => payout.payoutId === payoutId);
+  const receiveCurrency =
+    selectedPayout && isReceiveCurrency(selectedPayout.currency)
+      ? selectedPayout.currency
+      : null;
+
+  const amountRules = useMemo<SendMoneyAmountRules>(
+    () => ({
+      minimum: receiveCurrency
+        ? REMITTANCE_MINIMUMS[receiveCurrency].send
+        : null,
+      balance: wallet?.currentBalance ?? null,
+      totalPaymentOf: (amount) =>
+        getRemittancePayment(amount, charges)?.totalPayment ?? null,
+      formatYen: (amount) => formatMoney(amount, WALLET_CURRENCY),
+    }),
+    [receiveCurrency, wallet, charges, formatMoney],
+  );
+
+  // New rules (a payout picked, the charges loaded) re-check a typed amount
+  useEffect(() => {
+    amountRulesRef.current = amountRules;
+    if (getValues("amount")) void trigger("amount");
+  }, [amountRules, getValues, trigger]);
+
+  const {
+    field: amountField,
+    fieldState: { error: amountError },
+  } = useController({ control, name: "amount" });
+
+  const quote = receiveCurrency
+    ? getRemittanceQuote(
+        parseAmountInput(amountField.value),
+        receiveCurrency,
+        rates,
+        charges,
+      )
+    : null;
+
   const errorFields = getErrorFieldLabels(errors, {
     beneficiaryGuid: t("sendMoneyFields.beneficiary.label"),
     payoutId: t("sendMoneyFields.payout.label"),
@@ -177,6 +265,7 @@ export function SendMoneyForm({
     purposeCode: t("sendMoneyFields.purpose.label"),
     sourceFundOthers: t("sendMoneyFields.sourceFund.label"),
     purposeOthers: t("sendMoneyFields.purpose.label"),
+    amount: t("sendMoneyFields.amount.label"),
   });
 
   return (
@@ -268,6 +357,42 @@ export function SendMoneyForm({
         </FieldGroup>
 
         <AppDivider />
+
+        {/* Remittance amount (JPY), with the available balance under it */}
+        <FieldGroup>
+          <AppAmountInput
+            label={t("sendMoneyFields.amount.label")}
+            currency={WALLET_CURRENCY}
+            value={amountField.value}
+            onChangeValue={amountField.onChange}
+            onBlur={amountField.onBlur}
+            fractionDigits={CURRENCY_FRACTION_DIGITS[WALLET_CURRENCY]}
+            placeholder={t("sendMoneyFields.amount.placeholder")}
+            errorMessage={amountError?.message}
+            hasFlag
+          />
+          {wallet && (
+            <AppText typographyType="body4" color={colors.textTertiary}>
+              {t("sendMoneyFields.amount.availableBalance", {
+                amount: formatMoney(wallet.currentBalance, WALLET_CURRENCY),
+              })}
+            </AppText>
+          )}
+        </FieldGroup>
+
+        {/* The breakdown, once the amount is valid and a payout is picked */}
+        {quote && receiveCurrency && !amountError && (
+          <>
+            <RemittanceSummaryCard
+              quote={quote}
+              receiveCurrency={receiveCurrency}
+              rates={rates}
+            />
+            <AppText typographyType="body4" color={colors.textTertiary}>
+              {t("sendMoney.summary.disclaimer")}
+            </AppText>
+          </>
+        )}
       </FieldsContainer>
     </AppScreen>
   );

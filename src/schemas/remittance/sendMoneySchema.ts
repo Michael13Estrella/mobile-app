@@ -16,15 +16,34 @@ import {
   PURPOSE_OTHERS_CODE,
   SOURCE_FUND_OTHERS_CODE,
 } from "../../constants/remittance";
+import { parseAmountInput } from "../../utils/remittance/amountInput";
+
+// What the amount is checked against. They depend on loaded data (the
+// payout's currency, the wallet, the charges), so the form passes them in
+export type SendMoneyAmountRules = Readonly<{
+  // The smallest amount (JPY) for the payout's currency; null before a payout is picked
+  minimum: number | null;
+  // The available balance (JPY); null when it isn't known
+  balance: number | null;
+  // The amount + charge (getRemittancePayment); null when it can't be worked out
+  totalPaymentOf: (amount: number) => number | null;
+  // An amount as messages show it ("JPY 3,000")
+  formatYen: (amount: number) => string;
+}>;
 
 /**
  * The rules of the Send Money form.
  *
  * @param t - The translate function, for the error messages
+ * @param getRules - Returns the latest amount rules (they change as data
+ *    loads and fields are picked, after the schema is built)
  * @returns The form's zod schema
- * @example const schema = useMemo(() => buildSendMoneySchema(t), [t]);
+ * @example const schema = useMemo(() => buildSendMoneySchema(t, () => rulesRef.current), [t]);
  */
-export const buildSendMoneySchema = (t: Translate) =>
+export const buildSendMoneySchema = (
+  t: Translate,
+  getRules: () => SendMoneyAmountRules,
+) =>
   z
     .object({
       beneficiaryGuid: z.string().min(1, t("validation.required")),
@@ -37,6 +56,39 @@ export const buildSendMoneySchema = (t: Translate) =>
       sourceFundOthers: romajiText(t),
       purposeCode: z.string().min(1, t("validation.required")),
       purposeOthers: romajiText(t),
+      amount: z
+        .string()
+        .min(1, t("validation.required"))
+        .superRefine((value, ctx) => {
+          const rules = getRules();
+          if (!value) return;
+          const amount = parseAmountInput(value);
+          const addIssue = (message: string) =>
+            ctx.addIssue({ code: "custom", message });
+
+          if (rules.minimum !== null && amount < rules.minimum) {
+            addIssue(
+              t("validation.minAmount", {
+                min: rules.formatYen(rules.minimum),
+              }),
+            );
+            return;
+          }
+
+          const totalPayment = rules.totalPaymentOf(amount);
+          if (totalPayment === null) {
+            addIssue(t("validation.invalidAmount"));
+            return;
+          }
+
+          if (rules.balance !== null && totalPayment > rules.balance) {
+            addIssue(
+              t("sendMoneyFields.amount.insufficientBalance", {
+                amount: rules.formatYen(rules.balance),
+              }),
+            );
+          }
+        }),
     })
     // With "Others" picked, its typed text is required
     .superRefine((values, ctx) => {
@@ -80,4 +132,5 @@ export const EMPTY_SEND_MONEY_FORM: SendMoneyFormInput = {
   sourceFundOthers: "",
   purposeCode: "",
   purposeOthers: "",
+  amount: "",
 };
