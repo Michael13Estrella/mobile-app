@@ -72,6 +72,7 @@ import { parseAmountInput } from "../../../utils/remittance/amountInput";
 import { AppAmountInput } from "../../form/AppAmountInput";
 import { AppText } from "../../common/AppText";
 import { RemittanceSummaryCard } from "./RemittanceSummaryCard";
+import { getPayoutCurrency } from "../../../utils/beneficiary/payout";
 
 // Stable empty lists while loading (a new [] each render would redo the
 // drawer's sorting every time)
@@ -87,7 +88,7 @@ const UNKNOWN_AMOUNT_RULES: SendMoneyAmountRules = {
   formatYen: String,
 };
 
-// Whether a payout's currency is one Send Money has a minimum for (a cash pick-up has none)
+// Whether a currency is one Send Money can send to (has a minimum)
 const isReceiveCurrency = (currency: string): currency is ReceiveCurrency =>
   (RECEIVE_CURRENCIES as readonly string[]).includes(currency);
 
@@ -220,10 +221,9 @@ export function SendMoneyForm({
   // The picked payout's currency is what the beneficiary receives
   const payoutId = useWatch({ control, name: "payoutId" });
   const selectedPayout = payouts.find((payout) => payout.payoutId === payoutId);
+  const payoutCurrency = selectedPayout && getPayoutCurrency(selectedPayout);
   const receiveCurrency =
-    selectedPayout && isReceiveCurrency(selectedPayout.currency)
-      ? selectedPayout.currency
-      : null;
+    payoutCurrency && isReceiveCurrency(payoutCurrency) ? payoutCurrency : null;
 
   const amountRules = useMemo<SendMoneyAmountRules>(
     () => ({

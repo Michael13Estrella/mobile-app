@@ -57,6 +57,9 @@ export const OTHER_BANK_CURRENCIES = [
 export const E_WALLET_CURRENCY =
   "PHP" satisfies (typeof OTHER_BANK_CURRENCIES)[number];
 
+// Cash pick-ups are paid out in PHP only: the payout has no currency of its own
+export const CASH_PICKUP_CURRENCY = "PHP" satisfies ReceiveCurrency;
+
 // The branch name of a bank account payout (Metrobank and other banks)
 export const PAYOUT_BRANCH_MAX_LENGTH = 40;
 

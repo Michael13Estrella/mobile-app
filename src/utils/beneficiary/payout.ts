@@ -12,6 +12,7 @@
 import {
   ACCOUNT_NO_MASK,
   ACCOUNT_NO_VISIBLE_DIGITS,
+  CASH_PICKUP_CURRENCY,
   E_WALLET_BANK_CODES,
   E_WALLET_CURRENCY,
   METROBANK_ACCOUNT_NO_TEMPLATE,
@@ -54,6 +55,21 @@ export const isEWalletPayout = (
 ): boolean =>
   payout.payoutType === PAYOUT_TYPE.OTHER_BANKS &&
   E_WALLET_BANK_CODES.includes(payout.bankCode);
+
+/**
+ * The currency a payout method is paid out in. A cash pick-up has none
+ * saved: it's always PHP.
+ *
+ * @param payout - A saved or new payout
+ * @returns The currency code (e.g. "PHP")
+ * @example getPayoutCurrency({ payoutType: "CP", currency: "" }); // "PHP"
+ */
+export const getPayoutCurrency = (
+  payout: Pick<PayoutSummary, "payoutType" | "currency">,
+): string =>
+  payout.payoutType === PAYOUT_TYPE.CASH_PICKUP
+    ? CASH_PICKUP_CURRENCY
+    : payout.currency;
 
 /**
  * The payout part of the create request, from the Metrobank account form.

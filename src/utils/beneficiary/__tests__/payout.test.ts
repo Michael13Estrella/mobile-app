@@ -11,6 +11,7 @@
 
 import {
   formatMetrobankAccountNo,
+  getPayoutCurrency,
   getPayoutLabel,
   isEWalletBankCode,
   isEWalletPayout,
@@ -161,6 +162,21 @@ describe("getPayoutLabel", () => {
   it("shows only the name without an account number", () => {
     expect(getPayoutLabel({ bankName: "Cash pick-up", accountNo: "" })).toBe(
       "Cash pick-up",
+    );
+  });
+});
+
+describe("getPayoutCurrency", () => {
+  it("is PHP for a cash pick-up, which has no currency saved", () => {
+    expect(getPayoutCurrency({ payoutType: "CP", currency: "" })).toBe("PHP");
+  });
+
+  it("is the payout's own currency otherwise", () => {
+    expect(getPayoutCurrency({ payoutType: "CA", currency: "USD" })).toBe(
+      "USD",
+    );
+    expect(getPayoutCurrency({ payoutType: "OB", currency: "PHP" })).toBe(
+      "PHP",
     );
   });
 });
