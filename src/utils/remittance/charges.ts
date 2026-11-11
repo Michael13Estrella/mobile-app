@@ -34,35 +34,6 @@ export const findChargeTier = (
   tiers.find((tier) => amount >= tier.amountFrom && amount <= tier.amountTo) ??
   null;
 
-/**
- * The smallest send amount that delivers `net` after its own tier's charge.
- * Reverse direction: the charge depends on the amount being calculated, so
- * each tier is tried (needed + its charge must land in that tier).
- *
- * @param net - The amount in JPY that must reach the beneficiary.
- * @param tiers - The charge tiers from the charges API.
- * @param amountBeforeCharge - What must remain after the charge: `net` by
- *   default (PHP/USD); `yenToYenAmountForNet` for JPY (adds the lifting fee).
- * @returns The send amount, or `null` if no tier fits / tiers not loaded.
- * @example sendAmountForNet(9_621, tiers); // 10,441 (tier 2, ¥820)
- */
-export const sendAmountForNet = (
-  net: number,
-  tiers: readonly ChargeTier[],
-  amountBeforeCharge: (net: number) => number = (amount) => amount,
-): number | null => {
-  const needed = amountBeforeCharge(net);
-  const candidates = tiers
-    .map((tier) => ({
-      tier,
-      amount: Math.max(needed + tier.charge, tier.amountFrom),
-    }))
-    .filter(({ tier, amount }) => amount <= tier.amountTo)
-    .map(({ amount }) => amount);
-
-  return candidates.length > 0 ? Math.min(...candidates) : null;
-};
-
 export type YenToYenResult = Readonly<{
   // What the beneficiary receives (whole yen).
   net: number;
@@ -73,24 +44,24 @@ export type YenToYenResult = Readonly<{
  * JPY -> JPY: applies the lifting fee (0.75%, at least the minimum fee).
  * The smaller net (= the larger fee) wins
  *
- * @param amountAfterCharge - "You send" minus the remittance charge, in JPY.
+ * @param amount - The remittance amount in JPY (the charge is on top).
  * @returns What the beneficiary gets and the lifting fee.
- * @example yenToYen(9_620); // { net: 8_620, liftingFee: 1_000 }
+ * @example yenToYenNet(9_620); // { net: 8_620, liftingFee: 1_000 }
  */
-export const yenToYenNet = (amountAfterCharge: number): YenToYenResult => {
-  const withRate = Math.round(amountAfterCharge / JPY_LIFTING_RATE);
-  const withMinimum = amountAfterCharge - JPY_MINIMUM_LIFTING_FEE;
+export const yenToYenNet = (amount: number): YenToYenResult => {
+  const withRate = Math.round(amount / JPY_LIFTING_RATE);
+  const withMinimum = amount - JPY_MINIMUM_LIFTING_FEE;
   const net = Math.min(withRate, withMinimum);
 
-  return { net, liftingFee: amountAfterCharge - net };
+  return { net, liftingFee: amount - net };
 };
 
 /**
- * JPY -> JPY reverse of `yenToYemNet`: the smallest amount after the charge
- * that still gives at least `net`. Pass it to `sendAmountForNet`.
+ * JPY -> JPY reverse of `yenToYenNet`: the smallest remittance amount that
+ * still gives at least `net` (the simulator's typed "Beneficiary gets").
  *
  * @param net - The amount in JPY that must reach the beneficiary
- * @returns The amount that must remain after the remittance charge
+ * @returns The remittance amount in JPY (the charge goes on top)
  * @example yenToYenAmountForNet(8_620); // 9_620
  */
 export const yenToYenAmountForNet = (net: number): number =>

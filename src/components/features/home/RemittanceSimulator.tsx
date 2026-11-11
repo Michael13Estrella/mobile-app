@@ -24,17 +24,14 @@ import { useAppTheme } from "../../../hooks/useAppTheme";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { ChargeTier } from "../../../types/charge.types";
 import { ExchangeRate } from "../../../types/exchangeRate.types";
+import { yenToYenAmountForNet } from "../../../utils/remittance/charges";
 import {
-  findChargeTier,
-  sendAmountForNet,
-  yenToYenAmountForNet,
-  yenToYenNet,
-} from "../../../utils/remittance/charges";
-import { convertAmount } from "../../../utils/remittance/exchangeRate";
+  convertAmount,
+  findPairRate,
+} from "../../../utils/remittance/exchangeRate";
 import { formatAmount } from "../../../utils/format/formatCurrency";
 import {
   parseAmountInput,
-  roundHalfEven,
   roundUp,
 } from "../../../utils/remittance/amountInput";
 import { AppButton } from "../../common/AppButton";
@@ -44,6 +41,7 @@ import { SegmentedControl } from "../../common/SegmentedControl";
 import { AppAmountInput } from "../../form/AppAmountInput";
 import { BrandCountryFlag, BrandIcon } from "../../icons";
 import { REMITTANCE_MINIMUMS } from "../../../constants/remittance";
+import { getRemittanceQuote } from "../../../utils/remittance/quote";
 
 const SEND_CURRENCY = WALLET_CURRENCY;
 const PLACEHOLDER_FRACTION_DIGITS = 2;
@@ -98,61 +96,42 @@ export function RemittanceSimulator({
   // JPY -> JPY: no exchange rate, but a lifting fee (0.75%, at least ¥1,000).
   const isYenToYen = receiveCurrency == SEND_CURRENCY;
 
-  // "You send" = total money out. Typed, or (when the received amount was
-  // typed) the smallest amount that still covers it after its own charge.
+  // "You send" = the remittance amount (net: the charge goes on top, as in
+  // Send Money). Typed, or (when the received amount was typed) the
+  // smallest amount that still delivers it.
   const sendValue = (() => {
     if (edited.side === "send") return edited.value;
-    if (!edited.value) return "";
     const received = parseAmountInput(edited.value);
+    if (received <= 0) return "";
 
-    if (isYenToYen) {
-      const send = sendAmountForNet(
-        received,
-        chargeTiers,
-        yenToYenAmountForNet,
-      );
-      return send === null ? "" : String(send);
-    }
+    // JPY -> JPY: the lifting fee comes out of the amount, so add it back
+    if (isYenToYen) return String(yenToYenAmountForNet(received));
 
-    const net = convertAmount(received, receiveCurrency, SEND_CURRENCY, rates);
-    if (net === null) return "";
-    const send = sendAmountForNet(roundUp(net, sendDigits), chargeTiers);
-    return send === null ? "" : String(send);
+    const amount = convertAmount(
+      received,
+      receiveCurrency,
+      SEND_CURRENCY,
+      rates,
+    );
+    return amount === null ? "" : String(roundUp(amount, sendDigits));
   })();
 
   const sendAmount = parseAmountInput(sendValue);
-  const tier = sendAmount > 0 ? findChargeTier(sendAmount, chargeTiers) : null;
-  const charge = tier?.charge ?? null;
-  // Total money out minus the remittance charge
-  const netAmount = charge === null ? null : sendAmount - charge;
 
-  // JPY -> JPY only: the lifting fee and what's left for the beneficiary.
-  const yenToYen =
-    isYenToYen && netAmount !== null && netAmount > 0
-      ? yenToYenNet(netAmount)
-      : null;
+  // The charge, total money out, lifting fee and what arrives: the same
+  // calculation as Send Money. Null when it can't be worked out (no tier,
+  // no rate, or nothing would arrive).
+  const quote = getRemittanceQuote(
+    sendAmount,
+    receiveCurrency,
+    rates,
+    chargeTiers,
+  );
 
-  // What the beneficiary gets: for JPY the net after the lifting fee; for
-  // PHP/USD (You send - charge) converted with the rate, rounded like the
-  // server (C# Math.Round)
+  // What the beneficiary gets, already rounded like the server
   const receiveValue = (() => {
     if (edited.side === "receive") return edited.value;
-    if (netAmount === null || netAmount <= 0) return "";
-
-    if (isYenToYen) {
-      return yenToYen && yenToYen.net > 0 ? String(yenToYen.net) : "";
-    }
-
-    const amount = convertAmount(
-      netAmount,
-      SEND_CURRENCY,
-      receiveCurrency,
-      rates,
-    );
-
-    return amount === null
-      ? ""
-      : roundHalfEven(amount, receiveDigits).toFixed(receiveDigits);
+    return quote ? quote.receiveAmount.toFixed(receiveDigits) : "";
   })();
 
   const receiveAmount = parseAmountInput(receiveValue);
@@ -164,12 +143,8 @@ export function RemittanceSimulator({
     edited.value !== "" &&
     (isSendTyped ? sendAmount < minimum.send : receiveAmount < minimum.receive);
 
-  // Something must arrive after all fees, and both minimums must be met.
   // Something must arrive after all fees, and the minimum must be met.
-  const canSend =
-    (isYenToYen
-      ? (yenToYen?.net ?? 0) > 0
-      : netAmount !== null && netAmount > 0) && !isBelowMinimum;
+  const canSend = !!quote && !isBelowMinimum;
 
   const minimumMessage = (() => {
     if (!isBelowMinimum) return null;
@@ -186,11 +161,12 @@ export function RemittanceSimulator({
 
   // The pair's rate in its own direction ("1 JPY = 0.3985 PHP",
   // "1 USD = 158.05 JPY"); none for JPY -> JPY.
-  const pairRate = rates.find(
-    (r) =>
-      (r.fromCurrency === SEND_CURRENCY && r.toCurrency === receiveCurrency) ||
-      (r.fromCurrency === receiveCurrency && r.toCurrency === SEND_CURRENCY),
-  );
+  const pairRate = findPairRate(rates, SEND_CURRENCY, receiveCurrency);
+  // const pairRate = rates.find(
+  //   (r) =>
+  //     (r.fromCurrency === SEND_CURRENCY && r.toCurrency === receiveCurrency) ||
+  //     (r.fromCurrency === receiveCurrency && r.toCurrency === SEND_CURRENCY),
+  // );
 
   const formatJpy = (amount: number | null) =>
     amount === null
@@ -288,7 +264,7 @@ export function RemittanceSimulator({
                 {t("home.simulator.charge")}
               </AppText>
               <AppText typographyType="body2" color={colors.textPrimary}>
-                {formatJpy(charge)}
+                {formatJpy(quote?.charge ?? null)}
               </AppText>
             </View>
             {isYenToYen && (
@@ -297,7 +273,7 @@ export function RemittanceSimulator({
                   {t("home.simulator.liftingCharge")}
                 </AppText>
                 <AppText typographyType="body2" color={colors.textPrimary}>
-                  {formatJpy(yenToYen?.liftingFee ?? null)}
+                  {formatJpy(quote?.liftingFee ?? null)}
                 </AppText>
               </View>
             )}
@@ -310,7 +286,7 @@ export function RemittanceSimulator({
                 weight="semibold"
                 color={colors.textPrimary}
               >
-                {formatJpy(sendAmount)}
+                {formatJpy(quote?.totalPayment ?? null)}
               </AppText>
             </View>
           </View>

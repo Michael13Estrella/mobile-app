@@ -9,12 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import {
-  findChargeTier,
-  sendAmountForNet,
-  yenToYenAmountForNet,
-  yenToYenNet,
-} from "../charges";
+import { findChargeTier, yenToYenAmountForNet, yenToYenNet } from "../charges";
 import { ChargeTier } from "../../../types/charge.types";
 
 // Real tiers from /api/reference-master/charges (2026-10-14).
@@ -30,9 +25,6 @@ const TIERS: ChargeTier[] = [
   { amountFrom: 300001, amountTo: 999999999, charge: 2500, points: 400 },
 ];
 
-// The charge of a send amount (0 if outside every tier).
-const chargeOf = (send: number) => findChargeTier(send, TIERS)?.charge ?? 0;
-
 describe("findChargeTier", () => {
   it("finds the tier, both limits included", () => {
     expect(findChargeTier(5_000, TIERS)?.charge).toBe(380);
@@ -45,37 +37,6 @@ describe("findChargeTier", () => {
     expect(findChargeTier(0, TIERS)).toBeNull();
     expect(findChargeTier(1_000_000_000, TIERS)).toBeNull();
     expect(findChargeTier(5_000, [])).toBeNull();
-  });
-});
-
-describe("sendAmountForNet (PHP / USD)", () => {
-  it("adds the charge of the tier the result lands in", () => {
-    expect(sendAmountForNet(4_620, TIERS)).toBe(5_000);
-    // Exactly the top of tier 1.
-    expect(sendAmountForNet(9_620, TIERS)).toBe(10_000);
-  });
-
-  it("moves to the next tier when its own charge pushes it over", () => {
-    // 9,621 + 380 = 10,001 leaves tier 1; 9,621 + 820 = 10,441 fits tier 2.
-    expect(sendAmountForNet(9_621, TIERS)).toBe(10_441);
-    expect(sendAmountForNet(19_180, TIERS)).toBe(20_000);
-    // 19,181 + 820 = 20,001 leaves tier 2; 19,181 + 900 = 20,081 fits tier 3.
-    expect(sendAmountForNet(19_181, TIERS)).toBe(20_081);
-  });
-
-  it("never suggests an amount that delivers less than the net", () => {
-    for (const net of [1, 4_620, 9_621, 19_181, 123_456, 297_501]) {
-      const send = sendAmountForNet(net, TIERS);
-      expect(send).not.toBeNull();
-      expect(
-        (send as number) - chargeOf(send as number),
-      ).toBeGreaterThanOrEqual(net);
-    }
-  });
-
-  it("returns null when no tier fits", () => {
-    expect(sendAmountForNet(999_999_999, TIERS)).toBeNull();
-    expect(sendAmountForNet(5_000, [])).toBeNull();
   });
 });
 
@@ -98,30 +59,18 @@ describe("yenToYenNet (JPY -> JPY lifting fee)", () => {
   });
 });
 
-describe("yenToYenAmountForNet + sendAmountForNet (JPY reverse)", () => {
-  // What the beneficiary gets for a send amount (the simulator's forward path).
-  const yenToYenNetForSend = (send: number) =>
-    yenToYenNet(send - chargeOf(send)).net;
-
+describe("yenToYenAmountForNet (JPY reverse)", () => {
   it("is the reverse of yenToYenNet", () => {
     expect(yenToYenAmountForNet(8_620)).toBe(9_620);
     expect(yenToYenAmountForNet(196_734)).toBe(198_210);
   });
 
-  it("finds the send amount, charge and lifting fee included", () => {
-    expect(sendAmountForNet(8_620, TIERS, yenToYenAmountForNet)).toBe(10_000);
-    expect(sendAmountForNet(196_734, TIERS, yenToYenAmountForNet)).toBe(
-      200_000,
-    );
-  });
-
-  it("always delivers at least the net, with the smallest send amount", () => {
+  it("always delivers at least the net, with the smallest amount", () => {
     for (const net of [1, 5_000, 8_620, 50_000, 133_333, 196_734, 500_000]) {
-      const send = sendAmountForNet(net, TIERS, yenToYenAmountForNet);
-      expect(send).not.toBeNull();
-      expect(yenToYenNetForSend(send as number)).toBeGreaterThanOrEqual(net);
+      const amount = yenToYenAmountForNet(net);
+      expect(yenToYenNet(amount).net).toBeGreaterThanOrEqual(net);
       // One yen less would not be enough.
-      expect(yenToYenNetForSend((send as number) - 1)).toBeLessThan(net);
+      expect(yenToYenNet(amount - 1).net).toBeLessThan(net);
     }
   });
 });
