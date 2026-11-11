@@ -27,7 +27,7 @@ export interface RecentTransaction {
   transDate: string;
   transRef: string;
   runningBalance: number;
-  sourceAmount: number;
+  totalPayment: number;
   destCurrency: string;
   destAmount: number;
   beneFirstName: string;

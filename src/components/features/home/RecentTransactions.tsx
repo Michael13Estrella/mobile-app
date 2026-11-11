@@ -77,7 +77,7 @@ function TransactionRow({ transaction, walletCurrency }: TransactionRowProps) {
             {`${sign} ${walletCurrency}`}
           </AppText>
           <AppText typographyType="body1" color={colors.textPrimary}>
-            {formatAmount(transaction.sourceAmount, intlLocale)}
+            {formatAmount(transaction.totalPayment, intlLocale)}
           </AppText>
         </View>
         {showDestination && (

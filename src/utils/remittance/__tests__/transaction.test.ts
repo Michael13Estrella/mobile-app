@@ -25,7 +25,7 @@ const transaction = (
   transDate: "2026-02-23T07:32:00+09:00",
   transRef: "REF-1",
   runningBalance: 100_000,
-  sourceAmount: 12_000,
+  totalPayment: 12_000,
   destCurrency: "PHP",
   destAmount: 4_746,
   beneFirstName: "MAX",
