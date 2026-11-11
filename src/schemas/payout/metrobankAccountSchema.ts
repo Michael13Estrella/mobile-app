@@ -10,12 +10,12 @@
  ********************************************************************************************/
 
 import z from "zod";
-import { Translate } from "../../hooks/useTranslation";
 import {
   METROBANK_ACCOUNT_CURRENCIES,
   METROBANK_ACCOUNT_NO_LENGTH,
 } from "../../constants/payout";
 import { romajiText } from "../beneficiary/beneficiaryCommonSchema";
+import { Translate } from "../../types";
 
 export const buildMetrobankAccountSchema = (t: Translate) =>
   z.object({

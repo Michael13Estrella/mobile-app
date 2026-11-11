@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { convertAmount } from "../exchangeRate";
+import { convertAmount, findPairRate } from "../exchangeRate";
 import { ExchangeRate } from "../../../types/exchangeRate.types";
 
 const rate = (fromCurrency: string, toCurrency: string, value: number) =>
@@ -57,5 +57,19 @@ describe("convertAmount", () => {
     expect(
       convertAmount(500, "JPY", "USD", [rate("USD", "JPY", 0)]),
     ).toBeNull();
+  });
+});
+
+describe("findPairRate", () => {
+  it("finds a pair in the API's direction", () => {
+    expect(findPairRate(RATES, "JPY", "PHP")).toBe(RATES[0]);
+  });
+
+  it("finds a pair asked the other way round", () => {
+    expect(findPairRate(RATES, "JPY", "USD")).toBe(RATES[1]);
+  });
+
+  it("returns undefined when there's no rate for the pair", () => {
+    expect(findPairRate(RATES, "JPY", "JPY")).toBeUndefined();
   });
 });

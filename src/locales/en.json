@@ -616,6 +616,24 @@
       "totalPayment": "Total Payment",
       "beneficiaryReceives": "Beneficiary receives",
       "disclaimer": "TODO"
+    },
+    "companyDetails": {
+      "title": "Additional Details",
+      "notice": "For remittances of {{amount}} or more, we need your company details. This is a compliance requirement."
+    },
+    "review": {
+      "title": "All Good?",
+      "subtitle": "Please review your details.",
+      "from": "From",
+      "wallet": "{{currency}} Wallet",
+      "to": "To",
+      "accountNo": "Account no.",
+      "sourceFund": "Source of funds",
+      "purpose": "Purpose",
+      "companyAddress": "Company address",
+      "companyTelNo": "Company tel. no.",
+      "remittanceAmount": "Remittance amount",
+      "confirm": "Confirm"
     }
   },
 
@@ -648,6 +666,13 @@
       "placeholder": "Enter amount",
       "availableBalance": "Available balance: {{amount}}",
       "insufficientBalance": "Amount exceeds your wallet balance of {{amount}}."
+    },
+    "companyAddress": {
+      "label": "Company address",
+      "placeholder": "Company's street address"
+    },
+    "companyTelNo": {
+      "label": "Company telephone number"
     }
   },
 

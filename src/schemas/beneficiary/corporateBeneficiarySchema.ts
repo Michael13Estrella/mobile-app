@@ -10,13 +10,13 @@
  ********************************************************************************************/
 
 import { z } from "zod";
-import type { Translate } from "../../hooks/useTranslation";
 import {
   buildBeneficiaryCommonShape,
   EMPTY_BENEFICIARY_COMMON,
   requireRelationshipOthers,
   romajiText,
 } from "./beneficiaryCommonSchema";
+import { Translate } from "../../types";
 
 /**
  * The rules of the corporate beneficiary form (add and edit).

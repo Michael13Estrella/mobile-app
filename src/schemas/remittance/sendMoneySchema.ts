@@ -10,13 +10,13 @@
  ********************************************************************************************/
 
 import z from "zod";
-import { Translate } from "../../hooks/useTranslation";
 import { romajiText } from "../beneficiary/beneficiaryCommonSchema";
 import {
   PURPOSE_OTHERS_CODE,
   SOURCE_FUND_OTHERS_CODE,
 } from "../../constants/remittance";
 import { parseAmountInput } from "../../utils/remittance/amountInput";
+import { BeneficiaryPayout, BeneficiarySummary, Translate } from "../../types";
 
 // What the amount is checked against. They depend on loaded data (the
 // payout's currency, the wallet, the charges), so the form passes them in
@@ -123,6 +123,14 @@ export type SendMoneyFormInput = z.input<
 export type SendMoneyFormValues = z.output<
   ReturnType<typeof buildSendMoneySchema>
 >;
+
+// What the form's Next hands over: the values, plus the picked beneficiary
+// and payout (names, bank, account number for Review; the form has only ids)
+export type SendMoneySubmission = Readonly<{
+  form: SendMoneyFormValues;
+  beneficiary: BeneficiarySummary;
+  payout: BeneficiaryPayout;
+}>;
 
 // A new form: nothing picked yet
 export const EMPTY_SEND_MONEY_FORM: SendMoneyFormInput = {

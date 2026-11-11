@@ -44,3 +44,24 @@ export const convertAmount = (
 
   return null;
 };
+
+/**
+ * The rate of a currency pair, in whichever direction the API has it
+ * ("JPY/PHP", or "USD/JPY" for JPY <-> USD).
+ *
+ * @param rates - The available rates
+ * @param currencyA - One currency of the pair (e.g. "JPY")
+ * @param currencyB - The other one (e.g. "PHP")
+ * @returns The rate, or undefined when there's none (e.g. JPY -> JPY)
+ * @example findPairRate(rates, "JPY", "PHP")?.rate; // 0.385
+ */
+export const findPairRate = (
+  rates: readonly ExchangeRate[],
+  currencyA: string,
+  currencyB: string,
+): ExchangeRate | undefined =>
+  rates.find(
+    (r) =>
+      (r.fromCurrency === currencyA && r.toCurrency === currencyB) ||
+      (r.fromCurrency === currencyB && r.toCurrency === currencyA),
+  );

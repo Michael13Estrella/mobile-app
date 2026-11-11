@@ -21,15 +21,15 @@ import { INTL_LOCALE } from "../../../constants/locale";
 import {
   CURRENCY_COUNTRY,
   CURRENCY_FRACTION_DIGITS,
+  RATE_FRACTION_DIGITS,
   WALLET_CURRENCY,
 } from "../../../constants/currency";
 import { AppCard } from "../../common/AppCard";
 import { formatAmount } from "../../../utils/format/formatCurrency";
 import { AppDivider } from "../../common/AppDivider";
 import { BrandCountryFlag } from "../../icons";
+import { findPairRate } from "../../../utils/remittance/exchangeRate";
 
-// The rate as the design shows it: "1 JPY = 0.3850 PHP"
-const RATE_FRACTION_DIGITS = 4;
 const FLAG_SIZE = 20;
 
 function SummaryRow({
@@ -77,14 +77,9 @@ export function RemittanceSummaryCard({
   const formatMoney = useFormatMoney();
   const intlLocale = INTL_LOCALE[locale];
 
-  // The pair's rate in its own direction ("1 JPY = 0.3850 PHP",
-  // "1 USD = 154.6500 JPY")
-  const pairRate = rates.find(
-    (r) =>
-      (r.fromCurrency === WALLET_CURRENCY &&
-        r.toCurrency === receiveCurrency) ||
-      (r.fromCurrency === receiveCurrency && r.toCurrency === WALLET_CURRENCY),
-  );
+  // The pair's rate in the API's direction ("1 JPY = 0.3850 PHP",
+  // "1 USD = 154.6500 JPY"); none for JPY -> JPY
+  const pairRate = findPairRate(rates, WALLET_CURRENCY, receiveCurrency);
 
   return (
     <AppCard style={styles.card}>

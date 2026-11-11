@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { getRemittanceQuote } from "../quote";
+import { getRemittanceQuote, needsCompanyDetails } from "../quote";
 import { ChargeTier, ExchangeRate } from "../../../types";
 
 const rate = (fromCurrency: string, toCurrency: string, value: number) =>
@@ -88,5 +88,17 @@ describe("getRemittanceQuote", () => {
     it("returns null when the lifting fee leaves nothing (JPY -> JPY)", () => {
       expect(getRemittanceQuote(1_000, "JPY", RATES, TIERS)).toBeNull();
     });
+  });
+});
+
+describe("needsCompanyDetails", () => {
+  it("is true from JPY 500,000, the limit included", () => {
+    expect(needsCompanyDetails("500000")).toBe(true);
+    expect(needsCompanyDetails("520000")).toBe(true);
+  });
+
+  it("is false below it, or with no amount", () => {
+    expect(needsCompanyDetails("499999")).toBe(false);
+    expect(needsCompanyDetails("")).toBe(false);
   });
 });

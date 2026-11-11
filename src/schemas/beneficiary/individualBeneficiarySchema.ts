@@ -5,12 +5,12 @@ import {
   requireRelationshipOthers,
   romajiText,
 } from "./beneficiaryCommonSchema";
-import { Translate } from "../../hooks/useTranslation";
 import { GENDER_VALUES } from "../../constants/userFields";
 import {
   isFutureDate,
   isValidCalendarDate,
 } from "../../utils/form/dateValidation";
+import { Translate } from "../../types";
 
 /**
  * The rules of the individual beneficiary form (add, edit and own account).

@@ -87,6 +87,9 @@ export const ROUTES = {
     pathname: "/(protected)/(send-money)/send",
     params: { beneficiaryGuid },
   }),
+  // Remittances from COMPANY_DETAILS_MIN_AMOUNT: the remitter's company
+  SEND_MONEY_COMPANY_DETAILS: "/(protected)/(send-money)/send/company-details",
+  SEND_MONEY_REVIEW: "/(protected)/(send-money)/send/review",
 
   // Development
   PREVIEW: "/preview",

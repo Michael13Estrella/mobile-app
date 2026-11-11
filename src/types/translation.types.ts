@@ -29,3 +29,11 @@ type KeyPaths<T, Prefix extends string = ""> = {
 
 // A key of en.json, e.g. "validation.required"
 export type TranslationKey = KeyPaths<Translations>;
+
+// The t function (useTranslation's), for code outside components (e.g.
+// schema builders). Written out, not inferred from the hook: the hook's
+// type depends on the store, and schema types are used in store state
+export type Translate = (
+  key: TranslationKey,
+  options?: Record<string, unknown>,
+) => string;

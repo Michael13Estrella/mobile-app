@@ -26,6 +26,7 @@ import {
   SendMoneyAmountRules,
   SendMoneyFormInput,
   SendMoneyFormValues,
+  SendMoneySubmission,
 } from "../../../schemas/remittance/sendMoneySchema";
 import { useManageBeneficiaries } from "../../../hooks/useManageBeneficiaries";
 import { useAppSelector } from "../../../store";
@@ -95,7 +96,7 @@ const isReceiveCurrency = (currency: string): currency is ReceiveCurrency =>
 type SendMoneyProps = Readonly<{
   // Preselects this beneficiary (opened from a beneficiary's screen)
   initialBeneficiaryGuid?: string;
-  onSubmit: (values: SendMoneyFormValues) => void;
+  onSubmit: (submission: SendMoneySubmission) => void;
 }>;
 
 /**
@@ -238,6 +239,17 @@ export function SendMoneyForm({
     [receiveCurrency, wallet, charges, formatMoney],
   );
 
+  // A valid form always has both picked (the schema requires them); the
+  // check only narrows the types
+  const submit = (form: SendMoneyFormValues) => {
+    if (!selectedBeneficiary || !selectedPayout) return;
+    onSubmit({
+      form,
+      beneficiary: selectedBeneficiary,
+      payout: selectedPayout,
+    });
+  };
+
   // New rules (a payout picked, the charges loaded) re-check a typed amount
   useEffect(() => {
     amountRulesRef.current = amountRules;
@@ -282,7 +294,7 @@ export function SendMoneyForm({
             label={t("common.next")}
             variant="gradient"
             disabled={!isValid}
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit(submit)}
           />
         </>
       }

@@ -30,3 +30,7 @@ export const SOURCE_FUND_OTHERS_CODE = "99";
 
 // The "Others" code of the purpose list
 export const PURPOSE_OTHERS_CODE = "99";
+
+// From this remittance amount (JPY, the typed amount without the charge),
+// the remitter's company details are required (compliance)
+export const COMPANY_DETAILS_MIN_AMOUNT = 500_000;

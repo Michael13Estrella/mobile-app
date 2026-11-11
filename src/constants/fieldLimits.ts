@@ -28,4 +28,5 @@ export const FieldLimits = {
 
   sourceFundOthers: 30,
   purposeOthers: 30,
+  companyAddress: 40,
 };

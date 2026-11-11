@@ -11,8 +11,8 @@
 
 import { Stack } from "expo-router";
 
-// The Send Money screens (form, confirm, submitted): full screen over the
-// tabs, each with its own header.
+// The Send Money screens (form, additional details, review, result): full
+// screen over the tabs, each with its own header.
 export default function SendMoneyLayout() {
   return <Stack screenOptions={{ headerShown: false }} />;
 }

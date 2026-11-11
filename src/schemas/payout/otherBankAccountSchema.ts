@@ -10,13 +10,13 @@
  ********************************************************************************************/
 
 import z from "zod";
-import { Translate } from "../../hooks/useTranslation";
 import { DIGITS_ONLY_REGEX } from "../../constants/validation";
 import { OTHER_BANK_CURRENCIES } from "../../constants/payout";
 import { romajiText } from "../beneficiary/beneficiaryCommonSchema";
 import { isEWalletBankCode } from "../../utils/beneficiary/payout";
 import { isValidPhoneNumber } from "../../utils/format/phone";
 import { BENEFICIARY_PHONE_COUNTRY } from "../../constants/phone";
+import { Translate } from "../../types";
 
 /**
  * The rules of the other bank / e-wallet payout form. A bank needs a

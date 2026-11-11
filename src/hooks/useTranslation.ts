@@ -15,7 +15,7 @@ import { setLocale as setLocaleAction } from "../store/slices/uiSlice";
 import { preferenceService } from "../services/storage/preferenceService";
 import { Language } from "../types/language.types";
 import { deviceEnrollmentService } from "../services/security/deviceEnrollmentService";
-import { TranslationKey } from "../types";
+import { Translate, TranslationKey } from "../types";
 import { useCallback } from "react";
 
 export const useTranslation = () => {
@@ -27,7 +27,7 @@ export const useTranslation = () => {
   // would re-run every effect and memo that depends on it (an endless
   // re-render in Send Money). `locale` is a dependency on purpose: i18n.t
   // reads the current language, so a new language needs a new t
-  const t = useCallback(
+  const t = useCallback<Translate>(
     (key: TranslationKey, options?: Record<string, unknown>) =>
       i18n.t(key, options),
     [locale],
@@ -45,6 +45,3 @@ export const useTranslation = () => {
 
   return { t, locale, setLocale };
 };
-
-// The t function, for code outside components (e.g. schema builders)
-export type Translate = ReturnType<typeof useTranslation>["t"];

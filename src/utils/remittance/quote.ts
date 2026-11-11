@@ -13,8 +13,9 @@ import {
   CURRENCY_FRACTION_DIGITS,
   WALLET_CURRENCY,
 } from "../../constants/currency";
+import { COMPANY_DETAILS_MIN_AMOUNT } from "../../constants/remittance";
 import { ChargeTier, ExchangeRate } from "../../types";
-import { roundHalfEven } from "./amountInput";
+import { parseAmountInput, roundHalfEven } from "./amountInput";
 import { findChargeTier, yenToYenNet } from "./charges";
 import { convertAmount } from "./exchangeRate";
 
@@ -109,3 +110,15 @@ export const getRemittanceQuote = (
     receiveAmount: roundHalfEven(converted, fractionDigits),
   };
 };
+
+/**
+ * Whether a remittance amount needs the remitter's company details
+ * ("Additional Details"): from COMPANY_DETAILS_MIN_AMOUNT, typed amount
+ * without the charge.
+ *
+ * @param amount - The form's clean amount string, in JPY
+ * @returns true from the threshold
+ * @example needsCompanyDetails("500000"); // true
+ */
+export const needsCompanyDetails = (amount: string): boolean =>
+  parseAmountInput(amount) >= COMPANY_DETAILS_MIN_AMOUNT;

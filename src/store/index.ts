@@ -19,6 +19,7 @@ import nationalityReducer from "./slices/nationalitySlice";
 import remitterReducer from "./slices/remitterSlice";
 import dashboardReducer from "./slices/dashboardSlice";
 import addBeneficiaryReducer from "./slices/addBeneficiarySlice";
+import sendMoneyReducer from "./slices/sendMoneySlice";
 import { apiService } from "../services/api/apiService";
 
 export const store = configureStore({
@@ -31,6 +32,7 @@ export const store = configureStore({
     remitter: remitterReducer,
     dashboard: dashboardReducer,
     addBeneficiary: addBeneficiaryReducer,
+    sendMoney: sendMoneyReducer,
     [apiService.reducerPath]: apiService.reducer,
   },
   middleware: (getDefaultMiddleware) =>

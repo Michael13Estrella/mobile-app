@@ -28,3 +28,7 @@ export const PHONE_COUNTRIES = {
 
 export const REMITTER_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.JP;
 export const BENEFICIARY_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.PH;
+
+// Send Money's "Company telephone number" (a Philippine landline; see the
+// backend questions about landline digits counts)
+export const COMPANY_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.PH;

@@ -33,3 +33,6 @@ export const CURRENCY_FRACTION_DIGITS: Readonly<Record<string, number>> = {
 // JPY is the only offered in some cases (see RemittanceSimulator's allowJpy)
 export const RECEIVE_CURRENCIES = ["PHP", "USD", "JPY"] as const;
 export type ReceiveCurrency = (typeof RECEIVE_CURRENCIES)[number];
+
+// Decimals of an exchange rate as shown: "1 JPY = 0.3850"
+export const RATE_FRACTION_DIGITS = 4;
