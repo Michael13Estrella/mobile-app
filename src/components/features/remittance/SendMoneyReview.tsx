@@ -15,7 +15,6 @@ import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../constants/spacing";
 import { useTranslation } from "../../../hooks/useTranslation";
 import { useFormatMoney } from "../../../hooks/useFormatMoney";
-import { INTL_LOCALE } from "../../../constants/locale";
 import { RATE_SOURCE, useExchangeRates } from "../../../hooks/useExchangeRates";
 import { useCharges } from "../../../hooks/useCharges";
 import { useReferenceData } from "../../../hooks/useReferenceData";
@@ -32,11 +31,7 @@ import {
   getPayoutCurrency,
 } from "../../../utils/beneficiary/payout";
 import { findPairRate } from "../../../utils/remittance/exchangeRate";
-import {
-  CURRENCY_COUNTRY,
-  RATE_FRACTION_DIGITS,
-  WALLET_CURRENCY,
-} from "../../../constants/currency";
+import { CURRENCY_COUNTRY, WALLET_CURRENCY } from "../../../constants/currency";
 import { PAYOUT_TYPE } from "../../../constants/payout";
 import {
   PURPOSE_OTHERS_CODE,
@@ -53,7 +48,7 @@ import { AppDivider } from "../../common/AppDivider";
 import { getBeneficiaryTitle } from "../../../utils/beneficiary/beneficiary";
 import { formatPhoneNumber } from "../../../utils/format/phone";
 import { COMPANY_PHONE_COUNTRY } from "../../../constants/phone";
-import { formatAmount } from "../../../utils/format/formatCurrency";
+import { useFormatRate } from "../../../hooks/useFormatRate";
 
 const FLAG_SIZE = 16;
 
@@ -131,7 +126,7 @@ export function SendMoneyReview({
   const { colors } = useAppTheme();
   const { t, locale } = useTranslation();
   const formatMoney = useFormatMoney();
-  const intlLocale = INTL_LOCALE[locale];
+  const formatRate = useFormatRate();
 
   // Loaded again here: Review shows the rate that will actually be used
   const { rates } = useExchangeRates(RATE_SOURCE.LIVE);
@@ -274,15 +269,7 @@ export function SendMoneyReview({
             {pairRate && (
               <ReviewRow label={t("sendMoney.summary.exchangeRate")}>
                 <AppText typographyType="body2" color={colors.textPrimary}>
-                  {t("sendMoney.summary.rate", {
-                    from: pairRate.fromCurrency,
-                    rate: formatAmount(
-                      pairRate.rate,
-                      intlLocale,
-                      RATE_FRACTION_DIGITS,
-                    ),
-                    to: pairRate.toCurrency,
-                  })}
+                  {formatRate(pairRate)}
                 </AppText>
               </ReviewRow>
             )}

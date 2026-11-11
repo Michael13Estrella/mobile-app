@@ -42,10 +42,10 @@ import { AppAmountInput } from "../../form/AppAmountInput";
 import { BrandCountryFlag, BrandIcon } from "../../icons";
 import { REMITTANCE_MINIMUMS } from "../../../constants/remittance";
 import { getRemittanceQuote } from "../../../utils/remittance/quote";
+import { useFormatRate } from "../../../hooks/useFormatRate";
 
 const SEND_CURRENCY = WALLET_CURRENCY;
 const PLACEHOLDER_FRACTION_DIGITS = 2;
-const RATE_MAX_DECIMALS = 4;
 const FLAG_SIZE = 20;
 const ICON_SIZE = 16;
 const MISSING_AMOUNT = "-";
@@ -74,6 +74,7 @@ export function RemittanceSimulator({
   const { colors } = useAppTheme();
   const { t, locale } = useTranslation();
   const intlLocale = INTL_LOCALE[locale];
+  const formatRate = useFormatRate();
 
   const receiveCurrencies = RECEIVE_CURRENCIES.filter(
     (code) => allowJpy || code !== SEND_CURRENCY,
@@ -162,11 +163,6 @@ export function RemittanceSimulator({
   // The pair's rate in its own direction ("1 JPY = 0.3985 PHP",
   // "1 USD = 158.05 JPY"); none for JPY -> JPY.
   const pairRate = findPairRate(rates, SEND_CURRENCY, receiveCurrency);
-  // const pairRate = rates.find(
-  //   (r) =>
-  //     (r.fromCurrency === SEND_CURRENCY && r.toCurrency === receiveCurrency) ||
-  //     (r.fromCurrency === receiveCurrency && r.toCurrency === SEND_CURRENCY),
-  // );
 
   const formatJpy = (amount: number | null) =>
     amount === null
@@ -238,16 +234,7 @@ export function RemittanceSimulator({
           onChangeValue={(value) => setEdited({ side: "receive", value })}
           fractionDigits={receiveDigits}
           placeholder={placeholder}
-          hint={
-            pairRate
-              ? `1 ${pairRate.fromCurrency} = ${pairRate.rate.toLocaleString(
-                  intlLocale,
-                  {
-                    maximumFractionDigits: RATE_MAX_DECIMALS,
-                  },
-                )} ${pairRate.toCurrency} `
-              : ""
-          }
+          hint={pairRate ? formatRate(pairRate) : ""}
         />
 
         {!!minimumMessage && (

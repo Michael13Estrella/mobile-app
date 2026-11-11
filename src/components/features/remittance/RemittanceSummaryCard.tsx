@@ -21,7 +21,6 @@ import { INTL_LOCALE } from "../../../constants/locale";
 import {
   CURRENCY_COUNTRY,
   CURRENCY_FRACTION_DIGITS,
-  RATE_FRACTION_DIGITS,
   WALLET_CURRENCY,
 } from "../../../constants/currency";
 import { AppCard } from "../../common/AppCard";
@@ -29,6 +28,7 @@ import { formatAmount } from "../../../utils/format/formatCurrency";
 import { AppDivider } from "../../common/AppDivider";
 import { BrandCountryFlag } from "../../icons";
 import { findPairRate } from "../../../utils/remittance/exchangeRate";
+import { useFormatRate } from "../../../hooks/useFormatRate";
 
 const FLAG_SIZE = 20;
 
@@ -75,6 +75,7 @@ export function RemittanceSummaryCard({
   const { colors } = useAppTheme();
   const { t, locale } = useTranslation();
   const formatMoney = useFormatMoney();
+  const formatRate = useFormatRate();
   const intlLocale = INTL_LOCALE[locale];
 
   // The pair's rate in the API's direction ("1 JPY = 0.3850 PHP",
@@ -86,15 +87,7 @@ export function RemittanceSummaryCard({
       {pairRate && (
         <SummaryRow label={t("sendMoney.summary.exchangeRate")}>
           <AppText typographyType="body3" color={colors.textPrimary}>
-            {t("sendMoney.summary.rate", {
-              from: pairRate.fromCurrency,
-              rate: formatAmount(
-                pairRate.rate,
-                intlLocale,
-                RATE_FRACTION_DIGITS,
-              ),
-              to: pairRate.toCurrency,
-            })}
+            {formatRate(pairRate)}
           </AppText>
         </SummaryRow>
       )}
