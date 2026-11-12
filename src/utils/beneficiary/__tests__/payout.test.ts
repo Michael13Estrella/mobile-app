@@ -11,6 +11,7 @@
 
 import {
   formatMetrobankAccountNo,
+  getPayoutBankName,
   getPayoutCurrency,
   getPayoutLabel,
   isEWalletBankCode,
@@ -178,5 +179,25 @@ describe("getPayoutCurrency", () => {
     expect(getPayoutCurrency({ payoutType: "OB", currency: "PHP" })).toBe(
       "PHP",
     );
+  });
+});
+
+describe("getPayoutBankName", () => {
+  it("is Metrobank for a Metrobank account, not its branch", () => {
+    expect(
+      getPayoutBankName({
+        payoutType: "CA",
+        bankName: "MB HEAD OFFICE CENTER",
+      }),
+    ).toBe("Metrobank");
+  });
+
+  it("is the payout's own bank name otherwise", () => {
+    expect(getPayoutBankName({ payoutType: "OB", bankName: "BDO" })).toBe(
+      "BDO",
+    );
+    expect(
+      getPayoutBankName({ payoutType: "CP", bankName: "Cebuana Lhuillier" }),
+    ).toBe("Cebuana Lhuillier");
   });
 });

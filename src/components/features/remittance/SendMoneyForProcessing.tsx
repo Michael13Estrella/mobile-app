@@ -30,6 +30,7 @@ import {
 } from "../../../constants/locale";
 import {
   formatMetrobankAccountNo,
+  getPayoutBankName,
   getPayoutCurrency,
 } from "../../../utils/beneficiary/payout";
 import { PAYOUT_TYPE } from "../../../constants/payout";
@@ -167,7 +168,7 @@ export function SendMoneyForProcessing({
               color={colors.textPrimary}
               style={styles.uppercase}
             >
-              {payout.bankName}
+              {getPayoutBankName(payout)}
             </AppText>
             <AppText
               typographyType="body3"

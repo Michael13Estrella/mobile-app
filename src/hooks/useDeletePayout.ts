@@ -15,6 +15,7 @@ import { BeneficiaryPayout } from "../types";
 import { useState } from "react";
 import { payoutService } from "../services/payout/payoutService";
 import { showToast } from "../store/slices/uiSlice";
+import { getPayoutBankName } from "../utils/beneficiary/payout";
 
 /**
  * Deleting a saved beneficiary's payout method, after a confirmation:
@@ -73,7 +74,7 @@ export function useDeletePayout(
       showToast({
         title: t("beneficiaryDetails.deletePayout.deleted.title"),
         message: t("beneficiaryDetails.deletePayout.deleted.message", {
-          bank: payout.bankName,
+          bank: getPayoutBankName(payout),
         }),
         variant: "success",
       }),

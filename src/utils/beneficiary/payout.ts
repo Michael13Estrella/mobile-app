@@ -72,6 +72,22 @@ export const getPayoutCurrency = (
     : payout.currency;
 
 /**
+ * The bank to show for a saved payout: "Metrobank" for a Metrobank account
+ * (its saved bankName is the branch, e.g. "MB HEAD OFFICE CENTER");
+ * otherwise its own bankName (the other bank, or the cash pick-up partner).
+ *
+ * @param payout - A saved payout
+ * @returns The bank's name
+ * @example getPayoutBankName({ payoutType: "CA", bankName: "MB HEAD OFFICE CENTER" }); // "Metrobank"
+ */
+export const getPayoutBankName = (
+  payout: Pick<PayoutSummary, "payoutType" | "bankName">,
+): string =>
+  payout.payoutType === PAYOUT_TYPE.METROBANK_ACCOUNT
+    ? METROBANK_BANK_NAME
+    : payout.bankName;
+
+/**
  * The payout part of the create request, from the Metrobank account form.
  * The branch is left out when empty.
  *
@@ -139,9 +155,12 @@ export const maskAccountNumber = (accountNo: string): string =>
  * @example getPayoutLabel({ bankName: "Metrobank", accountNo: "3456789121537", … }); // "Metrobank •••• 1537"
  */
 export const getPayoutLabel = (
-  payout: Pick<PayoutSummary, "bankName" | "accountNo">,
+  payout: Pick<PayoutSummary, "payoutType" | "bankName" | "accountNo">,
 ): string =>
-  [payout.bankName, payout.accountNo && maskAccountNumber(payout.accountNo)]
+  [
+    getPayoutBankName(payout),
+    payout.accountNo && maskAccountNumber(payout.accountNo),
+  ]
     .filter(Boolean)
     .join(" ");
 

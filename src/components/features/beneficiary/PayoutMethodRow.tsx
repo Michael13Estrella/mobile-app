@@ -19,6 +19,7 @@ import { AppText } from "../../common/AppText";
 import { AppTextButton } from "../../common/AppTextButton";
 import { PAYOUT_TYPE } from "../../../constants/payout";
 import {
+  getPayoutBankName,
   getPayoutDetails,
   isEWalletPayout,
 } from "../../../utils/beneficiary/payout";
@@ -87,7 +88,7 @@ export function PayoutMethodRow({
           color={colors.textPrimary}
           numberOfLines={1}
         >
-          {payout.bankName}
+          {getPayoutBankName(payout)}
         </AppText>
         {details !== "" && (
           <AppText

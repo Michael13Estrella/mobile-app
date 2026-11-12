@@ -24,6 +24,7 @@ import { CompanyDetailsFormValues } from "../../../schemas/remittance/companyDet
 import { getRemittanceQuote } from "../../../utils/remittance/quote";
 import {
   formatMetrobankAccountNo,
+  getPayoutBankName,
   getPayoutCurrency,
 } from "../../../utils/beneficiary/payout";
 import { findPairRate } from "../../../utils/remittance/exchangeRate";
@@ -186,7 +187,7 @@ export function SendMoneyReview({
             color={colors.textTertiary}
             style={styles.uppercase}
           >
-            {payout.bankName}
+            {getPayoutBankName(payout)}
           </AppText>
         </ReviewRow>
         {/* Cash pick-up: no account */}

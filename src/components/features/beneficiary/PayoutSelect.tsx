@@ -15,7 +15,10 @@ import { useTranslation } from "../../../hooks/useTranslation";
 import { useState } from "react";
 import { useFormField } from "../../../hooks/useFormField";
 import { PAYOUT_TYPE } from "../../../constants/payout";
-import { getPayoutDetails } from "../../../utils/beneficiary/payout";
+import {
+  getPayoutBankName,
+  getPayoutDetails,
+} from "../../../utils/beneficiary/payout";
 import { Keyboard } from "react-native";
 import { FieldShell } from "../../form/FieldShell";
 import { SelectTrigger } from "../../form/select/SelectTrigger";
@@ -87,7 +90,7 @@ export function PayoutSelect<T extends FieldValues>({
   return (
     <FieldShell label={label} required={required} errorMessage={errorMessage}>
       <SelectTrigger
-        value={selected?.bankName ?? ""}
+        value={selected ? getPayoutBankName(selected) : ""}
         description={selectedDetails}
         placeholder={placeholder}
         disabled={disabled}
