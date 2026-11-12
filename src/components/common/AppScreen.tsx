@@ -9,7 +9,7 @@
  * 3.
  ********************************************************************************************/
 
-import { ComponentProps, ReactNode, useState } from "react";
+import { ComponentProps, ReactNode, Ref, useState } from "react";
 import {
   LayoutChangeEvent,
   Platform,
@@ -20,6 +20,7 @@ import {
 } from "react-native";
 import {
   KeyboardAwareScrollView,
+  KeyboardAwareScrollViewRef,
   KeyboardStickyView,
 } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -79,6 +80,8 @@ type AppScreenProps = Readonly<{
   gradientEnd?: GradientPoint;
   children?: ReactNode;
   onRefresh?: () => Promise<unknown>;
+  // To scroll the content from the screen (e.g. to a part that just appeared)
+  scrollRef?: Ref<KeyboardAwareScrollViewRef>;
 }>;
 
 export function AppScreen({
@@ -92,6 +95,7 @@ export function AppScreen({
   gradientEnd = DEFAULT_GRADIENT_END,
   children,
   onRefresh,
+  scrollRef,
 }: AppScreenProps) {
   const { colors } = useAppTheme();
   const insets = useSafeAreaInsets();
@@ -155,6 +159,7 @@ export function AppScreen({
         <GestureDetector gesture={pullToRefresh.pullGesture}>
           <Animated.View style={[styles.fill, pullToRefresh.contentStyle]}>
             <KeyboardAwareScrollView
+              ref={scrollRef}
               style={[styles.transparent, styles.fill]}
               contentContainerStyle={[
                 styles.content,

@@ -74,6 +74,9 @@ import { AppAmountInput } from "../../form/AppAmountInput";
 import { AppText } from "../../common/AppText";
 import { RemittanceSummaryCard } from "./RemittanceSummaryCard";
 import { getPayoutCurrency } from "../../../utils/beneficiary/payout";
+import { KeyboardAwareScrollViewRef } from "react-native-keyboard-controller";
+import { StyleSheet, View } from "react-native";
+import { Spacing } from "../../../constants/spacing";
 
 // Stable empty lists while loading (a new [] each render would redo the
 // drawer's sorting every time)
@@ -131,6 +134,9 @@ export function SendMoneyForm({
   const { charges } = useCharges();
   // Real-time rates: this is an actual transfer
   const { rates } = useExchangeRates(RATE_SOURCE.LIVE);
+
+  // Scrolls the breakdown into view when it appears
+  const scrollRef = useRef<KeyboardAwareScrollViewRef>(null);
 
   // The amount rules depend on fields picked below; the schema reads the
   // latest ones each time it validates
@@ -283,6 +289,7 @@ export function SendMoneyForm({
   return (
     <AppScreen
       gradient
+      scrollRef={scrollRef}
       header={
         <AppHeader title={t("sendMoney.title")} onBack={() => router.back()} />
       }
@@ -394,7 +401,11 @@ export function SendMoneyForm({
 
         {/* The breakdown, once the amount is valid and a payout is picked */}
         {quote && receiveCurrency && !amountError && (
-          <>
+          <View
+            style={styles.summary}
+            // It's the end of the form: show all of it once it's laid out
+            onLayout={() => scrollRef.current?.scrollToEnd({ animated: true })}
+          >
             <RemittanceSummaryCard
               quote={quote}
               receiveCurrency={receiveCurrency}
@@ -403,9 +414,16 @@ export function SendMoneyForm({
             <AppText typographyType="body4" color={colors.textTertiary}>
               {t("sendMoney.summary.disclaimer")}
             </AppText>
-          </>
+          </View>
         )}
       </FieldsContainer>
     </AppScreen>
   );
 }
+
+const styles = StyleSheet.create({
+  // The card and its disclaimer, spaced like the form's fields
+  summary: {
+    gap: Spacing.s5,
+  },
+});
