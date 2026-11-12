@@ -154,16 +154,24 @@ describe("toCashPickupPayoutSummary", () => {
 });
 
 describe("getPayoutLabel", () => {
-  it("shows the bank and the last digits", () => {
+  it("shows the bank and the last digits (Metrobank, not its branch)", () => {
     expect(
-      getPayoutLabel({ bankName: "Metrobank", accountNo: "3456789121537" }),
+      getPayoutLabel({
+        payoutType: "CA",
+        bankName: "MB HEAD OFFICE CENTER",
+        accountNo: "3456789121537",
+      }),
     ).toBe("Metrobank •••• 1537");
   });
 
   it("shows only the name without an account number", () => {
-    expect(getPayoutLabel({ bankName: "Cash pick-up", accountNo: "" })).toBe(
-      "Cash pick-up",
-    );
+    expect(
+      getPayoutLabel({
+        payoutType: "CP",
+        bankName: "Cash pick-up",
+        accountNo: "",
+      }),
+    ).toBe("Cash pick-up");
   });
 });
 

@@ -65,7 +65,7 @@ export default function WelcomeScreen() {
       />
 
       {/* Top right menu */}
-      <View style={[styles.topBar]}>
+      {/* <View style={[styles.topBar]}>
         <TouchableOpacity style={styles.menuButton}>
           <MaterialCommunityIcons
             name="cog"
@@ -76,7 +76,7 @@ export default function WelcomeScreen() {
             }}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {/* Center Logo */}
       <View style={styles.logoContainer}>
@@ -115,14 +115,21 @@ export default function WelcomeScreen() {
           variant="gradientOutline"
         />
 
+        <AppButton
+          label="Forgot Password?"
+          onPress={() => {}}
+          variant="ghost"
+          icon="lockLine"
+        />
+
         {/* TEMP dev-only shortcut to the preview route */}
-        {__DEV__ && (
+        {/* {__DEV__ && (
           <AppButton
             label="Preview (dev)"
             variant="ghost"
             onPress={() => router.push(ROUTES.PREVIEW)}
           />
-        )}
+        )} */}
       </View>
     </AppScreen>
   );
