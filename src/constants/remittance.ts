@@ -34,3 +34,14 @@ export const PURPOSE_OTHERS_CODE = "99";
 // From this remittance amount (JPY, the typed amount without the charge),
 // the remitter's company details are required (compliance)
 export const COMPANY_DETAILS_MIN_AMOUNT = 500_000;
+
+// Send Money's countries: always from Japan to the Philippines (yen-to-yen
+// payouts included)
+export const ORIGINATING_COUNTRY = "JP";
+export const DESTINATION_COUNTRY = "PH";
+
+// What send-money gets for a value that doesn't apply: no rate (JPY -> JPY)
+// no lifting fee (not JPY -> JPY), and a text that wasn't asked for
+export const NO_RATE = 0;
+export const NO_LIFTING_FEE = 0;
+export const NOT_ASKED_TEXT = "";

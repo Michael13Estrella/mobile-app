@@ -38,6 +38,12 @@ export const ENDPOINTS = {
   // Remitter
   REMITTER_DASHBOARD_STATS: (remitterGuid: string) =>
     `/api/remitters/${remitterGuid}/dashboard-stats`,
+  REMITTER_OTP_CURRENT_EMAIL: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/otp-current-email`,
+  REMITTER_RESEND_OTP_CURRENT_EMAIL: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/resend-otp-current-email`,
+  REMITTER_VERIFY_OTP_CURRENT_EMAIL: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/verify-otp-current-email`,
 
   // Beneficiary
   MANAGE_BENEFICIARIES: (remitterGuid: string) =>
@@ -56,6 +62,10 @@ export const ENDPOINTS = {
     payoutId: number,
   ) =>
     `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payout/${payoutId}`,
+
+  // Remittance
+  SEND_MONEY: (remitterGuid: string) =>
+    `/api/remittances/${remitterGuid}/send-money`,
 
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>

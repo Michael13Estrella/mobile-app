@@ -90,6 +90,9 @@ export const ROUTES = {
   // Remittances from COMPANY_DETAILS_MIN_AMOUNT: the remitter's company
   SEND_MONEY_COMPANY_DETAILS: "/(protected)/(send-money)/send/company-details",
   SEND_MONEY_REVIEW: "/(protected)/(send-money)/send/review",
+  SEND_MONEY_VERIFY: "/(protected)/(send-money)/send/verify",
+  // After a successful send:  Transaction Details
+  SEND_MONEY_FOR_PROCESSING: "/(protected)/(send-money)/send/for-processing",
 
   // Development
   PREVIEW: "/preview",

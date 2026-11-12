@@ -17,15 +17,11 @@ import { useTranslation } from "../../../hooks/useTranslation";
 import { useFormatMoney } from "../../../hooks/useFormatMoney";
 import { RATE_SOURCE, useExchangeRates } from "../../../hooks/useExchangeRates";
 import { useCharges } from "../../../hooks/useCharges";
-import { useReferenceData } from "../../../hooks/useReferenceData";
 import { parseAmountInput } from "../../../utils/remittance/amountInput";
 import { SendMoneyFormValues } from "../../../schemas/remittance/sendMoneySchema";
 import { BeneficiaryPayout, BeneficiarySummary } from "../../../types";
 import { CompanyDetailsFormValues } from "../../../schemas/remittance/companyDetailsSchema";
-import {
-  getRemittanceQuote,
-  RemittanceQuote,
-} from "../../../utils/remittance/quote";
+import { getRemittanceQuote } from "../../../utils/remittance/quote";
 import {
   formatMetrobankAccountNo,
   getPayoutCurrency,
@@ -33,11 +29,6 @@ import {
 import { findPairRate } from "../../../utils/remittance/exchangeRate";
 import { CURRENCY_COUNTRY, WALLET_CURRENCY } from "../../../constants/currency";
 import { PAYOUT_TYPE } from "../../../constants/payout";
-import {
-  PURPOSE_OTHERS_CODE,
-  SOURCE_FUND_OTHERS_CODE,
-} from "../../../constants/remittance";
-import { getReferenceLabel } from "../../../utils/referenceData/referenceData";
 import { AppScreen } from "../../common/AppScreen";
 import { AppHeader } from "../../common/AppHeader";
 import { router } from "expo-router";
@@ -49,6 +40,8 @@ import { getBeneficiaryTitle } from "../../../utils/beneficiary/beneficiary";
 import { formatPhoneNumber } from "../../../utils/format/phone";
 import { COMPANY_PHONE_COUNTRY } from "../../../constants/phone";
 import { useFormatRate } from "../../../hooks/useFormatRate";
+import { SendMoneyConfirmationInput } from "../../../store/slices/sendMoneySlice";
+import { useSendMoneyReasons } from "../../../hooks/useSendMoneyReasons";
 
 const FLAG_SIZE = 16;
 
@@ -102,10 +95,8 @@ type SendMoneyReviewProps = Readonly<{
   companyDetails: CompanyDetailsFormValues | null;
   // The wallet's available balance (JPY); null when unknown
   walletBalance: number | null;
-  // While sending: the button shows a spinner
-  isSubmitting?: boolean;
-  // With the quote just shown (the live rate it used)
-  onConfirm: (quote: RemittanceQuote) => void;
+  // With the quote and rate just shown (the live rate)
+  onConfirm: (confirmation: SendMoneyConfirmationInput) => void;
 }>;
 
 /**
@@ -120,19 +111,17 @@ export function SendMoneyReview({
   payout,
   companyDetails,
   walletBalance,
-  isSubmitting = false,
   onConfirm,
 }: SendMoneyReviewProps) {
   const { colors } = useAppTheme();
-  const { t, locale } = useTranslation();
+  const { t } = useTranslation();
   const formatMoney = useFormatMoney();
   const formatRate = useFormatRate();
 
   // Loaded again here: Review shows the rate that will actually be used
   const { rates } = useExchangeRates(RATE_SOURCE.LIVE);
   const { charges } = useCharges();
-  const { items: sourceFunds } = useReferenceData("sourceFund");
-  const { items: purposes } = useReferenceData("purpose");
+  const { sourceFund, purpose } = useSendMoneyReasons(form);
 
   const amount = parseAmountInput(form.amount);
   const receiveCurrency = getPayoutCurrency(payout);
@@ -141,16 +130,6 @@ export function SendMoneyReview({
 
   const isMetrobank = payout.payoutType === PAYOUT_TYPE.METROBANK_ACCOUNT;
   const isCashPickup = payout.payoutType === PAYOUT_TYPE.CASH_PICKUP;
-
-  // "Others": the typed text; otherwise the list's name for the code
-  const sourceFund =
-    form.sourceFundCode === SOURCE_FUND_OTHERS_CODE
-      ? form.sourceFundOthers
-      : getReferenceLabel(sourceFunds, form.sourceFundCode, locale);
-  const purpose =
-    form.purposeCode === PURPOSE_OTHERS_CODE
-      ? form.purposeOthers
-      : getReferenceLabel(purposes, form.purposeCode, locale);
 
   return (
     <AppScreen
@@ -162,10 +141,9 @@ export function SendMoneyReview({
         <AppButton
           label={t("sendMoney.review.confirm")}
           variant="gradient"
-          loading={isSubmitting}
           // Until the live rate and charges are in, there's nothing to confirm
           disabled={!quote}
-          onPress={() => quote && onConfirm(quote)}
+          onPress={() => quote && onConfirm({ quote, rate: pairRate ?? null })}
         />
       }
     >

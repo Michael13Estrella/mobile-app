@@ -308,7 +308,14 @@
     "verify": "Verify",
     "resend": "Send another code",
     "resendIn": "Resend code in",
-    "resendSuccessMsg": "We've sent a new code to your email address"
+    "resendSuccessMsg": "We've sent a new code to your email address",
+    "sentTo": "We sent a 6-digit email OTP to",
+    "errors": {
+      "incorrect": "Incorrect code. Please try again.",
+      "expired": "This code has expired. Please send another code.",
+      "locked": "Too many attempts. Please try again later.",
+      "sendFailed": "We couldn't send the code. Please try again."
+    }
   },
 
   "------------------------------ TABS ------------------------------": "",
@@ -634,6 +641,13 @@
       "companyTelNo": "Company tel. no.",
       "remittanceAmount": "Remittance amount",
       "confirm": "Confirm"
+    },
+    "forProcessing": {
+      "headerTitle": "Transaction Details",
+      "title": "Remittance for processing",
+      "message": "We're processing your remittance. We'll notify you by push notification and email once it's done.",
+      "dateTimeLabel": "Date & time",
+      "dateTime": "{{date}} · {{time}} {{zone}}"
     }
   },
 

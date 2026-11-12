@@ -9,12 +9,20 @@
  * 3.
  ********************************************************************************************/
 
+import { router } from "expo-router";
 import { SendMoneyReview } from "../../../../src/components/features/remittance/SendMoneyReview";
-import { useAppSelector } from "../../../../src/store";
+import { useAppDispatch, useAppSelector } from "../../../../src/store";
+import {
+  SendMoneyConfirmation,
+  SendMoneyConfirmationInput,
+  setSendMoneyConfirmation,
+} from "../../../../src/store/slices/sendMoneySlice";
+import { ROUTES } from "../../../../src/constants/routes";
 
 // Send Money's "All Good?": after the form (or Additional Details), before
 // the remittance is sent
 export default function SendMoneyReviewScreen() {
+  const dispatch = useAppDispatch();
   const { form, beneficiary, payout, companyDetails } = useAppSelector(
     (s) => s.sendMoney,
   );
@@ -23,7 +31,11 @@ export default function SendMoneyReviewScreen() {
   // Only reachable through the Send Money form's Next, which sets the draft
   if (!form || !beneficiary || !payout) return null;
 
-  const handleConfirm = () => {};
+  // Kept what was shown, then the email OTP before sending
+  const handleConfirm = (confirmation: SendMoneyConfirmationInput) => {
+    dispatch(setSendMoneyConfirmation(confirmation));
+    router.push(ROUTES.SEND_MONEY_VERIFY);
+  };
 
   return (
     <SendMoneyReview

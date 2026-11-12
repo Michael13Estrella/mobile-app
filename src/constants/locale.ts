@@ -23,3 +23,8 @@ export const LIST_DATE_LOCALE: Readonly<Record<Language, string>> = {
   en: "en-GB",
   ja: "ja-JP",
 };
+
+// Times shown in Japan time wherever the phone is (remittances happen in Japan)
+export const JAPAN_TIME_ZONE = "Asia/Tokyo";
+// The label after a Japan time ("10:30 AM JST")
+export const JAPAN_TIME_ZONE_LABEL = "JST";

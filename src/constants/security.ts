@@ -31,6 +31,8 @@ export const SECURITY = {
     LENGTH: 6,
     RESEND_COOLDOWN_SECONDS: 30,
     EMAIL_PREFIX: "EM -",
+    // Current-email OTP (Send Money): by email for now, not SMS
+    SEND_TO_SMS: false,
   },
   STORE_KEYS: {
     DEVICE_PRIVATE: "device_private_key",

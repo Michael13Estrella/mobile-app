@@ -38,6 +38,26 @@ export const formatDate = (
 };
 
 /**
+ * A time as "10:30 AM" (en-US) / "10:30" (ja-JP).
+ *
+ * @param dateString - An ISO date-time.
+ * @param locale - The Intl locale (default en-US).
+ * @param timeZone - The time zone to show it in (default: the device's).
+ * @returns The formatted time.
+ * @example formatTime("2026-09-28T01:30:00Z", "en-US", "Asia/Tokyo"); // "10:30 AM"
+ */
+export const formatTime = (
+  dateString: string,
+  locale: string = DEFAULT_LOCALE,
+  timeZone?: string,
+): string =>
+  new Date(dateString).toLocaleTimeString(locale, {
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone,
+  });
+
+/**
  * A date and time for lists, 24-hour: "23 Feb 2026, 07:32" (en-GB) /
  * "2026年2月23日 07:32" (ja-JP). Used by recent transactions.
  *

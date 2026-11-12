@@ -15,6 +15,7 @@ import {
   formatDateTimeWithSeconds,
   formatIsoDate,
   formatShortDateTime,
+  formatTime,
 } from "../formatDate";
 
 // Every test pins the time zone, so results are the same on any machine.
@@ -40,6 +41,15 @@ describe("formatDate", () => {
 
   it("returns 'Invalid Date' for an un-parseable string", () => {
     expect(formatDate("not-a-date")).toBe("Invalid Date");
+  });
+});
+
+describe("formatTime", () => {
+  it("shows the time in the given time zone", () => {
+    // 01:30 UTC is 10:30 in Japan
+    expect(formatTime("2026-09-28T01:30:00Z", "en-US", "Asia/Tokyo")).toBe(
+      "10:30 AM",
+    );
   });
 });
 

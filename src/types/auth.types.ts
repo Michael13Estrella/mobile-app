@@ -33,6 +33,34 @@ export interface OtpRequiredResponse {
   txId: string;
 }
 
+// Re-checks the logged-in remitter's email before a sensitive action (Send
+// Money); the response is an OtpRequiredResponse
+export interface CurrentEmailOtpRequest {
+  sendToSms: boolean;
+}
+
+export interface VerifyCurrentEmailOtpRequest {
+  txId: string;
+  otp: string;
+}
+
+export interface ResendCurrentEmailOtpRequest {
+  txId: string;
+  lang: Language;
+  sendToSms: boolean;
+}
+
+// Proof of the check, passed on to the action (send-money's `challenge`)
+export interface VerifyCurrentEmailOtpResponse {
+  challenge: string;
+}
+
+// How a current-email OTP check ended: the challenge on success; otherwise
+// why, so the screen can say so (or leave after too many tries)
+export type VerifyCurrentEmailOtpResult =
+  | Readonly<{ status: "success"; challenge: string }>
+  | Readonly<{ status: "incorrect" | "expired" | "locked" }>;
+
 export interface TokenRefreshRequest {
   refreshToken: string;
   isWriteLoginInfo?: boolean; // set to true during Passcode login
