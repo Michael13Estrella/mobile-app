@@ -66,6 +66,8 @@ export const ENDPOINTS = {
   // Remittance
   SEND_MONEY: (remitterGuid: string) =>
     `/api/remittances/${remitterGuid}/send-money`,
+  SEND_MONEY_ENCRYPT: (remitterGuid: string) =>
+    `/api/remittances/${remitterGuid}/send-money-enc`,
 
   // Notification
   NOTIFICATION_REGISTER: (remitterGuid: string) =>

@@ -28,8 +28,8 @@ export const sendMoneyService = {
       const remitterGuid = await remitterService.getCurrentRemitterGuid();
       if (!remitterGuid) return { ok: false };
 
-      const { ok, errors } = await apiClient.critical.post(
-        ENDPOINTS.SEND_MONEY(remitterGuid),
+      const { ok, errors } = await apiClient.encrypt.post(
+        ENDPOINTS.SEND_MONEY_ENCRYPT(remitterGuid),
         request,
       );
 
