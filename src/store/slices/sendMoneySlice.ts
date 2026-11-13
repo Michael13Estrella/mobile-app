@@ -52,6 +52,8 @@ interface SendMoneyState {
   // which the form's ids don't have); null before
   beneficiary: BeneficiarySummary | null;
   payout: BeneficiaryPayout | null;
+  // The rate the form showed at Next; null before, or for JPY -> JPY
+  quotedRate: ExchangeRate | null;
   // Additional Details, kept from its "Next"; null before, or when the
   // amount doesn't need them
   companyDetails: CompanyDetailsFormValues | null;
@@ -66,6 +68,7 @@ const initialState: SendMoneyState = {
   form: null,
   beneficiary: null,
   payout: null,
+  quotedRate: null,
   companyDetails: null,
   confirmation: null,
   sentAt: null,
@@ -79,6 +82,7 @@ const sendMoneySlice = createSlice({
       state.form = action.payload.form;
       state.beneficiary = action.payload.beneficiary;
       state.payout = action.payload.payout;
+      state.quotedRate = action.payload.quotedRate;
       // A changed form must be confirmed again in Review
       state.confirmation = null;
       // Kept for a remittance that still needs them (the user came back and

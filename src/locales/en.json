@@ -631,6 +631,7 @@
     "review": {
       "title": "All Good?",
       "subtitle": "Please review your details.",
+      "rateChanged": "The exchange rate changed to {{rate}}. We've recalculated the amount your beneficiary receives.",
       "from": "From",
       "wallet": "{{currency}} Wallet",
       "to": "To",

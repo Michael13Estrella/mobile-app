@@ -16,7 +16,12 @@ import {
   SOURCE_FUND_OTHERS_CODE,
 } from "../../constants/remittance";
 import { parseAmountInput } from "../../utils/remittance/amountInput";
-import { BeneficiaryPayout, BeneficiarySummary, Translate } from "../../types";
+import {
+  BeneficiaryPayout,
+  BeneficiarySummary,
+  ExchangeRate,
+  Translate,
+} from "../../types";
 
 // What the amount is checked against. They depend on loaded data (the
 // payout's currency, the wallet, the charges), so the form passes them in
@@ -130,6 +135,9 @@ export type SendMoneySubmission = Readonly<{
   form: SendMoneyFormValues;
   beneficiary: BeneficiarySummary;
   payout: BeneficiaryPayout;
+  // The rate the form showed at Next (null for JPY -> JPY), so Review can
+  // tell when it changed
+  quotedRate: ExchangeRate | null;
 }>;
 
 // A new form: nothing picked yet

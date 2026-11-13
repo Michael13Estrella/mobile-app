@@ -13,7 +13,6 @@ import { router } from "expo-router";
 import { SendMoneyReview } from "../../../../src/components/features/remittance/SendMoneyReview";
 import { useAppDispatch, useAppSelector } from "../../../../src/store";
 import {
-  SendMoneyConfirmation,
   SendMoneyConfirmationInput,
   setSendMoneyConfirmation,
 } from "../../../../src/store/slices/sendMoneySlice";
@@ -23,9 +22,8 @@ import { ROUTES } from "../../../../src/constants/routes";
 // the remittance is sent
 export default function SendMoneyReviewScreen() {
   const dispatch = useAppDispatch();
-  const { form, beneficiary, payout, companyDetails } = useAppSelector(
-    (s) => s.sendMoney,
-  );
+  const { form, beneficiary, payout, quotedRate, companyDetails } =
+    useAppSelector((s) => s.sendMoney);
   const wallet = useAppSelector((s) => s.dashboard.wallet);
 
   // Only reachable through the Send Money form's Next, which sets the draft
@@ -42,6 +40,7 @@ export default function SendMoneyReviewScreen() {
       form={form}
       beneficiary={beneficiary}
       payout={payout}
+      quotedRate={quotedRate}
       companyDetails={companyDetails}
       walletBalance={wallet?.currentBalance ?? null}
       onConfirm={handleConfirm}

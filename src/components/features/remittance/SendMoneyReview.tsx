@@ -19,7 +19,11 @@ import { RATE_SOURCE, useExchangeRates } from "../../../hooks/useExchangeRates";
 import { useCharges } from "../../../hooks/useCharges";
 import { parseAmountInput } from "../../../utils/remittance/amountInput";
 import { SendMoneyFormValues } from "../../../schemas/remittance/sendMoneySchema";
-import { BeneficiaryPayout, BeneficiarySummary } from "../../../types";
+import {
+  BeneficiaryPayout,
+  BeneficiarySummary,
+  ExchangeRate,
+} from "../../../types";
 import { CompanyDetailsFormValues } from "../../../schemas/remittance/companyDetailsSchema";
 import { getRemittanceQuote } from "../../../utils/remittance/quote";
 import {
@@ -43,6 +47,7 @@ import { COMPANY_PHONE_COUNTRY } from "../../../constants/phone";
 import { useFormatRate } from "../../../hooks/useFormatRate";
 import { SendMoneyConfirmationInput } from "../../../store/slices/sendMoneySlice";
 import { useSendMoneyReasons } from "../../../hooks/useSendMoneyReasons";
+import { AppAlert } from "../../common/AppAlert";
 
 const FLAG_SIZE = 16;
 
@@ -92,6 +97,8 @@ type SendMoneyReviewProps = Readonly<{
   form: SendMoneyFormValues;
   beneficiary: BeneficiarySummary;
   payout: BeneficiaryPayout;
+  // The rate the form showed (null for JPY -> JPY)
+  quotedRate: ExchangeRate | null;
   // Only for remittances that need them
   companyDetails: CompanyDetailsFormValues | null;
   // The wallet's available balance (JPY); null when unknown
@@ -110,6 +117,7 @@ export function SendMoneyReview({
   form,
   beneficiary,
   payout,
+  quotedRate,
   companyDetails,
   walletBalance,
   onConfirm,
@@ -128,6 +136,10 @@ export function SendMoneyReview({
   const receiveCurrency = getPayoutCurrency(payout);
   const quote = getRemittanceQuote(amount, receiveCurrency, rates, charges);
   const pairRate = findPairRate(rates, WALLET_CURRENCY, receiveCurrency);
+  // The live rate isn't the one the form showed: the amounts below already
+  // use the new one, and the alert says so
+  const hasRateChanged =
+    !!quotedRate && !!pairRate && pairRate.rate !== quotedRate.rate;
 
   const isMetrobank = payout.payoutType === PAYOUT_TYPE.METROBANK_ACCOUNT;
   const isCashPickup = payout.payoutType === PAYOUT_TYPE.CASH_PICKUP;
@@ -156,6 +168,15 @@ export function SendMoneyReview({
           {t("sendMoney.review.subtitle")}
         </AppText>
       </View>
+
+      {hasRateChanged && pairRate && (
+        <AppAlert
+          variant="info"
+          message={t("sendMoney.review.rateChanged", {
+            rate: formatRate(pairRate),
+          })}
+        />
+      )}
 
       <View style={styles.rows}>
         {/* From: the wallet and its balance */}

@@ -77,6 +77,7 @@ import { getPayoutCurrency } from "../../../utils/beneficiary/payout";
 import { KeyboardAwareScrollViewRef } from "react-native-keyboard-controller";
 import { StyleSheet, View } from "react-native";
 import { Spacing } from "../../../constants/spacing";
+import { findPairRate } from "../../../utils/remittance/exchangeRate";
 
 // Stable empty lists while loading (a new [] each render would redo the
 // drawer's sorting every time)
@@ -253,6 +254,13 @@ export function SendMoneyForm({
       form,
       beneficiary: selectedBeneficiary,
       payout: selectedPayout,
+      // The rate the breakdown just showed
+      quotedRate:
+        findPairRate(
+          rates,
+          WALLET_CURRENCY,
+          getPayoutCurrency(selectedPayout),
+        ) ?? null,
     });
   };
 
