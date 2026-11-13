@@ -195,7 +195,7 @@ export function SendMoneyReview({
           )}
         </ReviewRow>
 
-        <AppDivider marginVertical={false} />
+        <AppDivider />
 
         {/* To: the beneficiary, and the bank (or "Cash pick-up") */}
         <ReviewRow label={t("sendMoney.review.to")}>
@@ -222,7 +222,7 @@ export function SendMoneyReview({
           </ReviewRow>
         )}
 
-        <AppDivider marginVertical={false} />
+        <AppDivider />
 
         <ReviewRow label={t("sendMoney.review.sourceFund")}>
           <AppText typographyType="body2" color={colors.textPrimary}>
@@ -238,7 +238,7 @@ export function SendMoneyReview({
         {/* Additional Details: only when they were asked for */}
         {companyDetails && (
           <>
-            <AppDivider marginVertical={false} />
+            <AppDivider />
             <ReviewRow label={t("sendMoney.review.companyAddress")}>
               <AppText typographyType="body2" color={colors.textPrimary}>
                 {companyDetails.companyAddress}
@@ -255,7 +255,7 @@ export function SendMoneyReview({
           </>
         )}
 
-        <AppDivider marginVertical={false} />
+        <AppDivider />
 
         {/* The amounts, worked out with the live rate */}
         <ReviewRow label={t("sendMoney.review.remittanceAmount")}>
@@ -293,7 +293,7 @@ export function SendMoneyReview({
               />
             </ReviewRow>
 
-            <AppDivider marginVertical={false} />
+            <AppDivider />
 
             <ReviewRow label={t("sendMoney.summary.beneficiaryReceives")}>
               <FlagValue
@@ -311,15 +311,14 @@ export function SendMoneyReview({
 const styles = StyleSheet.create({
   titles: {
     gap: Spacing.s3,
-    marginBottom: Spacing.s7,
   },
   rows: {
-    gap: Spacing.s5,
+    gap: Spacing.s3,
   },
   row: {
     flexDirection: "row",
     alignItems: "flex-start",
-    gap: Spacing.s4,
+    gap: Spacing.s3,
   },
   // Uppercase by style, so the translations stay normal text
   label: {
