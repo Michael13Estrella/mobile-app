@@ -80,6 +80,11 @@
     "japan": "Japan",
     "philippines": "Philippines"
   },
+  "------------------------------ PHONE ------------------------------": "",
+  "phone": {
+    "countryCode": "Country code",
+    "countryOption": "{{country}} (+{{dialCode}})"
+  },
   "------------------------------ PERMISSIONS INFO ------------------------------": "",
   "permissions": {
     "contact": {
@@ -688,6 +693,43 @@
     },
     "companyTelNo": {
       "label": "Company telephone number"
+    }
+  },
+
+  "------------------------------ PAY BILLS ------------------------------": "",
+  "payBills": {
+    "noBillers": {
+      "title": "No enrolled billers yet",
+      "message": "Add a biller to start paying bills.",
+      "enroll": "Add biller"
+    },
+    "addBiller": {
+      "headerTitle": "Add Biller"
+    }
+  },
+
+  "------------------------------ PAY BILLS FIELDS ------------------------------": "",
+  "billerFields": {
+    "biller": {
+      "label": "Biller",
+      "placeholder": "Select biller"
+    },
+    "subscriberNo": {
+      "label": "Subscriber number",
+      "placeholder": "Enter subscriber number"
+    },
+    "creditCardNo": {
+      "label": "Credit card number",
+      "hint": "Enter the {{count}}-digit number on the front of your card.",
+      "validation": "Enter all {{count}} digits of the card number."
+    },
+    "docRefNo": {
+      "label": "Docs number",
+      "placeholder": "Enter docs number"
+    },
+    "telNo": {
+      "label": "Buyer's telephone number",
+      "validation": "Enter a valid telephone number."
     }
   },
 

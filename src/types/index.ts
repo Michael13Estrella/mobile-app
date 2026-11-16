@@ -11,6 +11,7 @@
 
 export * from "./auth.types";
 export * from "./beneficiary.types";
+export * from "./biller.types";
 export * from "./biometric.types";
 export * from "./charge.types";
 export * from "./common.types";

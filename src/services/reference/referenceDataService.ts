@@ -10,6 +10,7 @@
  ********************************************************************************************/
 
 import { ENDPOINTS, ReferenceDataKey } from "../../constants/endpoints";
+import { Biller } from "../../types";
 import {
   Nationality,
   OtherBank,
@@ -65,6 +66,14 @@ export const referenceDataService = {
   fetchOtherBanks: async (): Promise<OtherBank[]> => {
     const { ok, data } = await apiClient.plain.get<OtherBank[]>(
       ENDPOINTS.REFERENCE_OTHER_BANKS,
+    );
+    return ok && data ? data : [];
+  },
+
+  // The billers the remitter can enroll; [] when they couldn't be loaded
+  fetchBillers: async (): Promise<Biller[]> => {
+    const { ok, data } = await apiClient.plain.get<Biller[]>(
+      ENDPOINTS.REFERENCE_BILLERS,
     );
     return ok && data ? data : [];
   },
