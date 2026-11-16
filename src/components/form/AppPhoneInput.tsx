@@ -18,20 +18,34 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { FIELD_SIZE } from "../../theme/field";
 import { Typography } from "../../constants/typography";
 import { Spacing } from "../../constants/spacing";
-import { PhoneCountry } from "../../constants/phone";
+import {
+  PHONE_COUNTRIES,
+  PHONE_COUNTRY_NAME_KEYS,
+  PhoneCountry,
+  PhoneCountryCode,
+} from "../../constants/phone";
 import { toPhoneDigits } from "../../utils/format/phone";
 import { BrandCountryFlag, BrandIcon } from "../icons";
 import { FieldShell } from "./FieldShell";
 import { MaskedDigitsInput } from "./MaskedDigitsInput";
+import { useState } from "react";
+import { DropdownOption } from "../../utils/referenceData/referenceData";
+import { SelectSheet } from "./select/SelectSheet";
 
 const FLAG_SIZE = 16;
 const CONTACT_ICON_SIZE = 16;
+const CHEVRON_SIZE = 16;
 
 type AppPhoneInputProps<T extends FieldValues> = Readonly<{
   control: Control<T>;
   name: Path<T>;
-  // Fixed country: REMITTER_PHONE_COUNTRY (+81) or BENEFICIARY_PHONE_COUNTRY (+63).
+  // The current country: REMITTER_PHONE_COUNTRY (+81), BENEFICIARY_PHONE_COUNTRY
+  // (+63), or the one picked from `countries`
   country: PhoneCountry;
+  // Countries the user can switch between: the flag + dial code opens a
+  // picker. Without it, `country` is fixed
+  countries?: readonly PhoneCountryCode[];
+  onCountryChange?: (code: PhoneCountryCode) => void;
   label?: string;
   required?: boolean;
   optional?: boolean;
@@ -48,6 +62,8 @@ export function AppPhoneInput<T extends FieldValues>({
   control,
   name,
   country,
+  countries,
+  onCountryChange,
   label,
   required = false,
   optional = false,
@@ -58,6 +74,27 @@ export function AppPhoneInput<T extends FieldValues>({
 
   const { value, onChange, onFocus, onBlur, errorMessage, fieldColors } =
     useFormField({ control, name });
+
+  const [isCountryPickerOpen, setIsCountryPickerOpen] = useState(false);
+  const canChangeCountry = !!countries && countries.length > 1;
+
+  const countryOptions: DropdownOption[] = (countries ?? []).map((code) => ({
+    value: code,
+    label: t("phone.countryOption", {
+      country: t(PHONE_COUNTRY_NAME_KEYS[code]),
+      dialCode: PHONE_COUNTRIES[code].dialCode,
+    }),
+    isoAlpha2: PHONE_COUNTRIES[code].isoAlpha2,
+  }));
+
+  const handleCountrySelect = (option: DropdownOption) => {
+    setIsCountryPickerOpen(false);
+    const code = countries?.find((item) => item === option.value);
+    if (!code || code === country.isoAlpha2) return;
+    // Another country's number has another digit count: start over
+    onChange("");
+    onCountryChange?.(code);
+  };
 
   const handlePickContact = () => {
     Alert.alert(
@@ -104,17 +141,31 @@ export function AppPhoneInput<T extends FieldValues>({
           },
         ]}
       >
-        {/* Fixed country: flag + dial code */}
-        <View>
+        {/* Flag + dial code; a button to the country picker when there's a choice */}
+        <Pressable
+          style={styles.country}
+          onPress={() => setIsCountryPickerOpen(true)}
+          disabled={!canChangeCountry}
+          hitSlop={Spacing.s3}
+          accessibilityRole={canChangeCountry ? "button" : undefined}
+          accessibilityLabel={t("phone.countryCode")}
+        >
           <BrandCountryFlag
             code={country.isoAlpha2}
             size={FLAG_SIZE}
             shape="square"
           />
-        </View>
-        <Text style={[styles.dialCode, { color: fieldColors.text }]}>
-          +{country.dialCode}
-        </Text>
+          <Text style={[styles.dialCode, { color: fieldColors.text }]}>
+            +{country.dialCode}
+          </Text>
+          {canChangeCountry && (
+            <BrandIcon
+              name="chevronSingleDownLine"
+              size={CHEVRON_SIZE}
+              color={colors.iconBrandPrimary}
+            />
+          )}
+        </Pressable>
 
         <MaskedDigitsInput
           template={country.template}
@@ -137,6 +188,20 @@ export function AppPhoneInput<T extends FieldValues>({
           <ContactIcon color={colors.iconBrandPrimary} />
         </Pressable>
       </View>
+
+      {canChangeCountry && (
+        <SelectSheet
+          visible={isCountryPickerOpen}
+          title={t("phone.countryCode")}
+          options={countryOptions}
+          selectedValue={country.isoAlpha2}
+          onSelect={handleCountrySelect}
+          onClear={() => setIsCountryPickerOpen(false)}
+          onClose={() => setIsCountryPickerOpen(false)}
+          showFlags
+          fitContent
+        />
+      )}
     </FieldShell>
   );
 }
@@ -149,6 +214,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: FIELD_SIZE.paddingHorizontal,
+    gap: Spacing.s4,
+  },
+  country: {
+    flexDirection: "row",
+    alignItems: "center",
     gap: Spacing.s4,
   },
   dialCode: {

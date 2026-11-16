@@ -9,6 +9,8 @@
  * 3.
  ********************************************************************************************/
 
+import { TranslationKey } from "../types";
+
 export type PhoneCountry = Readonly<{
   dialCode: string; // without "+", the value the API expects in mobileCountryCode
   isoAlpha2: string; // ISO 3166-1 alpha-2 for the flag
@@ -26,9 +28,26 @@ export const PHONE_COUNTRIES = {
   PH: { dialCode: "63", isoAlpha2: "PH", template: "xxx xxx xxxx" },
 } as const satisfies Record<string, PhoneCountry>;
 
+export type PhoneCountryCode = keyof typeof PHONE_COUNTRIES;
+
+// Each phone country's name, for the country picker
+export const PHONE_COUNTRY_NAME_KEYS: Readonly<
+  Record<PhoneCountryCode, TranslationKey>
+> = {
+  JP: "country.japan",
+  PH: "country.philippines",
+};
+
 export const REMITTER_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.JP;
 export const BENEFICIARY_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.PH;
 
 // Send Money's "Company telephone number" (a Philippine landline; see the
 // backend questions about landline digits counts)
 export const COMPANY_PHONE_COUNTRY: PhoneCountry = PHONE_COUNTRIES.PH;
+
+// Add Biller's "Buyer's telephone number": Japanese or Philippine
+// (the first one is preselected)
+export const BILLER_PHONE_COUNTRY_CODES = [
+  "JP",
+  "PH",
+] as const satisfies readonly PhoneCountryCode[];

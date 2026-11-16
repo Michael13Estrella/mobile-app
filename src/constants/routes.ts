@@ -94,6 +94,9 @@ export const ROUTES = {
   // After a successful send:  Transaction Details
   SEND_MONEY_FOR_PROCESSING: "/(protected)/(send-money)/send/for-processing",
 
+  // Pay Bills
+  ADD_BILLER: "/(protected)/(pay-bills)/add-biller",
+
   // Development
   PREVIEW: "/preview",
 } as const satisfies Record<string, Href | ((...params: never[]) => Href)>;

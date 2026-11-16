@@ -23,11 +23,15 @@ interface DashboardState {
   // null until the dashboard has loaded once. Send Money's "Available
   // balance"; the server still checks the real balance when sending
   wallet: Wallet | null;
+  // null until the dashboard has loaded once. 0 = no enrolled billers:
+  // the Pay Bills tab asks to enroll one first
+  billerCount: number | null;
 }
 
 const initialState: DashboardState = {
   recentBeneficiaries: null,
   wallet: null,
+  billerCount: null,
 };
 
 const dashboardSlice = createSlice({
@@ -43,6 +47,9 @@ const dashboardSlice = createSlice({
     setWallet: (state, action: PayloadAction<Wallet>) => {
       state.wallet = action.payload;
     },
+    setBillerCount: (state, action: PayloadAction<number>) => {
+      state.billerCount = action.payload;
+    },
   },
   // A signed-out user's data must not carry over the next login
   extraReducers: (builder) => {
@@ -50,5 +57,6 @@ const dashboardSlice = createSlice({
   },
 });
 
-export const { setRecentBeneficiaries, setWallet } = dashboardSlice.actions;
+export const { setRecentBeneficiaries, setWallet, setBillerCount } =
+  dashboardSlice.actions;
 export default dashboardSlice.reducer;

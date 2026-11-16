@@ -20,6 +20,11 @@ export default function TabLayout() {
   // "Add beneficiary" wad tapped: the type drawer opens once the message
   // sheet has slid out (two sheets can't be opened at once)
   const isAddPending = useRef(false);
+  // null until the dashboard has loaded once
+  const billerCount = useAppSelector((s) => s.dashboard.billerCount);
+  const [isNoBillersOpen, setIsNoBillersOpen] = useState(false);
+  // "Add biller" was tapped: Add Biller opens once the sheet has slid out
+  const isAddBillerPending = useRef(false);
 
   // Send Money needs a beneficiary. The recent list includes recently added
   // ones, so empty means none are saved. Not loaded yet: open Send Money
@@ -41,6 +46,17 @@ export default function TabLayout() {
     if (!isAddPending.current) return;
     isAddPending.current = false;
     setIsAddBeneSheetOpen(true);
+  };
+
+  const handleAddBiller = () => {
+    isAddBillerPending.current = true;
+    setIsNoBillersOpen(false);
+  };
+
+  const handleNoBillersClosed = () => {
+    if (!isAddBillerPending.current) return;
+    isAddBillerPending.current = false;
+    router.push(ROUTES.ADD_BILLER);
   };
 
   return (
@@ -74,7 +90,19 @@ export default function TabLayout() {
             },
           }}
         />
-        <Tabs.Screen name="pay-bills" options={{ title: t("tabs.payBills") }} />
+        <Tabs.Screen
+          name="pay-bills"
+          options={{ title: t("tabs.payBills") }}
+          // No enrolled billers: ask to add one instead of switching tabs.
+          // Not loaded yet: switch anyway (Pay Bills handles an empty list itself)
+          listeners={{
+            tabPress: (e) => {
+              // if (billerCount !== 0) return;
+              e.preventDefault();
+              setIsNoBillersOpen(true);
+            },
+          }}
+        />
         <Tabs.Screen name="more" options={{ title: t("tabs.more") }} />
       </Tabs>
 
@@ -98,6 +126,18 @@ export default function TabLayout() {
           router.push(ROUTES.ADD_BENEFICIARY(category));
         }}
         onClose={() => setIsAddBeneSheetOpen(false)}
+      />
+
+      {/* Pay Bills without billers: enroll one first */}
+      <AppMessageSheet
+        visible={isNoBillersOpen}
+        icon="receiptCheckLine"
+        title={t("payBills.noBillers.title")}
+        message={t("payBills.noBillers.message")}
+        actionLabel={t("payBills.noBillers.enroll")}
+        onAction={handleAddBiller}
+        onClose={() => setIsNoBillersOpen(false)}
+        onClosed={handleNoBillersClosed}
       />
     </>
   );

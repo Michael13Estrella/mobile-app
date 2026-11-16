@@ -18,6 +18,7 @@ import { remitterService } from "../services/remitter/remitterService";
 import { setRemitter } from "../store/slices/remitterSlice";
 import { useFocusEffect } from "expo-router";
 import {
+  setBillerCount,
   setRecentBeneficiaries,
   setWallet,
 } from "../store/slices/dashboardSlice";
@@ -60,6 +61,7 @@ export function useDashboard() {
     dispatch(setRemitter(remitter));
     dispatch(setRecentBeneficiaries(dashboard.recentBeneficiaries));
     dispatch(setWallet(dashboard.wallet));
+    dispatch(setBillerCount(dashboard.billerCount));
     setData(dashboard);
     setHasError(false);
 
