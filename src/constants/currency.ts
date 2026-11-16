@@ -29,8 +29,8 @@ export const CURRENCY_FRACTION_DIGITS: Readonly<Record<string, number>> = {
   USD: 2,
 };
 
-// Currencies a beneficiary can receive, in the order of the switch/
-// JPY is the only offered in some cases (see RemittanceSimulator's allowJpy)
+// Currencies a beneficiary can receive, in the order of the switch.
+// USD and JPY are offered only with a matching account (see getReceiveCurrencies)
 export const RECEIVE_CURRENCIES = ["PHP", "USD", "JPY"] as const;
 export type ReceiveCurrency = (typeof RECEIVE_CURRENCIES)[number];
 

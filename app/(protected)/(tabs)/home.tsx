@@ -28,6 +28,7 @@ import { useState } from "react";
 import { router } from "expo-router";
 import { ROUTES } from "../../../src/constants/routes";
 import { AddBeneficiarySheet } from "../../../src/components/features/beneficiary/AddBeneficiarySheet";
+import { getReceiveCurrencies } from "../../../src/utils/remittance/receiveCurrencies";
 
 export default function HomeScreen() {
   const { data, isLoading, refresh } = useDashboard();
@@ -87,7 +88,10 @@ export default function HomeScreen() {
           key={simulatorKey}
           rates={rates}
           chargeTiers={charges}
-          allowJpy={!!data?.hasMetrobankYenAccount}
+          receiveCurrencies={getReceiveCurrencies({
+            hasMetrobankYenAccount: !!data?.hasMetrobankYenAccount,
+            hasUsdAccount: !!data?.hasUsdAccount,
+          })}
           onSendPress={() => {}}
         />
 

@@ -61,14 +61,15 @@ type RemittanceSimulatorProps = Readonly<{
   rates: readonly ExchangeRate[];
   // Remittance charge tiers by send amount (JPY).
   chargeTiers: readonly ChargeTier[];
-  allowJpy: boolean;
+  // Currencies offered in the switch (see getReceiveCurrencies)
+  receiveCurrencies: readonly ReceiveCurrency[];
   onSendPress: (amount: number, currency: ReceiveCurrency) => void;
 }>;
 
 export function RemittanceSimulator({
   rates,
   chargeTiers,
-  allowJpy,
+  receiveCurrencies,
   onSendPress,
 }: RemittanceSimulatorProps) {
   const { colors } = useAppTheme();
@@ -76,13 +77,10 @@ export function RemittanceSimulator({
   const intlLocale = INTL_LOCALE[locale];
   const formatRate = useFormatRate();
 
-  const receiveCurrencies = RECEIVE_CURRENCIES.filter(
-    (code) => allowJpy || code !== SEND_CURRENCY,
-  );
   const [selectedReceiveCurrency, setSelectedReceiveCurrency] =
     useState<ReceiveCurrency>(RECEIVE_CURRENCIES[0]);
 
-  // Falls back to the first option if JPY was selected and is no longer allowed
+  // Falls back to the first option if the selected currency is no longer offered
   const receiveCurrency = receiveCurrencies.includes(selectedReceiveCurrency)
     ? selectedReceiveCurrency
     : receiveCurrencies[0];

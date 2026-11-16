@@ -58,4 +58,7 @@ export interface DashboardStatsResponse {
   wallet: Wallet;
   lastLogin: string | null;
   hasMetrobankYenAccount: boolean;
+  hasUsdAccount: boolean;
+  beneficiaryCount: number;
+  billerCount: number;
 }
