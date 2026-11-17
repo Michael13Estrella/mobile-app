@@ -97,7 +97,7 @@ export default function TabLayout() {
           // Not loaded yet: switch anyway (Pay Bills handles an empty list itself)
           listeners={{
             tabPress: (e) => {
-              // if (billerCount !== 0) return;
+              if (billerCount !== 0) return;
               e.preventDefault();
               setIsNoBillersOpen(true);
             },

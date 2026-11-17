@@ -45,7 +45,6 @@ import { WALLET_CURRENCY } from "../../../constants/currency";
 import { AppDivider } from "../../common/AppDivider";
 import { formatPhoneNumber } from "../../../utils/format/phone";
 import { COMPANY_PHONE_COUNTRY } from "../../../constants/phone";
-import { send } from "node:process";
 import { formatDate, formatTime } from "../../../utils/format/formatDate";
 
 // "LABEL            value": the label in grey capitals on the left, the
