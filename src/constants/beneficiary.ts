@@ -22,6 +22,7 @@ export const BENEFICIARY_CATEGORIES: readonly BeneficiaryCategory[] = [
 export const BENEFICIARY_TYPE = {
   INDIVIDUAL: "I",
   CORPORATE: "C",
+  BILLER: "B",
 } as const;
 
 export type BeneficiaryType =

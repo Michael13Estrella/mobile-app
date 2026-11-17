@@ -15,3 +15,10 @@ export const CREDIT_CARD_BILLER_CODES: readonly string[] = ["090"];
 // A credit card number: its digits, shown in groups while typing
 export const CREDIT_CARD_NUMBER_LENGTH = 16;
 export const CREDIT_CARD_NUMBER_TEMPLATE = "xxxx xxxx xxxx xxxx";
+
+// A biller is saved as a beneficiary. These fill the beneficiary fields a
+// biller doesn't have
+export const BILLER_RELATIONSHIP = "BILLS PAYMENT";
+export const BILLER_ADDRESS = "Bills Payment";
+// Both cityProvCode and zipPosCode
+export const BILLER_AREA_CODE = "9999";

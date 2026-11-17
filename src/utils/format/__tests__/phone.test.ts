@@ -14,6 +14,7 @@ import {
   getPhoneDigitCount,
   isValidPhoneNumber,
   toDomesticPhoneNumber,
+  toInternationalPhoneNumber,
   toPhoneDigits,
 } from "../phone";
 import { PHONE_COUNTRIES } from "../../../constants/phone";
@@ -83,5 +84,16 @@ describe("formatPhoneNumber", () => {
 describe("toDomesticPhoneNumber", () => {
   it("adds the leading 0", () => {
     expect(toDomesticPhoneNumber("9171234567")).toBe("09171234567");
+  });
+});
+
+describe("toInternationalPhoneNumber", () => {
+  it("puts the country code before the digits", () => {
+    expect(toInternationalPhoneNumber(PHONE_COUNTRIES.JP, "9012345678")).toBe(
+      "819012345678",
+    );
+    expect(toInternationalPhoneNumber(PHONE_COUNTRIES.PH, "9171234567")).toBe(
+      "639171234567",
+    );
   });
 });

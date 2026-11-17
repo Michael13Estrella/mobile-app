@@ -122,6 +122,15 @@ export interface CreateCorporateBeneficiary extends CreateBeneficiaryBase {
   officeTelNo: string;
 }
 
+// A Biller's beneficiary part: the biller's name, the agreed fixed values
+// (see constants/biller), and no birth/establishment date
+export interface CreateBillerBeneficiary extends CreateBeneficiaryBase {
+  beneficiaryType: typeof BENEFICIARY_TYPE.BILLER;
+  // The biller's name (Biller.utilityDesc)
+  companyName: string;
+  officeTelNo: string;
+}
+
 export type CreateBeneficiaryDetails =
   | CreateIndividualBeneficiary
   | CreateCorporateBeneficiary;
@@ -150,6 +159,20 @@ export interface CreatePayoutCashPickup {
   payoutType: typeof PAYOUT_TYPE.CASH_PICKUP;
 }
 
+// A biller's payout. Fields the biller doesn't ask for are sent as ""
+export interface CreatePayoutBillsPayment {
+  payoutType: typeof PAYOUT_TYPE.BILLS_PAYMENT;
+  // Biller.acctCurrency
+  currency: string;
+  bpUtilityCode: string;
+  // The biller's name (Biller.utilityDesc)
+  bpSubscriberName: string;
+  bpSubscriberNo: string;
+  bpDocuRefNo: string;
+  // Country code + number, no "+"
+  bpTelNo: string;
+}
+
 // A new payout method: Create Beneficiary's payout part, and the whole body
 // of POST /api/remitters/{remitterGuid}/beneficiaries/{beneficiaryGuid}/payout
 export type CreatePayoutRequest =
@@ -161,6 +184,12 @@ export type CreatePayoutRequest =
 export interface CreateBeneficiaryRequest {
   beneficiary: CreateBeneficiaryDetails;
   payout: CreatePayoutRequest;
+}
+
+// POST /api/remitters/{remitterGuid}/beneficiaries, for a biller
+export interface AddBillerRequest {
+  beneficiary: CreateBillerBeneficiary;
+  payout: CreatePayoutBillsPayment;
 }
 
 // What a payout row shows: a saved payout, or a new one before it's saved

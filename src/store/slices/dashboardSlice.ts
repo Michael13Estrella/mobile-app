@@ -50,6 +50,11 @@ const dashboardSlice = createSlice({
     setBillerCount: (state, action: PayloadAction<number>) => {
       state.billerCount = action.payload;
     },
+    // A biller was enrolled: the Pay Bills tab no longer asks to add one,
+    // even before Home reloads the dashboard. Not loaded yet: Home sets it
+    billerAdded: (state) => {
+      if (state.billerCount !== null) state.billerCount += 1;
+    },
   },
   // A signed-out user's data must not carry over the next login
   extraReducers: (builder) => {
@@ -57,6 +62,10 @@ const dashboardSlice = createSlice({
   },
 });
 
-export const { setRecentBeneficiaries, setWallet, setBillerCount } =
-  dashboardSlice.actions;
+export const {
+  setRecentBeneficiaries,
+  setWallet,
+  setBillerCount,
+  billerAdded,
+} = dashboardSlice.actions;
 export default dashboardSlice.reducer;

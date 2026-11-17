@@ -74,6 +74,20 @@ export const toDomesticPhoneNumber = (digits: string): string =>
   `${PHONE_TRUNK_PREFIX}${digits}`;
 
 /**
+ * A number in its international form, without the "+": the country code,
+ * then the digits after it.
+ *
+ * @param country - The phone country
+ * @param digits - The national digits (from `toPhoneDigits`)
+ * @returns The country code and the digits
+ * @example toInternationalPhoneNumber(PHONE_COUNTRIES.JP, "9012345678"); // "819012345678"
+ */
+export const toInternationalPhoneNumber = (
+  country: PhoneCountry,
+  digits: string,
+): string => `${country.dialCode}${digits}`;
+
+/**
  * The full number for display (e.g. the confirm screen): the country code,
  * then the digits in the country's template.
  *

@@ -96,6 +96,8 @@ export const ROUTES = {
 
   // Pay Bills
   ADD_BILLER: "/(protected)/(pay-bills)/add-biller",
+  ADD_BILLER_SUBMITTED: "/(protected)/(pay-bills)/add-biller/submitted",
+  PAY_BILLS: "/(protected)/(tabs)/pay-bills",
 
   // Development
   PREVIEW: "/preview",

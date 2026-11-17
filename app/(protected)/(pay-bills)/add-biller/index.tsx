@@ -10,9 +10,16 @@
  ********************************************************************************************/
 
 import { AddBillerForm } from "../../../../src/components/features/biller/AddBillerForm";
+import { useAddBiller } from "../../../../src/hooks/useAddBiller";
 
 // Add Biller: from the Pay Bills tab's "No enrolled billers yet" sheet
 export default function AddBillerScreen() {
-  // TODO(step 4): save the biller (Create Beneficiary with a BP payout)
-  return <AddBillerForm onSubmit={() => {}} />;
+  const { isSubmitting, addBiller } = useAddBiller();
+
+  return (
+    <AddBillerForm
+      isSubmitting={isSubmitting}
+      onSubmit={(values, biller) => void addBiller(values, biller)}
+    />
+  );
 }

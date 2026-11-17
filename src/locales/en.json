@@ -31,7 +31,8 @@
     "delete": "Delete",
     "edit": "Edit",
     "goToDashboard": "Go to dashboard",
-    "contactUs": "Contact Us"
+    "contactUs": "Contact Us",
+    "japanDateTime": "{{date}} · {{time}} {{zone}}"
   },
   "------------------------------ FORM ------------------------------": "",
   "form": {
@@ -704,7 +705,20 @@
       "enroll": "Add biller"
     },
     "addBiller": {
-      "headerTitle": "Add Biller"
+      "headerTitle": "Add Biller",
+      "submitted": {
+        "headerTitle": "Transaction Details",
+        "title": "Biller under review",
+        "message": "We're checking your biller details. We'll notify you by push notification and email once it's done.",
+        "biller": "Biller",
+        "subscriberNo": "Subscriber no.",
+        "creditCardNo": "Credit card no.",
+        "docRefNo": "Docs no.",
+        "telNo": "Buyer's tel. no.",
+        "dateTime": "Date & time",
+        "addAnother": "Add another biller",
+        "goToPayBills": "Go to Pay Bills"
+      }
     }
   },
 

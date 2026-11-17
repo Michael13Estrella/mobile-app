@@ -20,6 +20,7 @@ import remitterReducer from "./slices/remitterSlice";
 import dashboardReducer from "./slices/dashboardSlice";
 import addBeneficiaryReducer from "./slices/addBeneficiarySlice";
 import sendMoneyReducer from "./slices/sendMoneySlice";
+import addBillerReducer from "./slices/addBillerSlice";
 import { apiService } from "../services/api/apiService";
 
 export const store = configureStore({
@@ -33,6 +34,7 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     addBeneficiary: addBeneficiaryReducer,
     sendMoney: sendMoneyReducer,
+    addBiller: addBillerReducer,
     [apiService.reducerPath]: apiService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
