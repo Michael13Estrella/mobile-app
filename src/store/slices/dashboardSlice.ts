@@ -55,6 +55,10 @@ const dashboardSlice = createSlice({
     billerAdded: (state) => {
       if (state.billerCount !== null) state.billerCount += 1;
     },
+    // A biller was deleted: the last one brings back "No enrolled billers yet"
+    billerRemoved: (state) => {
+      if (state.billerCount) state.billerCount -= 1;
+    },
   },
   // A signed-out user's data must not carry over the next login
   extraReducers: (builder) => {
@@ -67,5 +71,6 @@ export const {
   setWallet,
   setBillerCount,
   billerAdded,
+  billerRemoved,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

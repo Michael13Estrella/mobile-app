@@ -67,4 +67,29 @@ export const billerService = {
       return null;
     }
   },
+
+  /**
+   * Deletes an enrolled biller (a beneficiary: the Delete Beneficiary
+   * endpoint).
+   *
+   * @param beneficiaryGuid - The biller to delete
+   * @returns ok, or the server's first error message when there is one
+   */
+  deleteBiller: async (beneficiaryGuid: string): Promise<SaveResult> => {
+    try {
+      const remitterGuid = await remitterService.getCurrentRemitterGuid();
+      if (!remitterGuid) return { ok: false };
+
+      const { ok, errors } = await apiClient.critical.delete(
+        ENDPOINTS.DELETE_BENEFICIARY(remitterGuid, beneficiaryGuid),
+      );
+
+      return ok
+        ? { ok: true }
+        : { ok: false, message: firstErrorMessage(errors) };
+    } catch {
+      // getCurrentRemitterGuid throws when the guid can't be fetched
+      return { ok: false };
+    }
+  },
 };

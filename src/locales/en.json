@@ -737,12 +737,18 @@
     "subscriberNo": "Subscriber no.",
     "creditCardNo": "Credit card no.",
     "docRefNo": "Docs no.",
-    "telNo": "Buyer’s tel. no.",
+    "telNo": "Buyer's tel. no.",
     "payBill": "Pay bill",
-    "loadError": "Couldn't load this biller. Pull down to try again."
-  },
-  "payBill": {
-    "headerTitle": "Pay Bills"
+    "loadError": "Couldn't load this biller. Pull down to try again.",
+    "delete": {
+      "title": "Delete {{biller}}?",
+      "message": "You won't be able to pay this biller anymore. To pay it again, you'll need to add it as a new biller.",
+      "keep": "Keep biller",
+      "deleted": {
+        "title": "Biller deleted",
+        "message": "{{biller}} has been removed from your billers."
+      }
+    }
   },
 
   "------------------------------ PAY BILLS FIELDS ------------------------------": "",
