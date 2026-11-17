@@ -21,8 +21,6 @@ import { getBeneficiaryTitle } from "../../../utils/beneficiary/beneficiary";
 import { resolveShadows } from "../../../theme/shadows";
 import { GradientText } from "../../common/GradientText";
 
-const ICON_SIZE = 20;
-
 type BeneficiaryCardProps = Readonly<{
   beneficiary: BeneficiarySummary;
   onPress: () => void;
@@ -94,6 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: Spacing.s5,
+    borderRadius: Spacing.s4,
   },
   texts: {
     flex: 1,
