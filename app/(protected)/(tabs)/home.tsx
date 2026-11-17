@@ -29,6 +29,7 @@ import { router } from "expo-router";
 import { ROUTES } from "../../../src/constants/routes";
 import { AddBeneficiarySheet } from "../../../src/components/features/beneficiary/AddBeneficiarySheet";
 import { getReceiveCurrencies } from "../../../src/utils/remittance/receiveCurrencies";
+import { BENEFICIARY_TYPE } from "../../../src/constants/beneficiary";
 
 export default function HomeScreen() {
   const { data, isLoading, refresh } = useDashboard();
@@ -76,7 +77,11 @@ export default function HomeScreen() {
           isLoading={isLoading}
           onAddPress={() => setIsAddBeneSheetOpen(true)}
           onBeneficiaryPress={(beneficiary) =>
-            router.push(ROUTES.BENEFICIARY_DETAILS(beneficiary.beneficiaryGuid))
+            router.push(
+              beneficiary.beneficiaryType === BENEFICIARY_TYPE.BILLER
+                ? ROUTES.BILLER_DETAILS(beneficiary.beneficiaryGuid)
+                : ROUTES.BENEFICIARY_DETAILS(beneficiary.beneficiaryGuid),
+            )
           }
           onViewAllPress={() => router.push(ROUTES.MANAGE_BENEFICIARIES)}
         />
