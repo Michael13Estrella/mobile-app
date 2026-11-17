@@ -108,7 +108,18 @@ export default function TabLayout() {
             },
           }}
         />
-        <Tabs.Screen name="more" options={{ title: t("tabs.more") }} />
+        <Tabs.Screen
+          name="more"
+          options={{ title: t("tabs.more") }}
+          // Opens Profile & Settings as a full screen (no tab bar, with a
+          // back arrow) instead of switching to this empty tab.
+          listeners={{
+            tabPress: (e) => {
+              e.preventDefault();
+              router.push(ROUTES.PROFILE_SETTINGS);
+            },
+          }}
+        />
       </Tabs>
 
       {/* Send Money without beneficiaries: add one first */}

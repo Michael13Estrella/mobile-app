@@ -9,7 +9,11 @@
  * 3.
  ********************************************************************************************/
 
-import { getRemitterDisplayName } from "../remitter";
+import {
+  getRemitterDisplayName,
+  getRemitterFullName,
+  getRemitterInitials,
+} from "../remitter";
 import { JAPANESE_NATIONALITY_CODE } from "../../../constants/nationality";
 
 // A non-Japanese remitter, as the server sends it (capitals).
@@ -54,5 +58,23 @@ describe("getRemitterDisplayName", () => {
         lastName: "田中",
       }),
     ).toBe("田中");
+  });
+});
+
+describe("getRemitterFullName", () => {
+  it("is the first and last name, formatted", () => {
+    expect(getRemitterFullName(base)).toBe("Juan Dela Cruz");
+  });
+});
+
+describe("getRemitterInitials", () => {
+  it("takes the first letters of the first and last name", () => {
+    expect(getRemitterInitials(base)).toBe("JD");
+  });
+
+  it("ignores spaces around the names", () => {
+    expect(
+      getRemitterInitials({ firstName: " maria ", lastName: " santos " }),
+    ).toBe("MS");
   });
 });

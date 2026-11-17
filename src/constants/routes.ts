@@ -108,6 +108,9 @@ export const ROUTES = {
     params: { beneficiaryGuid },
   }),
 
+  // Settings | The More tab
+  PROFILE_SETTINGS: "/(protected)/(settings)/profile-settings",
+
   // Development
   PREVIEW: "/preview",
 } as const satisfies Record<string, Href | ((...params: never[]) => Href)>;
