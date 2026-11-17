@@ -722,6 +722,15 @@
     }
   },
 
+  "------------------------------ ENROLLED BILLERS ------------------------------": "",
+  "enrolledBillers": {
+    "title": "Enrolled Billers",
+    "add": "Add biller",
+    "empty": "No enrolled billers yet.",
+    "noResults": "No billers match your search.",
+    "loadError": "Couldn't load your billers. Pull down to try again."
+  },
+
   "------------------------------ PAY BILLS FIELDS ------------------------------": "",
   "billerFields": {
     "biller": {

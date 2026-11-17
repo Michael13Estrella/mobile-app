@@ -93,13 +93,18 @@ export default function TabLayout() {
         <Tabs.Screen
           name="pay-bills"
           options={{ title: t("tabs.payBills") }}
-          // No enrolled billers: ask to add one instead of switching tabs.
-          // Not loaded yet: switch anyway (Pay Bills handles an empty list itself)
+          // Opens Enrolled Billers as a full screen (no tab bar, with a back
+          // arrow) instead of switching to this empty tab. No enrolled
+          // billers: asks to add one first. Not loaded yet: opens the list
+          // anyway (it handles an empty list itself)
           listeners={{
             tabPress: (e) => {
-              if (billerCount !== 0) return;
               e.preventDefault();
-              setIsNoBillersOpen(true);
+              if (billerCount === 0) {
+                setIsNoBillersOpen(true);
+                return;
+              }
+              router.push(ROUTES.ENROLLED_BILLERS);
             },
           }}
         />

@@ -97,7 +97,8 @@ export const ROUTES = {
   // Pay Bills
   ADD_BILLER: "/(protected)/(pay-bills)/add-biller",
   ADD_BILLER_SUBMITTED: "/(protected)/(pay-bills)/add-biller/submitted",
-  PAY_BILLS: "/(protected)/(tabs)/pay-bills",
+  // The Pay Bills tab, when the remitter has billers
+  ENROLLED_BILLERS: "/(protected)/(pay-bills)/enrolled-billers",
 
   // Development
   PREVIEW: "/preview",

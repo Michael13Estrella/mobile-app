@@ -10,7 +10,12 @@
  ********************************************************************************************/
 
 import { ENDPOINTS } from "../../constants/endpoints";
-import { AddBillerRequest, SaveResult } from "../../types";
+import {
+  AddBillerRequest,
+  EnrolledBiller,
+  ManageBillersResponse,
+  SaveResult,
+} from "../../types";
 import { firstErrorMessage } from "../../utils/api/apiErrors";
 import { apiClient } from "../api/apiClient";
 import { remitterService } from "../remitter/remitterService";
@@ -39,6 +44,27 @@ export const billerService = {
     } catch {
       // getCurrentRemitterGuid throws when the guid can't be fetched
       return { ok: false };
+    }
+  },
+
+  /**
+   * The remitter's enrolled billers.
+   *
+   * @returns The billers, or `null` when they couldn't be loaded (no
+   *    session, network or server error); the screen shows the error
+   */
+  fetchEnrolledBillers: async (): Promise<EnrolledBiller[] | null> => {
+    try {
+      const remitterGuid = await remitterService.getCurrentRemitterGuid();
+      if (!remitterGuid) return null;
+
+      const { ok, data } = await apiClient.critical.get<ManageBillersResponse>(
+        ENDPOINTS.MANAGE_BILLERS(remitterGuid),
+      );
+      return ok && data ? data.billers : null;
+    } catch {
+      // getCurrentRemitterGuid throws when the guid can't be fetched
+      return null;
     }
   },
 };

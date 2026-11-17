@@ -63,6 +63,10 @@ export const ENDPOINTS = {
   ) =>
     `/api/remitters/${remitterGuid}/beneficiaries/${beneficiaryGuid}/payout/${payoutId}`,
 
+  // Biller
+  MANAGE_BILLERS: (remitterGuid: string) =>
+    `/api/remitters/${remitterGuid}/manage-billers`,
+
   // Remittance
   SEND_MONEY: (remitterGuid: string) =>
     `/api/remittances/${remitterGuid}/send-money`,

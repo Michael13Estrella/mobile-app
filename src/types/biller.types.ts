@@ -27,3 +27,24 @@ export interface Biller {
   mosaicOutputFlg: boolean;
   branchCode: string;
 }
+
+// An enrolled biller: a beneficiary with a bills payment payout
+export interface EnrolledBiller {
+  remitterGuid: string;
+  beneficiaryGuid: string;
+  beneficiaryType: string;
+  nameInitial: string;
+  beneAlias: string;
+  relationToBeneDesc: string;
+  bpUtilityCode: string;
+  bpSubscriberName: string;
+  bpSubscriberNo: string;
+  bpDocuRefNo: string;
+  bpTelno: string;
+  payoutId: number;
+}
+
+// GET /api/remitters/{remitterGuid}/manage-billers
+export interface ManageBillersResponse {
+  billers: EnrolledBiller[];
+}

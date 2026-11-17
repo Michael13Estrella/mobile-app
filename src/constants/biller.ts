@@ -22,3 +22,6 @@ export const BILLER_RELATIONSHIP = "BILLS PAYMENT";
 export const BILLER_ADDRESS = "Bills Payment";
 // Both cityProvCode and zipPosCode
 export const BILLER_AREA_CODE = "9999";
+
+// Enrolled Billers shows a search box above this many billers
+export const BILLER_SEARCH_MIN_COUNT = 10;

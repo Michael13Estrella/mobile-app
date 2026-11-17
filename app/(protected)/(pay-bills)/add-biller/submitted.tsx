@@ -17,8 +17,11 @@ import { clearAddBiller } from "../../../../src/store/slices/addBillerSlice";
 import { BackHandler } from "react-native";
 import { BillerSubmitted } from "../../../../src/components/features/biller/BillerSubmitted";
 
-// Leaves the finished flow for the Pay Bills tab
-const goToPayBills = () => router.dismissTo(ROUTES.PAY_BILLS);
+// Leaves the finished flow for Pay Bills (Enrolled Billers, reloaded)
+const goToPayBills = () => {
+  router.dismissTo(ROUTES.HOME);
+  router.push(ROUTES.ENROLLED_BILLERS);
+};
 
 // Add Biller, after a successful save: the biller is now being reviewed;
 // there's no going back to the form

@@ -9,10 +9,10 @@
  * 3.
  ********************************************************************************************/
 
-import { ComingSoonScreen } from "../../../src/components/screens/ComingSoonScreen";
-import { useTranslation } from "../../../src/hooks/useTranslation";
-
-export default function PayBillsScreen() {
-  const { t } = useTranslation();
-  return <ComingSoonScreen title={t("tabs.payBills")} />;
+// The Pay Bills tab button opens /enrolled-billers (full screen, over the
+// tabs; see the tabs layout) or the "No enrolled billers yet" sheet, so
+// this tab itself is never shown. The file only exists because every tab
+// button needs a route.
+export default function PayBillsTab() {
+  return null;
 }
