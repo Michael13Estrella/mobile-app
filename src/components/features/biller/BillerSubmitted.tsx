@@ -23,12 +23,9 @@ import { StatusIcon } from "../../common/StatusIcon";
 import { AppText } from "../../common/AppText";
 import { AppCard } from "../../common/AppCard";
 import { DetailRow } from "../../common/DetailRow";
-import {
-  fillDigitsTemplate,
-  formatPhoneNumber,
-} from "../../../utils/format/phone";
-import { CREDIT_CARD_NUMBER_TEMPLATE } from "../../../constants/biller";
+import { formatPhoneNumber } from "../../../utils/format/phone";
 import { PHONE_COUNTRIES } from "../../../constants/phone";
+import { maskAccountNumber } from "../../../utils/beneficiary/payout";
 
 type BillerSubmittedProps = Readonly<{
   submitted: SubmittedBiller;
@@ -101,10 +98,7 @@ export function BillerSubmitted({
             }
             value={
               fields.isCreditCard
-                ? fillDigitsTemplate(
-                    CREDIT_CARD_NUMBER_TEMPLATE,
-                    values.subscriberNo,
-                  )
+                ? maskAccountNumber(values.subscriberNo)
                 : values.subscriberNo
             }
           />
