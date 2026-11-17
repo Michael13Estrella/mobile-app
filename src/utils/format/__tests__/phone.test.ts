@@ -10,6 +10,7 @@
  ********************************************************************************************/
 
 import {
+  formatInternationalPhoneNumber,
   formatPhoneNumber,
   getPhoneDigitCount,
   isValidPhoneNumber,
@@ -95,5 +96,20 @@ describe("toInternationalPhoneNumber", () => {
     expect(toInternationalPhoneNumber(PHONE_COUNTRIES.PH, "9171234567")).toBe(
       "639171234567",
     );
+  });
+});
+
+describe("formatInternationalPhoneNumber", () => {
+  it("formats a number of a known country", () => {
+    expect(formatInternationalPhoneNumber("639171234567")).toBe(
+      formatPhoneNumber(PHONE_COUNTRIES.PH, "9171234567"),
+    );
+    expect(formatInternationalPhoneNumber("819012345678")).toBe(
+      formatPhoneNumber(PHONE_COUNTRIES.JP, "9012345678"),
+    );
+  });
+
+  it("shows any other number as saved", () => {
+    expect(formatInternationalPhoneNumber("4400-44455")).toBe("4400-44455");
   });
 });

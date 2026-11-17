@@ -10,6 +10,7 @@
  ********************************************************************************************/
 
 import {
+  PHONE_COUNTRIES,
   PHONE_DIGIT_PLACEHOLDER,
   PHONE_TRUNK_PREFIX,
   PhoneCountry,
@@ -107,6 +108,26 @@ export const formatPhoneNumber = (
   );
 
   return `+${country.dialCode} ${masked}`;
+};
+
+/**
+ * A saved international number for display (e.g. an enrolled biller's
+ * bpTelno): finds its country by the dial code and digit count. A number
+ * of no known country is shown as saved.
+ *
+ * @param number - Country code + national digits, no "+"
+ * @returns The formatted number
+ * @example formatInternationalPhoneNumber("639171234567"); // "+63 917 123 4567"
+ */
+export const formatInternationalPhoneNumber = (number: string): string => {
+  const country = Object.values(PHONE_COUNTRIES).find(
+    (item) =>
+      number.startsWith(item.dialCode) &&
+      number.length === item.dialCode.length + getPhoneDigitCount(item),
+  );
+  return country
+    ? formatPhoneNumber(country, number.slice(country.dialCode.length))
+    : number;
 };
 
 /**

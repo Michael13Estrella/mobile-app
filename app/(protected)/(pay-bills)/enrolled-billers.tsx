@@ -77,7 +77,9 @@ export default function EnrolledBillersScreen() {
       <EnrolledBillerCard
         key={biller.beneficiaryGuid}
         biller={biller}
-        onPress={() => undefined}
+        onPress={() =>
+          router.push(ROUTES.BILLER_DETAILS(biller.beneficiaryGuid))
+        }
       />
     ));
   };

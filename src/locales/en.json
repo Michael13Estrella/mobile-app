@@ -722,13 +722,27 @@
     }
   },
 
-  "------------------------------ ENROLLED BILLERS ------------------------------": "",
+  "------------------------------ BILLERS ------------------------------": "",
   "enrolledBillers": {
     "title": "Enrolled Billers",
     "add": "Add biller",
     "empty": "No enrolled billers yet.",
     "noResults": "No billers match your search.",
     "loadError": "Couldn't load your billers. Pull down to try again."
+  },
+  "billerDetails": {
+    "title": "Biller Information",
+    "sectionTitle": "Biller details",
+    "biller": "Biller",
+    "subscriberNo": "Subscriber no.",
+    "creditCardNo": "Credit card no.",
+    "docRefNo": "Docs no.",
+    "telNo": "Buyer’s tel. no.",
+    "payBill": "Pay bill",
+    "loadError": "Couldn't load this biller. Pull down to try again."
+  },
+  "payBill": {
+    "headerTitle": "Pay Bills"
   },
 
   "------------------------------ PAY BILLS FIELDS ------------------------------": "",

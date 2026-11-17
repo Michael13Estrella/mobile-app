@@ -99,6 +99,14 @@ export const ROUTES = {
   ADD_BILLER_SUBMITTED: "/(protected)/(pay-bills)/add-biller/submitted",
   // The Pay Bills tab, when the remitter has billers
   ENROLLED_BILLERS: "/(protected)/(pay-bills)/enrolled-billers",
+  BILLER_DETAILS: (beneficiaryGuid: string) => ({
+    pathname: "/(protected)/(pay-bills)/biller/[beneficiaryGuid]",
+    params: { beneficiaryGuid },
+  }),
+  PAY_BILL: (beneficiaryGuid: string) => ({
+    pathname: "/(protected)/(pay-bills)/pay-bill/[beneficiaryGuid]",
+    params: { beneficiaryGuid },
+  }),
 
   // Development
   PREVIEW: "/preview",

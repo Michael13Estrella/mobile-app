@@ -25,3 +25,6 @@ export const BILLER_AREA_CODE = "9999";
 
 // Enrolled Billers shows a search box above this many billers
 export const BILLER_SEARCH_MIN_COUNT = 10;
+
+// Hides a card number's digits on Biller Information ("•••• •••• •••• 4821")
+export const CARD_NUMBER_MASK_CHAR = "•";

@@ -9,9 +9,27 @@
  * 3.
  ********************************************************************************************/
 
-import { CREDIT_CARD_BILLER_CODES } from "../../constants/biller";
+import {
+  CARD_NUMBER_MASK_CHAR,
+  CREDIT_CARD_BILLER_CODES,
+  CREDIT_CARD_NUMBER_LENGTH,
+  CREDIT_CARD_NUMBER_TEMPLATE,
+} from "../../constants/biller";
+import { ACCOUNT_NO_VISIBLE_DIGITS } from "../../constants/payout";
 import { EnrolledBiller } from "../../types";
 import { maskAccountNumber } from "../beneficiary/payout";
+import { fillDigitsTemplate } from "../format/phone";
+
+/**
+ * Whether an enrolled biller's subscriber number is a credit card number.
+ *
+ * @param biller - The enrolled biller
+ * @returns true for a card biller
+ * @example isCreditCardEnrolledBiller({ bpUtilityCode: "090" }); // true
+ */
+export const isCreditCardEnrolledBiller = (
+  biller: Pick<EnrolledBiller, "bpUtilityCode">,
+): boolean => CREDIT_CARD_BILLER_CODES.includes(biller.bpUtilityCode);
 
 /**
  * An enrolled biller's number for lists: a card biller's card number with
@@ -24,7 +42,7 @@ import { maskAccountNumber } from "../beneficiary/payout";
 export const getEnrolledBillerNumber = (
   biller: Pick<EnrolledBiller, "bpUtilityCode" | "bpSubscriberNo">,
 ): string =>
-  CREDIT_CARD_BILLER_CODES.includes(biller.bpUtilityCode)
+  isCreditCardEnrolledBiller(biller)
     ? maskAccountNumber(biller.bpSubscriberNo)
     : biller.bpSubscriberNo;
 
@@ -45,5 +63,26 @@ export const matchesEnrolledBillerSearch = (
   if (!normalized) return true;
   return [biller.bpSubscriberName, biller.beneAlias].some((field) =>
     field.toLowerCase().includes(normalized),
+  );
+};
+
+/**
+ * A card number with every group hidden but the last digits, for Biller
+ * Information. A number that isn't a full card number gets the short mask.
+ *
+ * @param cardNo - The card number (digits only)
+ * @returns e.g. "•••• •••• •••• 4821"
+ * @example maskCardNumber("5412750012344821"); // "•••• •••• •••• 4821"
+ */
+export const maskCardNumber = (cardNo: string): string => {
+  if (cardNo.length !== CREDIT_CARD_NUMBER_LENGTH) {
+    return maskAccountNumber(cardNo);
+  }
+  const hidden = CARD_NUMBER_MASK_CHAR.repeat(
+    cardNo.length - ACCOUNT_NO_VISIBLE_DIGITS,
+  );
+  return fillDigitsTemplate(
+    CREDIT_CARD_NUMBER_TEMPLATE,
+    `${hidden}${cardNo.slice(-ACCOUNT_NO_VISIBLE_DIGITS)}`,
   );
 };
