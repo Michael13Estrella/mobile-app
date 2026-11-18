@@ -202,9 +202,10 @@ export const LightColors = {
   settingsIconBackground: Palette.mbAzure050,
 
   // Switch (AppSwitch)
-  switchTrackOn: Palette.mbBlue500,
-  switchTrackOff: Palette.mbGrey200,
-  switchThumb: Palette.white100,
+  switchTrackOn: Palette.mbGreen200,
+  switchTrackOff: Palette.mbGrey100,
+  switchThumbOn: Palette.sysGreen200,
+  switchThumbOff: Palette.mbGrey200,
 
   // Numbered steps (e.g. the cash pick-up guide's "How it works")
   stepNumberBackground: Palette.mbAzure050,
@@ -384,9 +385,10 @@ export const DarkColors = {
   settingsIconBackground: Palette.mbAzure050,
 
   // Switch (AppSwitch)
-  switchTrackOn: Palette.mbBlue500,
-  switchTrackOff: Palette.mbGrey200,
-  switchThumb: Palette.white100,
+  switchTrackOn: Palette.mbGreen200,
+  switchTrackOff: Palette.mbGrey100,
+  switchThumbOn: Palette.sysGreen200,
+  switchThumbOff: Palette.mbGrey200,
 
   // Numbered steps (e.g. the cash pick-up guide's "How it works")
   stepNumberBackground: Palette.mbAzure050,
