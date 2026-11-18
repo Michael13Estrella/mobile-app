@@ -22,12 +22,18 @@ import {
   getRemitterInitials,
 } from "../../../src/utils/remitter/remitter";
 import { AppButton } from "../../../src/components/common/AppButton";
+import { useState } from "react";
+import { SettingsSection } from "../../../src/components/features/settings/SettingsSection";
+import { SettingsRow } from "../../../src/components/features/settings/SettingsRow";
+import { AppSwitch } from "../../../src/components/common/AppSwitch";
 
 // Profile & Settings: from the More tab
 export default function ProfileSettingsScreen() {
   const { t } = useTranslation();
   const { signOut } = useAuth();
   const profile = useAppSelector((s) => s.remitter.profile);
+  // TODO: looks only for now; to be linked to biometric login
+  const [isBiometricsEnabled, setIsBiometricsEnabled] = useState(false);
 
   return (
     <AppScreen
@@ -49,6 +55,66 @@ export default function ProfileSettingsScreen() {
           customerId={"123456"}
         />
       )}
+
+      {/* My Profile */}
+      <SettingsSection title={t("profileSettings.sections.myProfile")}>
+        <SettingsRow
+          icon="user01Line"
+          title={t("profileSettings.rows.personalInformation")}
+        />
+        <SettingsRow
+          icon="pin02Line"
+          title={t("profileSettings.rows.contactDetails")}
+        />
+      </SettingsSection>
+
+      {/* Preferences */}
+      <SettingsSection title={t("profileSettings.sections.preferences")}>
+        <SettingsRow
+          icon="settings04Line"
+          title={t("profileSettings.rows.notificationsLanguage")}
+        />
+      </SettingsSection>
+
+      {/* Security */}
+      <SettingsSection title={t("profileSettings.sections.security")}>
+        <SettingsRow
+          icon="atSignLine"
+          title={t("profileSettings.rows.accountEmail")}
+        />
+        <SettingsRow
+          icon="lock01Line"
+          title={t("profileSettings.rows.password")}
+          description={t("profileSettings.rows.passwordDescription")}
+        />
+        <SettingsRow
+          icon="passcodeLine"
+          title={t("profileSettings.rows.passcode")}
+        />
+        <SettingsRow
+          icon="fingerprint03Line"
+          title={t("profileSettings.rows.biometrics")}
+          right={
+            <AppSwitch
+              value={isBiometricsEnabled}
+              onValueChange={() => setIsBiometricsEnabled((value) => !value)}
+              accessibilityLabel={t("profileSettings.rows.biometrics")}
+            />
+          }
+        />
+      </SettingsSection>
+
+      {/* Help & Support */}
+      <SettingsSection title={t("profileSettings.sections.helpSupport")}>
+        <SettingsRow
+          icon="phoneCallLine"
+          title={t("profileSettings.rows.contact")}
+        />
+        <SettingsRow
+          icon="infoCircleLine"
+          title={t("profileSettings.rows.about")}
+        />
+      </SettingsSection>
 
       {/* TODO: temporary, until the design has a place for logging out */}
       <AppButton

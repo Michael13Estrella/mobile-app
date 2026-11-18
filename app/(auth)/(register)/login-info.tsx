@@ -156,7 +156,7 @@ export default function RegisterAccountScreen() {
           name="password"
           label={t("login.password.label")}
           placeholder={t("login.password.placeholder")}
-          leadingIcon="lockLine"
+          leadingIcon="lock01Line"
           showRequirements
         />
       </FieldsContainer>

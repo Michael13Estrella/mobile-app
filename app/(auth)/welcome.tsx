@@ -119,7 +119,7 @@ export default function WelcomeScreen() {
           label="Forgot Password?"
           onPress={() => {}}
           variant="ghost"
-          icon="lockLine"
+          icon="lock01Line"
         />
 
         {/* TEMP dev-only shortcut to the preview route */}

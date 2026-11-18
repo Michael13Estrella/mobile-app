@@ -198,6 +198,14 @@ export const LightColors = {
   // Payout method icon box (Beneficiary Information)
   payoutIconBackground: Palette.mbAzure050,
 
+  // Settings row icon box (Profile & Settings)
+  settingsIconBackground: Palette.mbAzure050,
+
+  // Switch (AppSwitch)
+  switchTrackOn: Palette.mbBlue500,
+  switchTrackOff: Palette.mbGrey200,
+  switchThumb: Palette.white100,
+
   // Numbered steps (e.g. the cash pick-up guide's "How it works")
   stepNumberBackground: Palette.mbAzure050,
 
@@ -371,6 +379,14 @@ export const DarkColors = {
 
   // Payout method icon box (Beneficiary Information)
   payoutIconBackground: Palette.mbAzure050,
+
+  // Settings row icon box (Profile & Settings)
+  settingsIconBackground: Palette.mbAzure050,
+
+  // Switch (AppSwitch)
+  switchTrackOn: Palette.mbBlue500,
+  switchTrackOff: Palette.mbGrey200,
+  switchThumb: Palette.white100,
 
   // Numbered steps (e.g. the cash pick-up guide's "How it works")
   stepNumberBackground: Palette.mbAzure050,
